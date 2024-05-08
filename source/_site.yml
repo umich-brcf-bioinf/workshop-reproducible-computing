@@ -1,0 +1,62 @@
+# Simple check that items references in hrefs exist:
+# cd to root
+# show me how site hrefs overlap generated html files
+# comm \
+#       <(find html/*.html -exec basename {} \; | sort) \
+#       <(egrep '^[^#].*href:' source/_site.yml | awk '{print $2}'| sort) \
+#   | awk -F'\t' 'BEGIN {OFS="\t\t\t\t"; print "in_html_only","in_site_only","in_both"} {print $1,$2,$3}'
+
+name: "RSD Workshop"
+output_dir: ../html
+exclude: ["Example.md"]
+navbar:
+  title: "RNA-Seq Demystified"
+  type: inverse
+  left:
+    - text: "Intro"
+      href: Module00_Introduction.html
+    - text: "Sequence QC"
+      menu:
+        - text: "Warming up"
+          href: Module01_Warming_Up.html
+        - text: "Sequence QC"
+          href: Module02a_Sequence_QC.html
+        - text: "Trimming"
+          href: Module02b_Trimming.html
+    - text: "Alignment"
+      menu:
+        - text: "Reference Genomes"
+          href: Module03a_Reference_Genomes.html
+        - text: "Alignment"
+          href: Module03b_Alignment.html
+    - text: "Quantification"
+      menu:
+        - text: "Alignment QC and Quantification"
+          href: Module04_Alignment_QC_and_Quantification.html
+        - text: "Optional: Additional details"
+          href: Module05_Additional_Details.html
+  right:
+    - text: "Groups/Model"
+      menu:
+        - text: "DE Introduction"
+          href: Module06_DEAnalysisSetup.html
+        - text: "DE Initialization"
+          href: Module07_DESeq2Init.html
+        - text: "DE Normalization and Modeling"
+          href: Module08_DESeq2DE.html
+    - text: "Expression plots"
+      menu:
+        - text: "Sample QC"
+          href: Module09_SampleQCViz.html
+    - text: "Diff Expression"
+      menu:
+        - text: "DE Testing"
+          href: Module10_DEComparisons.html
+        - text: "DE Visualization"
+          href: Module11_DEVisualizations.html
+        - text: "DE Annotation"
+          href: Module12_DEAnnotations.html
+        - text: "Bonus content"
+          href: R_bonus_content.html
+    - text: "Wrap up"
+      href: Module99_Wrap_up.html
