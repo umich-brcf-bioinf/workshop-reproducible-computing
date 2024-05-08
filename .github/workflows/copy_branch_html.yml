@@ -1,14 +1,14 @@
-name: Copy html folder of updated branch to gh-branch
+name: Copy html folder of updated branch to gh-pages branch
 
 on:
   push:
     branches:
       - main
-      - 2023-11-15
+      - 2024-06-10
 
 jobs:
   copy:
-    name: Copy html to gh-branch
+    name: Copy html to gh-pages branch
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

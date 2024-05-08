@@ -1,0 +1,17 @@
+**/.DS_Store
+**/.Rhistory
+**/*.RData
+**/~$*.pptx
+html/**/*.md
+html/**/*.pptx
+html/data/
+html/figures/
+html/images/source
+source/inputs/*
+source/scripts/*
+source/results/*
+source/*_cache
+html/inputs/*
+html/scripts/*
+html/results/*
+._*
