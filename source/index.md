@@ -30,45 +30,39 @@ body, td {
 
 ## Schedule
 
-#### Day 1 (Chris & Travis)
+#### Day 1
 | Time | Topic : Details |
 | :---  | :---- |
 |  9:00 | [Introductions and Startup](Module00_Introduction.html) |
-|  9:30 | **Sequence QC:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Warming Up](Module01_Warming_Up.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Sequence QC](Module02a_Sequence_QC.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Trimming](Module02b_Trimming.html) |
+|  9:30 | **Working with Data** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Storage best practices](storage-best-practices.html) |
 | 11:00 | Break |
-| 11:15 | **Alignment:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Reference Genomes](Module03a_Reference_Genomes.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Alignment](Module03b_Alignment.html) |
-|       | **Quantification:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Alignment QC and Quantification](Module04_Alignment_QC_and_Quantification.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Additional Details](Module05_Additional_Details.html) |
+| 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[ARC and UMRCP](arc-and-umrcp.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Transferring data with Globus](transferring-data-with-globus.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 1](exercise-1.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Sneak peek: sbatch](sneak-peek-sbatch.html) |
 |  1:00 | Day 1 concludes |
-#### Day 2 (Chris & Dana)
+#### Day 2
 | | |
 | :---  | :---- |
 |  9:00 | Review and questions |
-|  9:20 | **Quantification**  (continued) |
-|       | **Part 2** |
-|       | **Groups and Modeling:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Introduction](Module06_DEAnalysisSetup.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Initialization](Module07_DESeq2Init.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Normalization and Modeling](Module08_DESeq2DE.html) |
+|  9:20 | **Using the GreatLakes HPC** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[GreatLakes: sbatch and lmod](greatlakes-sbatch-and-lmod.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Software management with Conda](software-management-with-conda.html) |
 | 11:00 | Break |
-| 11:15 | **Expression plots:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Sample QC](Module09_SampleQCViz.html)
+| 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[Containerization with Docker/Singulairty](containerization-with-docker-singulairty.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 2](exercise-2.html) |
 |  1:00 | Day 2 concludes |
-#### Day 3 (Dana)
+#### Day 3
 | | |
 | :---  | :---- |
 |  9:00 | Review |
-|  9:10 | **Differential Expression:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Testing](Module10_DEComparisons.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Visualization](Module11_DEVisualizations.html)|
+|  9:10 | **Workflow automation** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Why workflow automation?](why-workflow-automation.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Basic workflow automation](basic-workflow-automation.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to Snakemake](intro-to-snakemake.html) |
 | 11:00 | Break |
-| 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[DE Annotation](Module12_DEAnnotations.html)|
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Bonus Content](R_bonus_content.html)|
-| 12:45 | [Wrap-up](Module99_Wrap_up.html)
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 3](exercise-3.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Capstone exercise](capstone-exercise.html) |
+| 12:45 | [Wrap-up](Module99_Wrap_up.html) |
 |  1:00 | Day 3 concludes |
