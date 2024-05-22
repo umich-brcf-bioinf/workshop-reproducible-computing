@@ -6,57 +6,50 @@
 #       <(egrep '^[^#].*href:' source/_site.yml | awk '{print $2}'| sort) \
 #   | awk -F'\t' 'BEGIN {OFS="\t\t\t\t"; print "in_html_only","in_site_only","in_both"} {print $1,$2,$3}'
 
-name: "RSD Workshop"
+name: "Reprodicble Computing Workshop"
 output_dir: ../html
 exclude: ["Example.md"]
 navbar:
-  title: "RNA-Seq Demystified"
+  title: "Reprodicble Computing"
   type: inverse
   left:
     - text: "Intro"
       href: Module00_Introduction.html
-    - text: "Sequence QC"
+    - text: "Working with Data"
       menu:
-        - text: "Warming up"
-          href: Module01_Warming_Up.html
-        - text: "Sequence QC"
-          href: Module02a_Sequence_QC.html
-        - text: "Trimming"
-          href: Module02b_Trimming.html
-    - text: "Alignment"
+        - text: "Storage best practices"
+          href: storage-best-practices.html
+        - text: "ARC and UMRCP"
+          href: arc-and-umrcp.html
+        - text: "Transferring data with Globus"
+          href: transferring-data-with-globus.html
+        - text: "Exercise 1"
+          href: exercise-1.html
+        - text: "Sneak peek: sbatch"
+          href: sneak-peek-sbatch.html
+
+    - text: "Using the GreatLakes HPC"
       menu:
-        - text: "Reference Genomes"
-          href: Module03a_Reference_Genomes.html
-        - text: "Alignment"
-          href: Module03b_Alignment.html
-    - text: "Quantification"
+        - text: "GreatLakes: sbatch and lmod"
+          href: greatlakes-sbatch-and-lmod.html
+        - text: "Software management with Conda"
+          href: software-management-with-conda.html
+        - text: "Containerization with Docker/Singulairty"
+          href: containerization-with-docker-singulairty.html
+        - text: "Exercise 2"
+          href: exercise-2.html
+          
+    - text: "Workflow automation"
       menu:
-        - text: "Alignment QC and Quantification"
-          href: Module04_Alignment_QC_and_Quantification.html
-        - text: "Optional: Additional details"
-          href: Module05_Additional_Details.html
-  right:
-    - text: "Groups/Model"
-      menu:
-        - text: "DE Introduction"
-          href: Module06_DEAnalysisSetup.html
-        - text: "DE Initialization"
-          href: Module07_DESeq2Init.html
-        - text: "DE Normalization and Modeling"
-          href: Module08_DESeq2DE.html
-    - text: "Expression plots"
-      menu:
-        - text: "Sample QC"
-          href: Module09_SampleQCViz.html
-    - text: "Diff Expression"
-      menu:
-        - text: "DE Testing"
-          href: Module10_DEComparisons.html
-        - text: "DE Visualization"
-          href: Module11_DEVisualizations.html
-        - text: "DE Annotation"
-          href: Module12_DEAnnotations.html
-        - text: "Bonus content"
-          href: R_bonus_content.html
+        - text: "Why workflow automation?"
+          href: why-workflow-automation.html
+        - text: "Basic workflow automation"
+          href: basic-workflow-automation.html
+        - text: "Intro to Snakemake"
+          href: intro-to-snakemake.html
+        - text: "Exercise 3"
+          href: exercise-3.html
+        - text: "Capstone exercise"
+          href: capstone-exercise.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html
