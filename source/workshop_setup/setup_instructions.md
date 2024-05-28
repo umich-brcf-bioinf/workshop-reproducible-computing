@@ -1,5 +1,5 @@
 ---
-title: "RNA-Seq Demystified Workshop: Setup instructions"
+title: "Reproducible Computing Workshop: Setup instructions"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
