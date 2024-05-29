@@ -38,7 +38,7 @@ this setup, you will need:
     larger monitor for the optimal workshop experience.
 -   The workshop will use Slack for group messaging. Messages posted to the
     general channel will be visible to all participants in the workshop.
--   We will be using copmute and storage provided by UM Advanced Research Computing.
+-   We will be using compute and storage provided by UM Advanced Research Computing.
     All required software and data will be pre-installed in a workshop account.
 
 ## How to get help
@@ -58,7 +58,7 @@ be happy to lend a hand to get things working.
 
 ## Setup steps
 
-### **Zoom**
+### **1. Zoom**
 
    If you have not used Zoom before, please use the following link to
    install "Zoom client for Meetings"\
@@ -84,7 +84,7 @@ be happy to lend a hand to get things working.
 
       1.3.  Close and relaunch Zoom client.
 
-### **Slack**
+### **2. Slack**
 
    2.1. In the Slack email invitation from the hosts, click the link to join the Slack workspace.
 
@@ -96,7 +96,7 @@ be happy to lend a hand to get things working.
       here: <br/>
       [https://umbioinfcoreworkshops.slack.com](https://umbioinfcoreworkshops.slack.com){target="_blank"}
 
-### **Install Duo 2-Factor Authentication (2FA)**
+### **3. Install Duo 2-Factor Authentication (2FA)**
    Duo 2FA ensures access to computing resources are secure.
    You can skip this step if you already have Duo installed on your smartphone or tablet.
 
@@ -104,11 +104,13 @@ be happy to lend a hand to get things working.
    [https://safecomputing.umich.edu/two-factor-authentication/turn-on-weblogin](https://safecomputing.umich.edu/two-factor-authentication/turn-on-weblogin){target="_blank"}
 
 
-### **Establish a Great Lakes user login**
+### **4. Establish a Great Lakes user login**
 
-   You can skip this step if you already have an active Great Lakes user login.
+   If you already have an active Great Lakes user login you can skip to [step 5 below](#step-5).
+   (And if you are not sure whether you have a login, you can try step 5 below 
+   and come back here if your login fails.) <br/>
    ARC staff typically process these requests very quickly, but it would be 
-   diligent to submit the request ASAP.
+   diligent to submit this request ASAP.
 
    4.1 In your browser, go to: <br/>
        [https://arc-ts.umich.edu/login-request](https://arc-ts.umich.edu/login-request){target="_blank"} <br/>
@@ -121,7 +123,7 @@ be happy to lend a hand to get things working.
    - Advisor’s Email: **cgates@umich.edu**
    - College or Department: **Medicine**
    - Please describe projects…: **BioinfCore Reproducible Computing Workshop**
-   - The ARC services need…: **GreatLakes**
+   - The ARC services need…: **Great Lakes**
    - Your screen will look something like this: <br/>
      <img src= "images/request-great-lakes-user-login.png" alt="Request Great Lakes user login" style="border: 2px solid grey;"/>
 
@@ -131,7 +133,7 @@ be happy to lend a hand to get things working.
    that your account has been created.
 
 
-### **Login to the shared server from your web browser**
+### **5. Login to the shared server from your web browser** {#step-5}
 
    5.1. In your web browser, follow this link: <br/>
         [https://greatlakes.arc-ts.umich.edu/pun/sys/shell/ssh/greatlakes.arc-ts.umich.edu](https://greatlakes.arc-ts.umich.edu/pun/sys/shell/ssh/greatlakes.arc-ts.umich.edu){target="_blank"}
@@ -142,7 +144,7 @@ be happy to lend a hand to get things working.
        <img src= "images/um-weblogin.png" alt="UM Weblogin" style="border: 2px solid grey;"/>
 
    5.3 Your browser will update to show a terminal window with a banner showing 
-       brief terms or use followed by a password challenge (below). 
+       brief terms of use followed by a password challenge (below). 
        Click in this window to ensure the browser has focus 
        and type your level-1 password followed by the **Enter** or **Return**
        key.<br/>
@@ -156,11 +158,11 @@ be happy to lend a hand to get things working.
        <img src= "images/ood-2fa-anon.png" alt="OOD 2FA Challenge" style="border: 2px solid grey;"/>
 
    5.5 The terminal window will update to show welcome text and a command
-       prompt. Note that you may see a some red text about ARC Maintenance and 
-       your prompt may look slightly different than below; that's ok.
+       prompt. Note that you may see some red text warning about ARC Maintenance
+       and your prompt may look slightly different than below; that's ok.
        <img src= "images/gl-login-node.png" alt="gl-login-node" style="border: 2px solid grey;"/>
 
-   5.6 At the command prompt cut & paste the following command followed by **Enter**/**Return** key<br/>
+   5.6 At the command prompt copy & paste the following command followed by **Enter**/**Return** key<br/>
        `/nfs/turbo/umms-bioinf-wkshp/workshop/bin/setup-complete`
 
    The command should show a block of text like this:

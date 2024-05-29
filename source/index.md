@@ -38,7 +38,7 @@ body, td {
 | 11:00 | Break |
 | 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[Transferring data with Globus](Module02_transferring_data_globus.html) |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 1](exercise-1.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Sneak peek: Great Lakes](Module03a_sneak_peek_great_lakes.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to Great Lakes](Module03a_sneak_peek_great_lakes.html) |
 |  1:00 | Day 1 concludes |
 #### Day 2
 | | |
