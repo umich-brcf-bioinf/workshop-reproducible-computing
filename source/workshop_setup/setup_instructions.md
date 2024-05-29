@@ -144,7 +144,7 @@ be happy to lend a hand to get things working.
        <img src= "images/um-weblogin.png" alt="UM Weblogin" style="border: 2px solid grey;"/>
 
    5.3 Your browser will update to show a terminal window with a banner showing 
-       brief terms or use followed by a password challenge (below). 
+       brief terms of use followed by a password challenge (below). 
        Click in this window to ensure the browser has focus 
        and type your level-1 password followed by the **Enter** or **Return**
        key.<br/>
@@ -162,7 +162,7 @@ be happy to lend a hand to get things working.
        and your prompt may look slightly different than below; that's ok.
        <img src= "images/gl-login-node.png" alt="gl-login-node" style="border: 2px solid grey;"/>
 
-   5.6 At the command prompt cut & paste the following command followed by **Enter**/**Return** key<br/>
+   5.6 At the command prompt copy & paste the following command followed by **Enter**/**Return** key<br/>
        `/nfs/turbo/umms-bioinf-wkshp/workshop/bin/setup-complete`
 
    The command should show a block of text like this:
