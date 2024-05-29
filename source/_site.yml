@@ -18,24 +18,22 @@ navbar:
     - text: "Working with Data"
       menu:
         - text: "Storage best practices"
-          href: storage-best-practices.html
-        - text: "ARC and UMRCP"
-          href: arc-and-umrcp.html
+          href: Module01_storage_best_practices_UMRCP.html
         - text: "Transferring data with Globus"
-          href: transferring-data-with-globus.html
+          href: Module02_transferring_data_globus.html
         - text: "Exercise 1"
           href: exercise-1.html
-        - text: "Sneak peek: sbatch"
-          href: sneak-peek-sbatch.html
+        - text: "Intro to Great Lakes"
+          href: Module03a_sneak_peek_great_lakes.html
 
     - text: "Using the GreatLakes HPC"
       menu:
         - text: "GreatLakes: sbatch and lmod"
-          href: greatlakes-sbatch-and-lmod.html
+          href: Module03b_great_lakes_cluster.html
         - text: "Software management with Conda"
-          href: software-management-with-conda.html
+          href: Module04_software_management_conda.html
         - text: "Containerization with Docker/Singulairty"
-          href: containerization-with-docker-singulairty.html
+          href: Module05_containers_docker_singularity.html
         - text: "Exercise 2"
           href: exercise-2.html
           
