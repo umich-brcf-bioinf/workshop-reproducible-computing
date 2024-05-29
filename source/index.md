@@ -20,7 +20,6 @@ body, td {
 }
 </style>
 
-#### [Pre-workshop checklist](workshop_setup/preworkshop_checklist.html){target="_blank"} / [Intro to RNA-Seq Webinar](https://www.mivideo.it.umich.edu/media/t/1_tx74a3v9){target="_blank"}
 
 #### [Setup instructions](workshop_setup/setup_instructions.html){target="_blank"}
 
