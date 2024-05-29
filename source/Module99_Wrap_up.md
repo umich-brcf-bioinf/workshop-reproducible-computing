@@ -1,5 +1,5 @@
 ---
-title: "Reproducible Computation Workshop"
+title: "Reproducible Computing Workshop"
 author: "UM Bioinformatics Core"
 output:
         html_document:
