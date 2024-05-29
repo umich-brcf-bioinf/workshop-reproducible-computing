@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Transferring Data with Globus</title>
+
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="storage-best-practices.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="arc-and-umrcp.html">ARC and UMRCP</a>
+    </li>
+    <li>
+      <a href="transferring-data-with-globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="exercise-1.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="sneak-peek-sbatch.html">Sneak peek: sbatch</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="greatlakes-sbatch-and-lmod.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="software-management-with-conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="containerization-with-docker-singulairty.html">Containerization with Docker/Singulairty</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="why-workflow-automation.html">Why workflow automation?</a>
+    </li>
+    <li>
+      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+    </li>
+    <li>
+      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="exercise-3.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="capstone-exercise.html">Capstone exercise</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Transferring Data with Globus</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>review storage best practices and relate them to real
+situations</li>
+<li>learn about the data transfer tool Globus</li>
+<li>gain real experience using Globus in various ways</li>
+</ul>
+<div
+id="relating-data-transfer-to-storage-best-practices-with-typical-examples"
+class="section level2">
+<h2>Relating Data Transfer to Storage Best Practices with Typical
+Examples</h2>
+<ul>
+<li>I need to retrieve raw data from a data provider, and keep it in a
+safe place</li>
+<li>I need to copy my raw data into a new location, to perform an
+analysis</li>
+<li>I need to share my raw data and my analysis with a collaborator</li>
+</ul>
+</div>
+<div id="data-transfer" class="section level2">
+<h2>Data Transfer</h2>
+<p>As you can see, data transfer itself is an important consideration
+that goes hand in hand with our storage best practices described in the
+previous module. Ensuring that data is transmitted and received intact,
+and understanding the movement and placement of data during your
+research life cycle is a very important aspect of reproducible
+computing.</p>
+</div>
+<div id="globus" class="section level2">
+<h2>Globus</h2>
+<p>For the data transfer portion of this workshop, we’ll focus on a
+software solution called Globus. Globus allows the transfer of data
+between different storage systems, and it’s designed particularly for
+transferring research data. Many universities and institutions,
+including the University of Michigan, are using Globus in this way.</p>
+<p>FIXME: Pre-emptively address question: Dropbox vs Globus?? Imagine a
+comparative table Dropbox vs Globus. Globus is strictly transfer &amp;
+dropbox also offers cloud storage.</p>
+<p>The standard features of Globus include: - Transfers faster than
+SCP/SFTP (usually by a factor of two) - Automatic restarts or
+continuation when transfers are disrupted - Background transfers so
+users need not remain logged in to a system - Transfers of large files
+between your laptop/desktop and servers via Global Connect Personal -
+Transfer of small number of small files between your laptop/desktop via
+a browser (note: not all server endpoints offer this feature)</p>
+<p>U-M’s Globus Provider status adds the following features: - Sharing
+of server directories/folders with non-U-M collaborators who are also
+Globus users (for transfer/copy purposes, not shared use of server) -
+U-M signed BAA for High Assurance feature for sensitive data - Sharing
+of directories/folders from laptops/desktops via Globus Connect Personal
+clients and a Globus Plus account upgrade.</p>
+</div>
+<div id="exercise-transferring-data-from-data-provider-to-my-data-den"
+class="section level2">
+<h2>Exercise Transferring Data from Data Provider to My Data Den</h2>
+<p><img src="images/Module02_data_shared_with_me_I_transfer.jpg" /></p>
+</div>
+<div id="exercise-transferring-data-from-data-provider-to-my-turbo"
+class="section level2">
+<h2>Exercise Transferring Data from Data Provider to My Turbo</h2>
+</div>
+<div id="exercise-sharing-data-with-a-collaborator"
+class="section level2">
+<h2>Exercise Sharing Data With a Collaborator</h2>
+<p><img
+src="images/Module02_data_I_share_collaborator_transfers.jpg" /></p>
+<p><br> <br></p>
+</div>
+<div id="review-main-points" class="section level2">
+<h2>Review Main Points</h2>
+<p>Must understand where the data currently resides, and where you want
+to transfer it</p>
+<p>Must understand who is responsible for performing the transfer</p>
+<p>Unless this is arranged previously for an ongoing relationship,
+<em>someone</em> will <em>always</em> need to grant permissions to
+enable the transfer</p>
+</div>
+<div id="fixme---have-another-independent-exercise-on-great-lakes"
+class="section level2">
+<h2>FIXME - have another independent exercise (on Great Lakes)</h2>
+</div>
+<div
+id="fixme---slack-thread-asking-for-more-scenarios-of-data-transfer-tasks"
+class="section level2">
+<h2>FIXME - Slack thread asking for more scenarios of data transfer
+tasks</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module00_Introduction.html">Back to
+Introduction</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVHJhbnNmZXJyaW5nIERhdGEgd2l0aCBHbG9idXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiByZXZpZXcgc3RvcmFnZSBiZXN0IHByYWN0aWNlcyBhbmQgcmVsYXRlIHRoZW0gdG8gcmVhbCBzaXR1YXRpb25zCiogbGVhcm4gYWJvdXQgdGhlIGRhdGEgdHJhbnNmZXIgdG9vbCBHbG9idXMKKiBnYWluIHJlYWwgZXhwZXJpZW5jZSB1c2luZyBHbG9idXMgaW4gdmFyaW91cyB3YXlzCgoKIyMgUmVsYXRpbmcgRGF0YSBUcmFuc2ZlciB0byBTdG9yYWdlIEJlc3QgUHJhY3RpY2VzIHdpdGggVHlwaWNhbCBFeGFtcGxlcwoKIC0gSSBuZWVkIHRvIHJldHJpZXZlIHJhdyBkYXRhIGZyb20gYSBkYXRhIHByb3ZpZGVyLCBhbmQga2VlcCBpdCBpbiBhIHNhZmUgcGxhY2UKIC0gSSBuZWVkIHRvIGNvcHkgbXkgcmF3IGRhdGEgaW50byBhIG5ldyBsb2NhdGlvbiwgdG8gcGVyZm9ybSBhbiBhbmFseXNpcwogLSBJIG5lZWQgdG8gc2hhcmUgbXkgcmF3IGRhdGEgYW5kIG15IGFuYWx5c2lzIHdpdGggYSBjb2xsYWJvcmF0b3IKCiMjIERhdGEgVHJhbnNmZXIKCkFzIHlvdSBjYW4gc2VlLCBkYXRhIHRyYW5zZmVyIGl0c2VsZiBpcyBhbiBpbXBvcnRhbnQgY29uc2lkZXJhdGlvbiB0aGF0IGdvZXMgaGFuZCBpbiBoYW5kIHdpdGggb3VyIHN0b3JhZ2UgYmVzdCBwcmFjdGljZXMgZGVzY3JpYmVkIGluIHRoZSBwcmV2aW91cyBtb2R1bGUuIEVuc3VyaW5nIHRoYXQgZGF0YSBpcyB0cmFuc21pdHRlZCBhbmQgcmVjZWl2ZWQgaW50YWN0LCBhbmQgdW5kZXJzdGFuZGluZyB0aGUgbW92ZW1lbnQgYW5kIHBsYWNlbWVudCBvZiBkYXRhIGR1cmluZyB5b3VyIHJlc2VhcmNoIGxpZmUgY3ljbGUgaXMgYSB2ZXJ5IGltcG9ydGFudCBhc3BlY3Qgb2YgcmVwcm9kdWNpYmxlIGNvbXB1dGluZy4KCgojIyBHbG9idXMKCkZvciB0aGUgZGF0YSB0cmFuc2ZlciBwb3J0aW9uIG9mIHRoaXMgd29ya3Nob3AsIHdlJ2xsIGZvY3VzIG9uIGEgc29mdHdhcmUgc29sdXRpb24gY2FsbGVkIEdsb2J1cy4gR2xvYnVzIGFsbG93cyB0aGUgdHJhbnNmZXIgb2YgZGF0YSBiZXR3ZWVuIGRpZmZlcmVudCBzdG9yYWdlIHN5c3RlbXMsIGFuZCBpdCdzIGRlc2lnbmVkIHBhcnRpY3VsYXJseSBmb3IgdHJhbnNmZXJyaW5nIHJlc2VhcmNoIGRhdGEuIE1hbnkgdW5pdmVyc2l0aWVzIGFuZCBpbnN0aXR1dGlvbnMsIGluY2x1ZGluZyB0aGUgVW5pdmVyc2l0eSBvZiBNaWNoaWdhbiwgYXJlIHVzaW5nIEdsb2J1cyBpbiB0aGlzIHdheS4KCkZJWE1FOiBQcmUtZW1wdGl2ZWx5IGFkZHJlc3MgcXVlc3Rpb246IERyb3Bib3ggdnMgR2xvYnVzPz8KSW1hZ2luZSBhIGNvbXBhcmF0aXZlIHRhYmxlIERyb3Bib3ggdnMgR2xvYnVzLiBHbG9idXMgaXMgc3RyaWN0bHkgdHJhbnNmZXIgJiBkcm9wYm94IGFsc28gb2ZmZXJzIGNsb3VkIHN0b3JhZ2UuCgpUaGUgc3RhbmRhcmQgZmVhdHVyZXMgb2YgR2xvYnVzIGluY2x1ZGU6Ci0gVHJhbnNmZXJzIGZhc3RlciB0aGFuIFNDUC9TRlRQICh1c3VhbGx5IGJ5IGEgZmFjdG9yIG9mIHR3bykKLSBBdXRvbWF0aWMgcmVzdGFydHMgb3IgY29udGludWF0aW9uIHdoZW4gdHJhbnNmZXJzIGFyZSBkaXNydXB0ZWQKLSBCYWNrZ3JvdW5kIHRyYW5zZmVycyBzbyB1c2VycyBuZWVkIG5vdCByZW1haW4gbG9nZ2VkIGluIHRvIGEgc3lzdGVtCi0gVHJhbnNmZXJzIG9mIGxhcmdlIGZpbGVzIGJldHdlZW4geW91ciBsYXB0b3AvZGVza3RvcCBhbmQgc2VydmVycyB2aWEgR2xvYmFsIENvbm5lY3QgUGVyc29uYWwKLSBUcmFuc2ZlciBvZiBzbWFsbCBudW1iZXIgb2Ygc21hbGwgZmlsZXMgYmV0d2VlbiB5b3VyIGxhcHRvcC9kZXNrdG9wIHZpYSBhIGJyb3dzZXIgKG5vdGU6IG5vdCBhbGwgc2VydmVyIGVuZHBvaW50cyBvZmZlciB0aGlzIGZlYXR1cmUpCgpVLU3igJlzIEdsb2J1cyBQcm92aWRlciBzdGF0dXMgYWRkcyB0aGUgZm9sbG93aW5nIGZlYXR1cmVzOgotIFNoYXJpbmcgb2Ygc2VydmVyIGRpcmVjdG9yaWVzL2ZvbGRlcnMgd2l0aCBub24tVS1NIGNvbGxhYm9yYXRvcnMgd2hvIGFyZSBhbHNvIEdsb2J1cyB1c2VycyAoZm9yIHRyYW5zZmVyL2NvcHkgcHVycG9zZXMsIG5vdCBzaGFyZWQgdXNlIG9mIHNlcnZlcikKLSBVLU0gc2lnbmVkIEJBQSBmb3IgSGlnaCBBc3N1cmFuY2UgZmVhdHVyZSBmb3Igc2Vuc2l0aXZlIGRhdGEKLSBTaGFyaW5nIG9mIGRpcmVjdG9yaWVzL2ZvbGRlcnMgZnJvbSBsYXB0b3BzL2Rlc2t0b3BzIHZpYSBHbG9idXMgQ29ubmVjdCBQZXJzb25hbCBjbGllbnRzIGFuZCBhIEdsb2J1cyBQbHVzIGFjY291bnQgdXBncmFkZS4KCiMjIEV4ZXJjaXNlIFRyYW5zZmVycmluZyBEYXRhIGZyb20gRGF0YSBQcm92aWRlciB0byBNeSBEYXRhIERlbgoKIVtdKGltYWdlcy9Nb2R1bGUwMl9kYXRhX3NoYXJlZF93aXRoX21lX0lfdHJhbnNmZXIuanBnKQoKIyMgRXhlcmNpc2UgVHJhbnNmZXJyaW5nIERhdGEgZnJvbSBEYXRhIFByb3ZpZGVyIHRvIE15IFR1cmJvCgojIyBFeGVyY2lzZSBTaGFyaW5nIERhdGEgV2l0aCBhIENvbGxhYm9yYXRvcgoKIVtdKGltYWdlcy9Nb2R1bGUwMl9kYXRhX0lfc2hhcmVfY29sbGFib3JhdG9yX3RyYW5zZmVycy5qcGcpCgo8YnI+Cjxicj4KCiMjIFJldmlldyBNYWluIFBvaW50cwoKTXVzdCB1bmRlcnN0YW5kIHdoZXJlIHRoZSBkYXRhIGN1cnJlbnRseSByZXNpZGVzLCBhbmQgd2hlcmUgeW91IHdhbnQgdG8gdHJhbnNmZXIgaXQKCk11c3QgdW5kZXJzdGFuZCB3aG8gaXMgcmVzcG9uc2libGUgZm9yIHBlcmZvcm1pbmcgdGhlIHRyYW5zZmVyCgpVbmxlc3MgdGhpcyBpcyBhcnJhbmdlZCBwcmV2aW91c2x5IGZvciBhbiBvbmdvaW5nIHJlbGF0aW9uc2hpcCwgKnNvbWVvbmUqIHdpbGwgKmFsd2F5cyogbmVlZCB0byBncmFudCBwZXJtaXNzaW9ucyB0byBlbmFibGUgdGhlIHRyYW5zZmVyCgojIyBGSVhNRSAtIGhhdmUgYW5vdGhlciBpbmRlcGVuZGVudCBleGVyY2lzZSAob24gR3JlYXQgTGFrZXMpCgojIyBGSVhNRSAtIFNsYWNrIHRocmVhZCBhc2tpbmcgZm9yIG1vcmUgc2NlbmFyaW9zIG9mIGRhdGEgdHJhbnNmZXIgdGFza3MKCgp8IFtCYWNrIHRvIEludHJvZHVjdGlvbl0oTW9kdWxlMDBfSW50cm9kdWN0aW9uLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZSBGSVhNRSAuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module02_transferring_data_globus.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
