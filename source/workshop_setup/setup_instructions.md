@@ -160,16 +160,27 @@ be happy to lend a hand to get things working.
        your prompt may look slightly different than below; that's ok.
        <img src= "images/gl-login-node.png" alt="gl-login-node" style="border: 2px solid grey;"/>
 
-   If you see the text above, you have successfully logged into Great Lakes.
-   (You can close this window by typing **exit** at the command prompt or simply closing the 
-   browser window.)
+   5.6 At the command prompt cut & paste the following command followed by **Enter**/**Return** key<br/>
+       `/nfs/turbo/umms-bioinf-wkshp/workshop/bin/setup-complete`
+
+   The command should show a block of text like this:
+   
+    Thank you for taking the time to setup and test your configution
+    in advance of the workshop. We look forward to seeing you soon!
+
+   If you see the text above, you have successfully logged into Great Lakes and
+   you are ready for the workshop.
+
+   You can close this window by typing **exit** at the command prompt or simply 
+   closing the browser window.
 
 
 ## Congratulations
 Your workstation and logins are ready for the workshop; thank you for
    taking time to set this up in advance.
 
-   - You can close the terminal window by typing **exit** **<Return/Enter>** or simply closing the window.
+   - You can close the terminal window by typing **exit** **<Return/Enter>** or 
+     simply closing the browser tab.
 
 ### A note on the shared compute environment
 
