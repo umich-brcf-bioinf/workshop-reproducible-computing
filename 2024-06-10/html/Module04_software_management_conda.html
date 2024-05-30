@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Software Management and Conda</title>
+
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="exercise-1.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="why-workflow-automation.html">Why workflow automation?</a>
+    </li>
+    <li>
+      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+    </li>
+    <li>
+      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="exercise-3.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="capstone-exercise.html">Capstone exercise</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Software Management and Conda</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>learn about software management</li>
+<li>discuss package managers</li>
+<li>discuss conda as a software management solution</li>
+<li>learn how to set up conda</li>
+<li>learn how to create and use our own conda environments</li>
+</ul>
+<div id="software-management" class="section level2">
+<h2>Software Management</h2>
+<p>Software management is something that is not typically appreciated
+until it is missing. In your typical day-to-day computing tasks,
+software management is an automatic background process, and generally
+this is how we want things to be.</p>
+<p>When performing research computing tasks, however, you may run into
+situations when this automatic background handling of software
+requirements is not sufficient. You may have very specific version
+requirements, or you may have disparate (or incompatible!) software
+needs for different tasks.</p>
+<p>You’ll find that the tools that we employ for software management
+during research computing have some extra capabilities that make them
+particularly well-suited for these use cases.</p>
+<div id="package-managers" class="section level3">
+<h3>Package Managers</h3>
+<p>We likely all have some experience with software management. I’d like
+to examine our experience with software management, and promote
+appreciation for the work that often happens behind the scenes.</p>
+<p><img src="images/Module04_dependencies_long_list.jpg" /></p>
+</div>
+<div id="the-need-for-modular-solutions" class="section level3">
+<h3>The Need for Modular Solutions</h3>
+<p>System-level software</p>
+<p>Just one env</p>
+<p>Poll about software incompatibility experiences</p>
+</div>
+<div id="simplifies-distribution-of-new-software"
+class="section level3">
+<h3>Simplifies Distribution of New Software</h3>
+<p>Cutting edge software - cutting edge dependencies</p>
+<p>Ability to record recipe and share</p>
+<p>If I’m developing a package, I can take these simple steps - ensures
+everyone can use software</p>
+</div>
+</div>
+<div id="conda" class="section level2">
+<h2>Conda</h2>
+<ul>
+<li>Broad support for many types of software packages
+<ul>
+<li>Across languages and platforms</li>
+</ul></li>
+<li>Plugable - Ability to switch between software environments at
+will</li>
+<li>Automatically handles software requirements</li>
+<li>A ‘Conda recipe’ is used to list specifications
+<ul>
+<li>Used during environment creation</li>
+<li>Can communicate requirements to others when shared</li>
+</ul></li>
+</ul>
+<div id="environments" class="section level3">
+<h3>Environments</h3>
+<p>The thing that is ‘built’ by Conda and can be enabled/disabled at
+will</p>
+<p>Actual terms <code>activate</code> and <code>deactivate</code> used
+in conda</p>
+<p>Within the environment, dependencies are handled, software is made
+available</p>
+<p>Quick aside about $PATH</p>
+</div>
+<div id="packages-and-channels" class="section level3">
+<h3>Packages and Channels</h3>
+<p>We start to care about these when we are creating our own conda
+environments</p>
+<p>Packages - a bunch of files (binaries, config files, etc), all
+bundled up together</p>
+<p>Conda will download various packages as described, and has a system
+for storing these packages and “installing” them in an particular
+location</p>
+<p>“Install” is air-quoted - although the software is installed, it
+differs from a typical software installation in that everything within
+the package is contained in a special location set by Conda</p>
+</div>
+<div id="anaconda-vs-miniconda" class="section level3">
+<h3>Anaconda vs Miniconda</h3>
+<p>Anaconda comes pre-bundled with a plethora of common python and data
+science packages. Miniconda starts out as more of a blank slate.</p>
+</div>
+<div id="conda-configuration-with-.condarc" class="section level3">
+<h3>Conda configuration with .condarc</h3>
+<p>Condarc file contains configuration details for your conda
+installation.</p>
+<p><a
+href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html"
+class="uri">https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html</a></p>
+<p>Specific recommendation: use <code>envs_dirs</code> to place conda
+envs and downloaded packages into an appropriate location</p>
+</div>
+</div>
+<div id="conda-install-and-configure-exercise" class="section level2">
+<h2>Conda Install and Configure Exercise</h2>
+<p>Following along with instructor, learners will install miniconda and
+create a <code>.condarc</code> file</p>
+</div>
+<div id="conda-activate-exercise" class="section level2">
+<h2>Conda Activate Exercise</h2>
+<p>Following along with instructor, learners will activate an existing
+environment. We’ll demonstrate addition to the $PATH (and
+<code>which</code>?)</p>
+</div>
+<div id="conda-create-exercise" class="section level2">
+<h2>Conda Create Exercise</h2>
+<p>Instructor will demonstrate creating a simple conda environment on
+the command line.</p>
+<p>We’ll then ask about how to create a slightly more complicated conda
+environment. We’ll start a thread and learners will respond and/or vote
+on the command that they would use</p>
+</div>
+<div id="srun-with-conda-create-exercise" class="section level2">
+<h2>SRUN with Conda Create Exercise</h2>
+<p>Following along with instructor, we’ll launch an srun job and then
+create a conda environment in it</p>
+</div>
+<div id="sbatch-with-conda-activate-exercise" class="section level2">
+<h2>SBATCH with Conda Activate Exercise</h2>
+<p>Individual exercise. Launch an SBATCH job that activates a conda
+environment, checks a version of samtools and uses <code>which</code> to
+verify its location. Inspect the job log in order to determine
+success</p>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module00_Introduction.html">Back to
+Introduction</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU29mdHdhcmUgTWFuYWdlbWVudCBhbmQgQ29uZGEiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBzb2Z0d2FyZSBtYW5hZ2VtZW50CiogZGlzY3VzcyBwYWNrYWdlIG1hbmFnZXJzCiogZGlzY3VzcyBjb25kYSBhcyBhIHNvZnR3YXJlIG1hbmFnZW1lbnQgc29sdXRpb24KKiBsZWFybiBob3cgdG8gc2V0IHVwIGNvbmRhCiogbGVhcm4gaG93IHRvIGNyZWF0ZSBhbmQgdXNlIG91ciBvd24gY29uZGEgZW52aXJvbm1lbnRzCgojIyBTb2Z0d2FyZSBNYW5hZ2VtZW50CgpTb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIHNvbWV0aGluZyB0aGF0IGlzIG5vdCB0eXBpY2FsbHkgYXBwcmVjaWF0ZWQgdW50aWwgaXQgaXMgbWlzc2luZy4gSW4geW91ciB0eXBpY2FsIGRheS10by1kYXkgY29tcHV0aW5nIHRhc2tzLCBzb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIGFuIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIHByb2Nlc3MsIGFuZCBnZW5lcmFsbHkgdGhpcyBpcyBob3cgd2Ugd2FudCB0aGluZ3MgdG8gYmUuCgpXaGVuIHBlcmZvcm1pbmcgcmVzZWFyY2ggY29tcHV0aW5nIHRhc2tzLCBob3dldmVyLCB5b3UgbWF5IHJ1biBpbnRvIHNpdHVhdGlvbnMgd2hlbiB0aGlzIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIGhhbmRsaW5nIG9mIHNvZnR3YXJlIHJlcXVpcmVtZW50cyBpcyBub3Qgc3VmZmljaWVudC4gWW91IG1heSBoYXZlIHZlcnkgc3BlY2lmaWMgdmVyc2lvbiByZXF1aXJlbWVudHMsIG9yIHlvdSBtYXkgaGF2ZSBkaXNwYXJhdGUgKG9yIGluY29tcGF0aWJsZSEpIHNvZnR3YXJlIG5lZWRzIGZvciBkaWZmZXJlbnQgdGFza3MuCgpZb3UnbGwgZmluZCB0aGF0IHRoZSB0b29scyB0aGF0IHdlIGVtcGxveSBmb3Igc29mdHdhcmUgbWFuYWdlbWVudCBkdXJpbmcgcmVzZWFyY2ggY29tcHV0aW5nIGhhdmUgc29tZSBleHRyYSBjYXBhYmlsaXRpZXMgdGhhdCBtYWtlIHRoZW0gcGFydGljdWxhcmx5IHdlbGwtc3VpdGVkIGZvciB0aGVzZSB1c2UgY2FzZXMuCgojIyMgUGFja2FnZSBNYW5hZ2VycwoKV2UgbGlrZWx5IGFsbCBoYXZlIHNvbWUgZXhwZXJpZW5jZSB3aXRoIHNvZnR3YXJlIG1hbmFnZW1lbnQuIEknZCBsaWtlIHRvIGV4YW1pbmUgb3VyIGV4cGVyaWVuY2Ugd2l0aCBzb2Z0d2FyZSBtYW5hZ2VtZW50LCBhbmQgcHJvbW90ZSBhcHByZWNpYXRpb24gZm9yIHRoZSB3b3JrIHRoYXQgb2Z0ZW4gaGFwcGVucyBiZWhpbmQgdGhlIHNjZW5lcy4KCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2xvbmdfbGlzdC5qcGcpCgoKIyMjIFRoZSBOZWVkIGZvciBNb2R1bGFyIFNvbHV0aW9ucwoKU3lzdGVtLWxldmVsIHNvZnR3YXJlCgpKdXN0IG9uZSBlbnYKClBvbGwgYWJvdXQgc29mdHdhcmUgaW5jb21wYXRpYmlsaXR5IGV4cGVyaWVuY2VzCgoKCiMjIyBTaW1wbGlmaWVzIERpc3RyaWJ1dGlvbiBvZiBOZXcgU29mdHdhcmUKCkN1dHRpbmcgZWRnZSBzb2Z0d2FyZSAtIGN1dHRpbmcgZWRnZSBkZXBlbmRlbmNpZXMKCkFiaWxpdHkgdG8gcmVjb3JkIHJlY2lwZSBhbmQgc2hhcmUKCklmIEknbSBkZXZlbG9waW5nIGEgcGFja2FnZSwgSSBjYW4gdGFrZSB0aGVzZSBzaW1wbGUgc3RlcHMgLSBlbnN1cmVzIGV2ZXJ5b25lIGNhbiB1c2Ugc29mdHdhcmUKCiMjIENvbmRhCgotIEJyb2FkIHN1cHBvcnQgZm9yIG1hbnkgdHlwZXMgb2Ygc29mdHdhcmUgcGFja2FnZXMKICAtIEFjcm9zcyBsYW5ndWFnZXMgYW5kIHBsYXRmb3JtcwotIFBsdWdhYmxlIC0gQWJpbGl0eSB0byBzd2l0Y2ggYmV0d2VlbiBzb2Z0d2FyZSBlbnZpcm9ubWVudHMgYXQgd2lsbAotIEF1dG9tYXRpY2FsbHkgaGFuZGxlcyBzb2Z0d2FyZSByZXF1aXJlbWVudHMKLSBBICdDb25kYSByZWNpcGUnIGlzIHVzZWQgdG8gbGlzdCBzcGVjaWZpY2F0aW9ucwogIC0gVXNlZCBkdXJpbmcgZW52aXJvbm1lbnQgY3JlYXRpb24KICAtIENhbiBjb21tdW5pY2F0ZSByZXF1aXJlbWVudHMgdG8gb3RoZXJzIHdoZW4gc2hhcmVkCgojIyMgRW52aXJvbm1lbnRzCgpUaGUgdGhpbmcgdGhhdCBpcyAnYnVpbHQnIGJ5IENvbmRhIGFuZCBjYW4gYmUgZW5hYmxlZC9kaXNhYmxlZCBhdCB3aWxsCgpBY3R1YWwgdGVybXMgYGFjdGl2YXRlYCBhbmQgYGRlYWN0aXZhdGVgIHVzZWQgaW4gY29uZGEKCldpdGhpbiB0aGUgZW52aXJvbm1lbnQsIGRlcGVuZGVuY2llcyBhcmUgaGFuZGxlZCwgc29mdHdhcmUgaXMgbWFkZSBhdmFpbGFibGUKClF1aWNrIGFzaWRlIGFib3V0ICRQQVRICgoKIyMjIFBhY2thZ2VzIGFuZCBDaGFubmVscwoKV2Ugc3RhcnQgdG8gY2FyZSBhYm91dCB0aGVzZSB3aGVuIHdlIGFyZSBjcmVhdGluZyBvdXIgb3duIGNvbmRhIGVudmlyb25tZW50cwoKUGFja2FnZXMgLSBhIGJ1bmNoIG9mIGZpbGVzIChiaW5hcmllcywgY29uZmlnIGZpbGVzLCBldGMpLCBhbGwgYnVuZGxlZCB1cCB0b2dldGhlcgoKQ29uZGEgd2lsbCBkb3dubG9hZCB2YXJpb3VzIHBhY2thZ2VzIGFzIGRlc2NyaWJlZCwgYW5kIGhhcyBhIHN5c3RlbSBmb3Igc3RvcmluZyB0aGVzZSBwYWNrYWdlcyBhbmQgImluc3RhbGxpbmciIHRoZW0gaW4gYW4gcGFydGljdWxhciBsb2NhdGlvbgoKIkluc3RhbGwiIGlzIGFpci1xdW90ZWQgLSBhbHRob3VnaCB0aGUgc29mdHdhcmUgaXMgaW5zdGFsbGVkLCBpdCBkaWZmZXJzIGZyb20gYSB0eXBpY2FsIHNvZnR3YXJlIGluc3RhbGxhdGlvbiBpbiB0aGF0IGV2ZXJ5dGhpbmcgd2l0aGluIHRoZSBwYWNrYWdlIGlzIGNvbnRhaW5lZCBpbiBhIHNwZWNpYWwgbG9jYXRpb24gc2V0IGJ5IENvbmRhCgoKIyMjIEFuYWNvbmRhIHZzIE1pbmljb25kYQoKQW5hY29uZGEgY29tZXMgcHJlLWJ1bmRsZWQgd2l0aCBhIHBsZXRob3JhIG9mIGNvbW1vbiBweXRob24gYW5kIGRhdGEgc2NpZW5jZSBwYWNrYWdlcy4gTWluaWNvbmRhIHN0YXJ0cyBvdXQgYXMgbW9yZSBvZiBhIGJsYW5rIHNsYXRlLgoKIyMjIENvbmRhIGNvbmZpZ3VyYXRpb24gd2l0aCAuY29uZGFyYwoKQ29uZGFyYyBmaWxlIGNvbnRhaW5zIGNvbmZpZ3VyYXRpb24gZGV0YWlscyBmb3IgeW91ciBjb25kYSBpbnN0YWxsYXRpb24uIAoKaHR0cHM6Ly9jb25kYS5pby9wcm9qZWN0cy9jb25kYS9lbi9sYXRlc3QvdXNlci1ndWlkZS9jb25maWd1cmF0aW9uL3VzZS1jb25kYXJjLmh0bWwKClNwZWNpZmljIHJlY29tbWVuZGF0aW9uOiB1c2UgYGVudnNfZGlyc2AgdG8gcGxhY2UgY29uZGEgZW52cyBhbmQgZG93bmxvYWRlZCBwYWNrYWdlcyBpbnRvIGFuIGFwcHJvcHJpYXRlIGxvY2F0aW9uCgojIyBDb25kYSBJbnN0YWxsIGFuZCBDb25maWd1cmUgRXhlcmNpc2UKCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIGxlYXJuZXJzIHdpbGwgaW5zdGFsbCBtaW5pY29uZGEgYW5kIGNyZWF0ZSBhIGAuY29uZGFyY2AgZmlsZQoKIyMgQ29uZGEgQWN0aXZhdGUgRXhlcmNpc2UKCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIGxlYXJuZXJzIHdpbGwgYWN0aXZhdGUgYW4gZXhpc3RpbmcgZW52aXJvbm1lbnQuIFdlJ2xsIGRlbW9uc3RyYXRlIGFkZGl0aW9uIHRvIHRoZSAkUEFUSCAoYW5kIGB3aGljaGA/KQoKIyMgQ29uZGEgQ3JlYXRlIEV4ZXJjaXNlCgpJbnN0cnVjdG9yIHdpbGwgZGVtb25zdHJhdGUgY3JlYXRpbmcgYSBzaW1wbGUgY29uZGEgZW52aXJvbm1lbnQgb24gdGhlIGNvbW1hbmQgbGluZS4gCgpXZSdsbCB0aGVuIGFzayBhYm91dCBob3cgdG8gY3JlYXRlIGEgc2xpZ2h0bHkgbW9yZSBjb21wbGljYXRlZCBjb25kYSBlbnZpcm9ubWVudC4gV2UnbGwgc3RhcnQgYSB0aHJlYWQgYW5kIGxlYXJuZXJzIHdpbGwgcmVzcG9uZCBhbmQvb3Igdm90ZSBvbiB0aGUgY29tbWFuZCB0aGF0IHRoZXkgd291bGQgdXNlCgojIyBTUlVOIHdpdGggQ29uZGEgQ3JlYXRlIEV4ZXJjaXNlCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gc3J1biBqb2IgYW5kIHRoZW4gY3JlYXRlIGEgY29uZGEgZW52aXJvbm1lbnQgaW4gaXQKCiMjIFNCQVRDSCB3aXRoIENvbmRhIEFjdGl2YXRlIEV4ZXJjaXNlCgpJbmRpdmlkdWFsIGV4ZXJjaXNlLiBMYXVuY2ggYW4gU0JBVENIIGpvYiB0aGF0IGFjdGl2YXRlcyBhIGNvbmRhIGVudmlyb25tZW50LCBjaGVja3MgYSB2ZXJzaW9uIG9mIHNhbXRvb2xzIGFuZCB1c2VzIGB3aGljaGAgdG8gdmVyaWZ5IGl0cyBsb2NhdGlvbi4gSW5zcGVjdCB0aGUgam9iIGxvZyBpbiBvcmRlciB0byBkZXRlcm1pbmUgc3VjY2VzcwoKCiMjIFJldmlldwoKCnwgW0JhY2sgdG8gSW50cm9kdWN0aW9uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlIEZJWE1FIC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module04_software_management_conda.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

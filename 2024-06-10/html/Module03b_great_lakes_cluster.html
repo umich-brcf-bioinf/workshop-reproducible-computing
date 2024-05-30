@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Great Lakes HPC Cluster</title>
+
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="exercise-1.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="why-workflow-automation.html">Why workflow automation?</a>
+    </li>
+    <li>
+      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+    </li>
+    <li>
+      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="exercise-3.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="capstone-exercise.html">Capstone exercise</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Great Lakes HPC Cluster</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>discuss the Great Lakes HPC cluster and review its usage</li>
+<li>discuss software modules available on Great Lakes</li>
+<li>review SBATCH and submit jobs for our analysis</li>
+</ul>
+<div id="review---umrcp-and-the-components-well-use-in-this-workshop"
+class="section level2">
+<h2>Review - UMRCP and the Components We’ll Use in This Workshop</h2>
+<p><img src="images/Module01_UMRCP_provides.jpg" /></p>
+<p>UMRCP provides compute hours on the Great Lakes and/or Armis
+clusters, fast “Turbo” storage, slower tape-based “Data Den” storage,
+and a “Secure Enclave” RAM allocation. In this workshop, we’ll be
+primarily using the Great Lakes cluster and the Turbo storage
+allocations.</p>
+</div>
+<div id="great-lakes-hpc" class="section level2">
+<h2>Great Lakes HPC</h2>
+<p><a href="https://arc.umich.edu/greatlakes/"
+class="uri">https://arc.umich.edu/greatlakes/</a></p>
+<p><a href="https://arc.umich.edu/greatlakes/slurm-user-guide/"
+class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
+<p><img src="images/Module03_cluster_overview.png" /></p>
+<div id="scheduled-jobs" class="section level3">
+<h3>Scheduled Jobs</h3>
+<p><img src="images/Module03_scheduled_jobs.png" /></p>
+</div>
+<div id="interactive-jobs" class="section level3">
+<h3>Interactive Jobs</h3>
+<pre><code>srun --pty --job-name=FIXME --account=FIXME --partition standard --mem=4000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></pre>
+</div>
+<div id="lmod-modules" class="section level3">
+<h3>LMOD Modules</h3>
+<p><a href="https://arc.umich.edu/software/"
+class="uri">https://arc.umich.edu/software/</a></p>
+</div>
+<div id="sbatch" class="section level3">
+<h3>SBATCH</h3>
+<pre><code>#!/bin/bash
+# The interpreter used to execute the script
+
+#“#SBATCH” directives that convey submission options:
+
+#SBATCH --job-name=Hello_world
+#SBATCH --mail-user=trsaari@umich.edu
+#SBATCH --mail-type=END
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=FIXME
+#SBATCH --partition=standard
+#SBATCH --output=/home/%u/SBATCH/logs/%x-%j.log
+
+# The application(s) to execute along with its input arguments and options:
+
+hostname
+pwd
+
+echo &quot;Hello, world!&quot;
+
+sleep 60</code></pre>
+</div>
+</div>
+<div id="exercise-sbatch-hello-world" class="section level2">
+<h2>Exercise SBATCH Hello World</h2>
+</div>
+<div id="exercise-srun-with-lmod" class="section level2">
+<h2>Exercise <code>srun</code> with LMOD</h2>
+</div>
+<div id="exercise-sbatch-with-lmod" class="section level2">
+<h2>Exercise SBATCH with LMOD</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module00_Introduction.html">Back to
+Introduction</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiR3JlYXQgTGFrZXMgSFBDIENsdXN0ZXIiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBkaXNjdXNzIHRoZSBHcmVhdCBMYWtlcyBIUEMgY2x1c3RlciBhbmQgcmV2aWV3IGl0cyB1c2FnZQoqIGRpc2N1c3Mgc29mdHdhcmUgbW9kdWxlcyBhdmFpbGFibGUgb24gR3JlYXQgTGFrZXMKKiByZXZpZXcgU0JBVENIIGFuZCBzdWJtaXQgam9icyBmb3Igb3VyIGFuYWx5c2lzCgojIyBSZXZpZXcgLSBVTVJDUCBhbmQgdGhlIENvbXBvbmVudHMgV2UnbGwgVXNlIGluIFRoaXMgV29ya3Nob3AKCiFbXShpbWFnZXMvTW9kdWxlMDFfVU1SQ1BfcHJvdmlkZXMuanBnKQoKVU1SQ1AgcHJvdmlkZXMgY29tcHV0ZSBob3VycyBvbiB0aGUgR3JlYXQgTGFrZXMgYW5kL29yIEFybWlzIGNsdXN0ZXJzLCBmYXN0ICJUdXJibyIgc3RvcmFnZSwgc2xvd2VyIHRhcGUtYmFzZWQgIkRhdGEgRGVuIiBzdG9yYWdlLCBhbmQgYSAiU2VjdXJlIEVuY2xhdmUiIFJBTSBhbGxvY2F0aW9uLiBJbiB0aGlzIHdvcmtzaG9wLCB3ZSdsbCBiZSBwcmltYXJpbHkgdXNpbmcgdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgYW5kIHRoZSBUdXJibyBzdG9yYWdlIGFsbG9jYXRpb25zLgoKCiMjIEdyZWF0IExha2VzIEhQQwoKaHR0cHM6Ly9hcmMudW1pY2guZWR1L2dyZWF0bGFrZXMvCgpodHRwczovL2FyYy51bWljaC5lZHUvZ3JlYXRsYWtlcy9zbHVybS11c2VyLWd1aWRlLwoKIVtdKGltYWdlcy9Nb2R1bGUwM19jbHVzdGVyX292ZXJ2aWV3LnBuZykKCiMjIyBTY2hlZHVsZWQgSm9icwoKIVtdKGltYWdlcy9Nb2R1bGUwM19zY2hlZHVsZWRfam9icy5wbmcpCgoKCiMjIyBJbnRlcmFjdGl2ZSBKb2JzCgpgYGAKc3J1biAtLXB0eSAtLWpvYi1uYW1lPUZJWE1FIC0tYWNjb3VudD1GSVhNRSAtLXBhcnRpdGlvbiBzdGFuZGFyZCAtLW1lbT00MDAwIC0tY3B1cy1wZXItdGFzaz0yIC0tdGltZT0wMDozMDowMCAvYmluL2Jhc2gKYGBgCgojIyMgTE1PRCBNb2R1bGVzCgpodHRwczovL2FyYy51bWljaC5lZHUvc29mdHdhcmUvCgoKIyMjIFNCQVRDSAoKYGBgCiMhL2Jpbi9iYXNoCiMgVGhlIGludGVycHJldGVyIHVzZWQgdG8gZXhlY3V0ZSB0aGUgc2NyaXB0Cgoj4oCcI1NCQVRDSOKAnSBkaXJlY3RpdmVzIHRoYXQgY29udmV5IHN1Ym1pc3Npb24gb3B0aW9uczoKCiNTQkFUQ0ggLS1qb2ItbmFtZT1IZWxsb193b3JsZAojU0JBVENIIC0tbWFpbC11c2VyPXRyc2FhcmlAdW1pY2guZWR1CiNTQkFUQ0ggLS1tYWlsLXR5cGU9RU5ECiNTQkFUQ0ggLS1jcHVzLXBlci10YXNrPTEKI1NCQVRDSCAtLW5vZGVzPTEKI1NCQVRDSCAtLW50YXNrcy1wZXItbm9kZT0xCiNTQkFUQ0ggLS1tZW0tcGVyLWNwdT00MDBtCiNTQkFUQ0ggLS10aW1lPTAwOjA1OjAwCiNTQkFUQ0ggLS1hY2NvdW50PUZJWE1FCiNTQkFUQ0ggLS1wYXJ0aXRpb249c3RhbmRhcmQKI1NCQVRDSCAtLW91dHB1dD0vaG9tZS8ldS9TQkFUQ0gvbG9ncy8leC0lai5sb2cKCiMgVGhlIGFwcGxpY2F0aW9uKHMpIHRvIGV4ZWN1dGUgYWxvbmcgd2l0aCBpdHMgaW5wdXQgYXJndW1lbnRzIGFuZCBvcHRpb25zOgoKaG9zdG5hbWUKcHdkCgplY2hvICJIZWxsbywgd29ybGQhIgoKc2xlZXAgNjAKYGBgCgojIyBFeGVyY2lzZSBTQkFUQ0ggSGVsbG8gV29ybGQKCgojIyBFeGVyY2lzZSBgc3J1bmAgd2l0aCBMTU9ECgoKIyMgRXhlcmNpc2UgU0JBVENIIHdpdGggTE1PRAoKCgoKfCBbQmFjayB0byBJbnRyb2R1Y3Rpb25dKE1vZHVsZTAwX0ludHJvZHVjdGlvbi5odG1sKSB8IFtUb3Agb2YgdGhpcyBsZXNzb25dKCN0b3ApIHwgW05leHQgbGVzc29uXShNb2R1bGUgRklYTUUgLmh0bWwpIHwKfCA6LS0tIHwgOi0tLS06IHwgLS0tOiB8Cg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module03b_great_lakes_cluster.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
