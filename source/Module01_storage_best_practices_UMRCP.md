@@ -46,6 +46,10 @@ Separate location for raw data
 
 Fast storage for analysis
 
+Checking file integrity - MD5sum - [AGC link on checking md5sum](http://michmed.org/agc-md5sum)
+
+
+
 ## Storage Options for UMich Researchers
 
 We've discussed best practices for data, analysis intermediates and scripts, etc. in general terms, but now we'll have the opportunity to revisit these ideas while highlighting specific options and recommendations for UMich researchers. By the end of this module, we will understand our numerous storage options available to us. Looking forward to future modules, we'll also run exercises that interact with some of these storage allocations as we proceed, including Data Den and its unique characteristics and usage patterns.
@@ -65,6 +69,8 @@ Tape-based archival storage. The largest and cheapest storage available through 
 
 Generally can only access this indirectly i.e. use Globus to interface with this storage. Due to its architecture, slow read speeds, and need to eliminate write operations and unnecessary read operations.
 
+File size limitation / constraint - does not handle large amounts of small files. 
+
 
 ### Turbo
 
@@ -74,9 +80,7 @@ It is tuned for files moderate to large in size, but can also easily accomodate 
 
 Can be accessed through the High-Performance Computing (HPC) cluster.
 
-Fast storage like Turbo is well-equipped for computing direcly from the disk. Turbo supports fast read/write times, and is an excellent place to perform analyses.
-
-### Metaphor w/ Turbo & Data Den
+Fast storage like Turbo is well-equipped for computing direcly from it. Turbo supports fast read/write times, and is an excellent place to perform analyses.
 
 
 ### Home, Scratch, tmp, and others
@@ -93,7 +97,7 @@ Fast storage like Turbo is well-equipped for computing direcly from the disk. Tu
 
 ## UMRCP
 
-![](images/Module01_UMRCP_provides.jpg)
+![](images/Module01_UMRCP_provides.png)
 
 The figure above highlights the most important and impressive details of the UMRCP, but you can find full details of the resources offered through this program on [the UMRCP page of ARC's website](https://arc.umich.edu/umrcp/).
 
@@ -103,9 +107,12 @@ Within that site, there is another page that I highly recommend as a great place
 
 <br>
 
-![](images/Module01_steps_getting_UMRCP.jpg)
+![](images/Module01_steps_getting_UMRCP.png)
 
-<br>
+### Resource Management Portal
+
+FIXME: Add screenshot of portal
+
 
 Main ideas:
  - PI must be the one to fill out form
@@ -114,19 +121,15 @@ Main ideas:
 
  Distinguish between administrators and users - admins should be long-term members of the lab, can change allocations, add storage, add/remove users, etc.
 
- |              | Change Allocations | Add/Remove Users | Use GL compute time | Read/Write access to Turbo | Globus Admin? |
+|              | Change Allocations | Add/Remove Users | Use GL compute time | Read/Write access to Turbo | Globus Admin |
 | ------------ | ------------------ | ---------------- | ------------------- | -------------------------- | ------------- |
-| PI           | X                  | X                | ~                   | ~                          | X             |
-| Lab Manager  | X                  | X                | X                   | X                          | X             |
-| Grad Student |                    |                  | X                   | X                          |               |
+| PI           | ✅                  | ✅                | ⏳                   | ⏳                          | ✅             |
+| Lab Manager  | ✅                  | ✅                | ⏳                   | ✅                          | ✅             |
+| Grad Student |                    |                  | ✅                   | ✅                          |               |
 
 <br>
 
-FIXME: Use checkmarks instead of X, maybe add a legend
-
-## Exercise: Log in to Great Lakes and run Hello World
-
-Following along with instructor, we will get everyone logged in to Great Lakes, and run a Hello World script. We'll also take some time to look around at some of the above mentioned storage locations.
+FIXME: Follow up on Globus Admin automatically added when UMRCP enrolled
 
 
 ## Exercise: Make a Game Plan for UMRCP
@@ -145,5 +148,5 @@ Discuss scenario where they don't have HPC access and not enrolled in UMRCP. Gam
 
 <br>
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module02_transferring_data_globus.html) |
 | :--- | :----: | ---: |

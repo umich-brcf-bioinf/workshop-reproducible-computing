@@ -45,30 +45,65 @@ As you can see, data transfer itself is an important consideration that goes han
 
 For the data transfer portion of this workshop, we'll focus on a software solution called Globus. Globus allows the transfer of data between different storage systems, and it's designed particularly for transferring research data. Many universities and institutions, including the University of Michigan, are using Globus in this way.
 
-FIXME: Pre-emptively address question: Dropbox vs Globus??
-Imagine a comparative table Dropbox vs Globus. Globus is strictly transfer & dropbox also offers cloud storage.
+### What is Globus, and What it Isn't
 
-The standard features of Globus include:
-- Transfers faster than SCP/SFTP (usually by a factor of two)
-- Automatic restarts or continuation when transfers are disrupted
-- Background transfers so users need not remain logged in to a system
-- Transfers of large files between your laptop/desktop and servers via Global Connect Personal
-- Transfer of small number of small files between your laptop/desktop via a browser (note: not all server endpoints offer this feature)
+<br>
 
-U-M’s Globus Provider status adds the following features:
-- Sharing of server directories/folders with non-U-M collaborators who are also Globus users (for transfer/copy purposes, not shared use of server)
-- U-M signed BAA for High Assurance feature for sensitive data
-- Sharing of directories/folders from laptops/desktops via Globus Connect Personal clients and a Globus Plus account upgrade.
+Globus is a software suite for data transfer operations with the following characteristics:
+- Fast, with parallelized transfer operations
+- Resilient to connectivity problems
+  - If any failures occur during transfer, ability to resume
+- Fire and forget*
+- Highly configurable with fine-tuned access control
+- Geared towards research data, particularly where data volumes are very high
+
+Globus is *not* a cloud storage service, in contrast with something like DropBox
+
+![Globus vs DropBox](images/Module02_globus_vs_dropbox.png)
+
+
+<br>
+
+FIXME: Add section/notes about Globus Connect Personal
 
 ## Exercise Transferring Data from Data Provider to My Data Den
 
-![](images/Module02_data_shared_with_me_I_transfer.jpg)
+1 | 2
+:-------------------------------------------------------------:|:-------------------------------------------------------------:
+![](images/Module02_data_shared_with_me_I_transfer_1.png) | ![](images/Module02_data_shared_with_me_I_transfer_2.png)
 
-## Exercise Transferring Data from Data Provider to My Turbo
+## Exercise Transferring Data from My Data Den to My Turbo
 
-## Exercise Sharing Data With a Collaborator
+FIXME: Add illustration
 
-![](images/Module02_data_I_share_collaborator_transfers.jpg)
+
+<br>
+<br>
+
+### Additional Scenarios
+
+<details>
+<summary>Sharing Data with a Collaborator</summary>
+
+1 | 2
+:-------------------------------------------------------------:|:-------------------------------------------------------------:
+![](images/Module02_data_I_share_collaborator_transfers_1.png) | ![](images/Module02_data_I_share_collaborator_transfers_2.png)
+
+</details>
+
+
+<details>
+<summary>Data Provider (AGC) Transfers Data to Me</summary>
+
+1 | 2
+:-------------------------------------------------------------:|:-------------------------------------------------------------:
+![](images/Module02_data_I_grant_AGC_RW_AGC_transfers_1.png) | ![](images/Module02_data_I_grant_AGC_RW_AGC_transfers_2.png)
+
+[link for AGC data retrieval which includes the push-to-data-den instructions](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval)
+
+FIXME: Add written description
+
+</details>
 
 <br>
 <br>
@@ -79,12 +114,8 @@ Must understand where the data currently resides, and where you want to transfer
 
 Must understand who is responsible for performing the transfer
 
-Unless this is arranged previously for an ongoing relationship, *someone* will *always* need to grant permissions to enable the transfer
-
-## FIXME - have another independent exercise (on Great Lakes)
-
-## FIXME - Slack thread asking for more scenarios of data transfer tasks
+Unless this is arranged previously for an ongoing relationship, *someone* will *always* need to grant permissions to enable a transfer between two parties
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module03a_sneak_peek_great_lakes.html) |
 | :--- | :----: | ---: |
