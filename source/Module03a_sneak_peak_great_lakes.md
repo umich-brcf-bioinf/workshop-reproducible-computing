@@ -1,0 +1,108 @@
+---
+title: "Sneak peek: Great Lakes"
+author: "UM Bioinformatics Core"
+output:
+        html_document:
+            includes:
+                in_header: header.html
+            theme: paper
+            toc: true
+            toc_depth: 4
+            toc_float: true
+            number_sections: false
+            fig_caption: true
+            markdown: GFM
+            code_download: true
+---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+
+In this module, we will:
+
+* take an introductory look at the Great Lakes HPC cluster
+* learn about several ways to access Great Lakes
+* use the web-based file browser for Great Lakes
+* introduce or review the nano text editor
+* use the OpenOnDemand service to launch a web-based interactive job
+
+## Great Lakes - Sneak Peek
+
+[Link to Great Lakes Dashboard](https://greatlakes.arc-ts.umich.edu)
+
+### Using an HPC Cluster - Must Request Resources
+
+![](images/Module03a_ask_for_resources.png)
+
+When using an hpc cluster, there is a pattern that is quite different from our typical interactions with a computer system - we must ask for resources before we are able to use them. This is a characteristic of a shared, large, multi-user system like Great Lakes. Within the entirety of the system, we have an enormous amount of computing power, but at the same time, we need to allow equal access to this resource to the entirety of the University. Therefore, we use this pattern of requesting resources and receiving them before we begin our computing tasks.
+
+### Several ways to access Great Lakes
+
+- For compute access:
+    - Secure Shell (ssh)
+    - Web-based shell
+    - OpenOnDemand web-based remote desktop
+- For file access:
+    - Globus
+    - Direct (Storage is mounted on Great Lakes)
+    - Remote mount (Storage is mounted on your workstation)
+    - `scp`, `rsync`, etc.
+
+## Using the web-based access methods
+
+The web-based tools that provide access to Great Lakes and other ARC resources are a quick and easy way to get started. We'll use these in our upcoming exercises to make our first foray into using the Great Lakes HPC. Additionally, the 'Interactive Apps' with ARC's Open On Demand service offer a unique solution for when we need to run graphical applications. We'll preview this and give some practical tips for using the RStudio and the Basic Desktop apps.
+
+
+Sneak preview of the web-based file browser
+![](images/Module03a_accessing_web_based_file_browser.png)
+![](images/Module03a_preview_web_based_file_browser.png)
+
+Sneak preview of the web-based shell
+![](images/Module03a_accessing_web_based_shell.png)
+![](images/Module03a_preview_web_based_shell.png)
+
+Sneak preview of a web-based RStudio session
+![](images/Module03a_accessing_interactive_rstudio.png)
+![](images/Module03a_preview_interactive_rstudio.png)
+
+
+## Quick Review or Crash Course on the Nano Editor
+
+Before we dive into some of the exercises in this module, we should do a quick review or crash course on the nano text editor, which is a command-line-based text editor. In some of the upcoming exercises, we will be connected to Great Lakes via the web-based shell, which means that we will be limited to using command-line tools. During that time, we'll use nano to edit READMEs and script files. Nano, along with other command-line-based text editor tools, use the keyboard as the main way of interfacing with the software. This means we will use various keystrokes to carry out tasks like saving the file and exiting the tool, which may take some practice to get comfortable with. Thankfully, nano is relatively intuitive and easy to use, which is one reason why we've chosen to use it for this workshop.
+
+The basic layout of the nano editor is shown below. A helpful list of common tasks and their keyboard shortcuts is found at the bottom. The tile bar and the status bar provide some additional context about the file we're interacting with and feedback messages from nano, respectively.
+
+![](images/Module03a_nano_editor_layout.png)
+
+## Exercise - View Transferred Files
+
+Following along with the instructor, we'll use the web-based file browser to confirm that we've transferred the data files to our turbo space
+
+## Exercise - Connect with the Web-Based Shell
+
+Following along with the instructor, we'll use the web-based shell to connect to Great Lakes. Once there, we'll run an introductory script, and take another look at our transferred files.
+
+## Exercise - Launch an RStudio instance on OpenOnDemand
+
+Following along with the instructor, we'll use OpenOnDemand to launch an RStudio instance
+
+
+
+## FIXME - add independent exercise (on Great Lakes with web-based shell)
+
+Write a README?
+
+## FIXME - Check about alternative independent exercise Basic Desktop with IGV
+
+## FIXME - Add review section
+
+
+
+
+| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
+| :--- | :----: | ---: |

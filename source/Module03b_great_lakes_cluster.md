@@ -31,9 +31,9 @@ In this module, we will:
 
 ## Review - UMRCP and the Components We'll Use in This Workshop
 
-![](images/Module01_UMRCP_provides.jpg)
+![](images/Module01_UMRCP_provides.png)
 
-UMRCP provides compute hours on the Great Lakes and/or Armis clusters, fast "Turbo" storage, slower tape-based "Data Den" storage, and a "Secure Enclave" RAM allocation. In this workshop, we'll be primarily using the Great Lakes cluster and the Turbo storage allocations.
+UMRCP provides compute hours on the Great Lakes and/or Armis clusters, fast "Turbo" storage, slower tape-based "Data Den" storage, and a "Secure Enclave" RAM allocation. In this workshop, we'll be primarily using the Great Lakes cluster and the Turbo and Data Den storage allocations.
 
 
 ## Great Lakes HPC
@@ -49,12 +49,25 @@ https://arc.umich.edu/greatlakes/slurm-user-guide/
 ![](images/Module03_scheduled_jobs.png)
 
 
+### Interactive vs Scripted Jobs
+
+As we discussed in the previous module, for any computational tasks that are moderately demanding, we should not attempt them on the login nodes. Instead, we must request resources and arrange for our job to run on a worker node. In those exercises, we explored a couple of quick ways to request resources and run jobs using the 'Interactive App' web-based tools. Now, we'll discuss some additional, very useful and powerful ways that we can request resources and run jobs - through interactive jobs and scripted jobs.
+
+FIXME: Add elaboration. Add note that it's a good way to right-size your SBATCH
 
 ### Interactive Jobs
 
 ```
-srun --pty --job-name=FIXME --account=FIXME --partition standard --mem=4000 --cpus-per-task=2 --time=00:30:00 /bin/bash
+srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash
 ```
+
+### Exercise - Log in to Great Lakes using ssh
+
+Following along with the instructor, we'll all log in to the Great Lakes cluster using ssh
+
+### Exercise - Launch an Interactive Job and Calculate MD5sum
+
+Following along with instructor, we'll launch an interactive job using `srun`. Once the job is allocated, we'll use the `md5sum` command to confirm the success and completeness of our data transfer.
 
 ### LMOD Modules
 
@@ -69,38 +82,38 @@ https://arc.umich.edu/software/
 
 #“#SBATCH” directives that convey submission options:
 
-#SBATCH --job-name=Hello_world
-#SBATCH --mail-user=trsaari@umich.edu
-#SBATCH --mail-type=END
+#SBATCH --job-name=Hello_SBATCH
 #SBATCH --cpus-per-task=1
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem-per-cpu=400m
 #SBATCH --time=00:05:00
-#SBATCH --account=FIXME
+#SBATCH --account=bioinf_wkshp_class
 #SBATCH --partition=standard
-#SBATCH --output=/home/%u/SBATCH/logs/%x-%j.log
+#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/sleeping_bear/logs/%x-%j.log
 
 # The application(s) to execute along with its input arguments and options:
 
 hostname
 pwd
 
-echo "Hello, world!"
+echo "Hello, SBATCH!"
 
 sleep 60
 ```
 
 ## Exercise SBATCH Hello World
 
+Following along with the instructor, we will inspect the `hello_SBATCH.sh` shell script that each of us have in our `$WORKSHOP_HOME` directory, review the preamble and body of it, and then submit it with `sbatch`. Once it is running, we will use `squeue` to view the status of the job. After it completes, we'll view its log.
 
 ## Exercise `srun` with LMOD
 
+Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to filter our sample_A BAM file to select only alignments from chromosome 19.
 
 ## Exercise SBATCH with LMOD
 
+Following along with the instructor, we'll create an SBATCH script that is similar to our previous `srun` exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with `sbatch` and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.
 
 
-
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module04_software_management_conda.html) |
 | :--- | :----: | ---: |
