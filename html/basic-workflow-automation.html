@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Great Lakes HPC Cluster</title>
+<title>Basic workflow automation</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -434,7 +434,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Great Lakes HPC Cluster</h1>
+<h1 class="title toc-ignore">Basic workflow automation</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -448,120 +448,52 @@ pre {
   font-size: 12pt
 }
 </style>
-<p>In this module, we will:</p>
+<p>By the end of this module, we will: * Introduce the notion of
+“pleasingly parallel” transformations * Make a “driver script” to
+execute a “wide” automation * Define the notion of a workflow resource
+footprint * Understand the advantage of “job launcher” and use it to
+execute “wide” automation * Make a driver script to execute “tall”
+automation * Understand the limitations of a simple driver script.</p>
+<div id="header-1" class="section level2">
+<h2>Header 1</h2>
+</div>
+<div id="header-2" class="section level2">
+<h2>Header 2</h2>
+<div id="pro-tips" class="section level3">
+<h3>Pro tips</h3>
+<ol style="list-style-type: decimal">
+<li>Do not try to automate something that you cannot do by hand.</li>
+<li>Make it right. Make it clear. Make it efficient. (In that
+order.)</li>
+<li>Scale up incrementally; take at least three steps and don’t be
+afraid to take more:
+<ol style="list-style-type: lower-alpha">
+<li>do one sample and verify correctness of outputs. (For a large
+dataset consider starting with subsetted input dataset so you can
+iterate quicker.)</li>
+<li>scale to a few samples and check those outputs; tune resource
+allocations</li>
+<li>run the whole batch</li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div id="todo-exercise-1" class="section level2">
+<h2>TODO Exercise 1</h2>
+</div>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
 <ul>
-<li>discuss the Great Lakes HPC cluster and review its usage</li>
-<li>discuss software modules available on Great Lakes</li>
-<li>review SBATCH and submit jobs for our analysis</li>
+<li>A driver script is a straightforward approach to simple
+transformation across a small to moderate number of samples with a low
+resource footprint.</li>
+<li>The job launcher allows you to gather many parallel tasks into a
+main job, in effect creating a transient sub-cluster within the main
+HPC.</li>
+<li>For a more complex transformation, a driver script can either be
+simple or resource efficient. Consider more robust solutions
+(e.g. Snakemake) as necessary.</li>
 </ul>
-<div id="review---umrcp-and-the-components-well-use-in-this-workshop"
-class="section level2">
-<h2>Review - UMRCP and the Components We’ll Use in This Workshop</h2>
-<p><img src="images/Module01_umrcp_provides.png" /></p>
-<p>UMRCP provides compute hours on the Great Lakes and/or Armis
-clusters, fast “Turbo” storage, slower tape-based “Data Den” storage,
-and a “Secure Enclave” RAM allocation. In this workshop, we’ll be
-primarily using the Great Lakes cluster and the Turbo and Data Den
-storage allocations.</p>
-</div>
-<div id="great-lakes-hpc" class="section level2">
-<h2>Great Lakes HPC</h2>
-<p><a href="https://arc.umich.edu/greatlakes/"
-class="uri">https://arc.umich.edu/greatlakes/</a></p>
-<p><a href="https://arc.umich.edu/greatlakes/slurm-user-guide/"
-class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
-<p><img src="images/Module03_cluster_overview.png" /></p>
-<div id="scheduled-jobs" class="section level3">
-<h3>Scheduled Jobs</h3>
-<p><img src="images/Module03_scheduled_jobs.png" /></p>
-</div>
-<div id="interactive-vs-scripted-jobs" class="section level3">
-<h3>Interactive vs Scripted Jobs</h3>
-<p>As we discussed in the previous module, for any computational tasks
-that are moderately demanding, we should not attempt them on the login
-nodes. Instead, we must request resources and arrange for our job to run
-on a worker node. In those exercises, we explored a couple of quick ways
-to request resources and run jobs using the ‘Interactive App’ web-based
-tools. Now, we’ll discuss some additional, very useful and powerful ways
-that we can request resources and run jobs - through interactive jobs
-and scripted jobs.</p>
-<p>FIXME: Add elaboration. Add note that it’s a good way to right-size
-your SBATCH</p>
-</div>
-<div id="interactive-jobs" class="section level3">
-<h3>Interactive Jobs</h3>
-<pre><code>srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash</code></pre>
-</div>
-<div id="exercise---log-in-to-great-lakes-using-ssh"
-class="section level3">
-<h3>Exercise - Log in to Great Lakes using ssh</h3>
-<p>Following along with the instructor, we’ll all log in to the Great
-Lakes cluster using ssh</p>
-</div>
-<div id="exercise---launch-an-interactive-job-and-calculate-md5sum"
-class="section level3">
-<h3>Exercise - Launch an Interactive Job and Calculate MD5sum</h3>
-<p>Following along with instructor, we’ll launch an interactive job
-using <code>srun</code>. Once the job is allocated, we’ll use the
-<code>md5sum</code> command to confirm the success and completeness of
-our data transfer.</p>
-</div>
-<div id="lmod-modules" class="section level3">
-<h3>LMOD Modules</h3>
-<p><a href="https://arc.umich.edu/software/"
-class="uri">https://arc.umich.edu/software/</a></p>
-</div>
-<div id="sbatch" class="section level3">
-<h3>SBATCH</h3>
-<pre><code>#!/bin/bash
-# The interpreter used to execute the script
-
-#“#SBATCH” directives that convey submission options:
-
-#SBATCH --job-name=Hello_SBATCH
-#SBATCH --cpus-per-task=1
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem-per-cpu=400m
-#SBATCH --time=00:05:00
-#SBATCH --account=bioinf_wkshp_class
-#SBATCH --partition=standard
-#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/sleeping_bear/logs/%x-%j.log
-
-# The application(s) to execute along with its input arguments and options:
-
-hostname
-pwd
-
-echo &quot;Hello, SBATCH!&quot;
-
-sleep 60</code></pre>
-</div>
-</div>
-<div id="exercise-sbatch-hello-world" class="section level2">
-<h2>Exercise SBATCH Hello World</h2>
-<p>Following along with the instructor, we will inspect the
-<code>hello_SBATCH.sh</code> shell script that each of us have in our
-<code>$WORKSHOP_HOME</code> directory, review the preamble and body of
-it, and then submit it with <code>sbatch</code>. Once it is running, we
-will use <code>squeue</code> to view the status of the job. After it
-completes, we’ll view its log.</p>
-</div>
-<div id="exercise-srun-with-lmod" class="section level2">
-<h2>Exercise <code>srun</code> with LMOD</h2>
-<p>Following along with the instructor, we’ll launch an interactive job
-with <code>srun</code>, load the samtools module, and use samtools to
-filter our sample_A BAM file to select only alignments from chromosome
-19.</p>
-</div>
-<div id="exercise-sbatch-with-lmod" class="section level2">
-<h2>Exercise SBATCH with LMOD</h2>
-<p>Following along with the instructor, we’ll create an SBATCH script
-that is similar to our previous <code>srun</code> exercise, and use that
-to filter our sample_B BAM file in the same fashion. We will launch it
-with <code>sbatch</code> and inspect the results. If it is successful,
-we will continue this exercise by creating and running two more SBATCH
-scripts for sample_C and sample_D.</p>
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -573,8 +505,7 @@ scripts for sample_C and sample_D.</p>
 <th align="left"><a href="Module00_Introduction.html">Back to
 Introduction</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module04_software_management_conda.html">Next
-lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
@@ -582,7 +513,7 @@ lesson</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiR3JlYXQgTGFrZXMgSFBDIENsdXN0ZXIiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBkaXNjdXNzIHRoZSBHcmVhdCBMYWtlcyBIUEMgY2x1c3RlciBhbmQgcmV2aWV3IGl0cyB1c2FnZQoqIGRpc2N1c3Mgc29mdHdhcmUgbW9kdWxlcyBhdmFpbGFibGUgb24gR3JlYXQgTGFrZXMKKiByZXZpZXcgU0JBVENIIGFuZCBzdWJtaXQgam9icyBmb3Igb3VyIGFuYWx5c2lzCgojIyBSZXZpZXcgLSBVTVJDUCBhbmQgdGhlIENvbXBvbmVudHMgV2UnbGwgVXNlIGluIFRoaXMgV29ya3Nob3AKCiFbXShpbWFnZXMvTW9kdWxlMDFfVU1SQ1BfcHJvdmlkZXMucG5nKQoKVU1SQ1AgcHJvdmlkZXMgY29tcHV0ZSBob3VycyBvbiB0aGUgR3JlYXQgTGFrZXMgYW5kL29yIEFybWlzIGNsdXN0ZXJzLCBmYXN0ICJUdXJibyIgc3RvcmFnZSwgc2xvd2VyIHRhcGUtYmFzZWQgIkRhdGEgRGVuIiBzdG9yYWdlLCBhbmQgYSAiU2VjdXJlIEVuY2xhdmUiIFJBTSBhbGxvY2F0aW9uLiBJbiB0aGlzIHdvcmtzaG9wLCB3ZSdsbCBiZSBwcmltYXJpbHkgdXNpbmcgdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgYW5kIHRoZSBUdXJibyBhbmQgRGF0YSBEZW4gc3RvcmFnZSBhbGxvY2F0aW9ucy4KCgojIyBHcmVhdCBMYWtlcyBIUEMKCmh0dHBzOi8vYXJjLnVtaWNoLmVkdS9ncmVhdGxha2VzLwoKaHR0cHM6Ly9hcmMudW1pY2guZWR1L2dyZWF0bGFrZXMvc2x1cm0tdXNlci1ndWlkZS8KCiFbXShpbWFnZXMvTW9kdWxlMDNfY2x1c3Rlcl9vdmVydmlldy5wbmcpCgojIyMgU2NoZWR1bGVkIEpvYnMKCiFbXShpbWFnZXMvTW9kdWxlMDNfc2NoZWR1bGVkX2pvYnMucG5nKQoKCiMjIyBJbnRlcmFjdGl2ZSB2cyBTY3JpcHRlZCBKb2JzCgpBcyB3ZSBkaXNjdXNzZWQgaW4gdGhlIHByZXZpb3VzIG1vZHVsZSwgZm9yIGFueSBjb21wdXRhdGlvbmFsIHRhc2tzIHRoYXQgYXJlIG1vZGVyYXRlbHkgZGVtYW5kaW5nLCB3ZSBzaG91bGQgbm90IGF0dGVtcHQgdGhlbSBvbiB0aGUgbG9naW4gbm9kZXMuIEluc3RlYWQsIHdlIG11c3QgcmVxdWVzdCByZXNvdXJjZXMgYW5kIGFycmFuZ2UgZm9yIG91ciBqb2IgdG8gcnVuIG9uIGEgd29ya2VyIG5vZGUuIEluIHRob3NlIGV4ZXJjaXNlcywgd2UgZXhwbG9yZWQgYSBjb3VwbGUgb2YgcXVpY2sgd2F5cyB0byByZXF1ZXN0IHJlc291cmNlcyBhbmQgcnVuIGpvYnMgdXNpbmcgdGhlICdJbnRlcmFjdGl2ZSBBcHAnIHdlYi1iYXNlZCB0b29scy4gTm93LCB3ZSdsbCBkaXNjdXNzIHNvbWUgYWRkaXRpb25hbCwgdmVyeSB1c2VmdWwgYW5kIHBvd2VyZnVsIHdheXMgdGhhdCB3ZSBjYW4gcmVxdWVzdCByZXNvdXJjZXMgYW5kIHJ1biBqb2JzIC0gdGhyb3VnaCBpbnRlcmFjdGl2ZSBqb2JzIGFuZCBzY3JpcHRlZCBqb2JzLgoKRklYTUU6IEFkZCBlbGFib3JhdGlvbi4gQWRkIG5vdGUgdGhhdCBpdCdzIGEgZ29vZCB3YXkgdG8gcmlnaHQtc2l6ZSB5b3VyIFNCQVRDSAoKIyMjIEludGVyYWN0aXZlIEpvYnMKCmBgYApzcnVuIC0tcHR5IC0tam9iLW5hbWU9JHtVU0VSfV9jYWxjdWxhdGVfbWQ1c3VtIC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MgLS1wYXJ0aXRpb24gc3RhbmRhcmQgLS1tZW09MjAwMCAtLWNwdXMtcGVyLXRhc2s9MSAtLXRpbWU9MDA6MzA6MDAgL2Jpbi9iYXNoCmBgYAoKIyMjIEV4ZXJjaXNlIC0gTG9nIGluIHRvIEdyZWF0IExha2VzIHVzaW5nIHNzaAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIGFsbCBsb2cgaW4gdG8gdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgdXNpbmcgc3NoCgojIyMgRXhlcmNpc2UgLSBMYXVuY2ggYW4gSW50ZXJhY3RpdmUgSm9iIGFuZCBDYWxjdWxhdGUgTUQ1c3VtCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gaW50ZXJhY3RpdmUgam9iIHVzaW5nIGBzcnVuYC4gT25jZSB0aGUgam9iIGlzIGFsbG9jYXRlZCwgd2UnbGwgdXNlIHRoZSBgbWQ1c3VtYCBjb21tYW5kIHRvIGNvbmZpcm0gdGhlIHN1Y2Nlc3MgYW5kIGNvbXBsZXRlbmVzcyBvZiBvdXIgZGF0YSB0cmFuc2Zlci4KCiMjIyBMTU9EIE1vZHVsZXMKCmh0dHBzOi8vYXJjLnVtaWNoLmVkdS9zb2Z0d2FyZS8KCgojIyMgU0JBVENICgpgYGAKIyEvYmluL2Jhc2gKIyBUaGUgaW50ZXJwcmV0ZXIgdXNlZCB0byBleGVjdXRlIHRoZSBzY3JpcHQKCiPigJwjU0JBVENI4oCdIGRpcmVjdGl2ZXMgdGhhdCBjb252ZXkgc3VibWlzc2lvbiBvcHRpb25zOgoKI1NCQVRDSCAtLWpvYi1uYW1lPUhlbGxvX1NCQVRDSAojU0JBVENIIC0tY3B1cy1wZXItdGFzaz0xCiNTQkFUQ0ggLS1ub2Rlcz0xCiNTQkFUQ0ggLS1udGFza3MtcGVyLW5vZGU9MQojU0JBVENIIC0tbWVtLXBlci1jcHU9NDAwbQojU0JBVENIIC0tdGltZT0wMDowNTowMAojU0JBVENIIC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MKI1NCQVRDSCAtLXBhcnRpdGlvbj1zdGFuZGFyZAojU0JBVENIIC0tb3V0cHV0PS9uZnMvdHVyYm8vdW1tcy1iaW9pbmYtd2tzaHAvd29ya3Nob3AvaG9tZS8ldS9zbGVlcGluZ19iZWFyL2xvZ3MvJXgtJWoubG9nCgojIFRoZSBhcHBsaWNhdGlvbihzKSB0byBleGVjdXRlIGFsb25nIHdpdGggaXRzIGlucHV0IGFyZ3VtZW50cyBhbmQgb3B0aW9uczoKCmhvc3RuYW1lCnB3ZAoKZWNobyAiSGVsbG8sIFNCQVRDSCEiCgpzbGVlcCA2MApgYGAKCiMjIEV4ZXJjaXNlIFNCQVRDSCBIZWxsbyBXb3JsZAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlIHdpbGwgaW5zcGVjdCB0aGUgYGhlbGxvX1NCQVRDSC5zaGAgc2hlbGwgc2NyaXB0IHRoYXQgZWFjaCBvZiB1cyBoYXZlIGluIG91ciBgJFdPUktTSE9QX0hPTUVgIGRpcmVjdG9yeSwgcmV2aWV3IHRoZSBwcmVhbWJsZSBhbmQgYm9keSBvZiBpdCwgYW5kIHRoZW4gc3VibWl0IGl0IHdpdGggYHNiYXRjaGAuIE9uY2UgaXQgaXMgcnVubmluZywgd2Ugd2lsbCB1c2UgYHNxdWV1ZWAgdG8gdmlldyB0aGUgc3RhdHVzIG9mIHRoZSBqb2IuIEFmdGVyIGl0IGNvbXBsZXRlcywgd2UnbGwgdmlldyBpdHMgbG9nLgoKIyMgRXhlcmNpc2UgYHNydW5gIHdpdGggTE1PRAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIGxhdW5jaCBhbiBpbnRlcmFjdGl2ZSBqb2Igd2l0aCBgc3J1bmAsIGxvYWQgdGhlIHNhbXRvb2xzIG1vZHVsZSwgYW5kIHVzZSBzYW10b29scyB0byBmaWx0ZXIgb3VyIHNhbXBsZV9BIEJBTSBmaWxlIHRvIHNlbGVjdCBvbmx5IGFsaWdubWVudHMgZnJvbSBjaHJvbW9zb21lIDE5LgoKIyMgRXhlcmNpc2UgU0JBVENIIHdpdGggTE1PRAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIGNyZWF0ZSBhbiBTQkFUQ0ggc2NyaXB0IHRoYXQgaXMgc2ltaWxhciB0byBvdXIgcHJldmlvdXMgYHNydW5gIGV4ZXJjaXNlLCBhbmQgdXNlIHRoYXQgdG8gZmlsdGVyIG91ciBzYW1wbGVfQiBCQU0gZmlsZSBpbiB0aGUgc2FtZSBmYXNoaW9uLiBXZSB3aWxsIGxhdW5jaCBpdCB3aXRoIGBzYmF0Y2hgIGFuZCBpbnNwZWN0IHRoZSByZXN1bHRzLiBJZiBpdCBpcyBzdWNjZXNzZnVsLCB3ZSB3aWxsIGNvbnRpbnVlIHRoaXMgZXhlcmNpc2UgYnkgY3JlYXRpbmcgYW5kIHJ1bm5pbmcgdHdvIG1vcmUgU0JBVENIIHNjcmlwdHMgZm9yIHNhbXBsZV9DIGFuZCBzYW1wbGVfRC4KCgp8IFtCYWNrIHRvIEludHJvZHVjdGlvbl0oTW9kdWxlMDBfSW50cm9kdWN0aW9uLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZTA0X3NvZnR3YXJlX21hbmFnZW1lbnRfY29uZGEuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQmFzaWMgd29ya2Zsb3cgYXV0b21hdGlvbiIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKQnkgdGhlIGVuZCBvZiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKKiBJbnRyb2R1Y2UgdGhlIG5vdGlvbiBvZiAicGxlYXNpbmdseSBwYXJhbGxlbCIgdHJhbnNmb3JtYXRpb25zCiogTWFrZSBhICJkcml2ZXIgc2NyaXB0IiB0byBleGVjdXRlIGEgIndpZGUiIGF1dG9tYXRpb24KKiBEZWZpbmUgdGhlIG5vdGlvbiBvZiBhIHdvcmtmbG93IHJlc291cmNlIGZvb3RwcmludAoqIFVuZGVyc3RhbmQgdGhlIGFkdmFudGFnZSBvZiAiam9iIGxhdW5jaGVyIiBhbmQgdXNlIGl0IHRvIGV4ZWN1dGUgIndpZGUiIGF1dG9tYXRpb24KKiBNYWtlIGEgZHJpdmVyIHNjcmlwdCB0byBleGVjdXRlICJ0YWxsIiBhdXRvbWF0aW9uCiogVW5kZXJzdGFuZCB0aGUgbGltaXRhdGlvbnMgb2YgYSBzaW1wbGUgZHJpdmVyIHNjcmlwdC4KCiMjIEhlYWRlciAxCgojIyBIZWFkZXIgMgoKIyMjIFBybyB0aXBzCgoxLiBEbyBub3QgdHJ5IHRvIGF1dG9tYXRlIHNvbWV0aGluZyB0aGF0IHlvdSBjYW5ub3QgZG8gYnkgaGFuZC4KMi4gTWFrZSBpdCByaWdodC4gTWFrZSBpdCBjbGVhci4gTWFrZSBpdCBlZmZpY2llbnQuIChJbiB0aGF0IG9yZGVyLikKMy4gU2NhbGUgdXAgaW5jcmVtZW50YWxseTsgdGFrZSBhdCBsZWFzdCB0aHJlZSBzdGVwcyBhbmQgZG9uJ3QgYmUgYWZyYWlkIHRvIHRha2UgbW9yZToKICAgYSkgZG8gb25lIHNhbXBsZSBhbmQgdmVyaWZ5IGNvcnJlY3RuZXNzIG9mIG91dHB1dHMuIChGb3IgYSBsYXJnZSBkYXRhc2V0CiAgY29uc2lkZXIgc3RhcnRpbmcgd2l0aCBzdWJzZXR0ZWQgaW5wdXQgZGF0YXNldCBzbyB5b3UgY2FuIGl0ZXJhdGUgcXVpY2tlci4pCiAgIGIpIHNjYWxlIHRvIGEgZmV3IHNhbXBsZXMgYW5kIGNoZWNrIHRob3NlIG91dHB1dHM7IHR1bmUgcmVzb3VyY2UgYWxsb2NhdGlvbnMKICAgYykgcnVuIHRoZSB3aG9sZSBiYXRjaAoKIyMgVE9ETyBFeGVyY2lzZSAxCgojIyBLZXkgaWRlYXMKCiogQSBkcml2ZXIgc2NyaXB0IGlzIGEgc3RyYWlnaHRmb3J3YXJkIGFwcHJvYWNoIHRvIHNpbXBsZSB0cmFuc2Zvcm1hdGlvbiBhY3Jvc3MKICBhIHNtYWxsIHRvIG1vZGVyYXRlIG51bWJlciBvZiBzYW1wbGVzIHdpdGggYSBsb3cgcmVzb3VyY2UgZm9vdHByaW50LgoqIFRoZSBqb2IgbGF1bmNoZXIgYWxsb3dzIHlvdSB0byBnYXRoZXIgbWFueSBwYXJhbGxlbCB0YXNrcyBpbnRvIGEgbWFpbiBqb2IsCiAgaW4gZWZmZWN0IGNyZWF0aW5nIGEgdHJhbnNpZW50IHN1Yi1jbHVzdGVyIHdpdGhpbiB0aGUgbWFpbiBIUEMuCiogRm9yIGEgbW9yZSBjb21wbGV4IHRyYW5zZm9ybWF0aW9uLCBhIGRyaXZlciBzY3JpcHQgY2FuIGVpdGhlciBiZSBzaW1wbGUgb3IKICByZXNvdXJjZSBlZmZpY2llbnQuIENvbnNpZGVyIG1vcmUgcm9idXN0IHNvbHV0aW9ucyAoZS5nLiBTbmFrZW1ha2UpIGFzIAogIG5lY2Vzc2FyeS4KCnwgW0JhY2sgdG8gSW50cm9kdWN0aW9uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlIEZJWE1FIC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
 
 
 </div>
@@ -620,7 +551,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Module03b_great_lakes_cluster.md");
+  window.initializeSourceEmbed("basic-workflow-automation.md");
 });
 </script>
 
