@@ -64,8 +64,6 @@ Globus is *not* a cloud storage service, in contrast with something like DropBox
 
 <br>
 
-FIXME: Add section/notes about Globus Connect Personal
-
 ## Exercise Transferring Data from Data Provider to My Data Den
 
 1 | 2
@@ -74,7 +72,9 @@ FIXME: Add section/notes about Globus Connect Personal
 
 ## Exercise Transferring Data from My Data Den to My Turbo
 
-FIXME: Add illustration
+1 | 2
+:-------------------------------------------------------------:|:-------------------------------------------------------------:
+![](images/Module02_data_I_transfer_between_own_storage_1.png) | ![](images/Module02_data_I_transfer_between_own_storage_2.png)
 
 
 <br>
@@ -99,11 +99,31 @@ FIXME: Add illustration
 :-------------------------------------------------------------:|:-------------------------------------------------------------:
 ![](images/Module02_data_I_grant_AGC_RW_AGC_transfers_1.png) | ![](images/Module02_data_I_grant_AGC_RW_AGC_transfers_2.png)
 
+Sometimes, if we expect many data deliveries over a period of time, and if we're dealing with an entity that we can trust with write access to our storage location, it may be advantageous to set up an arrangement so that they may transfer the data to us without any action on our part. 
+
+As shown in the figure, we can grant read **and** write access to them, and this enables them to transfer data to us without our involvement.
+
 [link for AGC data retrieval which includes the push-to-data-den instructions](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval)
 
-FIXME: Add written description
 
 </details>
+
+<br>
+
+<details>
+<summary>Collaborator Shares Data with Me</summary>
+
+FIXME: Add section/notes about Globus Connect Personal
+
+1 | 2
+:-------------------------------------------------------------:|:-------------------------------------------------------------:
+![](images/Module02_data_collab_shared_with_me_I_transfer_1.png) | ![](images/Module02_data_collab_shared_with_me_I_transfer_2.png)
+
+</details>
+
+<br>
+
+FIXME: Properly place this within lesson(s) [AGC link on checking md5sum](http://michmed.org/agc-md5sum)
 
 <br>
 <br>
