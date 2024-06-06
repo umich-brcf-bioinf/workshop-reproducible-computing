@@ -30,25 +30,25 @@ pre {
 
 # Workshop goals and topics
 
- - By the end of the workshop, attendees will
-   - Understand the main research data storage systems at UM and know to move 
-     data among main storage solutions.
-   - Install 3rd party software in virtual environments.
-   - Describe the advantages of containerization and install 3rd party containers.
-   - Submit and manage jobs in UM's high performance computing environment.
-   - Streamline data transformation using workflow automation
-
  - This workshop is targeted toward researchers who would like to be able to
-   imrpove the reprodicibility of their data-intensive research.  It is open to 
+   improve the reproducibility of data-intensive research projects.  It is open to 
    University of Michigan affiliated persons and assumes a basic familiarity
    with the command line.
 
- - Please let us know if there is anything we can do to improve the workshop experience.
+ - By the end of the workshop, attendees will
+   - Understand the main research data storage systems at UM and know how to 
+     move data among systems.
+   - Install 3rd party software in virtual environments.
+   - Describe the advantages of containerization and install 3rd party containers.
+   - Submit and manage jobs in UM's high performance computing environment.
+   - Streamline data transformation using workflow automation.
 
  - Our purpose is not to be exhaustive, there is a lot that we cannot cover in
    the allotted time, and we don't expect anyone to be an expert at the end of
    the workshop. But we hope you will have a familiarity with key tools and
    techniques to improve computational reproducibility in your research.
+
+ - Please let us know if there is anything we can do to improve the workshop experience.
 
 
 ## About the workshop team
@@ -109,7 +109,8 @@ pre {
 
 ![Zoom reactions](images/Module00_zoom_reactions.png)
 
-  - **Raise Hand** to request clarification or ask a question. (Same an in-person workshop.)
+  - **Raise Hand** to request clarification or ask a question. (Same as an 
+    in-person workshop.)
   - Instructors will use **Green check** and **Red X** to poll the group
     at checkpoints along the way.
 <br/>
@@ -127,7 +128,7 @@ breakout room.
 
   - Zoom: Click Breakout Rooms
   - Find the room corresponding to the first letter of your first name
-  - Hover over the number to the right and click **Join**.
+  - Click **Join** (to the right of the room name).
   - When you have completed introductions, you can leave the breakout room to rejoin the main room.
 
   <img src="images/Module00_zoom_breakout_room.png" width="60%"/>
@@ -178,7 +179,7 @@ breakout room.
 It is important that you can see:
 
  - Zoom (instructor's shared screen + reactions)
- - Your terminal/command window (days 1) or R/Studio (days 2-3)
+ - Your terminal/command window
  - Slack
  - Lesson plan web page
 
@@ -198,7 +199,7 @@ It is important that you can see:
 
 ![](images/Module00_sponsor_logos.png)
 
-## [UM BRCF Bioinformatics Core](https://brcf.medicine.umich.edu/bioinformatics){target="_blank"}
+## [UM BRCF Bioinformatics Core](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core){target="_blank"}
 
 - The University of Michigan BRCF Bioinformatics Core is a team of analysts that help
   researchers **design, analyze, and interpret** high-throughput genomics experiments.
@@ -230,6 +231,6 @@ It is important that you can see:
 compute infrastructure, and training to UM affiliated persons. We could not host
 this workshop without their excellent work.
 
-* The workshop Code of Conduct has been adapted the NumFocus Code of Conduct (https://numfocus.org/code-of-conduct) which itself draws frin from numerous sources, including the Geek Feminism wiki, created by the Ada Initiative and other volunteers, which is under a Creative Commons Zero license, the Contributor Covenant version 1.2.0, the Bokeh Code of Conduct, the SciPy Code of Conduct, the Carpentries Code of Conduct, and the NeurIPS Code of Conduct.
+* The workshop Code of Conduct has been adapted the NumFocus Code of Conduct (https://numfocus.org/code-of-conduct) which itself draws from numerous sources, including the Geek Feminism wiki, created by the Ada Initiative and other volunteers, which is under a Creative Commons Zero license, the Contributor Covenant version 1.2.0, the Bokeh Code of Conduct, the SciPy Code of Conduct, the Carpentries Code of Conduct, and the NeurIPS Code of Conduct.
 
 * This workshop content is licensed under a [Creative Commons Attribution 4 License](https://creativecommons.org/licenses/by/4.0/).
