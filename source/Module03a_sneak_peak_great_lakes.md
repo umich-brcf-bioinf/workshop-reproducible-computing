@@ -75,7 +75,7 @@ Sneak preview of a web-based RStudio session
 
 Before we dive into some of the exercises in this module, we should do a quick review or crash course on the nano text editor, which is a command-line-based text editor. In some of the upcoming exercises, we will be connected to Great Lakes via the web-based shell, which means that we will be limited to using command-line tools. During that time, we'll use nano to edit READMEs and script files. Nano, along with other command-line-based text editor tools, use the keyboard as the main way of interfacing with the software. This means we will use various keystrokes to carry out tasks like saving the file and exiting the tool, which may take some practice to get comfortable with. Thankfully, nano is relatively intuitive and easy to use, which is one reason why we've chosen to use it for this workshop.
 
-The basic layout of the nano editor is shown below. A helpful list of common tasks and their keyboard shortcuts is found at the bottom. The tile bar and the status bar provide some additional context about the file we're interacting with and feedback messages from nano, respectively.
+The basic layout of the nano editor is shown below. A helpful list of common tasks and their keyboard shortcuts is found at the bottom. The title bar and the status bar provide some additional context about the file we're interacting with and feedback messages from nano, respectively.
 
 ![](images/Module03a_nano_editor_layout.png)
 
@@ -87,19 +87,23 @@ Following along with the instructor, we'll use the web-based file browser to con
 
 Following along with the instructor, we'll use the web-based shell to connect to Great Lakes. Once there, we'll run an introductory script, and take another look at our transferred files.
 
-## Exercise - Launch an RStudio instance on OpenOnDemand
+## Exercise - Launch an RStudio Instance on OpenOnDemand
 
-Following along with the instructor, we'll use OpenOnDemand to launch an RStudio instance
+Following along with the instructor, we'll use OpenOnDemand to launch an RStudio instance. Once there, we'll run a basic R script as a quick demonstration of these capabilities.
 
+## Exercise - Launch a Basic Desktop Instance and Verify File Integrity
 
+Following along with the instructor, we'll use OpenOnDemand to launch a Basic Desktop instance. Once there, we'll open a terminal and use the `md5sum` utility to verify file integrity of the data that we recently transferred to our Turbo location.
 
-## FIXME - add independent exercise (on Great Lakes with web-based shell)
+>Note: Using an OpenOnDemand Basic Desktop instance in order to run a command line application can be a bit of an odd pattern. We do this here primarily as a means for requesting and receiving the proper computational resources for this task. In the next module, we'll learn about some other patterns for requesting resources and running command-line utilities which may be better choices going forward.
 
-Write a README?
+## Exercise - Write a README File
 
-## FIXME - Check about alternative independent exercise Basic Desktop with IGV
+Following along with the instructor, we will use the `nano` utility to write the beginnings of a README for our project as it exists so far.
 
-## FIXME - Add review section
+## Review
+
+FIXME: Elaborate review section
 
 
 

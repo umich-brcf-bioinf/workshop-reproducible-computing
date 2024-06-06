@@ -51,9 +51,9 @@ https://arc.umich.edu/greatlakes/slurm-user-guide/
 
 ### Interactive vs Scripted Jobs
 
-As we discussed in the previous module, for any computational tasks that are moderately demanding, we should not attempt them on the login nodes. Instead, we must request resources and arrange for our job to run on a worker node. In those exercises, we explored a couple of quick ways to request resources and run jobs using the 'Interactive App' web-based tools. Now, we'll discuss some additional, very useful and powerful ways that we can request resources and run jobs - through interactive jobs and scripted jobs.
+As we've discussed, for any computational tasks that are moderately demanding, we should not attempt them on the login nodes. Instead, we must request resources and arrange for our job to run on a worker node. In yesterday's exercises, we explored a couple of quick ways to request resources and run jobs using the 'Interactive App' web-based tools. Now, we'll discuss some additional, very useful and powerful ways that we can request resources and run jobs - through interactive jobs and scripted jobs.
 
-FIXME: Add elaboration. Add note that it's a good way to right-size your SBATCH
+FIXME: Elaborate right-sizing your SBATCH
 
 ### Interactive Jobs
 
@@ -70,6 +70,8 @@ Following along with the instructor, we'll all log in to the Great Lakes cluster
 Following along with instructor, we'll launch an interactive job using `srun`. Once the job is allocated, we'll use the `md5sum` command to confirm the success and completeness of our data transfer.
 
 ### LMOD Modules
+
+FIXME: Elaborate on LMOD
 
 https://arc.umich.edu/software/
 
