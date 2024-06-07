@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Why workflow automation?</title>
+<title>Advanced Snakemake</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -396,19 +396,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="why-workflow-automation.html">Why workflow automation?</a>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
     </li>
     <li>
-      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="exercise-3.html">Exercise 3</a>
-    </li>
-    <li>
-      <a href="capstone-exercise.html">Capstone exercise</a>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
     </li>
   </ul>
 </li>
@@ -434,7 +428,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Why workflow automation?</h1>
+<h1 class="title toc-ignore">Advanced Snakemake</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -448,36 +442,42 @@ pre {
   font-size: 12pt
 }
 </style>
-<p>By the end of this introduction, we will:</p>
-<ul>
-<li>understand what workflow automation is and how it helps
-reproducibility</li>
-<li>consider different ways that transformations can scale</li>
-<li>list a few of the workflow automation approaches</li>
-</ul>
+<p>By the end of this module, we will: * Call a shell script from a
+Snakefile * Understand how to fine-tune resource allocations like CPUs,
+memory, time * Understand how to use conda/singularity in workflows *
+Use a profile run a Snakemake workflow using SLURM/GreatLakes * Connect
+to a specifc login-node and use <code>tmux</code> to simplify
+long-running Snakemake jobs * Review best practices for organizing a
+Snakemake workflow</p>
 <div id="header-1" class="section level2">
 <h2>Header 1</h2>
 </div>
 <div id="header-2" class="section level2">
 <h2>Header 2</h2>
 </div>
-<div id="review" class="section level2">
-<h2>Review</h2>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
 <ul>
-<li>Be kind to your future self; they will thank you for the README you
-left them.</li>
-<li>Workflow automation helps reproducibility because
-<ul>
-<li>It simplifies your README</li>
-<li>It can be easier to validate computational correctness</li>
-<li>It’s easier to re-execute if you make changes</li>
-<li>For complex transforms, it’s easier for someone else to execute</li>
-<li>It gracefully scales to larger inputs</li>
-</ul></li>
-<li>Some transformations are “tall” i.e. a series of chained
-transformations on a single input. Some transformations are “wide”
-i.e. a simple transform applied to many inputs.</li>
+<li>TODO</li>
+<li>Be a good neighbor</li>
 </ul>
+<p>Exercise 1: consider the profile config:
+alcott_snakemake/config/profile/config.yaml Look up the meaning of TODO
+in the snakemake doc:</p>
+<p>Choose another config entry that you don’t understand and review the
+correspoinding doc</p>
+<p>Exercise 2A: cd to the project publication_snakemake_2 Fill in the
+missing parts of this Snakefile so it matches the supplied DAG figure.
+OK to confirm it runs on the login-node.</p>
+<p>Exercise 2B: Make a profile config and run this on the Great Lakes
+cluster worker nodes. (You can copy the config from
+alcott_snakemake/config/profile/config.yaml.)</p>
+<p>Exercise 3C: Rearrange the Snakefile so that rules live in their own
+files in a new <code>rules</code> directory and are imported to the
+Snakefile.</p>
+<p>Exercise 4D: In rule TODO, replace the module loads with a container
+directive to specify a singularity instance for the analysis rules. TODO
+directive text</p>
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -497,7 +497,7 @@ Introduction</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiV2h5IHdvcmtmbG93IGF1dG9tYXRpb24/IgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgaW50cm9kdWN0aW9uLCB3ZSB3aWxsOgoKKiB1bmRlcnN0YW5kIHdoYXQgd29ya2Zsb3cgYXV0b21hdGlvbiBpcyBhbmQgaG93IGl0IGhlbHBzIHJlcHJvZHVjaWJpbGl0eQoqIGNvbnNpZGVyIGRpZmZlcmVudCB3YXlzIHRoYXQgdHJhbnNmb3JtYXRpb25zIGNhbiBzY2FsZQoqIGxpc3QgYSBmZXcgb2YgdGhlIHdvcmtmbG93IGF1dG9tYXRpb24gYXBwcm9hY2hlcwoKIyMgSGVhZGVyIDEKCiMjIEhlYWRlciAyCgojIyBSZXZpZXcKCiogQmUga2luZCB0byB5b3VyIGZ1dHVyZSBzZWxmOyB0aGV5IHdpbGwgdGhhbmsgeW91IGZvciB0aGUgUkVBRE1FIHlvdSBsZWZ0IHRoZW0uCiogV29ya2Zsb3cgYXV0b21hdGlvbiBoZWxwcyByZXByb2R1Y2liaWxpdHkgYmVjYXVzZQogICogSXQgc2ltcGxpZmllcyB5b3VyIFJFQURNRQogICogSXQgY2FuIGJlIGVhc2llciB0byB2YWxpZGF0ZSBjb21wdXRhdGlvbmFsIGNvcnJlY3RuZXNzCiAgKiBJdCdzIGVhc2llciB0byByZS1leGVjdXRlIGlmIHlvdSBtYWtlIGNoYW5nZXMKICAqIEZvciBjb21wbGV4IHRyYW5zZm9ybXMsIGl0J3MgZWFzaWVyIGZvciBzb21lb25lIGVsc2UgdG8gZXhlY3V0ZQogICogSXQgZ3JhY2VmdWxseSBzY2FsZXMgdG8gbGFyZ2VyIGlucHV0cwoqICBTb21lIHRyYW5zZm9ybWF0aW9ucyBhcmUgInRhbGwiIGkuZS4gYSBzZXJpZXMgb2YgY2hhaW5lZCB0cmFuc2Zvcm1hdGlvbnMgb24gCiAgIGEgc2luZ2xlIGlucHV0LiBTb21lIHRyYW5zZm9ybWF0aW9ucyBhcmUgIndpZGUiIGkuZS4gYSBzaW1wbGUgdHJhbnNmb3JtIAogICBhcHBsaWVkIHRvIG1hbnkgaW5wdXRzLgoKCnwgW0JhY2sgdG8gSW50cm9kdWN0aW9uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlIEZJWE1FIC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQWR2YW5jZWQgU25ha2VtYWtlIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoqIENhbGwgYSBzaGVsbCBzY3JpcHQgZnJvbSBhIFNuYWtlZmlsZQoqIFVuZGVyc3RhbmQgaG93IHRvIGZpbmUtdHVuZSByZXNvdXJjZSBhbGxvY2F0aW9ucyBsaWtlIENQVXMsIG1lbW9yeSwgdGltZQoqIFVuZGVyc3RhbmQgaG93IHRvIHVzZSBjb25kYS9zaW5ndWxhcml0eSBpbiB3b3JrZmxvd3MKKiBVc2UgYSBwcm9maWxlIHJ1biBhIFNuYWtlbWFrZSB3b3JrZmxvdyB1c2luZyBTTFVSTS9HcmVhdExha2VzCiogQ29ubmVjdCB0byBhIHNwZWNpZmMgbG9naW4tbm9kZSBhbmQgdXNlIGB0bXV4YCB0byBzaW1wbGlmeSBsb25nLXJ1bm5pbmcKICBTbmFrZW1ha2Ugam9icwoqIFJldmlldyBiZXN0IHByYWN0aWNlcyBmb3Igb3JnYW5pemluZyBhIFNuYWtlbWFrZSB3b3JrZmxvdwoKIyMgSGVhZGVyIDEKCiMjIEhlYWRlciAyCgoKIyMgS2V5IGlkZWFzCgoqIFRPRE8KKiBCZSBhIGdvb2QgbmVpZ2hib3IKCgpFeGVyY2lzZSAxOgpjb25zaWRlciB0aGUgcHJvZmlsZSBjb25maWc6IGFsY290dF9zbmFrZW1ha2UvY29uZmlnL3Byb2ZpbGUvY29uZmlnLnlhbWwKTG9vayB1cCB0aGUgbWVhbmluZyBvZiBUT0RPIGluIHRoZSBzbmFrZW1ha2UgZG9jOgoKQ2hvb3NlIGFub3RoZXIgY29uZmlnIGVudHJ5IHRoYXQgeW91IGRvbid0IHVuZGVyc3RhbmQgYW5kIHJldmlldyB0aGUgY29ycmVzcG9pbmRpbmcgZG9jIAoKRXhlcmNpc2UgMkE6CmNkIHRvIHRoZSBwcm9qZWN0IHB1YmxpY2F0aW9uX3NuYWtlbWFrZV8yCkZpbGwgaW4gdGhlIG1pc3NpbmcgcGFydHMgb2YgdGhpcyBTbmFrZWZpbGUgc28gaXQgbWF0Y2hlcyB0aGUgc3VwcGxpZWQgREFHIGZpZ3VyZS4KT0sgdG8gY29uZmlybSBpdCBydW5zIG9uIHRoZSBsb2dpbi1ub2RlLgoKRXhlcmNpc2UgMkI6Ck1ha2UgYSBwcm9maWxlIGNvbmZpZyBhbmQgcnVuIHRoaXMgb24gdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgd29ya2VyIG5vZGVzLiAoWW91IGNhbiBjb3B5IHRoZSBjb25maWcgZnJvbSBhbGNvdHRfc25ha2VtYWtlL2NvbmZpZy9wcm9maWxlL2NvbmZpZy55YW1sLikKCkV4ZXJjaXNlIDNDOiAKUmVhcnJhbmdlIHRoZSBTbmFrZWZpbGUgc28gdGhhdCBydWxlcwpsaXZlIGluIHRoZWlyIG93biBmaWxlcyBpbiBhIG5ldyBgcnVsZXNgIGRpcmVjdG9yeSBhbmQgYXJlIGltcG9ydGVkIHRvIHRoZSAKU25ha2VmaWxlLgoKRXhlcmNpc2UgNEQ6CkluIHJ1bGUgVE9ETywgcmVwbGFjZSB0aGUgbW9kdWxlIGxvYWRzIHdpdGggYSBjb250YWluZXIgZGlyZWN0aXZlIHRvIHNwZWNpZnkgYSBzaW5ndWxhcml0eSBpbnN0YW5jZSBmb3IgdGhlIGFuYWx5c2lzIHJ1bGVzLgpUT0RPIGRpcmVjdGl2ZSB0ZXh0CgoKCnwgW0JhY2sgdG8gSW50cm9kdWN0aW9uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlIEZJWE1FIC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
 
 
 </div>
@@ -535,7 +535,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("why-workflow-automation.md");
+  window.initializeSourceEmbed("Module08-advanced-snakemake.md");
 });
 </script>
 
