@@ -59,9 +59,6 @@ Just one env
 Poll about software incompatibility experiences
 
 
-https://bssw.io/blog_posts/build-integration-and-testing-for-sustainable-scientific-computing-software
-
-
 ## Conda
 
 - Broad support for many types of software packages

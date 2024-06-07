@@ -47,6 +47,7 @@ For the data transfer portion of this workshop, we'll focus on a software soluti
 <br>
 
 Globus is a software suite for data transfer operations with the following characteristics:
+
 - Fast, with parallelized transfer operations
 - Resilient to connectivity problems
   - If any failures occur during transfer, ability to resume
