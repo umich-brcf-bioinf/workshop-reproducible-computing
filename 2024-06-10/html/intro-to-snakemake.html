@@ -12,9 +12,9 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Reproducible Computing Workshop</title>
+<title>Intro to Snakemake</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -30,10 +30,12 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -74,6 +76,11 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
 
 
 
@@ -234,6 +241,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -386,13 +396,19 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="why-workflow-automation.html">Why workflow automation?</a>
     </li>
     <li>
-      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
+      <a href="basic-workflow-automation.html">Basic workflow automation</a>
     </li>
     <li>
-      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
+      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="exercise-3.html">Exercise 3</a>
+    </li>
+    <li>
+      <a href="capstone-exercise.html">Capstone exercise</a>
     </li>
   </ul>
 </li>
@@ -409,150 +425,109 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Reproducible Computing Workshop</h1>
+
+<h1 class="title toc-ignore">Intro to Snakemake</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
 
 
 <style type="text/css">
-
-body, td {
-   font-size: 18px;
-}
-code.r{
-  font-size: 12px;
-}
+body{ /* Normal  */
+      font-size: 14pt;
+  }
 pre {
-  font-size: 12px
-}
-
-a.external {
-    background: url(images/external-link.png) center right no-repeat;
-    padding-right: 13px;
+  font-size: 12pt
 }
 </style>
-<div id="wrapping-up" class="section level2">
-<h2>Wrapping up</h2>
-<p>We hope you now have more familiarity with key concepts, data types, tools, and how they all connect to enable gene expression analysis from bulk RNA-Seq data.</p>
-<p><img src="images/wayfinder/wayfinder-Wrap_up.png" /></p>
-<hr />
+<p>By the end of this module, we will: * List the advantages of a robust
+workflow automation solution like Snakemake * Compare graph
+transformation in addition to wide and tall transformations * Describe
+the fundamental relationship between Snakemake, a Snakefile, and the
+file system * Describe key parts of a Snakemake rule * Build a Snakefile
+and use Snakemake to automate a simple transform * Use wildcards to
+easily extend a workflow * Show a Snakemake dry-run, directed acyclic
+graph, and rulegraph</p>
+<div id="header-1" class="section level2">
+<h2>Header 1</h2>
 </div>
-<div id="housekeeping" class="section level2">
-<h2>Housekeeping</h2>
-<ul>
-<li><p>Please take our optional <a class="external" href="https://forms.gle/rTDtL5ExtvhGryVs6" target="_blank">post-workshop survey</a> (5-10 minutes)</p></li>
-<li><p>11/27 11-12 ET: <a class="external" href="https://forms.gle/Rfx1TQ64gw2TnizB9" target="_blank">Virtual office hours</a></p></li>
-<li><p>We will email you a link to the final session recordings by next week.</p></li>
-<li><p>The website/notes for this workshop will be available.</p></li>
-<li><p>The <a class="external" href="https://umbioinfcoreworkshops.slack.com" target="_blank">UM Bioinformatics Core Workshop Slack channel</a> will be available for 90 days.</p></li>
-</ul>
-<hr />
+<div id="header-2" class="section level2">
+<h2>Header 2</h2>
+<div id="pro-tips" class="section level3">
+<h3>Pro tips</h3>
+<ol style="list-style-type: decimal">
+<li>It’s ok to build your Snakefile from the first steps toward the
+last, but remember that Snakemake “thinks” from the last output
+backward.</li>
+<li>Build your Snakefile incrementally.
+<ol style="list-style-type: lower-alpha">
+<li>Start with a single input.</li>
+<li>Add a rule at a time.</li>
+<li>Make small changes and use <code>dry-run</code> liberally.</li>
+<li>Start by hardcoding filesnames; put the wildcards in afterward.</li>
+</ol></li>
+<li>Keep consistent naming conventions. Including your rule names in
+your file names will help you troubleshoot. Some people include numbers
+in the file names or place different outputs in different directories.
+Choose a pattern that works for you and be consistent.</li>
+<li>If you subset your input data so that your steps are fast and light,
+you can prototype the Snakefile on the login-nodes. (But be ready to hit
+control-C if you wander into a computationally intensive step.)</li>
+<li>TODO Troubleshooting</li>
+</ol>
 </div>
-<div id="looking-ahead" class="section level2">
-<h2>Looking ahead</h2>
-<div id="workshop-environment" class="section level4">
-<h4>Workshop environment</h4>
+</div>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
 <ul>
-<li><p>BASH/RStudio workshop compute environment will be available until 8/31.</p>
+<li>A robust workflow automation solution is great because:
 <ul>
-<li><em>Please save all your R scripts now</em> so that we can “right-size” the compute environment immediately following today’s workshop session.</li>
+<li>it supports simple (w.g. wide or tall) and complex (e.g. graph)
+transformations equally well</li>
+<li>only outstanding steps are run and individual steps are atomic</li>
+<li>it’s designed with software dependency management in mind</li>
+<li>it’s easy to tune, resulting in higher resource efficiency</li>
+<li>it’s portable across execution environments</li>
+<li>it’s designed to gracefully scale to many inputs</li>
+<li>all the capabilities above don’t obscure the actual data
+transfromation</li>
 </ul></li>
-<li><p>You can download files from the workshop environment from your terminal/command line window as below. (You will need to substitute your actual workshop username and type workshop password when prompted.)</p>
-<pre><code>mkdir rnaseq-demystified-workshop
-cd rnaseq-demystified-workshop
-scp -r YOUR_USERNAME@bfx-workshop01.med.umich.edu:&quot;RSD*&quot; .</code></pre>
-<ul>
-<li>Note that the full download is about 2-4Gb, so depending on your internet speeds it could take while.</li>
-</ul></li>
+<li>Snakemake is a Python program that evaluates the rules in a
+Snakefile against the file system and applies rules as necessary to
+produce the desired output files.</li>
+<li>Snakemake builds the intended set of transforms into a directed
+acyclic graph or DAG. A dry-run enables you to see the rules it will
+execute in advance. You can visualize the Snakemake DAG or rulegraph
+using <code>dot</code>.</li>
 </ul>
-</div>
-<div id="installing-software-locally" class="section level4">
-<h4>Installing software locally</h4>
-<ul>
-<li>You can install necessary programs to run programs locally. Note that for typical data, the compute intensive steps (Day 1) assume your computer has powerful compute (many CPUs and lots of RAM) and sizable storage capacity. (i.e. It may not be practical to run these on your laptop.)</li>
-<li>Installing bioinformatics software is non-trivial and comprehensive instructions to setup a complete compute environment are outside the scope of this workshop. (We are considering offering a Computational Reproducibility workshop that would cover this.) For the intrepid, see relevant links below:
-<ul>
-<li><a href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation">Installing Conda</a></li>
-<li><a href="https://github.com/umich-brcf-bioinf/2022-08-14-umich-rnaseq-demystified/blob/main/server_setup/conda_setup/workshop-rsd.yaml">Conda environment YAML</a></li>
-<li><a href="workshop_setup/setup_instructions_advanced.html">Setting up R/R-Studio</a></li>
-</ul></li>
-</ul>
-</div>
-</div>
-<div id="university-of-michigan-resources" class="section level2">
-<h2>University of Michigan Resources</h2>
-<ul>
-<li><a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces “office hours”</a> and UM CoderSpaces Slack workspace. <em>(See “Useful Resources” section in above page for instructions on how to join and access the CoderSpaces Slack workspace.)</em></li>
-<li>Upcoming <a class="external" href="https://arc.umich.edu/events/" target="_blank">UM Advanced Research Computing workshops</a>.</li>
-<li>Advanced Research Computing (ARC) at University of Michigan hosts a high-performance computing (HPC) platform called <em>Great Lakes</em> which combines high-end computers, fast/resilient storage, and pre-installed software. GreatLakes may be a good resource for folks who need to run the more compute intensive steps and a substantial block of compute and storage is subsidized by ARC making it essentially free to many researchers.
-<ul>
-<li>About <a class="external" href="https://arc.umich.edu/greatlakes/" target="_blank">Great Lakes HPC</a>.</li>
-<li>About the ARC <a class="external" href="https://arc.umich.edu/umrcp/" target="_blank">Research Computing Package</a>.</li>
-<li>Videos on <a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting started with Great Lakes</a>. (available to UM folks)</li>
-</ul></li>
-</ul>
-<div id="training-and-support" class="section level4">
-<h4>Training and support</h4>
-<ul>
-<li>Learning bioinformatic analyses more like a process than a task. Resources to consider:
-<ul>
-<li>UM Bioinformatics Core links to <a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">training resources/workshops</a></li>
-<li>Notes on Bash and R from the recent <a href="https://umich-brcf-bioinf.github.io/2023-07-31-umich-computational-foundations/html/" target="_blank">Computational Foundations Workshop</a>.<br/></li>
-<li>For more intro lessons and workshops in Bash / Git / R / Python : <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.</li>
-<li>For more info on NGS analysis, we can highly recommend training materials from the <a href="https://hbctraining.github.io/main/" target="_blank">Harvard Chan Bioinformatics Core</a>.</li>
-</ul></li>
-</ul>
-<hr />
-</div>
-</div>
-<div id="thank-you" class="section level2">
-<h2>Thank you</h2>
-<div class="figure">
-<img src="images/Module00_sponsor_logos.png" alt="" />
-<p class="caption">Sponsors</p>
-</div>
-</div>
-<div id="thank-you-tofrom-the-workshop-team" class="section level2">
-<h2>Thank you to/from the workshop team</h2>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="center"><img src="images/Module00_headshots/headshot_cgates.jpg" /></th>
-<th align="center"><img src="images/Module00_headshots/headshot_mbradenb.jpg" /></th>
-<th align="center"><img src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
-<th align="center"></th>
+<th align="left"><a href="Module00_Introduction.html">Back to
+Introduction</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="center"><strong>Chris</strong></td>
-<td align="center"><strong>Marci</strong></td>
-<td align="center"><strong>Travis</strong></td>
-<td align="center"></td>
-</tr>
-<tr class="even">
-<td align="center"><img src="images/Module00_headshots/headshot_damki.jpg" /></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
-<tr class="odd">
-<td align="center"><strong>Dana</strong></td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center"></td>
-</tr>
 </tbody>
 </table>
-<p><br/></p>
-<p>Thank you for participating in our workshop. We welcome your questions and feedback now and in the future.</p>
-<p>Bioinformatics Workshop Team</p>
-<p><a href="mailto:bioinformatics-workshops@umich.edu">bioinformatics-workshops@umich.edu</a> <br/> <a href="https://brcf.medicine.umich.edu/bioinformatics">https://brcf.medicine.umich.edu/bioinformatics</a></p>
 </div>
 
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm8gdG8gU25ha2VtYWtlIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoqIExpc3QgdGhlIGFkdmFudGFnZXMgb2YgYSByb2J1c3Qgd29ya2Zsb3cgYXV0b21hdGlvbiBzb2x1dGlvbiBsaWtlIFNuYWtlbWFrZQoqIENvbXBhcmUgZ3JhcGggdHJhbnNmb3JtYXRpb24gaW4gYWRkaXRpb24gdG8gd2lkZSBhbmQgdGFsbCB0cmFuc2Zvcm1hdGlvbnMKKiBEZXNjcmliZSB0aGUgZnVuZGFtZW50YWwgcmVsYXRpb25zaGlwIGJldHdlZW4gU25ha2VtYWtlLCBhIFNuYWtlZmlsZSwgYW5kIHRoZSBmaWxlIHN5c3RlbQoqIERlc2NyaWJlIGtleSBwYXJ0cyBvZiBhIFNuYWtlbWFrZSBydWxlCiogQnVpbGQgYSBTbmFrZWZpbGUgYW5kIHVzZSBTbmFrZW1ha2UgdG8gYXV0b21hdGUgYSBzaW1wbGUgdHJhbnNmb3JtCiogVXNlIHdpbGRjYXJkcyB0byBlYXNpbHkgZXh0ZW5kIGEgd29ya2Zsb3cKKiBTaG93IGEgU25ha2VtYWtlIGRyeS1ydW4sIGRpcmVjdGVkIGFjeWNsaWMgZ3JhcGgsIGFuZCBydWxlZ3JhcGgKCiMjIEhlYWRlciAxCgojIyBIZWFkZXIgMgoKIyMjIFBybyB0aXBzCgoxLiBJdCdzIG9rIHRvIGJ1aWxkIHlvdXIgU25ha2VmaWxlIGZyb20gdGhlIGZpcnN0IHN0ZXBzIHRvd2FyZCB0aGUgbGFzdCwKICAgYnV0IHJlbWVtYmVyIHRoYXQgU25ha2VtYWtlICJ0aGlua3MiIGZyb20gdGhlIGxhc3Qgb3V0cHV0IGJhY2t3YXJkLgoyLiBCdWlsZCB5b3VyIFNuYWtlZmlsZSBpbmNyZW1lbnRhbGx5LgogICBhKSBTdGFydCB3aXRoIGEgc2luZ2xlIGlucHV0LgogICBiKSBBZGQgYSBydWxlIGF0IGEgdGltZS4KICAgYykgTWFrZSBzbWFsbCBjaGFuZ2VzIGFuZCAgdXNlIGBkcnktcnVuYCBsaWJlcmFsbHkuCiAgIGQpIFN0YXJ0IGJ5IGhhcmRjb2RpbmcgZmlsZXNuYW1lczsgcHV0IHRoZSB3aWxkY2FyZHMgaW4gYWZ0ZXJ3YXJkLgozLiBLZWVwIGNvbnNpc3RlbnQgbmFtaW5nIGNvbnZlbnRpb25zLiBJbmNsdWRpbmcgeW91ciBydWxlIG5hbWVzIGluIHlvdXIgZmlsZQogICBuYW1lcyB3aWxsIGhlbHAgeW91IHRyb3VibGVzaG9vdC4gU29tZSBwZW9wbGUgaW5jbHVkZSBudW1iZXJzIGluIHRoZSBmaWxlCiAgIG5hbWVzIG9yIHBsYWNlIGRpZmZlcmVudCBvdXRwdXRzIGluIGRpZmZlcmVudCBkaXJlY3Rvcmllcy4gQ2hvb3NlIGEgcGF0dGVybgogICB0aGF0IHdvcmtzIGZvciB5b3UgYW5kIGJlIGNvbnNpc3RlbnQuCjQuIElmIHlvdSBzdWJzZXQgeW91ciBpbnB1dCBkYXRhIHNvIHRoYXQgeW91ciBzdGVwcyBhcmUgZmFzdCBhbmQgbGlnaHQsIHlvdSAKICAgY2FuIHByb3RvdHlwZSB0aGUgU25ha2VmaWxlIG9uIHRoZSBsb2dpbi1ub2Rlcy4gKEJ1dCBiZSByZWFkeSB0byBoaXQgY29udHJvbC1DCiAgIGlmIHlvdSB3YW5kZXIgaW50byBhIGNvbXB1dGF0aW9uYWxseSBpbnRlbnNpdmUgc3RlcC4pCjUuIFRPRE8gVHJvdWJsZXNob290aW5nCgojIyBLZXkgaWRlYXMKCiogQSByb2J1c3Qgd29ya2Zsb3cgYXV0b21hdGlvbiBzb2x1dGlvbiBpcyBncmVhdCBiZWNhdXNlOgogICogaXQgc3VwcG9ydHMgc2ltcGxlICh3LmcuIHdpZGUgb3IgdGFsbCkgYW5kIGNvbXBsZXggKGUuZy4gZ3JhcGgpCiAgICB0cmFuc2Zvcm1hdGlvbnMgZXF1YWxseSB3ZWxsCiAgKiBvbmx5IG91dHN0YW5kaW5nIHN0ZXBzIGFyZSBydW4gYW5kIGluZGl2aWR1YWwgc3RlcHMgYXJlIGF0b21pYwogICogaXQncyBkZXNpZ25lZCB3aXRoIHNvZnR3YXJlIGRlcGVuZGVuY3kgbWFuYWdlbWVudCBpbiBtaW5kCiAgKiBpdCdzIGVhc3kgdG8gdHVuZSwgcmVzdWx0aW5nIGluIGhpZ2hlciByZXNvdXJjZSBlZmZpY2llbmN5CiAgKiBpdCdzIHBvcnRhYmxlIGFjcm9zcyBleGVjdXRpb24gZW52aXJvbm1lbnRzCiAgKiBpdCdzIGRlc2lnbmVkIHRvIGdyYWNlZnVsbHkgc2NhbGUgdG8gbWFueSBpbnB1dHMKICAqIGFsbCB0aGUgY2FwYWJpbGl0aWVzIGFib3ZlIGRvbid0IG9ic2N1cmUgdGhlIGFjdHVhbCBkYXRhIHRyYW5zZnJvbWF0aW9uCiogU25ha2VtYWtlIGlzIGEgUHl0aG9uIHByb2dyYW0gdGhhdCBldmFsdWF0ZXMgdGhlIHJ1bGVzIGluIGEgU25ha2VmaWxlIGFnYWluc3QKICB0aGUgZmlsZSBzeXN0ZW0gYW5kIGFwcGxpZXMgcnVsZXMgYXMgbmVjZXNzYXJ5IHRvIHByb2R1Y2UgdGhlIGRlc2lyZWQgb3V0cHV0IAogIGZpbGVzLgoqIFNuYWtlbWFrZSBidWlsZHMgdGhlIGludGVuZGVkIHNldCBvZiB0cmFuc2Zvcm1zIGludG8gYSBkaXJlY3RlZCBhY3ljbGljIGdyYXBoIAogIG9yIERBRy4gQSBkcnktcnVuIGVuYWJsZXMgeW91IHRvIHNlZSB0aGUgcnVsZXMgaXQgd2lsbCBleGVjdXRlIGluIGFkdmFuY2UuCiAgWW91IGNhbiB2aXN1YWxpemUgdGhlIFNuYWtlbWFrZSBEQUcgb3IgcnVsZWdyYXBoIHVzaW5nIGBkb3RgLgoKCnwgW0JhY2sgdG8gSW50cm9kdWN0aW9uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlIEZJWE1FIC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
 
 
 </div>
@@ -588,6 +563,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("intro-to-snakemake.md");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
