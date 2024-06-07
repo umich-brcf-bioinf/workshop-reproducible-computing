@@ -14,7 +14,7 @@
 
 <title>Storage Best Practices and the UMRCP</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -317,7 +317,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
     </li>
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
@@ -366,28 +366,65 @@ pre {
 <p>In this module, we will:</p>
 <ul>
 <li>discuss reproducible computing in general</li>
-<li>discuss storage best practices for raw data, anlaysis files, scripts, etc.</li>
-<li>learn about several institutional storage options (and associated compute resources)</li>
+<li>discuss storage best practices for raw data, anlaysis files,
+scripts, etc.</li>
+<li>learn about several institutional storage options (and associated
+compute resources)</li>
 <li>learn about the UMRCP and how to request it</li>
-<li>make a plan for enrolling PIs in UMRCP and enabling access to all researchers</li>
+<li>make a plan for enrolling PIs in UMRCP and enabling access to all
+researchers</li>
 </ul>
 <p><br></p>
 <div id="reproducible-computing" class="section level2">
 <h2>Reproducible Computing</h2>
-<p>Reproducible computing has become increasingly important in recent years. As experimental data volumes have increased exponentially, and as research endeavors have employed more complicated analyses over time, computation has become a fundamental aspect of virtually every type of research.</p>
-<p>Reproducibility itself is an integral part of the scientific process. We describe our experiments with sufficient detail so that they can be replicated and our findings can be confirmed by others, and so that eventually others may build upon them.</p>
-<p>So taking these two things together, the increasing use of computing in research and the inherent need for reproducibility in the scientific process, we can start to understand the importance of reproducible computing.</p>
-<p>There are some challenges we must overcome in this realm. When we try to employ our typical methodologies for general scientific reproducibility, they may not be sufficient to truly enable others to recreate our work. In many cases, in order to credibly validate an analysis, we must be able to not only see and understand the steps of an analysis, but also to use the same software with the same input data and perform these same data manipulations ourselves. Trying to achieve this task with only a descriptive summary of our analysis methods, particularly when using cutting-edge academic software, may often produce little more than frustration.</p>
-<p>Let’s take a moment to think about our own experiences with this topic. Can we think of experiences where we encountered challenges while trying to reproduce the analysis of others? Or while trying to share our own analyses with colleagues?</p>
-<p>There are a number of tools and techniques that have emerged to address some of these challenges, and to really lower the barrier to sharing and reproducing our results.</p>
-<p>In this workshop we’ll discuss these tools and techniques, we’ll provide specific guidance for University of Michigan researchers to address reproducibility concerns, and we’ll use practical examples along the way to gain experience and emphasize the concepts that we learn.</p>
+<p>Reproducible computing has become increasingly important in recent
+years. As experimental data volumes have increased exponentially, and as
+research endeavors have employed more complicated analyses over time,
+computation has become a fundamental aspect of virtually every type of
+research.</p>
+<p>Reproducibility itself is an integral part of the scientific process.
+We describe our experiments with sufficient detail so that they can be
+replicated and our findings can be confirmed by others, and so that
+eventually others may build upon them.</p>
+<p>So taking these two things together, the increasing use of computing
+in research and the inherent need for reproducibility in the scientific
+process, we can start to understand the importance of reproducible
+computing.</p>
+<p>There are some challenges we must overcome in this realm. When we try
+to employ our typical methodologies for general scientific
+reproducibility, they may not be sufficient to truly enable others to
+recreate our work. In many cases, in order to credibly validate an
+analysis, we must be able to not only see and understand the steps of an
+analysis, but also to use the same software with the same input data and
+perform these same data manipulations ourselves. Trying to achieve this
+task with only a descriptive summary of our analysis methods,
+particularly when using cutting-edge academic software, may often
+produce little more than frustration.</p>
+<p>Let’s take a moment to think about our own experiences with this
+topic. Can we think of experiences where we encountered challenges while
+trying to reproduce the analysis of others? Or while trying to share our
+own analyses with colleagues?</p>
+<p>There are a number of tools and techniques that have emerged to
+address some of these challenges, and to really lower the barrier to
+sharing and reproducing our results.</p>
+<p>In this workshop we’ll discuss these tools and techniques, we’ll
+provide specific guidance for University of Michigan researchers to
+address reproducibility concerns, and we’ll use practical examples along
+the way to gain experience and emphasize the concepts that we learn.</p>
 <p><br></p>
 </div>
 <div id="storage-best-practices" class="section level2">
 <h2>Storage Best Practices</h2>
-<p>One simple way to organize our thinking about storage best practices is to divide the topic into raw data considerations, and considerations for analysis projects. By separating and focusing on those two aspects, we can effectively address many of the challenges associated with each.</p>
+<p>One simple way to organize our thinking about storage best practices
+is to divide the topic into raw data considerations, and considerations
+for analysis projects. By separating and focusing on those two aspects,
+we can effectively address many of the challenges associated with
+each.</p>
 <blockquote>
-<p>Note: The importance of documentation is universal to all aspects of reproducible research. In considering best practices both for our raw data and for our analysis projects, we will emphasize the importance of documentation!</p>
+<p>Note: The importance of documentation is universal to all aspects of
+reproducible research. In considering best practices both for our raw
+data and for our analysis projects, we will emphasize the importance of
+documentation!</p>
 </blockquote>
 <div id="a-generalized-data-flow" class="section level3">
 <h3>A Generalized Data Flow</h3>
@@ -395,15 +432,24 @@ pre {
 </div>
 <div id="raw-data" class="section level3">
 <h3>Raw Data</h3>
-<p>When considering best practices for raw data storage, we can generally orient ourselves around one task - ensure that the data are safe.</p>
+<p>When considering best practices for raw data storage, we can
+generally orient ourselves around one task - ensure that the data are
+safe.</p>
 <p>Safe from:</p>
 <ul>
 <li>Accidental deletion</li>
 <li>Hardware failure</li>
 <li>Loss of access</li>
 </ul>
-<p>With this in mind, we recommend placing your raw experimental data into a specific designated location which is <strong>solely</strong> dedicated to storing your raw data.</p>
-<p>Soon we’ll talk about specific options for UMich researchers, but for now we’ll just speak of the general process. Data that cannot easily be re-obtained should be treated with great care. By following the recommendations here, we can achieve this and have peace of mind that we are preserving our raw data and our capabilities for reproducible research well into the future.</p>
+<p>With this in mind, we recommend placing your raw experimental data
+into a specific designated location which is <strong>solely</strong>
+dedicated to storing your raw data.</p>
+<p>Soon we’ll talk about specific options for UMich researchers, but for
+now we’ll just speak of the general process. Data that cannot easily be
+re-obtained should be treated with great care. By following the
+recommendations here, we can achieve this and have peace of mind that we
+are preserving our raw data and our capabilities for reproducible
+research well into the future.</p>
 <p>Recommended:</p>
 <ul>
 <li>Designated location for storing raw data</li>
@@ -416,19 +462,39 @@ pre {
 <li>Location redundancy</li>
 </ul></li>
 </ul>
-<p>Another thing to mention for raw data best practices is the procedure of checking file integrity. Whenever transferring data from one storage location to another, and especially while doing so over a network connection, it is good practice to follow up with a file integrity check. Briefly, we use software to inspect our files and determine if any of the contents have changed. In a later module we’ll have a chance to try this ourselves, using the <code>md5sum</code> utility. This is a relatively efficient way of verifying file integrity after a file transfer.</p>
+<p>Another thing to mention for raw data best practices is the procedure
+of checking file integrity. Whenever transferring data from one storage
+location to another, and especially while doing so over a network
+connection, it is good practice to follow up with a file integrity
+check. Briefly, we use software to inspect our files and determine if
+any of the contents have changed. In a later module we’ll have a chance
+to try this ourselves, using the <code>md5sum</code> utility. This is a
+relatively efficient way of verifying file integrity after a file
+transfer.</p>
 </div>
 <div id="analysis-projects" class="section level3">
 <h3>Analysis Projects</h3>
-<p>We can begin thinking of our next task - handling data and organizing files and artifacts for our analysis - by starting with the idea of the data flow described above. One of the first tasks in this area is to set up a new location for your analysis and make a copy of your raw data there.</p>
+<p>We can begin thinking of our next task - handling data and organizing
+files and artifacts for our analysis - by starting with the idea of the
+data flow described above. One of the first tasks in this area is to set
+up a new location for your analysis and make a copy of your raw data
+there.</p>
 <p>Some considerations:</p>
 <ul>
 <li>Fast storage, well suited for computation</li>
 <li>Project organization that facilitates reproducibility</li>
-<li>In-progress analyses, cleanup procedures, and end-to-end repeatable analyses</li>
+<li>In-progress analyses, cleanup procedures, and end-to-end repeatable
+analyses</li>
 </ul>
-<p>When we think about fast storage that is well suited for computation, we mostly contrast that with our long-term archival storage. A storage option is well suited for computation if it is accessible via high-throughput connection to sufficiently powerful processing hardware. The speed of reading and writing from this location can greatly affect processing times of your analysis, depending on the steps involved.</p>
-<p>In terms of project organization, generally we want to have distinct locations for specific purposes, and preferably organizing things in a consistent manner for all of our projects.</p>
+<p>When we think about fast storage that is well suited for computation,
+we mostly contrast that with our long-term archival storage. A storage
+option is well suited for computation if it is accessible via
+high-throughput connection to sufficiently powerful processing hardware.
+The speed of reading and writing from this location can greatly affect
+processing times of your analysis, depending on the steps involved.</p>
+<p>In terms of project organization, generally we want to have distinct
+locations for specific purposes, and preferably organizing things in a
+consistent manner for all of our projects.</p>
 <p>In a particular project, you may want:</p>
 <ul>
 <li><code>input_data</code> directory for copy of raw data</li>
@@ -436,14 +502,35 @@ pre {
 <li>Directories for intermediates, log files, and final outputs</li>
 <li><code>README.txt</code> for the project
 <ul>
-<li>Optional <code>docs</code> directory for extensive documentation, supporting works, etc.</li>
+<li>Optional <code>docs</code> directory for extensive documentation,
+supporting works, etc.</li>
 </ul></li>
 </ul>
-<p>A useful idea for our project directory layouts is to think about the project life cycle and work towards an end-goal of a reproducible analysis. While at the beginning of an analysis many things may be flexible, at the end we will want to be able to re-execute the analysis starting from the raw input data and running all the way until it produces the final outputs.</p>
-<p>Taking time to segregate specific efforts within a project, documenting our steps as we perform in-progress analyses, performing cleanups where needed, and similar efforts will aid us as we work towards that goal.</p>
-<p>Think ahead when designing the layout of your projects. If you will be trying several related analysis approaches using the same input data, but intend on using results from only one of the evaluated methods, it may make sense to intentionally subdivide the contents of your project directory accordingly. If you have several distinct analyses that may use the same input data, then perhaps creating separate projects for each of them will make the most sense. It’s hard to be totally prescriptive when making recommendations here, but through our example we hope to spark the kinds of conversations and the types of thinking that are required here.</p>
+<p>A useful idea for our project directory layouts is to think about the
+project life cycle and work towards an end-goal of a reproducible
+analysis. While at the beginning of an analysis many things may be
+flexible, at the end we will want to be able to re-execute the analysis
+starting from the raw input data and running all the way until it
+produces the final outputs.</p>
+<p>Taking time to segregate specific efforts within a project,
+documenting our steps as we perform in-progress analyses, performing
+cleanups where needed, and similar efforts will aid us as we work
+towards that goal.</p>
+<p>Think ahead when designing the layout of your projects. If you will
+be trying several related analysis approaches using the same input data,
+but intend on using results from only one of the evaluated methods, it
+may make sense to intentionally subdivide the contents of your project
+directory accordingly. If you have several distinct analyses that may
+use the same input data, then perhaps creating separate projects for
+each of them will make the most sense. It’s hard to be totally
+prescriptive when making recommendations here, but through our example
+we hope to spark the kinds of conversations and the types of thinking
+that are required here.</p>
 <p><img src="images/Module01_projects_layout.png" /></p>
-<p>One last note on handling and organizing analysis projects - use some form of identification system for projects in your lab. This simplifies communication and record keeping, in addition to the organizational benefits.</p>
+<p>One last note on handling and organizing analysis projects - use some
+form of identification system for projects in your lab. This simplifies
+communication and record keeping, in addition to the organizational
+benefits.</p>
 <p>Some ideas for project identification systems:</p>
 <ul>
 <li>Codenames</li>
@@ -454,15 +541,32 @@ pre {
 </div>
 <div id="storage-options-for-umich-researchers" class="section level2">
 <h2>Storage Options for UMich Researchers</h2>
-<p>We’ve discussed best practices for data, analysis intermediates and scripts, etc. in general terms, but now we’ll have the opportunity to revisit these ideas while highlighting specific options and recommendations for UMich researchers. By the end of this module, we will understand our numerous storage options available to us. Looking forward to future modules, we’ll also run exercises that interact with some of these storage allocations as we proceed, including Data Den and its unique characteristics and usage patterns.</p>
+<p>We’ve discussed best practices for data, analysis intermediates and
+scripts, etc. in general terms, but now we’ll have the opportunity to
+revisit these ideas while highlighting specific options and
+recommendations for UMich researchers. By the end of this module, we
+will understand our numerous storage options available to us. Looking
+forward to future modules, we’ll also run exercises that interact with
+some of these storage allocations as we proceed, including Data Den and
+its unique characteristics and usage patterns.</p>
 <div id="what-is-arc" class="section level3">
 <h3>What is ARC?</h3>
-<p>The vast majority of computing resources we’ll be discussing in the workshop are provided and managed by ARC - Advanced Research Computing at University of Michigan. The shared computing cluster that we’ll be using in the workshop is run by ARC, and the storage allocations likewise are provided by ARC. Their mission is to provide university researchers with the advanced computing resources that they need, and they’ve been working with research groups in various compute intensive fields to achieve this.</p>
-<p>Later in this module we’ll discuss in detail how to request resources through ARC, but for now we’ll focus on the storage topic and cover some important storage options that ARC provides.</p>
+<p>The vast majority of computing resources we’ll be discussing in the
+workshop are provided and managed by ARC - Advanced Research Computing
+at University of Michigan. The shared computing cluster that we’ll be
+using in the workshop is run by ARC, and the storage allocations
+likewise are provided by ARC. Their mission is to provide university
+researchers with the advanced computing resources that they need, and
+they’ve been working with research groups in various compute intensive
+fields to achieve this.</p>
+<p>Later in this module we’ll discuss in detail how to request resources
+through ARC, but for now we’ll focus on the storage topic and cover some
+important storage options that ARC provides.</p>
 </div>
 <div id="data-den" class="section level3">
 <h3>Data Den</h3>
-<p>Data Den is a low-cost, highly durable storage system operated by ARC.</p>
+<p>Data Den is a low-cost, highly durable storage system operated by
+ARC.</p>
 <ul>
 <li>Tape-based archival storage</li>
 <li>The largest and most affordable storage available through ARC.</li>
@@ -473,22 +577,32 @@ pre {
 </ul>
 <!-- Due to its architecture, slow speeds, and need to eliminate unnecessary read/write operations -->
 <blockquote>
-<p>Note: Data Den has a file size limitation - it does not handle large amounts of small files. Optimal file size is in the multi-gigabyte range. The limitation 10,000 files per TB of storage.</p>
+<p>Note: Data Den has a file size limitation - it does not handle large
+amounts of small files. Optimal file size is in the multi-gigabyte
+range. The limitation 10,000 files per TB of storage.</p>
 </blockquote>
 </div>
 <div id="turbo" class="section level3">
 <h3>Turbo</h3>
-<p>Turbo is a high-capacity, reliable, and fast storage system operated by ARC. It is more costly than Data Den.</p>
+<p>Turbo is a high-capacity, reliable, and fast storage system operated
+by ARC. It is more costly than Data Den.</p>
 <ul>
 <li>More costly than Data Den</li>
-<li>Tuned for files moderate to large in size, but can also easily accomodate small files</li>
-<li>Can be accessed through the High-Performance Computing (HPC) cluster</li>
+<li>Tuned for files moderate to large in size, but can also easily
+accomodate small files</li>
+<li>Can be accessed through the High-Performance Computing (HPC)
+cluster</li>
 </ul>
-<p>Fast storage like Turbo is well-equipped for computing direcly from it. Turbo supports fast read/write times, and is an excellent place to perform analyses.</p>
+<p>Fast storage like Turbo is well-equipped for computing direcly from
+it. Turbo supports fast read/write times, and is an excellent place to
+perform analyses.</p>
 </div>
 <div id="turbo-and-data-den---cost-difference" class="section level3">
 <h3>Turbo and Data Den - Cost Difference</h3>
-<p>We discussed above that Data Den is slow, unsuited for analysis, yet cost-effective, while Turbo is fast, well-tuned for analysis, and more costly. To put some numbers to this price discussion, see the following table of cost per TB per year:</p>
+<p>We discussed above that Data Den is slow, unsuited for analysis, yet
+cost-effective, while Turbo is fast, well-tuned for analysis, and more
+costly. To put some numbers to this price discussion, see the following
+table of cost per TB per year:</p>
 <table>
 <thead>
 <tr class="header">
@@ -510,7 +624,8 @@ pre {
 </tr>
 </tbody>
 </table>
-<p>Notice that Turbo storage is about 8x more costly than Data Den for the same amount of replicated storage.</p>
+<p>Notice that Turbo storage is about 8x more costly than Data Den for
+the same amount of replicated storage.</p>
 <blockquote>
 <p>Note: Data Den is only available in the replicated format.</p>
 </blockquote>
@@ -571,10 +686,19 @@ pre {
 <div id="umrcp" class="section level2">
 <h2>UMRCP</h2>
 <p><img src="images/Module01_umrcp_provides.png" /></p>
-<p>The figure above highlights the most important and impressive details of the UMRCP, but you can find full details of the resources offered through this program on <a href="https://arc.umich.edu/umrcp/">the UMRCP page of ARC’s website</a>.</p>
+<p>The figure above highlights the most important and impressive details
+of the UMRCP, but you can find full details of the resources offered
+through this program on <a href="https://arc.umich.edu/umrcp/">the UMRCP
+page of ARC’s website</a>.</p>
 <div id="signing-up-for-the-umrcp" class="section level3">
 <h3>Signing up for the UMRCP</h3>
-<p>Within that site, there is another page that I highly recommend as a great place to start - the <a href="https://arc.umich.edu/umrcp-requesting-resources-guide/">UMRCP Requesting Resources Guide</a>. There you’ll find details about the signup process. After signing up, you’ll be able to use some of the numerous compute nodes available through ARC, as well as the various storage tiers described above.</p>
+<p>Within that site, there is another page that I highly recommend as a
+great place to start - the <a
+href="https://arc.umich.edu/umrcp-requesting-resources-guide/">UMRCP
+Requesting Resources Guide</a>. There you’ll find details about the
+signup process. After signing up, you’ll be able to use some of the
+numerous compute nodes available through ARC, as well as the various
+storage tiers described above.</p>
 <p><br></p>
 <p><img src="images/Module01_steps_getting_UMRCP.png" /></p>
 <p><br></p>
@@ -583,27 +707,68 @@ pre {
 Additional Resources Available Through HITS RCI
 </summary>
 <p><img src="images/Module01_umrcp_plus_umrci_provides.png" /></p>
-<p>In addition to the resources provided through the UMRCP, some researchers within the medical system will have additonal resources available through UM Health Information Technology &amp; Services (HITS). Through strategic investments in High Performance Computing by Michigan Medicine, eligible researchers can enjoy additional allocations for the described resources - most notably unlimited Data Den storage.</p>
-<p>In the documentation for the UMRCP and the UMRCI, you’ll see that they recommend first using the UMRCP resources (available to all university researchers) and then transitioning to these additional HITS UMRCI resources (available to Michigan Medicine researchers) when possible. In any case, since these allocations are managed by ARC for all univerisity researchers - Michigan Medicne or otherwise - you’ll be using the same forms and procedures to request resources and use them. However, the billing details may change depending on this eligibility.</p>
-<p><a href="https://hits.medicine.umich.edu/research-education/research-computing-data-storage/research-computing-package">Link to HITS page on UMRCI</a></p>
+<p>In addition to the resources provided through the UMRCP, some
+researchers within the medical system will have additonal resources
+available through UM Health Information Technology &amp; Services
+(HITS). Through strategic investments in High Performance Computing by
+Michigan Medicine, eligible researchers can enjoy additional allocations
+for the described resources - most notably unlimited Data Den
+storage.</p>
+<p>In the documentation for the UMRCP and the UMRCI, you’ll see that
+they recommend first using the UMRCP resources (available to all
+university researchers) and then transitioning to these additional HITS
+UMRCI resources (available to Michigan Medicine researchers) when
+possible. In any case, since these allocations are managed by ARC for
+all univerisity researchers - Michigan Medicne or otherwise - you’ll be
+using the same forms and procedures to request resources and use them.
+However, the billing details may change depending on this
+eligibility.</p>
+<p><a
+href="https://hits.medicine.umich.edu/research-education/research-computing-data-storage/research-computing-package">Link
+to HITS page on UMRCI</a></p>
 </details>
 <p><br></p>
 </div>
-<div id="great-lakes-armis2-and-lighthouse-clusters" class="section level3">
+<div id="great-lakes-armis2-and-lighthouse-clusters"
+class="section level3">
 <h3>Great Lakes, Armis2, and Lighthouse Clusters</h3>
-<p>This module overall is primarily focused on storage-related topics. We’ve briefly mentioned that in addition to storage resources, ARC also provides access to high-performance computing (HPC) hardware as well. While in this workshop we’ll just be focusing on one of them, in fact there are several HPC clusters that are available to UMich researchers, in order to meet various needs.</p>
-<p>When discussing research needs, especially in anticipation of requesting UMRCP resources and filling out the required form, we should discuss a little bit about three HPC options provided through ARC:</p>
+<p>This module overall is primarily focused on storage-related topics.
+We’ve briefly mentioned that in addition to storage resources, ARC also
+provides access to high-performance computing (HPC) hardware as well.
+While in this workshop we’ll just be focusing on one of them, in fact
+there are several HPC clusters that are available to UMich researchers,
+in order to meet various needs.</p>
+<p>When discussing research needs, especially in anticipation of
+requesting UMRCP resources and filling out the required form, we should
+discuss a little bit about three HPC options provided through ARC:</p>
 <ul>
 <li>Great Lakes</li>
 <li>Armis2 (HIPAA-aligned)</li>
 <li>Lighthouse (Researcher-owned hardware)</li>
 </ul>
-<p>We’ll be discussing Great Lakes at length throughout this workshop and using it for our example analyses. We can think of it as a general-purpose HPC cluster, which is suitable for many different kinds of research.</p>
-<p>Armis2 is similar in feel to the Great Lakes cluster, except it is configured with specific security measures in place to enable analysis of sensitive data, such as export-controlled or HIPAA protected data. When filling out the UMRCP form, you can make selections for sensitive data needs, which will provide CPU hours on Armis2 and associated storage. We’ll see later, that we have flexibility in how we allocate resources between e.g. Great Lakes and Armis2.</p>
+<p>We’ll be discussing Great Lakes at length throughout this workshop
+and using it for our example analyses. We can think of it as a
+general-purpose HPC cluster, which is suitable for many different kinds
+of research.</p>
+<p>Armis2 is similar in feel to the Great Lakes cluster, except it is
+configured with specific security measures in place to enable analysis
+of sensitive data, such as export-controlled or HIPAA protected data.
+When filling out the UMRCP form, you can make selections for sensitive
+data needs, which will provide CPU hours on Armis2 and associated
+storage. We’ll see later, that we have flexibility in how we allocate
+resources between e.g. Great Lakes and Armis2.</p>
 <blockquote>
-<p>Note: There is a separate, security-enhanced Turbo allocation that is also HIPAA aligned that should be used with Armis2.</p>
+<p>Note: There is a separate, security-enhanced Turbo allocation that is
+also HIPAA aligned that should be used with Armis2.</p>
 </blockquote>
-<p>Lighthouse is also similar in feel to the Great Lakes cluster, except it is a cluster comprised entirely of researcher-owned hardware. Contrasting this with Great Lakes where we are only responsible for the cost of the resources we use, on Lighthouse, a researcher will fund the entirety of the hardware and receive 100% of its availability. This can be a good choice for researchers who are expected to have near-constant compute usage needs, or who require instant availability of HPC resources.</p>
+<p>Lighthouse is also similar in feel to the Great Lakes cluster, except
+it is a cluster comprised entirely of researcher-owned hardware.
+Contrasting this with Great Lakes where we are only responsible for the
+cost of the resources we use, on Lighthouse, a researcher will fund the
+entirety of the hardware and receive 100% of its availability. This can
+be a good choice for researchers who are expected to have near-constant
+compute usage needs, or who require instant availability of HPC
+resources.</p>
 <p><br></p>
 <p>Main ideas:</p>
 <ul>
@@ -671,27 +836,49 @@ Additional Resources Available Through HITS RCI
 <div id="resource-management-portal" class="section level3">
 <h3>Resource Management Portal</h3>
 <p><img src="images/Module01_resource_management_portal.png" /></p>
-<p>A key part of how we will manage our ARC resources is through their Resource Management Portal, shown here.</p>
-<p>This portal can be found at <a href="https://portal.arc.umich.edu">https://portal.arc.umich.edu</a>.</p>
-<p>Let’s not go there just yet, but discuss what we see in this screenshot, and then move on to the exercise. We’ll learn about some of the differences that we may see depending on our current status and existing resources, and we’ll learn that there are some differences in the best way to request UMRCP resources depending on these details.</p>
+<p>A key part of how we will manage our ARC resources is through their
+Resource Management Portal, shown here.</p>
+<p>This portal can be found at <a
+href="https://portal.arc.umich.edu">https://portal.arc.umich.edu</a>.</p>
+<p>Let’s not go there just yet, but discuss what we see in this
+screenshot, and then move on to the exercise. We’ll learn about some of
+the differences that we may see depending on our current status and
+existing resources, and we’ll learn that there are some differences in
+the best way to request UMRCP resources depending on these details.</p>
 <p><br></p>
 </div>
 </div>
 <div id="exercise-make-a-game-plan-for-umrcp" class="section level2">
 <h2>Exercise: Make a Game Plan for UMRCP</h2>
-<p>In this exercise we will determine the needs for UMRCP enrollment by audience &amp; their PIs.</p>
-<p>There are two video links below. There’s a decent amount of overlap in the content, and the main ideas are pretty similar. In either case, we will be filling out the UMRCP web forms as shown in the videos. Depending on our current status though, we may have different optimal starting points and different things to consider.</p>
+<p>In this exercise we will determine the needs for UMRCP enrollment by
+audience &amp; their PIs.</p>
+<p>There are two video links below. There’s a decent amount of overlap
+in the content, and the main ideas are pretty similar. In either case,
+we will be filling out the UMRCP web forms as shown in the videos.
+Depending on our current status though, we may have different optimal
+starting points and different things to consider.</p>
 <p><br></p>
-<p><a href="https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561">UMRCP How to Enroll - New to ARC Services</a></p>
+<p><a
+href="https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561">UMRCP
+How to Enroll - New to ARC Services</a></p>
 <p><br></p>
-<p><a href="https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561">UMRCP How to Enroll - Existing Owner of ARC Services</a></p>
+<p><a
+href="https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561">UMRCP
+How to Enroll - Existing Owner of ARC Services</a></p>
 <p><br> <br></p>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module01_Warming_Up.html">Previous lesson</a></th>
+<th align="left"><a href="Module01_Warming_Up.html">Previous
+lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module02_transferring_data_globus.html">Next lesson</a></th>
+<th align="right"><a href="Module02_transferring_data_globus.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>

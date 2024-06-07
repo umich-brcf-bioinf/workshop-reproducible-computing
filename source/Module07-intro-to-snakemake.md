@@ -273,5 +273,5 @@ Given this DAG can you fill in the missing parts of this Snakefile?
 Exercise 1B:
 Use params and a config file to extract hardcoded inputs and "magic values".
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Previous lesson](Module06-intro-to-workflow-automation.html) | [Top of this lesson](#top) | [Next lesson](Module08-advanced-snakemake.html) |
 | :--- | :----: | ---: |

@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Advanced Snakemake</title>
+<title>Intro to workflow automation</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -425,7 +425,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Advanced Snakemake</h1>
+<h1 class="title toc-ignore">Intro to workflow automation</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -439,42 +439,85 @@ pre {
   font-size: 12pt
 }
 </style>
-<p>By the end of this module, we will: * Call a shell script from a
-Snakefile * Understand how to fine-tune resource allocations like CPUs,
-memory, time * Understand how to use conda/singularity in workflows *
-Use a profile run a Snakemake workflow using SLURM/GreatLakes * Connect
-to a specifc login-node and use <code>tmux</code> to simplify
-long-running Snakemake jobs * Review best practices for organizing a
-Snakemake workflow</p>
+<p>By the end of this module, we will: * Understand what workflow
+automation is and how it helps reproducibility. * Consider different
+ways that workflows can scale. * Introduce the notion of “pleasingly
+parallel” transformations * Make a “driver script” to execute a “wide”
+automation * Define the notion of a workflow resource footprint *
+Understand the advantage of “job launcher” and use it to execute “wide”
+automation * Make a driver script to execute “tall” automation *
+Understand the limitations of a simple driver script.</p>
 <div id="header-1" class="section level2">
 <h2>Header 1</h2>
 </div>
 <div id="header-2" class="section level2">
 <h2>Header 2</h2>
+<div id="pro-tips" class="section level3">
+<h3>Pro tips</h3>
+<ol style="list-style-type: decimal">
+<li><strong>Do not try to automate something that you cannot do by
+hand.</strong></li>
+<li><strong>Make it right. Make it clear. Make it efficient. (In that
+order.)</strong></li>
+<li><strong>Build a README for each workflow.</strong> Consider
+including:
+<ul>
+<li>Your name/email</li>
+<li>The date</li>
+<li>How to install the workflow</li>
+<li>How to run the workflow</li>
+<li>Any necessary context/constraints that would help your future
+collaborator reproduce your results.</li>
+</ul></li>
+<li><strong>Develop incrementally.</strong> Break workflow development
+into <strong>at least</strong> three steps:
+<ol style="list-style-type: lower-alpha">
+<li>do one sample and verify correctness of outputs. (For a large
+dataset consider starting with subsetted input dataset so you can
+iterate quicker.)</li>
+<li>scale to a few samples and check those outputs; tune resource
+allocations</li>
+<li>run the whole batch</li>
+</ol></li>
+<li><strong>Automate the workflow with the data you have.</strong> Don’t
+generalize a workflow too soon. You might see that a workflow could be
+parameterized/extended to apply to new types of data. Feel that
+excitement, note the opportunity in the README, and trust that you will
+make that change when you need to.</li>
+</ol>
+</div>
+</div>
+<div id="todo-exercise-1" class="section level2">
+<h2>TODO Exercise 1</h2>
 </div>
 <div id="key-ideas" class="section level2">
 <h2>Key ideas</h2>
 <ul>
-<li>TODO</li>
-<li>Be a good neighbor</li>
+<li>Achieving reproducible research requires a blend of documentation
+and automation.</li>
+<li>Be kind to your future self; they will thank you for the README you
+left them.</li>
+<li>Automation helps reproducibility:
+<ul>
+<li>Automation shrinks your README.</li>
+<li>Automation simplifies validation of your workflow.</li>
+<li>Automation enables repetition.</li>
+<li>Automation streamlines sharing.</li>
+<li>Automation scales to larger inputs</li>
+</ul></li>
+<li>Some transformations are “tall” i.e. a series of chained
+transformations on a single input. Some transformations are “wide”
+i.e. a simple transform applied to many inputs. And some are both.</li>
+<li>A driver script is a straightforward approach to simple
+transformation across a small to moderate number of samples with a low
+resource footprint.</li>
+<li>The <strong>SLURM job launcher</strong> allows you to gather many
+parallel tasks into a main job, in effect creating a transient
+sub-cluster within the main HPC.</li>
+<li>For a more complex transformation, a driver script can be either
+simple or resource efficient - choose one. Consider more robust
+solutions (e.g. Snakemake) as necessary.</li>
 </ul>
-<p>Exercise 1: consider the profile config:
-alcott_snakemake/config/profile/config.yaml Look up the meaning of TODO
-in the snakemake doc:</p>
-<p>Choose another config entry that you don’t understand and review the
-correspoinding doc</p>
-<p>Exercise 2A: cd to the project publication_snakemake_2 Fill in the
-missing parts of this Snakefile so it matches the supplied DAG figure.
-OK to confirm it runs on the login-node.</p>
-<p>Exercise 2B: Make a profile config and run this on the Great Lakes
-cluster worker nodes. (You can copy the config from
-alcott_snakemake/config/profile/config.yaml.)</p>
-<p>Exercise 3C: Rearrange the Snakefile so that rules live in their own
-files in a new <code>rules</code> directory and are imported to the
-Snakefile.</p>
-<p>Exercise 4D: In rule TODO, replace the module loads with a container
-directive to specify a singularity instance for the analysis rules. TODO
-directive text</p>
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -483,10 +526,12 @@ directive text</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module07-intro-to-snakemake.html">Previous
+<th align="left"><a
+href="Module05_containers_docker_singularity.html">Previous
 lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module99_Wrap_up.html">Wrap up</a></th>
+<th align="right"><a href="Module07-intro-to-snakemake.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>
@@ -494,7 +539,7 @@ lesson</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQWR2YW5jZWQgU25ha2VtYWtlIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoqIENhbGwgYSBzaGVsbCBzY3JpcHQgZnJvbSBhIFNuYWtlZmlsZQoqIFVuZGVyc3RhbmQgaG93IHRvIGZpbmUtdHVuZSByZXNvdXJjZSBhbGxvY2F0aW9ucyBsaWtlIENQVXMsIG1lbW9yeSwgdGltZQoqIFVuZGVyc3RhbmQgaG93IHRvIHVzZSBjb25kYS9zaW5ndWxhcml0eSBpbiB3b3JrZmxvd3MKKiBVc2UgYSBwcm9maWxlIHJ1biBhIFNuYWtlbWFrZSB3b3JrZmxvdyB1c2luZyBTTFVSTS9HcmVhdExha2VzCiogQ29ubmVjdCB0byBhIHNwZWNpZmMgbG9naW4tbm9kZSBhbmQgdXNlIGB0bXV4YCB0byBzaW1wbGlmeSBsb25nLXJ1bm5pbmcKICBTbmFrZW1ha2Ugam9icwoqIFJldmlldyBiZXN0IHByYWN0aWNlcyBmb3Igb3JnYW5pemluZyBhIFNuYWtlbWFrZSB3b3JrZmxvdwoKIyMgSGVhZGVyIDEKCiMjIEhlYWRlciAyCgoKIyMgS2V5IGlkZWFzCgoqIFRPRE8KKiBCZSBhIGdvb2QgbmVpZ2hib3IKCgpFeGVyY2lzZSAxOgpjb25zaWRlciB0aGUgcHJvZmlsZSBjb25maWc6IGFsY290dF9zbmFrZW1ha2UvY29uZmlnL3Byb2ZpbGUvY29uZmlnLnlhbWwKTG9vayB1cCB0aGUgbWVhbmluZyBvZiBUT0RPIGluIHRoZSBzbmFrZW1ha2UgZG9jOgoKQ2hvb3NlIGFub3RoZXIgY29uZmlnIGVudHJ5IHRoYXQgeW91IGRvbid0IHVuZGVyc3RhbmQgYW5kIHJldmlldyB0aGUgY29ycmVzcG9pbmRpbmcgZG9jIAoKRXhlcmNpc2UgMkE6CmNkIHRvIHRoZSBwcm9qZWN0IHB1YmxpY2F0aW9uX3NuYWtlbWFrZV8yCkZpbGwgaW4gdGhlIG1pc3NpbmcgcGFydHMgb2YgdGhpcyBTbmFrZWZpbGUgc28gaXQgbWF0Y2hlcyB0aGUgc3VwcGxpZWQgREFHIGZpZ3VyZS4KT0sgdG8gY29uZmlybSBpdCBydW5zIG9uIHRoZSBsb2dpbi1ub2RlLgoKRXhlcmNpc2UgMkI6Ck1ha2UgYSBwcm9maWxlIGNvbmZpZyBhbmQgcnVuIHRoaXMgb24gdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgd29ya2VyIG5vZGVzLiAoWW91IGNhbiBjb3B5IHRoZSBjb25maWcgZnJvbSBhbGNvdHRfc25ha2VtYWtlL2NvbmZpZy9wcm9maWxlL2NvbmZpZy55YW1sLikKCkV4ZXJjaXNlIDNDOiAKUmVhcnJhbmdlIHRoZSBTbmFrZWZpbGUgc28gdGhhdCBydWxlcwpsaXZlIGluIHRoZWlyIG93biBmaWxlcyBpbiBhIG5ldyBgcnVsZXNgIGRpcmVjdG9yeSBhbmQgYXJlIGltcG9ydGVkIHRvIHRoZSAKU25ha2VmaWxlLgoKRXhlcmNpc2UgNEQ6CkluIHJ1bGUgVE9ETywgcmVwbGFjZSB0aGUgbW9kdWxlIGxvYWRzIHdpdGggYSBjb250YWluZXIgZGlyZWN0aXZlIHRvIHNwZWNpZnkgYSBzaW5ndWxhcml0eSBpbnN0YW5jZSBmb3IgdGhlIGFuYWx5c2lzIHJ1bGVzLgpUT0RPIGRpcmVjdGl2ZSB0ZXh0CgoKCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlMDctaW50cm8tdG8tc25ha2VtYWtlLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbV3JhcCB1cF0oTW9kdWxlOTlfV3JhcF91cC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm8gdG8gd29ya2Zsb3cgYXV0b21hdGlvbiIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKQnkgdGhlIGVuZCBvZiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKKiBVbmRlcnN0YW5kIHdoYXQgd29ya2Zsb3cgYXV0b21hdGlvbiBpcyBhbmQgaG93IGl0IGhlbHBzIHJlcHJvZHVjaWJpbGl0eS4KKiBDb25zaWRlciBkaWZmZXJlbnQgd2F5cyB0aGF0IHdvcmtmbG93cyBjYW4gc2NhbGUuCiogSW50cm9kdWNlIHRoZSBub3Rpb24gb2YgInBsZWFzaW5nbHkgcGFyYWxsZWwiIHRyYW5zZm9ybWF0aW9ucwoqIE1ha2UgYSAiZHJpdmVyIHNjcmlwdCIgdG8gZXhlY3V0ZSBhICJ3aWRlIiBhdXRvbWF0aW9uCiogRGVmaW5lIHRoZSBub3Rpb24gb2YgYSB3b3JrZmxvdyByZXNvdXJjZSBmb290cHJpbnQKKiBVbmRlcnN0YW5kIHRoZSBhZHZhbnRhZ2Ugb2YgImpvYiBsYXVuY2hlciIgYW5kIHVzZSBpdCB0byBleGVjdXRlICJ3aWRlIiBhdXRvbWF0aW9uCiogTWFrZSBhIGRyaXZlciBzY3JpcHQgdG8gZXhlY3V0ZSAidGFsbCIgYXV0b21hdGlvbgoqIFVuZGVyc3RhbmQgdGhlIGxpbWl0YXRpb25zIG9mIGEgc2ltcGxlIGRyaXZlciBzY3JpcHQuCgojIyBIZWFkZXIgMQoKIyMgSGVhZGVyIDIKCiMjIyBQcm8gdGlwcwoKMS4gKipEbyBub3QgdHJ5IHRvIGF1dG9tYXRlIHNvbWV0aGluZyB0aGF0IHlvdSBjYW5ub3QgZG8gYnkgaGFuZC4qKgoyLiAqKk1ha2UgaXQgcmlnaHQuIE1ha2UgaXQgY2xlYXIuIE1ha2UgaXQgZWZmaWNpZW50LiAoSW4gdGhhdCBvcmRlci4pKioKMy4gKipCdWlsZCBhIFJFQURNRSBmb3IgZWFjaCB3b3JrZmxvdy4qKiAKICAgQ29uc2lkZXIgaW5jbHVkaW5nOgogICAtIFlvdXIgbmFtZS9lbWFpbAogICAtIFRoZSBkYXRlCiAgIC0gSG93IHRvIGluc3RhbGwgdGhlIHdvcmtmbG93CiAgIC0gSG93IHRvIHJ1biB0aGUgd29ya2Zsb3cKICAgLSBBbnkgbmVjZXNzYXJ5IGNvbnRleHQvY29uc3RyYWludHMgdGhhdCB3b3VsZCBoZWxwIHlvdXIgZnV0dXJlIGNvbGxhYm9yYXRvcgogICAgIHJlcHJvZHVjZSB5b3VyIHJlc3VsdHMuCjQuICoqRGV2ZWxvcCBpbmNyZW1lbnRhbGx5LioqCiAgIEJyZWFrIHdvcmtmbG93IGRldmVsb3BtZW50IGludG8gX19hdCBsZWFzdF9fIHRocmVlIHN0ZXBzOgogICBhKSBkbyBvbmUgc2FtcGxlIGFuZCB2ZXJpZnkgY29ycmVjdG5lc3Mgb2Ygb3V0cHV0cy4gKEZvciBhIGxhcmdlIGRhdGFzZXQKICBjb25zaWRlciBzdGFydGluZyB3aXRoIHN1YnNldHRlZCBpbnB1dCBkYXRhc2V0IHNvIHlvdSBjYW4gaXRlcmF0ZSBxdWlja2VyLikKICAgYikgc2NhbGUgdG8gYSBmZXcgc2FtcGxlcyBhbmQgY2hlY2sgdGhvc2Ugb3V0cHV0czsgdHVuZSByZXNvdXJjZSBhbGxvY2F0aW9ucwogICBjKSBydW4gdGhlIHdob2xlIGJhdGNoCjUuICoqQXV0b21hdGUgdGhlIHdvcmtmbG93IHdpdGggdGhlIGRhdGEgeW91IGhhdmUuKiogCiAgIERvbid0IGdlbmVyYWxpemUgYSB3b3JrZmxvdyB0b28gc29vbi4gWW91IG1pZ2h0IHNlZSB0aGF0IGEgd29ya2Zsb3cgY291bGQgYmUgCiAgIHBhcmFtZXRlcml6ZWQvZXh0ZW5kZWQgdG8gYXBwbHkgdG8gbmV3IHR5cGVzIG9mIGRhdGEuIEZlZWwgdGhhdCBleGNpdGVtZW50LCAKICAgbm90ZSB0aGUgb3Bwb3J0dW5pdHkgaW4gdGhlIFJFQURNRSwgYW5kIHRydXN0IHRoYXQgeW91IHdpbGwgbWFrZSB0aGF0IGNoYW5nZQogICB3aGVuIHlvdSBuZWVkIHRvLgoKIyMgVE9ETyBFeGVyY2lzZSAxCgojIyBLZXkgaWRlYXMKCiogQWNoaWV2aW5nIHJlcHJvZHVjaWJsZSByZXNlYXJjaCByZXF1aXJlcyBhIGJsZW5kIG9mIGRvY3VtZW50YXRpb24gYW5kIGF1dG9tYXRpb24uCiogQmUga2luZCB0byB5b3VyIGZ1dHVyZSBzZWxmOyB0aGV5IHdpbGwgdGhhbmsgeW91IGZvciB0aGUgUkVBRE1FIHlvdSBsZWZ0IHRoZW0uCiogQXV0b21hdGlvbiBoZWxwcyByZXByb2R1Y2liaWxpdHk6CiAgKiBBdXRvbWF0aW9uIHNocmlua3MgeW91ciBSRUFETUUuCiAgKiBBdXRvbWF0aW9uIHNpbXBsaWZpZXMgdmFsaWRhdGlvbiBvZiB5b3VyIHdvcmtmbG93LgogICogQXV0b21hdGlvbiBlbmFibGVzIHJlcGV0aXRpb24uCiAgKiBBdXRvbWF0aW9uIHN0cmVhbWxpbmVzIHNoYXJpbmcuCiAgKiBBdXRvbWF0aW9uIHNjYWxlcyB0byBsYXJnZXIgaW5wdXRzCiogU29tZSB0cmFuc2Zvcm1hdGlvbnMgYXJlICJ0YWxsIiBpLmUuIGEgc2VyaWVzIG9mIGNoYWluZWQgdHJhbnNmb3JtYXRpb25zIG9uIAogIGEgc2luZ2xlIGlucHV0LiBTb21lIHRyYW5zZm9ybWF0aW9ucyBhcmUgIndpZGUiIGkuZS4gYSBzaW1wbGUgdHJhbnNmb3JtIAogIGFwcGxpZWQgdG8gbWFueSBpbnB1dHMuIEFuZCBzb21lIGFyZSBib3RoLgoqIEEgZHJpdmVyIHNjcmlwdCBpcyBhIHN0cmFpZ2h0Zm9yd2FyZCBhcHByb2FjaCB0byBzaW1wbGUgdHJhbnNmb3JtYXRpb24gYWNyb3NzCiAgYSBzbWFsbCB0byBtb2RlcmF0ZSBudW1iZXIgb2Ygc2FtcGxlcyB3aXRoIGEgbG93IHJlc291cmNlIGZvb3RwcmludC4KKiBUaGUgKipTTFVSTSBqb2IgbGF1bmNoZXIqKiBhbGxvd3MgeW91IHRvIGdhdGhlciBtYW55IHBhcmFsbGVsIHRhc2tzIGludG8gYSBtYWluIGpvYiwKICBpbiBlZmZlY3QgY3JlYXRpbmcgYSB0cmFuc2llbnQgc3ViLWNsdXN0ZXIgd2l0aGluIHRoZSBtYWluIEhQQy4KKiBGb3IgYSBtb3JlIGNvbXBsZXggdHJhbnNmb3JtYXRpb24sIGEgZHJpdmVyIHNjcmlwdCBjYW4gYmUgZWl0aGVyIHNpbXBsZSBvcgogIHJlc291cmNlIGVmZmljaWVudCAtIGNob29zZSBvbmUuIENvbnNpZGVyIG1vcmUgcm9idXN0IHNvbHV0aW9ucyAoZS5nLiBTbmFrZW1ha2UpIGFzIAogIG5lY2Vzc2FyeS4KCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlMDVfY29udGFpbmVyc19kb2NrZXJfc2luZ3VsYXJpdHkuaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlMDctaW50cm8tdG8tc25ha2VtYWtlLmh0bWwpIHwKfCA6LS0tIHwgOi0tLS06IHwgLS0tOiB8Cg==</div>
 
 
 </div>
@@ -532,7 +577,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Module08-advanced-snakemake.md");
+  window.initializeSourceEmbed("Module06-intro-to-workflow-automation.md");
 });
 </script>
 
