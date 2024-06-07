@@ -14,7 +14,7 @@
 
 <title>Great Lakes HPC Cluster</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -30,9 +30,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
@@ -247,69 +244,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -317,16 +251,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -448,22 +372,15 @@ pre {
 <li>discuss software modules available on Great Lakes</li>
 <li>review SBATCH and submit jobs for our analysis</li>
 </ul>
-<div id="review---umrcp-and-the-components-well-use-in-this-workshop"
-class="section level2">
+<div id="review---umrcp-and-the-components-well-use-in-this-workshop" class="section level2">
 <h2>Review - UMRCP and the Components We’ll Use in This Workshop</h2>
 <p><img src="images/Module01_umrcp_provides.png" /></p>
-<p>UMRCP provides compute hours on the Great Lakes and/or Armis
-clusters, fast “Turbo” storage, slower tape-based “Data Den” storage,
-and a “Secure Enclave” RAM allocation. In this workshop, we’ll be
-primarily using the Great Lakes cluster and the Turbo and Data Den
-storage allocations.</p>
+<p>UMRCP provides compute hours on the Great Lakes and/or Armis clusters, fast “Turbo” storage, slower tape-based “Data Den” storage, and a “Secure Enclave” RAM allocation. In this workshop, we’ll be primarily using the Great Lakes cluster and the Turbo and Data Den storage allocations.</p>
 </div>
 <div id="great-lakes-hpc" class="section level2">
 <h2>Great Lakes HPC</h2>
-<p><a href="https://arc.umich.edu/greatlakes/"
-class="uri">https://arc.umich.edu/greatlakes/</a></p>
-<p><a href="https://arc.umich.edu/greatlakes/slurm-user-guide/"
-class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
+<p><a href="https://arc.umich.edu/greatlakes/" class="uri">https://arc.umich.edu/greatlakes/</a></p>
+<p><a href="https://arc.umich.edu/greatlakes/slurm-user-guide/" class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
 <p><img src="images/Module03_cluster_overview.png" /></p>
 <div id="scheduled-jobs" class="section level3">
 <h3>Scheduled Jobs</h3>
@@ -471,39 +388,25 @@ class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
 </div>
 <div id="interactive-vs-scripted-jobs" class="section level3">
 <h3>Interactive vs Scripted Jobs</h3>
-<p>As we’ve discussed, for any computational tasks that are moderately
-demanding, we should not attempt them on the login nodes. Instead, we
-must request resources and arrange for our job to run on a worker node.
-In yesterday’s exercises, we explored a couple of quick ways to request
-resources and run jobs using the ‘Interactive App’ web-based tools. Now,
-we’ll discuss some additional, very useful and powerful ways that we can
-request resources and run jobs - through interactive jobs and scripted
-jobs.</p>
+<p>As we’ve discussed, for any computational tasks that are moderately demanding, we should not attempt them on the login nodes. Instead, we must request resources and arrange for our job to run on a worker node. In yesterday’s exercises, we explored a couple of quick ways to request resources and run jobs using the ‘Interactive App’ web-based tools. Now, we’ll discuss some additional, very useful and powerful ways that we can request resources and run jobs - through interactive jobs and scripted jobs.</p>
 <p>FIXME: Elaborate right-sizing your SBATCH</p>
 </div>
 <div id="interactive-jobs" class="section level3">
 <h3>Interactive Jobs</h3>
 <pre><code>srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash</code></pre>
 </div>
-<div id="exercise---log-in-to-great-lakes-using-ssh"
-class="section level3">
+<div id="exercise---log-in-to-great-lakes-using-ssh" class="section level3">
 <h3>Exercise - Log in to Great Lakes using ssh</h3>
-<p>Following along with the instructor, we’ll all log in to the Great
-Lakes cluster using ssh</p>
+<p>Following along with the instructor, we’ll all log in to the Great Lakes cluster using ssh</p>
 </div>
-<div id="exercise---launch-an-interactive-job-and-calculate-md5sum"
-class="section level3">
+<div id="exercise---launch-an-interactive-job-and-calculate-md5sum" class="section level3">
 <h3>Exercise - Launch an Interactive Job and Calculate MD5sum</h3>
-<p>Following along with instructor, we’ll launch an interactive job
-using <code>srun</code>. Once the job is allocated, we’ll use the
-<code>md5sum</code> command to confirm the success and completeness of
-our data transfer.</p>
+<p>Following along with instructor, we’ll launch an interactive job using <code>srun</code>. Once the job is allocated, we’ll use the <code>md5sum</code> command to confirm the success and completeness of our data transfer.</p>
 </div>
 <div id="lmod-modules" class="section level3">
 <h3>LMOD Modules</h3>
 <p>FIXME: Elaborate on LMOD</p>
-<p><a href="https://arc.umich.edu/software/"
-class="uri">https://arc.umich.edu/software/</a></p>
+<p><a href="https://arc.umich.edu/software/" class="uri">https://arc.umich.edu/software/</a></p>
 </div>
 <div id="sbatch" class="section level3">
 <h3>SBATCH</h3>
@@ -534,41 +437,21 @@ sleep 60</code></pre>
 </div>
 <div id="exercise-sbatch-hello-world" class="section level2">
 <h2>Exercise SBATCH Hello World</h2>
-<p>Following along with the instructor, we will inspect the
-<code>hello_SBATCH.sh</code> shell script that each of us have in our
-<code>$WORKSHOP_HOME</code> directory, review the preamble and body of
-it, and then submit it with <code>sbatch</code>. Once it is running, we
-will use <code>squeue</code> to view the status of the job. After it
-completes, we’ll view its log.</p>
+<p>Following along with the instructor, we will inspect the <code>hello_SBATCH.sh</code> shell script that each of us have in our <code>$WORKSHOP_HOME</code> directory, review the preamble and body of it, and then submit it with <code>sbatch</code>. Once it is running, we will use <code>squeue</code> to view the status of the job. After it completes, we’ll view its log.</p>
 </div>
 <div id="exercise-srun-with-lmod" class="section level2">
 <h2>Exercise <code>srun</code> with LMOD</h2>
-<p>Following along with the instructor, we’ll launch an interactive job
-with <code>srun</code>, load the samtools module, and use samtools to
-filter our sample_A BAM file to select only alignments from chromosome
-19.</p>
+<p>Following along with the instructor, we’ll launch an interactive job with <code>srun</code>, load the samtools module, and use samtools to filter our sample_A BAM file to select only alignments from chromosome 19.</p>
 </div>
 <div id="exercise-sbatch-with-lmod" class="section level2">
 <h2>Exercise SBATCH with LMOD</h2>
-<p>Following along with the instructor, we’ll create an SBATCH script
-that is similar to our previous <code>srun</code> exercise, and use that
-to filter our sample_B BAM file in the same fashion. We will launch it
-with <code>sbatch</code> and inspect the results. If it is successful,
-we will continue this exercise by creating and running two more SBATCH
-scripts for sample_C and sample_D.</p>
-<table style="width:100%;">
-<colgroup>
-<col width="28%" />
-<col width="42%" />
-<col width="28%" />
-</colgroup>
+<p>Following along with the instructor, we’ll create an SBATCH script that is similar to our previous <code>srun</code> exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with <code>sbatch</code> and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.</p>
+<table>
 <thead>
 <tr class="header">
-<th align="left"><a href="odule03a_sneak_peak_great_lakes.html">Previous
-lesson</a></th>
+<th align="left"><a href="odule03a_sneak_peak_great_lakes.html">Previous lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module04_software_management_conda.html">Next
-lesson</a></th>
+<th align="right"><a href="Module04_software_management_conda.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
@@ -576,11 +459,9 @@ lesson</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiR3JlYXQgTGFrZXMgSFBDIENsdXN0ZXIiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBkaXNjdXNzIHRoZSBHcmVhdCBMYWtlcyBIUEMgY2x1c3RlciBhbmQgcmV2aWV3IGl0cyB1c2FnZQoqIGRpc2N1c3Mgc29mdHdhcmUgbW9kdWxlcyBhdmFpbGFibGUgb24gR3JlYXQgTGFrZXMKKiByZXZpZXcgU0JBVENIIGFuZCBzdWJtaXQgam9icyBmb3Igb3VyIGFuYWx5c2lzCgojIyBSZXZpZXcgLSBVTVJDUCBhbmQgdGhlIENvbXBvbmVudHMgV2UnbGwgVXNlIGluIFRoaXMgV29ya3Nob3AKCiFbXShpbWFnZXMvTW9kdWxlMDFfVU1SQ1BfcHJvdmlkZXMucG5nKQoKVU1SQ1AgcHJvdmlkZXMgY29tcHV0ZSBob3VycyBvbiB0aGUgR3JlYXQgTGFrZXMgYW5kL29yIEFybWlzIGNsdXN0ZXJzLCBmYXN0ICJUdXJibyIgc3RvcmFnZSwgc2xvd2VyIHRhcGUtYmFzZWQgIkRhdGEgRGVuIiBzdG9yYWdlLCBhbmQgYSAiU2VjdXJlIEVuY2xhdmUiIFJBTSBhbGxvY2F0aW9uLiBJbiB0aGlzIHdvcmtzaG9wLCB3ZSdsbCBiZSBwcmltYXJpbHkgdXNpbmcgdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgYW5kIHRoZSBUdXJibyBhbmQgRGF0YSBEZW4gc3RvcmFnZSBhbGxvY2F0aW9ucy4KCgojIyBHcmVhdCBMYWtlcyBIUEMKCmh0dHBzOi8vYXJjLnVtaWNoLmVkdS9ncmVhdGxha2VzLwoKaHR0cHM6Ly9hcmMudW1pY2guZWR1L2dyZWF0bGFrZXMvc2x1cm0tdXNlci1ndWlkZS8KCiFbXShpbWFnZXMvTW9kdWxlMDNfY2x1c3Rlcl9vdmVydmlldy5wbmcpCgojIyMgU2NoZWR1bGVkIEpvYnMKCiFbXShpbWFnZXMvTW9kdWxlMDNfc2NoZWR1bGVkX2pvYnMucG5nKQoKCiMjIyBJbnRlcmFjdGl2ZSB2cyBTY3JpcHRlZCBKb2JzCgpBcyB3ZSd2ZSBkaXNjdXNzZWQsIGZvciBhbnkgY29tcHV0YXRpb25hbCB0YXNrcyB0aGF0IGFyZSBtb2RlcmF0ZWx5IGRlbWFuZGluZywgd2Ugc2hvdWxkIG5vdCBhdHRlbXB0IHRoZW0gb24gdGhlIGxvZ2luIG5vZGVzLiBJbnN0ZWFkLCB3ZSBtdXN0IHJlcXVlc3QgcmVzb3VyY2VzIGFuZCBhcnJhbmdlIGZvciBvdXIgam9iIHRvIHJ1biBvbiBhIHdvcmtlciBub2RlLiBJbiB5ZXN0ZXJkYXkncyBleGVyY2lzZXMsIHdlIGV4cGxvcmVkIGEgY291cGxlIG9mIHF1aWNrIHdheXMgdG8gcmVxdWVzdCByZXNvdXJjZXMgYW5kIHJ1biBqb2JzIHVzaW5nIHRoZSAnSW50ZXJhY3RpdmUgQXBwJyB3ZWItYmFzZWQgdG9vbHMuIE5vdywgd2UnbGwgZGlzY3VzcyBzb21lIGFkZGl0aW9uYWwsIHZlcnkgdXNlZnVsIGFuZCBwb3dlcmZ1bCB3YXlzIHRoYXQgd2UgY2FuIHJlcXVlc3QgcmVzb3VyY2VzIGFuZCBydW4gam9icyAtIHRocm91Z2ggaW50ZXJhY3RpdmUgam9icyBhbmQgc2NyaXB0ZWQgam9icy4KCkZJWE1FOiBFbGFib3JhdGUgcmlnaHQtc2l6aW5nIHlvdXIgU0JBVENICgojIyMgSW50ZXJhY3RpdmUgSm9icwoKYGBgCnNydW4gLS1wdHkgLS1qb2ItbmFtZT0ke1VTRVJ9X2NhbGN1bGF0ZV9tZDVzdW0gLS1hY2NvdW50PWJpb2luZl93a3NocF9jbGFzcyAtLXBhcnRpdGlvbiBzdGFuZGFyZCAtLW1lbT0yMDAwIC0tY3B1cy1wZXItdGFzaz0xIC0tdGltZT0wMDozMDowMCAvYmluL2Jhc2gKYGBgCgojIyMgRXhlcmNpc2UgLSBMb2cgaW4gdG8gR3JlYXQgTGFrZXMgdXNpbmcgc3NoCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgYWxsIGxvZyBpbiB0byB0aGUgR3JlYXQgTGFrZXMgY2x1c3RlciB1c2luZyBzc2gKCiMjIyBFeGVyY2lzZSAtIExhdW5jaCBhbiBJbnRlcmFjdGl2ZSBKb2IgYW5kIENhbGN1bGF0ZSBNRDVzdW0KCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIHdlJ2xsIGxhdW5jaCBhbiBpbnRlcmFjdGl2ZSBqb2IgdXNpbmcgYHNydW5gLiBPbmNlIHRoZSBqb2IgaXMgYWxsb2NhdGVkLCB3ZSdsbCB1c2UgdGhlIGBtZDVzdW1gIGNvbW1hbmQgdG8gY29uZmlybSB0aGUgc3VjY2VzcyBhbmQgY29tcGxldGVuZXNzIG9mIG91ciBkYXRhIHRyYW5zZmVyLgoKIyMjIExNT0QgTW9kdWxlcwoKRklYTUU6IEVsYWJvcmF0ZSBvbiBMTU9ECgpodHRwczovL2FyYy51bWljaC5lZHUvc29mdHdhcmUvCgoKIyMjIFNCQVRDSAoKYGBgCiMhL2Jpbi9iYXNoCiMgVGhlIGludGVycHJldGVyIHVzZWQgdG8gZXhlY3V0ZSB0aGUgc2NyaXB0Cgoj4oCcI1NCQVRDSOKAnSBkaXJlY3RpdmVzIHRoYXQgY29udmV5IHN1Ym1pc3Npb24gb3B0aW9uczoKCiNTQkFUQ0ggLS1qb2ItbmFtZT1IZWxsb19TQkFUQ0gKI1NCQVRDSCAtLWNwdXMtcGVyLXRhc2s9MQojU0JBVENIIC0tbm9kZXM9MQojU0JBVENIIC0tbnRhc2tzLXBlci1ub2RlPTEKI1NCQVRDSCAtLW1lbS1wZXItY3B1PTQwMG0KI1NCQVRDSCAtLXRpbWU9MDA6MDU6MDAKI1NCQVRDSCAtLWFjY291bnQ9YmlvaW5mX3drc2hwX2NsYXNzCiNTQkFUQ0ggLS1wYXJ0aXRpb249c3RhbmRhcmQKI1NCQVRDSCAtLW91dHB1dD0vbmZzL3R1cmJvL3VtbXMtYmlvaW5mLXdrc2hwL3dvcmtzaG9wL2hvbWUvJXUvc2xlZXBpbmdfYmVhci9sb2dzLyV4LSVqLmxvZwoKIyBUaGUgYXBwbGljYXRpb24ocykgdG8gZXhlY3V0ZSBhbG9uZyB3aXRoIGl0cyBpbnB1dCBhcmd1bWVudHMgYW5kIG9wdGlvbnM6Cgpob3N0bmFtZQpwd2QKCmVjaG8gIkhlbGxvLCBTQkFUQ0ghIgoKc2xlZXAgNjAKYGBgCgojIyBFeGVyY2lzZSBTQkFUQ0ggSGVsbG8gV29ybGQKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSB3aWxsIGluc3BlY3QgdGhlIGBoZWxsb19TQkFUQ0guc2hgIHNoZWxsIHNjcmlwdCB0aGF0IGVhY2ggb2YgdXMgaGF2ZSBpbiBvdXIgYCRXT1JLU0hPUF9IT01FYCBkaXJlY3RvcnksIHJldmlldyB0aGUgcHJlYW1ibGUgYW5kIGJvZHkgb2YgaXQsIGFuZCB0aGVuIHN1Ym1pdCBpdCB3aXRoIGBzYmF0Y2hgLiBPbmNlIGl0IGlzIHJ1bm5pbmcsIHdlIHdpbGwgdXNlIGBzcXVldWVgIHRvIHZpZXcgdGhlIHN0YXR1cyBvZiB0aGUgam9iLiBBZnRlciBpdCBjb21wbGV0ZXMsIHdlJ2xsIHZpZXcgaXRzIGxvZy4KCiMjIEV4ZXJjaXNlIGBzcnVuYCB3aXRoIExNT0QKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gaW50ZXJhY3RpdmUgam9iIHdpdGggYHNydW5gLCBsb2FkIHRoZSBzYW10b29scyBtb2R1bGUsIGFuZCB1c2Ugc2FtdG9vbHMgdG8gZmlsdGVyIG91ciBzYW1wbGVfQSBCQU0gZmlsZSB0byBzZWxlY3Qgb25seSBhbGlnbm1lbnRzIGZyb20gY2hyb21vc29tZSAxOS4KCiMjIEV4ZXJjaXNlIFNCQVRDSCB3aXRoIExNT0QKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBjcmVhdGUgYW4gU0JBVENIIHNjcmlwdCB0aGF0IGlzIHNpbWlsYXIgdG8gb3VyIHByZXZpb3VzIGBzcnVuYCBleGVyY2lzZSwgYW5kIHVzZSB0aGF0IHRvIGZpbHRlciBvdXIgc2FtcGxlX0IgQkFNIGZpbGUgaW4gdGhlIHNhbWUgZmFzaGlvbi4gV2Ugd2lsbCBsYXVuY2ggaXQgd2l0aCBgc2JhdGNoYCBhbmQgaW5zcGVjdCB0aGUgcmVzdWx0cy4gSWYgaXQgaXMgc3VjY2Vzc2Z1bCwgd2Ugd2lsbCBjb250aW51ZSB0aGlzIGV4ZXJjaXNlIGJ5IGNyZWF0aW5nIGFuZCBydW5uaW5nIHR3byBtb3JlIFNCQVRDSCBzY3JpcHRzIGZvciBzYW1wbGVfQyBhbmQgc2FtcGxlX0QuCgoKfCBbUHJldmlvdXMgbGVzc29uXShvZHVsZTAzYV9zbmVha19wZWFrX2dyZWF0X2xha2VzLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZTA0X3NvZnR3YXJlX21hbmFnZW1lbnRfY29uZGEuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiR3JlYXQgTGFrZXMgSFBDIENsdXN0ZXIiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBkaXNjdXNzIHRoZSBHcmVhdCBMYWtlcyBIUEMgY2x1c3RlciBhbmQgcmV2aWV3IGl0cyB1c2FnZQoqIGRpc2N1c3Mgc29mdHdhcmUgbW9kdWxlcyBhdmFpbGFibGUgb24gR3JlYXQgTGFrZXMKKiByZXZpZXcgU0JBVENIIGFuZCBzdWJtaXQgam9icyBmb3Igb3VyIGFuYWx5c2lzCgojIyBSZXZpZXcgLSBVTVJDUCBhbmQgdGhlIENvbXBvbmVudHMgV2UnbGwgVXNlIGluIFRoaXMgV29ya3Nob3AKCiFbXShpbWFnZXMvTW9kdWxlMDFfVU1SQ1BfcHJvdmlkZXMucG5nKQoKVU1SQ1AgcHJvdmlkZXMgY29tcHV0ZSBob3VycyBvbiB0aGUgR3JlYXQgTGFrZXMgYW5kL29yIEFybWlzIGNsdXN0ZXJzLCBmYXN0ICJUdXJibyIgc3RvcmFnZSwgc2xvd2VyIHRhcGUtYmFzZWQgIkRhdGEgRGVuIiBzdG9yYWdlLCBhbmQgYSAiU2VjdXJlIEVuY2xhdmUiIFJBTSBhbGxvY2F0aW9uLiBJbiB0aGlzIHdvcmtzaG9wLCB3ZSdsbCBiZSBwcmltYXJpbHkgdXNpbmcgdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgYW5kIHRoZSBUdXJibyBhbmQgRGF0YSBEZW4gc3RvcmFnZSBhbGxvY2F0aW9ucy4KCgojIyBHcmVhdCBMYWtlcyBIUEMKCmh0dHBzOi8vYXJjLnVtaWNoLmVkdS9ncmVhdGxha2VzLwoKaHR0cHM6Ly9hcmMudW1pY2guZWR1L2dyZWF0bGFrZXMvc2x1cm0tdXNlci1ndWlkZS8KCiFbXShpbWFnZXMvTW9kdWxlMDNfY2x1c3Rlcl9vdmVydmlldy5wbmcpCgojIyMgU2NoZWR1bGVkIEpvYnMKCiFbXShpbWFnZXMvTW9kdWxlMDNfc2NoZWR1bGVkX2pvYnMucG5nKQoKCiMjIyBJbnRlcmFjdGl2ZSB2cyBTY3JpcHRlZCBKb2JzCgpBcyB3ZSd2ZSBkaXNjdXNzZWQsIGZvciBhbnkgY29tcHV0YXRpb25hbCB0YXNrcyB0aGF0IGFyZSBtb2RlcmF0ZWx5IGRlbWFuZGluZywgd2Ugc2hvdWxkIG5vdCBhdHRlbXB0IHRoZW0gb24gdGhlIGxvZ2luIG5vZGVzLiBJbnN0ZWFkLCB3ZSBtdXN0IHJlcXVlc3QgcmVzb3VyY2VzIGFuZCBhcnJhbmdlIGZvciBvdXIgam9iIHRvIHJ1biBvbiBhIHdvcmtlciBub2RlLiBJbiB5ZXN0ZXJkYXkncyBleGVyY2lzZXMsIHdlIGV4cGxvcmVkIGEgY291cGxlIG9mIHF1aWNrIHdheXMgdG8gcmVxdWVzdCByZXNvdXJjZXMgYW5kIHJ1biBqb2JzIHVzaW5nIHRoZSAnSW50ZXJhY3RpdmUgQXBwJyB3ZWItYmFzZWQgdG9vbHMuIE5vdywgd2UnbGwgZGlzY3VzcyBzb21lIGFkZGl0aW9uYWwsIHZlcnkgdXNlZnVsIGFuZCBwb3dlcmZ1bCB3YXlzIHRoYXQgd2UgY2FuIHJlcXVlc3QgcmVzb3VyY2VzIGFuZCBydW4gam9icyAtIHRocm91Z2ggaW50ZXJhY3RpdmUgam9icyBhbmQgc2NyaXB0ZWQgam9icy4KCkZJWE1FOiBFbGFib3JhdGUgcmlnaHQtc2l6aW5nIHlvdXIgU0JBVENICgojIyMgSW50ZXJhY3RpdmUgSm9icwoKYGBgCnNydW4gLS1wdHkgLS1qb2ItbmFtZT0ke1VTRVJ9X2NhbGN1bGF0ZV9tZDVzdW0gLS1hY2NvdW50PWJpb2luZl93a3NocF9jbGFzcyAtLXBhcnRpdGlvbiBzdGFuZGFyZCAtLW1lbT0yMDAwIC0tY3B1cy1wZXItdGFzaz0xIC0tdGltZT0wMDozMDowMCAvYmluL2Jhc2gKYGBgCgojIyMgRXhlcmNpc2UgLSBMb2cgaW4gdG8gR3JlYXQgTGFrZXMgdXNpbmcgc3NoCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgYWxsIGxvZyBpbiB0byB0aGUgR3JlYXQgTGFrZXMgY2x1c3RlciB1c2luZyBzc2gKCiMjIyBFeGVyY2lzZSAtIExhdW5jaCBhbiBJbnRlcmFjdGl2ZSBKb2IgYW5kIENhbGN1bGF0ZSBNRDVzdW0KCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIHdlJ2xsIGxhdW5jaCBhbiBpbnRlcmFjdGl2ZSBqb2IgdXNpbmcgYHNydW5gLiBPbmNlIHRoZSBqb2IgaXMgYWxsb2NhdGVkLCB3ZSdsbCB1c2UgdGhlIGBtZDVzdW1gIGNvbW1hbmQgdG8gY29uZmlybSB0aGUgc3VjY2VzcyBhbmQgY29tcGxldGVuZXNzIG9mIG91ciBkYXRhIHRyYW5zZmVyLgoKIyMjIExNT0QgTW9kdWxlcwoKRklYTUU6IEVsYWJvcmF0ZSBvbiBMTU9ECgpodHRwczovL2FyYy51bWljaC5lZHUvc29mdHdhcmUvCgoKIyMjIFNCQVRDSAoKYGBgCiMhL2Jpbi9iYXNoCiMgVGhlIGludGVycHJldGVyIHVzZWQgdG8gZXhlY3V0ZSB0aGUgc2NyaXB0Cgoj4oCcI1NCQVRDSOKAnSBkaXJlY3RpdmVzIHRoYXQgY29udmV5IHN1Ym1pc3Npb24gb3B0aW9uczoKCiNTQkFUQ0ggLS1qb2ItbmFtZT1IZWxsb19TQkFUQ0gKI1NCQVRDSCAtLWNwdXMtcGVyLXRhc2s9MQojU0JBVENIIC0tbm9kZXM9MQojU0JBVENIIC0tbnRhc2tzLXBlci1ub2RlPTEKI1NCQVRDSCAtLW1lbS1wZXItY3B1PTQwMG0KI1NCQVRDSCAtLXRpbWU9MDA6MDU6MDAKI1NCQVRDSCAtLWFjY291bnQ9YmlvaW5mX3drc2hwX2NsYXNzCiNTQkFUQ0ggLS1wYXJ0aXRpb249c3RhbmRhcmQKI1NCQVRDSCAtLW91dHB1dD0vbmZzL3R1cmJvL3VtbXMtYmlvaW5mLXdrc2hwL3dvcmtzaG9wL2hvbWUvJXUvc2xlZXBpbmdfYmVhci9sb2dzLyV4LSVqLmxvZwoKIyBUaGUgYXBwbGljYXRpb24ocykgdG8gZXhlY3V0ZSBhbG9uZyB3aXRoIGl0cyBpbnB1dCBhcmd1bWVudHMgYW5kIG9wdGlvbnM6Cgpob3N0bmFtZQpwd2QKCmVjaG8gIkhlbGxvLCBTQkFUQ0ghIgoKc2xlZXAgNjAKYGBgCgojIyBFeGVyY2lzZSBTQkFUQ0ggSGVsbG8gV29ybGQKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSB3aWxsIGluc3BlY3QgdGhlIGBoZWxsb19TQkFUQ0guc2hgIHNoZWxsIHNjcmlwdCB0aGF0IGVhY2ggb2YgdXMgaGF2ZSBpbiBvdXIgYCRXT1JLU0hPUF9IT01FYCBkaXJlY3RvcnksIHJldmlldyB0aGUgcHJlYW1ibGUgYW5kIGJvZHkgb2YgaXQsIGFuZCB0aGVuIHN1Ym1pdCBpdCB3aXRoIGBzYmF0Y2hgLiBPbmNlIGl0IGlzIHJ1bm5pbmcsIHdlIHdpbGwgdXNlIGBzcXVldWVgIHRvIHZpZXcgdGhlIHN0YXR1cyBvZiB0aGUgam9iLiBBZnRlciBpdCBjb21wbGV0ZXMsIHdlJ2xsIHZpZXcgaXRzIGxvZy4KCiMjIEV4ZXJjaXNlIGBzcnVuYCB3aXRoIExNT0QKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gaW50ZXJhY3RpdmUgam9iIHdpdGggYHNydW5gLCBsb2FkIHRoZSBzYW10b29scyBtb2R1bGUsIGFuZCB1c2Ugc2FtdG9vbHMgdG8gZmlsdGVyIG91ciBzYW1wbGVfQSBCQU0gZmlsZSB0byBzZWxlY3Qgb25seSBhbGlnbm1lbnRzIGZyb20gY2hyb21vc29tZSAxOS4KCiMjIEV4ZXJjaXNlIFNCQVRDSCB3aXRoIExNT0QKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBjcmVhdGUgYW4gU0JBVENIIHNjcmlwdCB0aGF0IGlzIHNpbWlsYXIgdG8gb3VyIHByZXZpb3VzIGBzcnVuYCBleGVyY2lzZSwgYW5kIHVzZSB0aGF0IHRvIGZpbHRlciBvdXIgc2FtcGxlX0IgQkFNIGZpbGUgaW4gdGhlIHNhbWUgZmFzaGlvbi4gV2Ugd2lsbCBsYXVuY2ggaXQgd2l0aCBgc2JhdGNoYCBhbmQgaW5zcGVjdCB0aGUgcmVzdWx0cy4gSWYgaXQgaXMgc3VjY2Vzc2Z1bCwgd2Ugd2lsbCBjb250aW51ZSB0aGlzIGV4ZXJjaXNlIGJ5IGNyZWF0aW5nIGFuZCBydW5uaW5nIHR3byBtb3JlIFNCQVRDSCBzY3JpcHRzIGZvciBzYW1wbGVfQyBhbmQgc2FtcGxlX0QuCgoKfCBbUHJldmlvdXMgbGVzc29uXShvZHVsZTAzYV9zbmVha19wZWFrX2dyZWF0X2xha2VzLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZTA0X3NvZnR3YXJlX21hbmFnZW1lbnRfY29uZGEuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
 
 
-</div>
-</div>
 
 </div>
 
@@ -618,35 +499,6 @@ $(document).ready(function () {
 });
 </script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
