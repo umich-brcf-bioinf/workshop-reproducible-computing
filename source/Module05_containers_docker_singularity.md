@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -33,7 +30,7 @@ In this module, we will:
 
 ## Commonalities Between Software Management Tools
 
-![](images/Module05_software_management_commonalities.jpg)
+![](images/Module05_software_management_commonalities.png)
 
 ## Overview of Containerized Software
 

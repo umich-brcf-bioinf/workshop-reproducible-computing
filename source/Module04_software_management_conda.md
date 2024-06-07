@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -43,7 +40,15 @@ You'll find that the tools that we employ for software management during researc
 
 We likely all have some experience with software management. I'd like to examine our experience with software management, and promote appreciation for the work that often happens behind the scenes.
 
-![](images/Module04_dependencies_long_list.jpg)
+<br>
+
+![](images/Module04_dependencies_long_list.png)
+
+<br>
+
+![](images/Module04_dependencies_xsdk_tangled_mess.png)
+
+<br>
 
 ### The Need for Modular Solutions
 

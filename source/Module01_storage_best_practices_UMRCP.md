@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -110,7 +107,7 @@ Taking time to segregate specific efforts within a project, documenting our step
 
 Think ahead when designing the layout of your projects. If you will be trying several related analysis approaches using the same input data, but intend on using results from only one of the evaluated methods, it may make sense to intentionally subdivide the contents of your project directory accordingly. If you have several distinct analyses that may use the same input data, then perhaps creating separate projects for each of them will make the most sense. It's hard to be totally prescriptive when making recommendations here, but through our example we hope to spark the kinds of conversations and the types of thinking that are required here.
 
-FIXME: Add figure specific for our analysis
+<!-- FIXME: Add figure specific for our analysis -->
 
 One last note on handling and organizing analysis projects - use some form of identification system for projects in your lab. This simplifies communication and record keeping, in addition to the organizational benefits.
 
@@ -128,7 +125,7 @@ We've discussed best practices for data, analysis intermediates and scripts, etc
 
 The vast majority of computing resources we'll be discussing in the workshop are provided and managed by ARC - Advanced Research Computing at University of Michigan. The shared computing cluster that we'll be using in the workshop is run by ARC, and the storage allocations likewise are provided by ARC. Their mission is to provide university researchers with the advanced computing resources that they need, and they've been working with research groups in various compute intensive fields to achieve this. 
 
-Later on we'll discuss in detail how to request resources through ARC, but for now we'll focus on the storage topic and cover some important storage options that ARC provides
+Later in this module we'll discuss in detail how to request resources through ARC, but for now we'll focus on the storage topic and cover some important storage options that ARC provides.
 
 ### Data Den
 
@@ -152,6 +149,20 @@ Can be accessed through the High-Performance Computing (HPC) cluster.
 Fast storage like Turbo is well-equipped for computing direcly from it. Turbo supports fast read/write times, and is an excellent place to perform analyses.
 
 
+### Turbo and Data Den - Cost Difference
+
+We discussed above that Data Den is slow, unsuited for analysis, yet cost-effective, while Turbo is fast, well-tuned for analysis, and more costly. To put some numbers to this price discussion, see the following table of cost per TB per year:
+
+|          | Unreplicated | Replicated |
+| --------:| -----------------------:| ----------:|
+| Turbo    | $77.88                  | $156.22    |
+| Data Den | NA                      | $20.04     |
+
+Notice that Turbo storage is about 8x more costly than Data Den for the same amount of replicated storage.
+
+>Note: Data Den is only available in the replicated format.
+
+
 ### Home, Scratch, tmp, and others
 
 - Home directory (80 GB quota)
@@ -164,7 +175,6 @@ Fast storage like Turbo is well-equipped for computing direcly from it. Turbo su
   - /tmp
   - Not persistent across machines
 
-FIXME: Add note about relative cost of Turbo & data den
 
 ### Institutional Storage vs Other Storage
 
@@ -173,7 +183,7 @@ FIXME: Add note about relative cost of Turbo & data den
 | Turbo           | Laptop Storage                    |
 | Data Den        | Storage on a Shared Lab Computer  |
 | Home / Scratch* | Portable Hard Drive / Flash Drive |
-|                 | Cloud Storage                     |
+| MiStorage       | Cloud Storage                     |
 
 ## UMRCP
 
@@ -206,6 +216,26 @@ In the documentation for the UMRCP and the UMRCI, you'll see that they recommend
 
 <br>
 
+### Great Lakes, Armis2, and Lighthouse Clusters
+
+This module overall is primarily focused on storage-related topics. We've briefly mentioned that in addition to storage resources, ARC also provides access to high-performance computing (HPC) hardware as well. While in this workshop we'll just be focusing on one of them, in fact there are several HPC clusters that are available to UMich researchers, in order to meet various needs.
+
+When discussing research needs, especially in anticipation of requesting UMRCP resources and filling out the required form, we should discuss a little bit about three HPC options provided through ARC:
+
+- Great Lakes
+- Armis2 (HIPAA-aligned)
+- Lighthouse (Researcher-owned hardware)
+
+We'll be discussing Great Lakes at length throughout this workshop and using it for our example analyses. We can think of it as a general-purpose HPC cluster, which is suitable for many different kinds of research.
+
+Armis2 is similar in feel to the Great Lakes cluster, except it is configured with specific security measures in place to enable analysis of sensitive data, such as export-controlled or HIPAA protected data.  When filling out the UMRCP form, you can make selections for sensitive data needs, which will provide CPU hours on Armis2 and associated storage. We'll see later, that we have flexibility in how we allocate resources between e.g. Great Lakes and Armis2.
+
+>Note: There is a separate, security-enhanced Turbo allocation that is also HIPAA aligned that should be used with Armis2.
+
+Lighthouse is also similar in feel to the Great Lakes cluster, except it is a cluster comprised entirely of researcher-owned hardware. Contrasting this with Great Lakes where we are only responsible for the cost of the resources we use, on Lighthouse, a researcher will fund the entirety of the hardware and receive 100% of its availability. This can be a good choice for researchers who are expected to have near-constant compute usage needs, or who require instant availability of HPC resources.
+
+<br>
+
 Main ideas:
  - PI must be the one to fill out form
  - PI will automatically become an administrator
@@ -227,30 +257,36 @@ Main ideas:
 >
 > ⏳ = Occasional
 
+<br>
+
 ### Resource Management Portal
 
 ![](images/Module01_resource_management_portal.png)
 
-FIXME: Improve the end of this module
+A key part of how we will manage our ARC resources is through their Resource Management Portal, shown here. 
+
+This portal can be found at [https://portal.arc.umich.edu](https://portal.arc.umich.edu).
+
+Let's not go there just yet, but discuss what we see in this screenshot, and then move on to the exercise. We'll learn about some of the differences that we may see depending on our current status and existing resources, and we'll learn that there are some differences in the best way to request UMRCP resources depending on these details.
 
 <br>
-
 
 
 ## Exercise: Make a Game Plan for UMRCP
 
-Conduct polling to determine need for UMRCP enrollment by audience & their PIs.
+In this exercise we will determine the needs for UMRCP enrollment by audience & their PIs.
 
-Discuss scenarios if they already have HPC access **not** through the UMRCP but through other mechanism. Game plan for those folks.
-
-Discuss scenario where they don't have HPC access and not enrolled in UMRCP. Game plan for those folks.
+There are two video links below. There's a decent amount of overlap in the content, and the main ideas are pretty similar. In either case, we will be filling out the UMRCP web forms as shown in the videos. Depending on our current status though, we may have different optimal starting points and different things to consider.
 
 <br>
 
-![](images/Module01_game_plan_needs_UMRCP.jpg)
+[UMRCP How to Enroll - Existing Owner of ARC Services](https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561)
 
 <br>
 
+[UMRCP How to Enroll - New to ARC Services](https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561)
+
+<br>
 <br>
 
 | [Previous lesson](Module01_Warming_Up.html) | [Top of this lesson](#top) | [Next lesson](Module02_transferring_data_globus.html) |

@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -26,6 +23,7 @@ pre {
 In this module, we will:
 
 * take an introductory look at the Great Lakes HPC cluster
+* discuss the need for requesting compute resources
 * learn about several ways to access Great Lakes
 * use the web-based file browser for Great Lakes
 * introduce or review the nano text editor
@@ -46,7 +44,7 @@ When using an hpc cluster, there is a pattern that is quite different from our t
 - For compute access:
     - Secure Shell (ssh)
     - Web-based shell
-    - OpenOnDemand web-based remote desktop
+    - OpenOnDemand interactive apps (e.g. RStudio, Basic Desktop)
 - For file access:
     - Globus
     - Direct (Storage is mounted on Great Lakes)
@@ -69,6 +67,8 @@ Sneak preview of the web-based shell
 Sneak preview of a web-based RStudio session
 ![](images/Module03a_accessing_interactive_rstudio.png)
 ![](images/Module03a_preview_interactive_rstudio.png)
+
+<!-- FIXME: Add preview of web-based Basic Desktop session -->
 
 
 ## Quick Review or Crash Course on the Nano Editor
@@ -103,9 +103,15 @@ Following along with the instructor, we will use the `nano` utility to write the
 
 ## Review
 
-FIXME: Elaborate review section
+- Learned about different ways of accessing the Great Lakes HPC cluster
+- Experienced using the web-based access methods
+  - With web-based file browser, examined the data that we previously transferred
+  - With web-based shell access, we ran an introductory script and used CLI commands to examine the data that we previously transferred
+  - With OpenOnDemand RStudio, we ran an introductory R script
+  - With OpenOnDemand Basic Desktop, we verified file integrity of data the we previously transferred, and used `nano` to write a README file
 
 
+Here is a [link from AGC on validating file integrity using md5sum](http://michmed.org/agc-md5sum)
 
 
 | [Previous lesson](Module02_transferring_data_globus.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
