@@ -28,6 +28,8 @@ In this module, we will:
 * learn about the UMRCP and how to request it
 * make a plan for enrolling PIs in UMRCP and enabling access to all researchers
 
+<br>
+
 ## Reproducible Computing
 
 Reproducible computing has become increasingly important in recent years. As experimental data volumes have increased exponentially, and as research endeavors have employed more complicated analyses over time, computation has become a fundamental aspect of virtually every type of research.
@@ -43,6 +45,8 @@ Let's take a moment to think about our own experiences with this topic. Can we t
 There are a number of tools and techniques that have emerged to address some of these challenges, and to really lower the barrier to sharing and reproducing our results.
 
 In this workshop we'll discuss these tools and techniques, we'll provide specific guidance for University of Michigan researchers to address reproducibility concerns, and we'll use practical examples along the way to gain experience and emphasize the concepts that we learn.
+
+<br>
 
 ## Storage Best Practices
 
@@ -77,8 +81,6 @@ Recommended:
   - Long-term support
   - Hardware redundancy
   - Location redundancy
-
-<br>
 
 Another thing to mention for raw data best practices is the procedure of checking file integrity. Whenever transferring data from one storage location to another, and especially while doing so over a network connection, it is good practice to follow up with a file integrity check. Briefly, we use software to inspect our files and determine if any of the contents have changed. In a later module we'll have a chance to try this ourselves, using the `md5sum` utility. This is a relatively efficient way of verifying file integrity after a file transfer.
 
@@ -120,6 +122,7 @@ Some ideas for project identification systems:
 - Codenames
 - Alphanumeric IDs
 
+<br>
 
 ## Storage Options for UMich Researchers
 
@@ -136,20 +139,24 @@ Later in this module we'll discuss in detail how to request resources through AR
 
 Data Den is a low-cost, highly durable storage system operated by ARC.
 
-Tape-based archival storage. The largest and cheapest storage available through ARC.
+- Tape-based archival storage
+- The largest and most affordable storage available through ARC.
+- Can only access this indirectly
+  - i.e. use Globus to interface with this storage. 
+  
+<!-- Due to its architecture, slow speeds, and need to eliminate unnecessary read/write operations -->
 
-Generally can only access this indirectly i.e. use Globus to interface with this storage. Due to its architecture, slow read speeds, and need to eliminate write operations and unnecessary read operations.
-
-File size limitation / constraint - does not handle large amounts of small files. 10,000 files per TB limitation. Optimal file size in the multi-gigabyte range.
+> Note: Data Den has a file size limitation - it does not handle large amounts of small files. Optimal file size is in the multi-gigabyte range.
+> The limitation 10,000 files per TB of storage.
 
 
 ### Turbo
 
-Turbo is a high-capacity, reliable, and fast storage system operated by ARC.
+Turbo is a high-capacity, reliable, and fast storage system operated by ARC. It is more costly than Data Den.
 
-It is tuned for files moderate to large in size, but can also easily accomodate small files as well.
-
-Can be accessed through the High-Performance Computing (HPC) cluster.
+- More costly than Data Den
+- Tuned for files moderate to large in size, but can also easily accomodate small files
+- Can be accessed through the High-Performance Computing (HPC) cluster
 
 Fast storage like Turbo is well-equipped for computing direcly from it. Turbo supports fast read/write times, and is an excellent place to perform analyses.
 
@@ -189,6 +196,8 @@ Notice that Turbo storage is about 8x more costly than Data Den for the same amo
 | Data Den        | Storage on a Shared Lab Computer  |
 | Home / Scratch* | Portable Hard Drive / Flash Drive |
 | MiStorage       | Cloud Storage                     |
+
+<br>
 
 ## UMRCP
 
@@ -286,11 +295,11 @@ There are two video links below. There's a decent amount of overlap in the conte
 
 <br>
 
-[UMRCP How to Enroll - Existing Owner of ARC Services](https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561)
+[UMRCP How to Enroll - New to ARC Services](https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561)
 
 <br>
 
-[UMRCP How to Enroll - New to ARC Services](https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561)
+[UMRCP How to Enroll - Existing Owner of ARC Services](https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561)
 
 <br>
 <br>

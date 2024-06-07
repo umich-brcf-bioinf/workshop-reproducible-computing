@@ -6,11 +6,11 @@
 #       <(egrep '^[^#].*href:' source/_site.yml | awk '{print $2}'| sort) \
 #   | awk -F'\t' 'BEGIN {OFS="\t\t\t\t"; print "in_html_only","in_site_only","in_both"} {print $1,$2,$3}'
 
-name: "Reprodicble Computing Workshop"
+name: "Reproducible Computing Workshop"
 output_dir: ../html
 exclude: ["Example.md"]
 navbar:
-  title: "Reprodicble Computing"
+  title: "Reproducible Computing"
   type: inverse
   left:
     - text: "Intro"
