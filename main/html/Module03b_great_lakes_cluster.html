@@ -14,7 +14,7 @@
 
 <title>Great Lakes HPC Cluster</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -317,7 +317,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
     </li>
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
@@ -371,15 +371,18 @@ pre {
 <li>review some of the fundamental helper commands on Great Lakes</li>
 <li>review SBATCH and submit jobs for our analysis</li>
 </ul>
-<div id="review---umrcp-and-the-components-well-use-in-this-workshop" class="section level2">
+<div id="review---umrcp-and-the-components-well-use-in-this-workshop"
+class="section level2">
 <h2>Review - UMRCP and the Components We’ll Use in This Workshop</h2>
 <p><img src="images/Module01_umrcp_provides.png" /></p>
 <p><br></p>
 </div>
 <div id="great-lakes-hpc" class="section level2">
 <h2>Great Lakes HPC</h2>
-<p><a href="https://arc.umich.edu/greatlakes/" class="uri">https://arc.umich.edu/greatlakes/</a></p>
-<p><a href="https://arc.umich.edu/greatlakes/slurm-user-guide/" class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
+<p><a href="https://arc.umich.edu/greatlakes/"
+class="uri">https://arc.umich.edu/greatlakes/</a></p>
+<p><a href="https://arc.umich.edu/greatlakes/slurm-user-guide/"
+class="uri">https://arc.umich.edu/greatlakes/slurm-user-guide/</a></p>
 <p><img src="images/Module03_cluster_overview.png" /></p>
 <div id="scheduled-jobs" class="section level3">
 <h3>Scheduled Jobs</h3>
@@ -387,25 +390,39 @@ pre {
 </div>
 <div id="interactive-vs-scripted-jobs" class="section level3">
 <h3>Interactive vs Scripted Jobs</h3>
-<p>As we’ve discussed, for any computational tasks that are moderately demanding, we should not attempt them on the login nodes. Instead, we must request resources and arrange for our job to run on a worker node. In yesterday’s exercises, we explored a couple of quick ways to request resources and run jobs using the ‘Interactive App’ web-based tools. Now, we’ll discuss some additional, very useful and powerful ways that we can request resources and run jobs - through interactive jobs and scripted jobs.</p>
+<p>As we’ve discussed, for any computational tasks that are moderately
+demanding, we should not attempt them on the login nodes. Instead, we
+must request resources and arrange for our job to run on a worker node.
+In yesterday’s exercises, we explored a couple of quick ways to request
+resources and run jobs using the ‘Interactive App’ web-based tools. Now,
+we’ll discuss some additional, very useful and powerful ways that we can
+request resources and run jobs - through interactive jobs and scripted
+jobs.</p>
 <p>FIXME: Elaborate right-sizing your SBATCH</p>
 </div>
 <div id="interactive-jobs" class="section level3">
 <h3>Interactive Jobs</h3>
 <pre><code>srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash</code></pre>
 </div>
-<div id="exercise---log-in-to-great-lakes-using-ssh" class="section level3">
+<div id="exercise---log-in-to-great-lakes-using-ssh"
+class="section level3">
 <h3>Exercise - Log in to Great Lakes using ssh</h3>
-<p>Following along with the instructor, we’ll all log in to the Great Lakes cluster using ssh</p>
+<p>Following along with the instructor, we’ll all log in to the Great
+Lakes cluster using ssh</p>
 </div>
-<div id="exercise---launch-an-interactive-job-and-calculate-md5sum" class="section level3">
+<div id="exercise---launch-an-interactive-job-and-calculate-md5sum"
+class="section level3">
 <h3>Exercise - Launch an Interactive Job and Calculate MD5sum</h3>
-<p>Following along with instructor, we’ll launch an interactive job using <code>srun</code>. Once the job is allocated, we’ll use the <code>md5sum</code> command to confirm the success and completeness of our data transfer.</p>
+<p>Following along with instructor, we’ll launch an interactive job
+using <code>srun</code>. Once the job is allocated, we’ll use the
+<code>md5sum</code> command to confirm the success and completeness of
+our data transfer.</p>
 </div>
 <div id="lmod-modules" class="section level3">
 <h3>LMOD Modules</h3>
 <p>FIXME: Elaborate on LMOD</p>
-<p><a href="https://arc.umich.edu/software/" class="uri">https://arc.umich.edu/software/</a></p>
+<p><a href="https://arc.umich.edu/software/"
+class="uri">https://arc.umich.edu/software/</a></p>
 </div>
 <div id="sbatch" class="section level3">
 <h3>SBATCH</h3>
@@ -436,21 +453,41 @@ sleep 60</code></pre>
 </div>
 <div id="exercise-sbatch-hello-world" class="section level2">
 <h2>Exercise SBATCH Hello World</h2>
-<p>Following along with the instructor, we will inspect the <code>hello_SBATCH.sh</code> shell script that each of us have in our <code>$WORKSHOP_HOME</code> directory, review the preamble and body of it, and then submit it with <code>sbatch</code>. Once it is running, we will use <code>squeue</code> to view the status of the job. After it completes, we’ll view its log.</p>
+<p>Following along with the instructor, we will inspect the
+<code>hello_SBATCH.sh</code> shell script that each of us have in our
+<code>$WORKSHOP_HOME</code> directory, review the preamble and body of
+it, and then submit it with <code>sbatch</code>. Once it is running, we
+will use <code>squeue</code> to view the status of the job. After it
+completes, we’ll view its log.</p>
 </div>
 <div id="exercise-srun-with-lmod" class="section level2">
 <h2>Exercise <code>srun</code> with LMOD</h2>
-<p>Following along with the instructor, we’ll launch an interactive job with <code>srun</code>, load the samtools module, and use samtools to filter our sample_A BAM file to select only alignments from chromosome 19.</p>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>, load the samtools module, and use samtools to
+filter our sample_A BAM file to select only alignments from chromosome
+19.</p>
 </div>
 <div id="exercise-sbatch-with-lmod" class="section level2">
 <h2>Exercise SBATCH with LMOD</h2>
-<p>Following along with the instructor, we’ll create an SBATCH script that is similar to our previous <code>srun</code> exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with <code>sbatch</code> and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.</p>
-<table>
+<p>Following along with the instructor, we’ll create an SBATCH script
+that is similar to our previous <code>srun</code> exercise, and use that
+to filter our sample_B BAM file in the same fashion. We will launch it
+with <code>sbatch</code> and inspect the results. If it is successful,
+we will continue this exercise by creating and running two more SBATCH
+scripts for sample_C and sample_D.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="odule03a_sneak_peek_great_lakes.html">Previous lesson</a></th>
+<th align="left"><a href="odule03a_sneak_peek_great_lakes.html">Previous
+lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module04_software_management_conda.html">Next lesson</a></th>
+<th align="right"><a href="Module04_software_management_conda.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>

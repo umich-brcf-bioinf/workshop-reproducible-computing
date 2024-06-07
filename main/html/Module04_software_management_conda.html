@@ -14,7 +14,7 @@
 
 <title>Software Management and Conda</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -317,7 +317,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
     </li>
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
@@ -373,12 +373,23 @@ pre {
 </ul>
 <div id="software-management" class="section level2">
 <h2>Software Management</h2>
-<p>Software management is something that is not typically appreciated until it is missing. In your typical day-to-day computing tasks, software management is an automatic background process, and generally this is how we want things to be.</p>
-<p>When performing research computing tasks, however, you may run into situations when this automatic background handling of software requirements is not sufficient. You may have very specific version requirements, or you may have disparate (or incompatible!) software needs for different tasks.</p>
-<p>You’ll find that the tools that we employ for software management during research computing have some extra capabilities that make them particularly well-suited for these use cases.</p>
+<p>Software management is something that is not typically appreciated
+until it is missing. In your typical day-to-day computing tasks,
+software management is an automatic background process, and generally
+this is how we want things to be.</p>
+<p>When performing research computing tasks, however, you may run into
+situations when this automatic background handling of software
+requirements is not sufficient. You may have very specific version
+requirements, or you may have disparate (or incompatible!) software
+needs for different tasks.</p>
+<p>You’ll find that the tools that we employ for software management
+during research computing have some extra capabilities that make them
+particularly well-suited for these use cases.</p>
 <div id="package-managers" class="section level3">
 <h3>Package Managers</h3>
-<p>We likely all have some experience with software management. I’d like to examine our experience with software management, and promote appreciation for the work that often happens behind the scenes.</p>
+<p>We likely all have some experience with software management. I’d like
+to examine our experience with software management, and promote
+appreciation for the work that often happens behind the scenes.</p>
 <p><br></p>
 <p><img src="images/Module04_dependencies_long_list.png" /></p>
 <p><br></p>
@@ -399,7 +410,8 @@ pre {
 <ul>
 <li>Across languages and platforms</li>
 </ul></li>
-<li>Plugable - Ability to switch between software environments at will</li>
+<li>Plugable - Ability to switch between software environments at
+will</li>
 <li>Automatically handles software requirements</li>
 <li>A ‘Conda recipe’ is used to list specifications
 <ul>
@@ -407,74 +419,115 @@ pre {
 <li>Can communicate requirements to others when shared</li>
 </ul></li>
 </ul>
-<div id="simplifies-distribution-of-new-software" class="section level3">
+<div id="simplifies-distribution-of-new-software"
+class="section level3">
 <h3>Simplifies Distribution of New Software</h3>
 <p>Cutting edge software - cutting edge dependencies</p>
 <p>Ability to record recipe and share</p>
-<p>If I’m developing a package, I can take these simple steps - ensures everyone can use software</p>
+<p>If I’m developing a package, I can take these simple steps - ensures
+everyone can use software</p>
 </div>
 <div id="environments" class="section level3">
 <h3>Environments</h3>
-<p>The thing that is ‘built’ by Conda and can be enabled/disabled at will</p>
-<p>Actual terms <code>activate</code> and <code>deactivate</code> used in conda</p>
-<p>Within the environment, dependencies are handled, software is made available</p>
+<p>The thing that is ‘built’ by Conda and can be enabled/disabled at
+will</p>
+<p>Actual terms <code>activate</code> and <code>deactivate</code> used
+in conda</p>
+<p>Within the environment, dependencies are handled, software is made
+available</p>
 <p>Quick aside about $PATH</p>
 </div>
 <div id="packages-and-channels" class="section level3">
 <h3>Packages and Channels</h3>
-<p>We start to care about these when we are creating our own conda environments</p>
-<p>Packages - a bunch of files (binaries, config files, etc), all bundled up together</p>
-<p>Conda will download various packages as described, and has a system for storing these packages and “installing” them in an particular location</p>
-<p>“Install” is air-quoted - although the software is installed, it differs from a typical software installation in that everything within the package is contained in a special location set by Conda</p>
+<p>We start to care about these when we are creating our own conda
+environments</p>
+<p>Packages - a bunch of files (binaries, config files, etc), all
+bundled up together</p>
+<p>Conda will download various packages as described, and has a system
+for storing these packages and “installing” them in an particular
+location</p>
+<p>“Install” is air-quoted - although the software is installed, it
+differs from a typical software installation in that everything within
+the package is contained in a special location set by Conda</p>
 </div>
 <div id="anaconda-vs-miniconda" class="section level3">
 <h3>Anaconda vs Miniconda</h3>
-<p>Anaconda comes pre-bundled with a plethora of common python and data science packages. Miniconda starts out as more of a blank slate.</p>
+<p>Anaconda comes pre-bundled with a plethora of common python and data
+science packages. Miniconda starts out as more of a blank slate.</p>
 </div>
 <div id="conda-configuration-with-.condarc" class="section level3">
 <h3>Conda configuration with .condarc</h3>
-<p>Condarc file contains configuration details for your conda installation.</p>
-<p><a href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html" class="uri">https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html</a></p>
-<p>Specific recommendation: use <code>envs_dirs</code> to place conda envs and downloaded packages into an appropriate location</p>
+<p>Condarc file contains configuration details for your conda
+installation.</p>
+<p><a
+href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html"
+class="uri">https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html</a></p>
+<p>Specific recommendation: use <code>envs_dirs</code> to place conda
+envs and downloaded packages into an appropriate location</p>
 </div>
 </div>
 <div id="conda-install-and-configure-exercise" class="section level2">
 <h2>Conda Install and Configure Exercise</h2>
-<p>Following along with instructor, learners will install miniconda and create a <code>.condarc</code> file</p>
+<p>Following along with instructor, learners will install miniconda and
+create a <code>.condarc</code> file</p>
 </div>
 <div id="conda-activate-exercise" class="section level2">
 <h2>Conda Activate Exercise</h2>
-<p>Following along with instructor, learners will activate an existing environment. We’ll demonstrate addition to the $PATH (and <code>which</code>?)</p>
+<p>Following along with instructor, learners will activate an existing
+environment. We’ll demonstrate addition to the $PATH (and
+<code>which</code>?)</p>
 </div>
 <div id="conda-create-exercise" class="section level2">
 <h2>Conda Create Exercise</h2>
-<p>Instructor will demonstrate creating a simple conda environment on the command line.</p>
-<p>We’ll then ask about how to create a slightly more complicated conda environment. We’ll start a thread and learners will respond and/or vote on the command that they would use</p>
+<p>Instructor will demonstrate creating a simple conda environment on
+the command line.</p>
+<p>We’ll then ask about how to create a slightly more complicated conda
+environment. We’ll start a thread and learners will respond and/or vote
+on the command that they would use</p>
 </div>
 <div id="srun-with-conda-create-exercise" class="section level2">
 <h2>SRUN with Conda Create Exercise</h2>
-<p>Following along with instructor, we’ll launch an srun job and then create a conda environment in it</p>
+<p>Following along with instructor, we’ll launch an srun job and then
+create a conda environment in it</p>
 </div>
 <div id="sbatch-with-conda-activate-exercise" class="section level2">
 <h2>SBATCH with Conda Activate Exercise</h2>
-<p>Individual exercise. Launch an SBATCH job that activates a conda environment, checks a version of samtools and uses <code>which</code> to verify its location. Inspect the job log in order to determine success</p>
+<p>Individual exercise. Launch an SBATCH job that activates a conda
+environment, checks a version of samtools and uses <code>which</code> to
+verify its location. Inspect the job log in order to determine
+success</p>
 </div>
 <div id="conda-export-exercise" class="section level2">
 <h2>Conda Export Exercise</h2>
-<p>Following along with the instructor, we’ll use Conda’s export functionality to create an export - a more complete recipe with all dependencies and their versions fully listed.</p>
+<p>Following along with the instructor, we’ll use Conda’s export
+functionality to create an export - a more complete recipe with all
+dependencies and their versions fully listed.</p>
 <p>FIXME: Allude to the idea of time-based durability</p>
 </div>
 <div id="review" class="section level2">
 <h2>Review</h2>
-<p>Conda allows us to install and manage our own software. On a multi-user system like Great Lakes, this is very powerful.</p>
-<p>It provides plugability to our software needs. When we need a wide variety of tools at different times, with some being incompatible with one another, this becomes critical.</p>
-<p>When given a set of software requirement specifications, Conda handles all of the dependencies and creates a somewhat contained environment that we can <code>activate</code> and <code>deactivate</code> as needed.</p>
-<table>
+<p>Conda allows us to install and manage our own software. On a
+multi-user system like Great Lakes, this is very powerful.</p>
+<p>It provides plugability to our software needs. When we need a wide
+variety of tools at different times, with some being incompatible with
+one another, this becomes critical.</p>
+<p>When given a set of software requirement specifications, Conda
+handles all of the dependencies and creates a somewhat contained
+environment that we can <code>activate</code> and
+<code>deactivate</code> as needed.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module03b_great_lakes_cluster.html">Previous lesson</a></th>
+<th align="left"><a href="Module03b_great_lakes_cluster.html">Previous
+lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module05_containers_docker_singularity.html">Next lesson</a></th>
+<th align="right"><a
+href="Module05_containers_docker_singularity.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
