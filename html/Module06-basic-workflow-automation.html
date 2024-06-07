@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Basic workflow automation</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="exercise-1.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+    </li>
+    <li>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Basic workflow automation</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>By the end of this module, we will: * Understand what workflow automation is and how it helps reproducibility. * Consider different ways that workflows can scale. * Introduce the notion of “pleasingly parallel” transformations * Make a “driver script” to execute a “wide” automation * Define the notion of a workflow resource footprint * Understand the advantage of “job launcher” and use it to execute “wide” automation * Make a driver script to execute “tall” automation * Understand the limitations of a simple driver script.</p>
+<div id="header-1" class="section level2">
+<h2>Header 1</h2>
+</div>
+<div id="header-2" class="section level2">
+<h2>Header 2</h2>
+<div id="pro-tips" class="section level3">
+<h3>Pro tips</h3>
+<ol style="list-style-type: decimal">
+<li><strong>Do not try to automate something that you cannot do by hand.</strong></li>
+<li><strong>Make it right. Make it clear. Make it efficient. (In that order.)</strong></li>
+<li><strong>Build a README for each workflow.</strong> Consider including:
+<ul>
+<li>Your name/email</li>
+<li>The date</li>
+<li>How to install the workflow</li>
+<li>How to run the workflow</li>
+<li>Any necessary context/constraints that would help your future collaborator reproduce your results.</li>
+</ul></li>
+<li><strong>Develop incrementally.</strong> Break workflow development into <strong>at least</strong> three steps:
+<ol style="list-style-type: lower-alpha">
+<li>do one sample and verify correctness of outputs. (For a large dataset consider starting with subsetted input dataset so you can iterate quicker.)</li>
+<li>scale to a few samples and check those outputs; tune resource allocations</li>
+<li>run the whole batch</li>
+</ol></li>
+<li><strong>Automate the workflow with the data you have.</strong> Don’t generalize a workflow too soon. You might see that a workflow could be parameterized/extended to apply to new types of data. Feel that excitement, note the opportunity in the README, and trust that you will make that change when you need to.</li>
+</ol>
+</div>
+</div>
+<div id="todo-exercise-1" class="section level2">
+<h2>TODO Exercise 1</h2>
+</div>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
+<ul>
+<li>Achieving reproducible research requires a blend of documentation and automation.</li>
+<li>Be kind to your future self; they will thank you for the README you left them.</li>
+<li>Automation helps reproducibility:
+<ul>
+<li>Automation shrinks your README.</li>
+<li>Automation simplifies validation of your workflow.</li>
+<li>Automation enables repetition.</li>
+<li>Automation streamlines sharing.</li>
+<li>Automation scales to larger inputs</li>
+</ul></li>
+<li>Some transformations are “tall” i.e. a series of chained transformations on a single input. Some transformations are “wide” i.e. a simple transform applied to many inputs. And some are both.</li>
+<li>A driver script is a straightforward approach to simple transformation across a small to moderate number of samples with a low resource footprint.</li>
+<li>The <strong>SLURM job launcher</strong> allows you to gather many parallel tasks into a main job, in effect creating a transient sub-cluster within the main HPC.</li>
+<li>For a more complex transformation, a driver script can be either simple or resource efficient - choose one. Consider more robust solutions (e.g. Snakemake) as necessary.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module05_containers_docker_singularity.html">Previous lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module07-intro-to-snakemake.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQmFzaWMgd29ya2Zsb3cgYXV0b21hdGlvbiIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKQnkgdGhlIGVuZCBvZiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKKiBVbmRlcnN0YW5kIHdoYXQgd29ya2Zsb3cgYXV0b21hdGlvbiBpcyBhbmQgaG93IGl0IGhlbHBzIHJlcHJvZHVjaWJpbGl0eS4KKiBDb25zaWRlciBkaWZmZXJlbnQgd2F5cyB0aGF0IHdvcmtmbG93cyBjYW4gc2NhbGUuCiogSW50cm9kdWNlIHRoZSBub3Rpb24gb2YgInBsZWFzaW5nbHkgcGFyYWxsZWwiIHRyYW5zZm9ybWF0aW9ucwoqIE1ha2UgYSAiZHJpdmVyIHNjcmlwdCIgdG8gZXhlY3V0ZSBhICJ3aWRlIiBhdXRvbWF0aW9uCiogRGVmaW5lIHRoZSBub3Rpb24gb2YgYSB3b3JrZmxvdyByZXNvdXJjZSBmb290cHJpbnQKKiBVbmRlcnN0YW5kIHRoZSBhZHZhbnRhZ2Ugb2YgImpvYiBsYXVuY2hlciIgYW5kIHVzZSBpdCB0byBleGVjdXRlICJ3aWRlIiBhdXRvbWF0aW9uCiogTWFrZSBhIGRyaXZlciBzY3JpcHQgdG8gZXhlY3V0ZSAidGFsbCIgYXV0b21hdGlvbgoqIFVuZGVyc3RhbmQgdGhlIGxpbWl0YXRpb25zIG9mIGEgc2ltcGxlIGRyaXZlciBzY3JpcHQuCgojIyBIZWFkZXIgMQoKIyMgSGVhZGVyIDIKCiMjIyBQcm8gdGlwcwoKMS4gKipEbyBub3QgdHJ5IHRvIGF1dG9tYXRlIHNvbWV0aGluZyB0aGF0IHlvdSBjYW5ub3QgZG8gYnkgaGFuZC4qKgoyLiAqKk1ha2UgaXQgcmlnaHQuIE1ha2UgaXQgY2xlYXIuIE1ha2UgaXQgZWZmaWNpZW50LiAoSW4gdGhhdCBvcmRlci4pKioKMy4gKipCdWlsZCBhIFJFQURNRSBmb3IgZWFjaCB3b3JrZmxvdy4qKiAKICAgQ29uc2lkZXIgaW5jbHVkaW5nOgogICAtIFlvdXIgbmFtZS9lbWFpbAogICAtIFRoZSBkYXRlCiAgIC0gSG93IHRvIGluc3RhbGwgdGhlIHdvcmtmbG93CiAgIC0gSG93IHRvIHJ1biB0aGUgd29ya2Zsb3cKICAgLSBBbnkgbmVjZXNzYXJ5IGNvbnRleHQvY29uc3RyYWludHMgdGhhdCB3b3VsZCBoZWxwIHlvdXIgZnV0dXJlIGNvbGxhYm9yYXRvcgogICAgIHJlcHJvZHVjZSB5b3VyIHJlc3VsdHMuCjQuICoqRGV2ZWxvcCBpbmNyZW1lbnRhbGx5LioqCiAgIEJyZWFrIHdvcmtmbG93IGRldmVsb3BtZW50IGludG8gX19hdCBsZWFzdF9fIHRocmVlIHN0ZXBzOgogICBhKSBkbyBvbmUgc2FtcGxlIGFuZCB2ZXJpZnkgY29ycmVjdG5lc3Mgb2Ygb3V0cHV0cy4gKEZvciBhIGxhcmdlIGRhdGFzZXQKICBjb25zaWRlciBzdGFydGluZyB3aXRoIHN1YnNldHRlZCBpbnB1dCBkYXRhc2V0IHNvIHlvdSBjYW4gaXRlcmF0ZSBxdWlja2VyLikKICAgYikgc2NhbGUgdG8gYSBmZXcgc2FtcGxlcyBhbmQgY2hlY2sgdGhvc2Ugb3V0cHV0czsgdHVuZSByZXNvdXJjZSBhbGxvY2F0aW9ucwogICBjKSBydW4gdGhlIHdob2xlIGJhdGNoCjUuICoqQXV0b21hdGUgdGhlIHdvcmtmbG93IHdpdGggdGhlIGRhdGEgeW91IGhhdmUuKiogCiAgIERvbid0IGdlbmVyYWxpemUgYSB3b3JrZmxvdyB0b28gc29vbi4gWW91IG1pZ2h0IHNlZSB0aGF0IGEgd29ya2Zsb3cgY291bGQgYmUgCiAgIHBhcmFtZXRlcml6ZWQvZXh0ZW5kZWQgdG8gYXBwbHkgdG8gbmV3IHR5cGVzIG9mIGRhdGEuIEZlZWwgdGhhdCBleGNpdGVtZW50LCAKICAgbm90ZSB0aGUgb3Bwb3J0dW5pdHkgaW4gdGhlIFJFQURNRSwgYW5kIHRydXN0IHRoYXQgeW91IHdpbGwgbWFrZSB0aGF0IGNoYW5nZQogICB3aGVuIHlvdSBuZWVkIHRvLgoKIyMgVE9ETyBFeGVyY2lzZSAxCgojIyBLZXkgaWRlYXMKCiogQWNoaWV2aW5nIHJlcHJvZHVjaWJsZSByZXNlYXJjaCByZXF1aXJlcyBhIGJsZW5kIG9mIGRvY3VtZW50YXRpb24gYW5kIGF1dG9tYXRpb24uCiogQmUga2luZCB0byB5b3VyIGZ1dHVyZSBzZWxmOyB0aGV5IHdpbGwgdGhhbmsgeW91IGZvciB0aGUgUkVBRE1FIHlvdSBsZWZ0IHRoZW0uCiogQXV0b21hdGlvbiBoZWxwcyByZXByb2R1Y2liaWxpdHk6CiAgKiBBdXRvbWF0aW9uIHNocmlua3MgeW91ciBSRUFETUUuCiAgKiBBdXRvbWF0aW9uIHNpbXBsaWZpZXMgdmFsaWRhdGlvbiBvZiB5b3VyIHdvcmtmbG93LgogICogQXV0b21hdGlvbiBlbmFibGVzIHJlcGV0aXRpb24uCiAgKiBBdXRvbWF0aW9uIHN0cmVhbWxpbmVzIHNoYXJpbmcuCiAgKiBBdXRvbWF0aW9uIHNjYWxlcyB0byBsYXJnZXIgaW5wdXRzCiogU29tZSB0cmFuc2Zvcm1hdGlvbnMgYXJlICJ0YWxsIiBpLmUuIGEgc2VyaWVzIG9mIGNoYWluZWQgdHJhbnNmb3JtYXRpb25zIG9uIAogIGEgc2luZ2xlIGlucHV0LiBTb21lIHRyYW5zZm9ybWF0aW9ucyBhcmUgIndpZGUiIGkuZS4gYSBzaW1wbGUgdHJhbnNmb3JtIAogIGFwcGxpZWQgdG8gbWFueSBpbnB1dHMuIEFuZCBzb21lIGFyZSBib3RoLgoqIEEgZHJpdmVyIHNjcmlwdCBpcyBhIHN0cmFpZ2h0Zm9yd2FyZCBhcHByb2FjaCB0byBzaW1wbGUgdHJhbnNmb3JtYXRpb24gYWNyb3NzCiAgYSBzbWFsbCB0byBtb2RlcmF0ZSBudW1iZXIgb2Ygc2FtcGxlcyB3aXRoIGEgbG93IHJlc291cmNlIGZvb3RwcmludC4KKiBUaGUgKipTTFVSTSBqb2IgbGF1bmNoZXIqKiBhbGxvd3MgeW91IHRvIGdhdGhlciBtYW55IHBhcmFsbGVsIHRhc2tzIGludG8gYSBtYWluIGpvYiwKICBpbiBlZmZlY3QgY3JlYXRpbmcgYSB0cmFuc2llbnQgc3ViLWNsdXN0ZXIgd2l0aGluIHRoZSBtYWluIEhQQy4KKiBGb3IgYSBtb3JlIGNvbXBsZXggdHJhbnNmb3JtYXRpb24sIGEgZHJpdmVyIHNjcmlwdCBjYW4gYmUgZWl0aGVyIHNpbXBsZSBvcgogIHJlc291cmNlIGVmZmljaWVudCAtIGNob29zZSBvbmUuIENvbnNpZGVyIG1vcmUgcm9idXN0IHNvbHV0aW9ucyAoZS5nLiBTbmFrZW1ha2UpIGFzIAogIG5lY2Vzc2FyeS4KCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlMDVfY29udGFpbmVyc19kb2NrZXJfc2luZ3VsYXJpdHkuaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlMDctaW50cm8tdG8tc25ha2VtYWtlLmh0bWwpIHwKfCA6LS0tIHwgOi0tLS06IHwgLS0tOiB8Cg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module06-basic-workflow-automation.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

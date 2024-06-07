@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -33,7 +30,7 @@ In this module, we will:
 
 ## Commonalities Between Software Management Tools
 
-![](images/Module05_software_management_commonalities.jpg)
+![](images/Module05_software_management_commonalities.png)
 
 ## Overview of Containerized Software
 
@@ -49,7 +46,7 @@ The simplest way to think of containers is as if there is a virtual computer sys
 <br>
 <br>
 
-![](images/Module05_hardware_general_overview.jpg)
+![](images/Module05_computer_in_computer.png)
 
 <br>
 
@@ -100,7 +97,9 @@ There are several ways that you can share containerized software:
 Another important aspect of containers is their relative isolation from the host system when compared to something like Conda. Remember that when we are running software within a container, the software interacts with a completely virtualized version of the hardware system. By nature of that, that means that there is additional separation between the software in the container and the software that is outside of the container. Conda makes no such distinction, but rather uses a couple of tricks to make it easy to switch between environments. 
 
 <br>
-![](images/Module05_container_isolation.jpg)
+
+![](images/Module05_container_isolation.png)
+
 <br>
 
 The isolation capabilities go hand in hand with the traits of encapsulation that are inherent to containerized software. If you design and build a
@@ -158,5 +157,5 @@ MirrorURL: http://ftp.us.debian.org/debian/
 ## Review
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Previous lesson](Module04_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
 | :--- | :----: | ---: |

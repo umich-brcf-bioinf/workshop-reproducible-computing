@@ -14,7 +14,7 @@
 
 <title>Reproducible Computing Workshop</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -30,7 +30,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -386,19 +386,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="why-workflow-automation.html">Why workflow automation?</a>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
     </li>
     <li>
-      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="exercise-3.html">Exercise 3</a>
-    </li>
-    <li>
-      <a href="capstone-exercise.html">Capstone exercise</a>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
     </li>
   </ul>
 </li>
@@ -442,28 +436,18 @@ a.external {
 </style>
 <div id="wrapping-up" class="section level2">
 <h2>Wrapping up</h2>
-<p>We hope you now have more familiarity with key concepts, data types,
-tools, and how they all connect to enable gene expression analysis from
-bulk RNA-Seq data.</p>
+<p>We hope you now have more familiarity with key concepts, data types, tools, and how they all connect to enable gene expression analysis from bulk RNA-Seq data.</p>
 <p><img src="images/wayfinder/wayfinder-Wrap_up.png" /></p>
 <hr />
 </div>
 <div id="housekeeping" class="section level2">
 <h2>Housekeeping</h2>
 <ul>
-<li><p>Please take our optional
-<a class="external" href="https://forms.gle/rTDtL5ExtvhGryVs6" target="_blank">post-workshop
-survey</a> (5-10 minutes)</p></li>
-<li><p>11/27 11-12 ET:
-<a class="external" href="https://forms.gle/Rfx1TQ64gw2TnizB9" target="_blank">Virtual
-office hours</a></p></li>
-<li><p>We will email you a link to the final session recordings by next
-week.</p></li>
+<li><p>Please take our optional <a class="external" href="https://forms.gle/rTDtL5ExtvhGryVs6" target="_blank">post-workshop survey</a> (5-10 minutes)</p></li>
+<li><p>11/27 11-12 ET: <a class="external" href="https://forms.gle/Rfx1TQ64gw2TnizB9" target="_blank">Virtual office hours</a></p></li>
+<li><p>We will email you a link to the final session recordings by next week.</p></li>
 <li><p>The website/notes for this workshop will be available.</p></li>
-<li><p>The
-<a class="external" href="https://umbioinfcoreworkshops.slack.com" target="_blank">UM
-Bioinformatics Core Workshop Slack channel</a> will be available for 90
-days.</p></li>
+<li><p>The <a class="external" href="https://umbioinfcoreworkshops.slack.com" target="_blank">UM Bioinformatics Core Workshop Slack channel</a> will be available for 90 days.</p></li>
 </ul>
 <hr />
 </div>
@@ -472,47 +456,28 @@ days.</p></li>
 <div id="workshop-environment" class="section level4">
 <h4>Workshop environment</h4>
 <ul>
-<li><p>BASH/RStudio workshop compute environment will be available until
-8/31.</p>
+<li><p>BASH/RStudio workshop compute environment will be available until 8/31.</p>
 <ul>
-<li><em>Please save all your R scripts now</em> so that we can
-“right-size” the compute environment immediately following today’s
-workshop session.</li>
+<li><em>Please save all your R scripts now</em> so that we can “right-size” the compute environment immediately following today’s workshop session.</li>
 </ul></li>
-<li><p>You can download files from the workshop environment from your
-terminal/command line window as below. (You will need to substitute your
-actual workshop username and type workshop password when prompted.)</p>
+<li><p>You can download files from the workshop environment from your terminal/command line window as below. (You will need to substitute your actual workshop username and type workshop password when prompted.)</p>
 <pre><code>mkdir rnaseq-demystified-workshop
 cd rnaseq-demystified-workshop
 scp -r YOUR_USERNAME@bfx-workshop01.med.umich.edu:&quot;RSD*&quot; .</code></pre>
 <ul>
-<li>Note that the full download is about 2-4Gb, so depending on your
-internet speeds it could take while.</li>
+<li>Note that the full download is about 2-4Gb, so depending on your internet speeds it could take while.</li>
 </ul></li>
 </ul>
 </div>
 <div id="installing-software-locally" class="section level4">
 <h4>Installing software locally</h4>
 <ul>
-<li>You can install necessary programs to run programs locally. Note
-that for typical data, the compute intensive steps (Day 1) assume your
-computer has powerful compute (many CPUs and lots of RAM) and sizable
-storage capacity. (i.e. It may not be practical to run these on your
-laptop.)</li>
-<li>Installing bioinformatics software is non-trivial and comprehensive
-instructions to setup a complete compute environment are outside the
-scope of this workshop. (We are considering offering a Computational
-Reproducibility workshop that would cover this.) For the intrepid, see
-relevant links below:
+<li>You can install necessary programs to run programs locally. Note that for typical data, the compute intensive steps (Day 1) assume your computer has powerful compute (many CPUs and lots of RAM) and sizable storage capacity. (i.e. It may not be practical to run these on your laptop.)</li>
+<li>Installing bioinformatics software is non-trivial and comprehensive instructions to setup a complete compute environment are outside the scope of this workshop. (We are considering offering a Computational Reproducibility workshop that would cover this.) For the intrepid, see relevant links below:
 <ul>
-<li><a
-href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation">Installing
-Conda</a></li>
-<li><a
-href="https://github.com/umich-brcf-bioinf/2022-08-14-umich-rnaseq-demystified/blob/main/server_setup/conda_setup/workshop-rsd.yaml">Conda
-environment YAML</a></li>
-<li><a href="workshop_setup/setup_instructions_advanced.html">Setting up
-R/R-Studio</a></li>
+<li><a href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation">Installing Conda</a></li>
+<li><a href="https://github.com/umich-brcf-bioinf/2022-08-14-umich-rnaseq-demystified/blob/main/server_setup/conda_setup/workshop-rsd.yaml">Conda environment YAML</a></li>
+<li><a href="workshop_setup/setup_instructions_advanced.html">Setting up R/R-Studio</a></li>
 </ul></li>
 </ul>
 </div>
@@ -520,53 +485,24 @@ R/R-Studio</a></li>
 <div id="university-of-michigan-resources" class="section level2">
 <h2>University of Michigan Resources</h2>
 <ul>
-<li><a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM
-CoderSpaces “office hours”</a> and UM CoderSpaces Slack workspace.
-<em>(See “Useful Resources” section in above page for instructions on
-how to join and access the CoderSpaces Slack workspace.)</em></li>
-<li>Upcoming
-<a class="external" href="https://arc.umich.edu/events/" target="_blank">UM
-Advanced Research Computing workshops</a>.</li>
-<li>Advanced Research Computing (ARC) at University of Michigan hosts a
-high-performance computing (HPC) platform called <em>Great Lakes</em>
-which combines high-end computers, fast/resilient storage, and
-pre-installed software. GreatLakes may be a good resource for folks who
-need to run the more compute intensive steps and a substantial block of
-compute and storage is subsidized by ARC making it essentially free to
-many researchers.
+<li><a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces “office hours”</a> and UM CoderSpaces Slack workspace. <em>(See “Useful Resources” section in above page for instructions on how to join and access the CoderSpaces Slack workspace.)</em></li>
+<li>Upcoming <a class="external" href="https://arc.umich.edu/events/" target="_blank">UM Advanced Research Computing workshops</a>.</li>
+<li>Advanced Research Computing (ARC) at University of Michigan hosts a high-performance computing (HPC) platform called <em>Great Lakes</em> which combines high-end computers, fast/resilient storage, and pre-installed software. GreatLakes may be a good resource for folks who need to run the more compute intensive steps and a substantial block of compute and storage is subsidized by ARC making it essentially free to many researchers.
 <ul>
-<li>About
-<a class="external" href="https://arc.umich.edu/greatlakes/" target="_blank">Great
-Lakes HPC</a>.</li>
-<li>About the ARC
-<a class="external" href="https://arc.umich.edu/umrcp/" target="_blank">Research
-Computing Package</a>.</li>
-<li>Videos on
-<a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting
-started with Great Lakes</a>. (available to UM folks)</li>
+<li>About <a class="external" href="https://arc.umich.edu/greatlakes/" target="_blank">Great Lakes HPC</a>.</li>
+<li>About the ARC <a class="external" href="https://arc.umich.edu/umrcp/" target="_blank">Research Computing Package</a>.</li>
+<li>Videos on <a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting started with Great Lakes</a>. (available to UM folks)</li>
 </ul></li>
 </ul>
 <div id="training-and-support" class="section level4">
 <h4>Training and support</h4>
 <ul>
-<li>Learning bioinformatic analyses more like a process than a task.
-Resources to consider:
+<li>Learning bioinformatic analyses more like a process than a task. Resources to consider:
 <ul>
-<li>UM Bioinformatics Core links to
-<a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">training
-resources/workshops</a></li>
-<li>Notes on Bash and R from the recent
-<a href="https://umich-brcf-bioinf.github.io/2023-07-31-umich-computational-foundations/html/" target="_blank">Computational
-Foundations Workshop</a>.<br/></li>
-<li>For more intro lessons and workshops in Bash / Git / R / Python :
-<a href="https://software-carpentry.org/lessons/" target="_blank">Software
-Carpentry</a> and the
-<a href="https://umcarpentries.org/" target="_blank">UM Software
-Carpentry Group</a>.</li>
-<li>For more info on NGS analysis, we can highly recommend training
-materials from the
-<a href="https://hbctraining.github.io/main/" target="_blank">Harvard
-Chan Bioinformatics Core</a>.</li>
+<li>UM Bioinformatics Core links to <a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">training resources/workshops</a></li>
+<li>Notes on Bash and R from the recent <a href="https://umich-brcf-bioinf.github.io/2023-07-31-umich-computational-foundations/html/" target="_blank">Computational Foundations Workshop</a>.<br/></li>
+<li>For more intro lessons and workshops in Bash / Git / R / Python : <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.</li>
+<li>For more info on NGS analysis, we can highly recommend training materials from the <a href="https://hbctraining.github.io/main/" target="_blank">Harvard Chan Bioinformatics Core</a>.</li>
 </ul></li>
 </ul>
 <hr />
@@ -574,28 +510,19 @@ Chan Bioinformatics Core</a>.</li>
 </div>
 <div id="thank-you" class="section level2">
 <h2>Thank you</h2>
-<div class="float">
-<img src="images/Module00_sponsor_logos.png" alt="Sponsors" />
-<div class="figcaption">Sponsors</div>
+<div class="figure">
+<img src="images/Module00_sponsor_logos.png" alt="" />
+<p class="caption">Sponsors</p>
 </div>
 </div>
 <div id="thank-you-tofrom-the-workshop-team" class="section level2">
 <h2>Thank you to/from the workshop team</h2>
 <table>
-<colgroup>
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
-<col width="25%" />
-</colgroup>
 <thead>
 <tr class="header">
-<th align="center"><img
-src="images/Module00_headshots/headshot_cgates.jpg" /></th>
-<th align="center"><img
-src="images/Module00_headshots/headshot_mbradenb.jpg" /></th>
-<th align="center"><img
-src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
+<th align="center"><img src="images/Module00_headshots/headshot_cgates.jpg" /></th>
+<th align="center"><img src="images/Module00_headshots/headshot_mbradenb.jpg" /></th>
+<th align="center"><img src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
 <th align="center"></th>
 </tr>
 </thead>
@@ -607,8 +534,7 @@ src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
 <td align="center"></td>
 </tr>
 <tr class="even">
-<td align="center"><img
-src="images/Module00_headshots/headshot_damki.jpg" /></td>
+<td align="center"><img src="images/Module00_headshots/headshot_damki.jpg" /></td>
 <td align="center"></td>
 <td align="center"></td>
 <td align="center"></td>
@@ -622,13 +548,9 @@ src="images/Module00_headshots/headshot_damki.jpg" /></td>
 </tbody>
 </table>
 <p><br/></p>
-<p>Thank you for participating in our workshop. We welcome your
-questions and feedback now and in the future.</p>
+<p>Thank you for participating in our workshop. We welcome your questions and feedback now and in the future.</p>
 <p>Bioinformatics Workshop Team</p>
-<p><a
-href="mailto:bioinformatics-workshops@umich.edu">bioinformatics-workshops@umich.edu</a>
-<br/> <a
-href="https://brcf.medicine.umich.edu/bioinformatics">https://brcf.medicine.umich.edu/bioinformatics</a></p>
+<p><a href="mailto:bioinformatics-workshops@umich.edu">bioinformatics-workshops@umich.edu</a> <br/> <a href="https://brcf.medicine.umich.edu/bioinformatics">https://brcf.medicine.umich.edu/bioinformatics</a></p>
 </div>
 
 

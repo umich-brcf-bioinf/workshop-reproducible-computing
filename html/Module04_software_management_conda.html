@@ -14,7 +14,7 @@
 
 <title>Software Management and Conda</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -30,9 +30,6 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
@@ -247,69 +244,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -317,16 +251,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -396,19 +320,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="why-workflow-automation.html">Why workflow automation?</a>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
     </li>
     <li>
-      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="exercise-3.html">Exercise 3</a>
-    </li>
-    <li>
-      <a href="capstone-exercise.html">Capstone exercise</a>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
     </li>
   </ul>
 </li>
@@ -458,38 +376,24 @@ pre {
 </ul>
 <div id="software-management" class="section level2">
 <h2>Software Management</h2>
-<p>Software management is something that is not typically appreciated
-until it is missing. In your typical day-to-day computing tasks,
-software management is an automatic background process, and generally
-this is how we want things to be.</p>
-<p>When performing research computing tasks, however, you may run into
-situations when this automatic background handling of software
-requirements is not sufficient. You may have very specific version
-requirements, or you may have disparate (or incompatible!) software
-needs for different tasks.</p>
-<p>You’ll find that the tools that we employ for software management
-during research computing have some extra capabilities that make them
-particularly well-suited for these use cases.</p>
+<p>Software management is something that is not typically appreciated until it is missing. In your typical day-to-day computing tasks, software management is an automatic background process, and generally this is how we want things to be.</p>
+<p>When performing research computing tasks, however, you may run into situations when this automatic background handling of software requirements is not sufficient. You may have very specific version requirements, or you may have disparate (or incompatible!) software needs for different tasks.</p>
+<p>You’ll find that the tools that we employ for software management during research computing have some extra capabilities that make them particularly well-suited for these use cases.</p>
 <div id="package-managers" class="section level3">
 <h3>Package Managers</h3>
-<p>We likely all have some experience with software management. I’d like
-to examine our experience with software management, and promote
-appreciation for the work that often happens behind the scenes.</p>
-<p><img src="images/Module04_dependencies_long_list.jpg" /></p>
+<p>We likely all have some experience with software management. I’d like to examine our experience with software management, and promote appreciation for the work that often happens behind the scenes.</p>
+<p><br></p>
+<p><img src="images/Module04_dependencies_long_list.png" /></p>
+<p><br></p>
+<p><img src="images/Module04_dependencies_xsdk_tangled_mess.png" /></p>
+<p><br></p>
 </div>
 <div id="the-need-for-modular-solutions" class="section level3">
 <h3>The Need for Modular Solutions</h3>
 <p>System-level software</p>
 <p>Just one env</p>
 <p>Poll about software incompatibility experiences</p>
-</div>
-<div id="simplifies-distribution-of-new-software"
-class="section level3">
-<h3>Simplifies Distribution of New Software</h3>
-<p>Cutting edge software - cutting edge dependencies</p>
-<p>Ability to record recipe and share</p>
-<p>If I’m developing a package, I can take these simple steps - ensures
-everyone can use software</p>
+<p><a href="https://bssw.io/blog_posts/build-integration-and-testing-for-sustainable-scientific-computing-software" class="uri">https://bssw.io/blog_posts/build-integration-and-testing-for-sustainable-scientific-computing-software</a></p>
 </div>
 </div>
 <div id="conda" class="section level2">
@@ -499,8 +403,7 @@ everyone can use software</p>
 <ul>
 <li>Across languages and platforms</li>
 </ul></li>
-<li>Plugable - Ability to switch between software environments at
-will</li>
+<li>Plugable - Ability to switch between software environments at will</li>
 <li>Automatically handles software requirements</li>
 <li>A ‘Conda recipe’ is used to list specifications
 <ul>
@@ -508,90 +411,74 @@ will</li>
 <li>Can communicate requirements to others when shared</li>
 </ul></li>
 </ul>
+<div id="simplifies-distribution-of-new-software" class="section level3">
+<h3>Simplifies Distribution of New Software</h3>
+<p>Cutting edge software - cutting edge dependencies</p>
+<p>Ability to record recipe and share</p>
+<p>If I’m developing a package, I can take these simple steps - ensures everyone can use software</p>
+</div>
 <div id="environments" class="section level3">
 <h3>Environments</h3>
-<p>The thing that is ‘built’ by Conda and can be enabled/disabled at
-will</p>
-<p>Actual terms <code>activate</code> and <code>deactivate</code> used
-in conda</p>
-<p>Within the environment, dependencies are handled, software is made
-available</p>
+<p>The thing that is ‘built’ by Conda and can be enabled/disabled at will</p>
+<p>Actual terms <code>activate</code> and <code>deactivate</code> used in conda</p>
+<p>Within the environment, dependencies are handled, software is made available</p>
 <p>Quick aside about $PATH</p>
 </div>
 <div id="packages-and-channels" class="section level3">
 <h3>Packages and Channels</h3>
-<p>We start to care about these when we are creating our own conda
-environments</p>
-<p>Packages - a bunch of files (binaries, config files, etc), all
-bundled up together</p>
-<p>Conda will download various packages as described, and has a system
-for storing these packages and “installing” them in an particular
-location</p>
-<p>“Install” is air-quoted - although the software is installed, it
-differs from a typical software installation in that everything within
-the package is contained in a special location set by Conda</p>
+<p>We start to care about these when we are creating our own conda environments</p>
+<p>Packages - a bunch of files (binaries, config files, etc), all bundled up together</p>
+<p>Conda will download various packages as described, and has a system for storing these packages and “installing” them in an particular location</p>
+<p>“Install” is air-quoted - although the software is installed, it differs from a typical software installation in that everything within the package is contained in a special location set by Conda</p>
 </div>
 <div id="anaconda-vs-miniconda" class="section level3">
 <h3>Anaconda vs Miniconda</h3>
-<p>Anaconda comes pre-bundled with a plethora of common python and data
-science packages. Miniconda starts out as more of a blank slate.</p>
+<p>Anaconda comes pre-bundled with a plethora of common python and data science packages. Miniconda starts out as more of a blank slate.</p>
 </div>
 <div id="conda-configuration-with-.condarc" class="section level3">
 <h3>Conda configuration with .condarc</h3>
-<p>Condarc file contains configuration details for your conda
-installation.</p>
-<p><a
-href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html"
-class="uri">https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html</a></p>
-<p>Specific recommendation: use <code>envs_dirs</code> to place conda
-envs and downloaded packages into an appropriate location</p>
+<p>Condarc file contains configuration details for your conda installation.</p>
+<p><a href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html" class="uri">https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html</a></p>
+<p>Specific recommendation: use <code>envs_dirs</code> to place conda envs and downloaded packages into an appropriate location</p>
 </div>
 </div>
 <div id="conda-install-and-configure-exercise" class="section level2">
 <h2>Conda Install and Configure Exercise</h2>
-<p>Following along with instructor, learners will install miniconda and
-create a <code>.condarc</code> file</p>
+<p>Following along with instructor, learners will install miniconda and create a <code>.condarc</code> file</p>
 </div>
 <div id="conda-activate-exercise" class="section level2">
 <h2>Conda Activate Exercise</h2>
-<p>Following along with instructor, learners will activate an existing
-environment. We’ll demonstrate addition to the $PATH (and
-<code>which</code>?)</p>
+<p>Following along with instructor, learners will activate an existing environment. We’ll demonstrate addition to the $PATH (and <code>which</code>?)</p>
 </div>
 <div id="conda-create-exercise" class="section level2">
 <h2>Conda Create Exercise</h2>
-<p>Instructor will demonstrate creating a simple conda environment on
-the command line.</p>
-<p>We’ll then ask about how to create a slightly more complicated conda
-environment. We’ll start a thread and learners will respond and/or vote
-on the command that they would use</p>
+<p>Instructor will demonstrate creating a simple conda environment on the command line.</p>
+<p>We’ll then ask about how to create a slightly more complicated conda environment. We’ll start a thread and learners will respond and/or vote on the command that they would use</p>
 </div>
 <div id="srun-with-conda-create-exercise" class="section level2">
 <h2>SRUN with Conda Create Exercise</h2>
-<p>Following along with instructor, we’ll launch an srun job and then
-create a conda environment in it</p>
+<p>Following along with instructor, we’ll launch an srun job and then create a conda environment in it</p>
 </div>
 <div id="sbatch-with-conda-activate-exercise" class="section level2">
 <h2>SBATCH with Conda Activate Exercise</h2>
-<p>Individual exercise. Launch an SBATCH job that activates a conda
-environment, checks a version of samtools and uses <code>which</code> to
-verify its location. Inspect the job log in order to determine
-success</p>
+<p>Individual exercise. Launch an SBATCH job that activates a conda environment, checks a version of samtools and uses <code>which</code> to verify its location. Inspect the job log in order to determine success</p>
+</div>
+<div id="conda-export-exercise" class="section level2">
+<h2>Conda Export Exercise</h2>
+<p>Following along with the instructor, we’ll use Conda’s export functionality to create an export - a more complete recipe with all dependencies and their versions fully listed.</p>
+<p>FIXME: Allude to the idea of time-based durability</p>
 </div>
 <div id="review" class="section level2">
 <h2>Review</h2>
-<table style="width:100%;">
-<colgroup>
-<col width="28%" />
-<col width="42%" />
-<col width="28%" />
-</colgroup>
+<p>Conda allows us to install and manage our own software. On a multi-user system like Great Lakes, this is very powerful.</p>
+<p>It provides plugability to our software needs. When we need a wide variety of tools at different times, with some being incompatible with one another, this becomes critical.</p>
+<p>When given a set of software requirement specifications, Conda handles all of the dependencies and creates a somewhat contained environment that we can <code>activate</code> and <code>deactivate</code> as needed.</p>
+<table>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module00_Introduction.html">Back to
-Introduction</a></th>
+<th align="left"><a href="Module03b_great_lakes_cluster.html">Previous lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+<th align="right"><a href="Module05_containers_docker_singularity.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
@@ -599,11 +486,9 @@ Introduction</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiU29mdHdhcmUgTWFuYWdlbWVudCBhbmQgQ29uZGEiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBzb2Z0d2FyZSBtYW5hZ2VtZW50CiogZGlzY3VzcyBwYWNrYWdlIG1hbmFnZXJzCiogZGlzY3VzcyBjb25kYSBhcyBhIHNvZnR3YXJlIG1hbmFnZW1lbnQgc29sdXRpb24KKiBsZWFybiBob3cgdG8gc2V0IHVwIGNvbmRhCiogbGVhcm4gaG93IHRvIGNyZWF0ZSBhbmQgdXNlIG91ciBvd24gY29uZGEgZW52aXJvbm1lbnRzCgojIyBTb2Z0d2FyZSBNYW5hZ2VtZW50CgpTb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIHNvbWV0aGluZyB0aGF0IGlzIG5vdCB0eXBpY2FsbHkgYXBwcmVjaWF0ZWQgdW50aWwgaXQgaXMgbWlzc2luZy4gSW4geW91ciB0eXBpY2FsIGRheS10by1kYXkgY29tcHV0aW5nIHRhc2tzLCBzb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIGFuIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIHByb2Nlc3MsIGFuZCBnZW5lcmFsbHkgdGhpcyBpcyBob3cgd2Ugd2FudCB0aGluZ3MgdG8gYmUuCgpXaGVuIHBlcmZvcm1pbmcgcmVzZWFyY2ggY29tcHV0aW5nIHRhc2tzLCBob3dldmVyLCB5b3UgbWF5IHJ1biBpbnRvIHNpdHVhdGlvbnMgd2hlbiB0aGlzIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIGhhbmRsaW5nIG9mIHNvZnR3YXJlIHJlcXVpcmVtZW50cyBpcyBub3Qgc3VmZmljaWVudC4gWW91IG1heSBoYXZlIHZlcnkgc3BlY2lmaWMgdmVyc2lvbiByZXF1aXJlbWVudHMsIG9yIHlvdSBtYXkgaGF2ZSBkaXNwYXJhdGUgKG9yIGluY29tcGF0aWJsZSEpIHNvZnR3YXJlIG5lZWRzIGZvciBkaWZmZXJlbnQgdGFza3MuCgpZb3UnbGwgZmluZCB0aGF0IHRoZSB0b29scyB0aGF0IHdlIGVtcGxveSBmb3Igc29mdHdhcmUgbWFuYWdlbWVudCBkdXJpbmcgcmVzZWFyY2ggY29tcHV0aW5nIGhhdmUgc29tZSBleHRyYSBjYXBhYmlsaXRpZXMgdGhhdCBtYWtlIHRoZW0gcGFydGljdWxhcmx5IHdlbGwtc3VpdGVkIGZvciB0aGVzZSB1c2UgY2FzZXMuCgojIyMgUGFja2FnZSBNYW5hZ2VycwoKV2UgbGlrZWx5IGFsbCBoYXZlIHNvbWUgZXhwZXJpZW5jZSB3aXRoIHNvZnR3YXJlIG1hbmFnZW1lbnQuIEknZCBsaWtlIHRvIGV4YW1pbmUgb3VyIGV4cGVyaWVuY2Ugd2l0aCBzb2Z0d2FyZSBtYW5hZ2VtZW50LCBhbmQgcHJvbW90ZSBhcHByZWNpYXRpb24gZm9yIHRoZSB3b3JrIHRoYXQgb2Z0ZW4gaGFwcGVucyBiZWhpbmQgdGhlIHNjZW5lcy4KCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2xvbmdfbGlzdC5qcGcpCgoKIyMjIFRoZSBOZWVkIGZvciBNb2R1bGFyIFNvbHV0aW9ucwoKU3lzdGVtLWxldmVsIHNvZnR3YXJlCgpKdXN0IG9uZSBlbnYKClBvbGwgYWJvdXQgc29mdHdhcmUgaW5jb21wYXRpYmlsaXR5IGV4cGVyaWVuY2VzCgoKCiMjIyBTaW1wbGlmaWVzIERpc3RyaWJ1dGlvbiBvZiBOZXcgU29mdHdhcmUKCkN1dHRpbmcgZWRnZSBzb2Z0d2FyZSAtIGN1dHRpbmcgZWRnZSBkZXBlbmRlbmNpZXMKCkFiaWxpdHkgdG8gcmVjb3JkIHJlY2lwZSBhbmQgc2hhcmUKCklmIEknbSBkZXZlbG9waW5nIGEgcGFja2FnZSwgSSBjYW4gdGFrZSB0aGVzZSBzaW1wbGUgc3RlcHMgLSBlbnN1cmVzIGV2ZXJ5b25lIGNhbiB1c2Ugc29mdHdhcmUKCiMjIENvbmRhCgotIEJyb2FkIHN1cHBvcnQgZm9yIG1hbnkgdHlwZXMgb2Ygc29mdHdhcmUgcGFja2FnZXMKICAtIEFjcm9zcyBsYW5ndWFnZXMgYW5kIHBsYXRmb3JtcwotIFBsdWdhYmxlIC0gQWJpbGl0eSB0byBzd2l0Y2ggYmV0d2VlbiBzb2Z0d2FyZSBlbnZpcm9ubWVudHMgYXQgd2lsbAotIEF1dG9tYXRpY2FsbHkgaGFuZGxlcyBzb2Z0d2FyZSByZXF1aXJlbWVudHMKLSBBICdDb25kYSByZWNpcGUnIGlzIHVzZWQgdG8gbGlzdCBzcGVjaWZpY2F0aW9ucwogIC0gVXNlZCBkdXJpbmcgZW52aXJvbm1lbnQgY3JlYXRpb24KICAtIENhbiBjb21tdW5pY2F0ZSByZXF1aXJlbWVudHMgdG8gb3RoZXJzIHdoZW4gc2hhcmVkCgojIyMgRW52aXJvbm1lbnRzCgpUaGUgdGhpbmcgdGhhdCBpcyAnYnVpbHQnIGJ5IENvbmRhIGFuZCBjYW4gYmUgZW5hYmxlZC9kaXNhYmxlZCBhdCB3aWxsCgpBY3R1YWwgdGVybXMgYGFjdGl2YXRlYCBhbmQgYGRlYWN0aXZhdGVgIHVzZWQgaW4gY29uZGEKCldpdGhpbiB0aGUgZW52aXJvbm1lbnQsIGRlcGVuZGVuY2llcyBhcmUgaGFuZGxlZCwgc29mdHdhcmUgaXMgbWFkZSBhdmFpbGFibGUKClF1aWNrIGFzaWRlIGFib3V0ICRQQVRICgoKIyMjIFBhY2thZ2VzIGFuZCBDaGFubmVscwoKV2Ugc3RhcnQgdG8gY2FyZSBhYm91dCB0aGVzZSB3aGVuIHdlIGFyZSBjcmVhdGluZyBvdXIgb3duIGNvbmRhIGVudmlyb25tZW50cwoKUGFja2FnZXMgLSBhIGJ1bmNoIG9mIGZpbGVzIChiaW5hcmllcywgY29uZmlnIGZpbGVzLCBldGMpLCBhbGwgYnVuZGxlZCB1cCB0b2dldGhlcgoKQ29uZGEgd2lsbCBkb3dubG9hZCB2YXJpb3VzIHBhY2thZ2VzIGFzIGRlc2NyaWJlZCwgYW5kIGhhcyBhIHN5c3RlbSBmb3Igc3RvcmluZyB0aGVzZSBwYWNrYWdlcyBhbmQgImluc3RhbGxpbmciIHRoZW0gaW4gYW4gcGFydGljdWxhciBsb2NhdGlvbgoKIkluc3RhbGwiIGlzIGFpci1xdW90ZWQgLSBhbHRob3VnaCB0aGUgc29mdHdhcmUgaXMgaW5zdGFsbGVkLCBpdCBkaWZmZXJzIGZyb20gYSB0eXBpY2FsIHNvZnR3YXJlIGluc3RhbGxhdGlvbiBpbiB0aGF0IGV2ZXJ5dGhpbmcgd2l0aGluIHRoZSBwYWNrYWdlIGlzIGNvbnRhaW5lZCBpbiBhIHNwZWNpYWwgbG9jYXRpb24gc2V0IGJ5IENvbmRhCgoKIyMjIEFuYWNvbmRhIHZzIE1pbmljb25kYQoKQW5hY29uZGEgY29tZXMgcHJlLWJ1bmRsZWQgd2l0aCBhIHBsZXRob3JhIG9mIGNvbW1vbiBweXRob24gYW5kIGRhdGEgc2NpZW5jZSBwYWNrYWdlcy4gTWluaWNvbmRhIHN0YXJ0cyBvdXQgYXMgbW9yZSBvZiBhIGJsYW5rIHNsYXRlLgoKIyMjIENvbmRhIGNvbmZpZ3VyYXRpb24gd2l0aCAuY29uZGFyYwoKQ29uZGFyYyBmaWxlIGNvbnRhaW5zIGNvbmZpZ3VyYXRpb24gZGV0YWlscyBmb3IgeW91ciBjb25kYSBpbnN0YWxsYXRpb24uIAoKaHR0cHM6Ly9jb25kYS5pby9wcm9qZWN0cy9jb25kYS9lbi9sYXRlc3QvdXNlci1ndWlkZS9jb25maWd1cmF0aW9uL3VzZS1jb25kYXJjLmh0bWwKClNwZWNpZmljIHJlY29tbWVuZGF0aW9uOiB1c2UgYGVudnNfZGlyc2AgdG8gcGxhY2UgY29uZGEgZW52cyBhbmQgZG93bmxvYWRlZCBwYWNrYWdlcyBpbnRvIGFuIGFwcHJvcHJpYXRlIGxvY2F0aW9uCgojIyBDb25kYSBJbnN0YWxsIGFuZCBDb25maWd1cmUgRXhlcmNpc2UKCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIGxlYXJuZXJzIHdpbGwgaW5zdGFsbCBtaW5pY29uZGEgYW5kIGNyZWF0ZSBhIGAuY29uZGFyY2AgZmlsZQoKIyMgQ29uZGEgQWN0aXZhdGUgRXhlcmNpc2UKCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIGxlYXJuZXJzIHdpbGwgYWN0aXZhdGUgYW4gZXhpc3RpbmcgZW52aXJvbm1lbnQuIFdlJ2xsIGRlbW9uc3RyYXRlIGFkZGl0aW9uIHRvIHRoZSAkUEFUSCAoYW5kIGB3aGljaGA/KQoKIyMgQ29uZGEgQ3JlYXRlIEV4ZXJjaXNlCgpJbnN0cnVjdG9yIHdpbGwgZGVtb25zdHJhdGUgY3JlYXRpbmcgYSBzaW1wbGUgY29uZGEgZW52aXJvbm1lbnQgb24gdGhlIGNvbW1hbmQgbGluZS4gCgpXZSdsbCB0aGVuIGFzayBhYm91dCBob3cgdG8gY3JlYXRlIGEgc2xpZ2h0bHkgbW9yZSBjb21wbGljYXRlZCBjb25kYSBlbnZpcm9ubWVudC4gV2UnbGwgc3RhcnQgYSB0aHJlYWQgYW5kIGxlYXJuZXJzIHdpbGwgcmVzcG9uZCBhbmQvb3Igdm90ZSBvbiB0aGUgY29tbWFuZCB0aGF0IHRoZXkgd291bGQgdXNlCgojIyBTUlVOIHdpdGggQ29uZGEgQ3JlYXRlIEV4ZXJjaXNlCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gc3J1biBqb2IgYW5kIHRoZW4gY3JlYXRlIGEgY29uZGEgZW52aXJvbm1lbnQgaW4gaXQKCiMjIFNCQVRDSCB3aXRoIENvbmRhIEFjdGl2YXRlIEV4ZXJjaXNlCgpJbmRpdmlkdWFsIGV4ZXJjaXNlLiBMYXVuY2ggYW4gU0JBVENIIGpvYiB0aGF0IGFjdGl2YXRlcyBhIGNvbmRhIGVudmlyb25tZW50LCBjaGVja3MgYSB2ZXJzaW9uIG9mIHNhbXRvb2xzIGFuZCB1c2VzIGB3aGljaGAgdG8gdmVyaWZ5IGl0cyBsb2NhdGlvbi4gSW5zcGVjdCB0aGUgam9iIGxvZyBpbiBvcmRlciB0byBkZXRlcm1pbmUgc3VjY2VzcwoKCiMjIFJldmlldwoKCnwgW0JhY2sgdG8gSW50cm9kdWN0aW9uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlIEZJWE1FIC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU29mdHdhcmUgTWFuYWdlbWVudCBhbmQgQ29uZGEiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBzb2Z0d2FyZSBtYW5hZ2VtZW50CiogZGlzY3VzcyBwYWNrYWdlIG1hbmFnZXJzCiogZGlzY3VzcyBjb25kYSBhcyBhIHNvZnR3YXJlIG1hbmFnZW1lbnQgc29sdXRpb24KKiBsZWFybiBob3cgdG8gc2V0IHVwIGNvbmRhCiogbGVhcm4gaG93IHRvIGNyZWF0ZSBhbmQgdXNlIG91ciBvd24gY29uZGEgZW52aXJvbm1lbnRzCgojIyBTb2Z0d2FyZSBNYW5hZ2VtZW50CgpTb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIHNvbWV0aGluZyB0aGF0IGlzIG5vdCB0eXBpY2FsbHkgYXBwcmVjaWF0ZWQgdW50aWwgaXQgaXMgbWlzc2luZy4gSW4geW91ciB0eXBpY2FsIGRheS10by1kYXkgY29tcHV0aW5nIHRhc2tzLCBzb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIGFuIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIHByb2Nlc3MsIGFuZCBnZW5lcmFsbHkgdGhpcyBpcyBob3cgd2Ugd2FudCB0aGluZ3MgdG8gYmUuCgpXaGVuIHBlcmZvcm1pbmcgcmVzZWFyY2ggY29tcHV0aW5nIHRhc2tzLCBob3dldmVyLCB5b3UgbWF5IHJ1biBpbnRvIHNpdHVhdGlvbnMgd2hlbiB0aGlzIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIGhhbmRsaW5nIG9mIHNvZnR3YXJlIHJlcXVpcmVtZW50cyBpcyBub3Qgc3VmZmljaWVudC4gWW91IG1heSBoYXZlIHZlcnkgc3BlY2lmaWMgdmVyc2lvbiByZXF1aXJlbWVudHMsIG9yIHlvdSBtYXkgaGF2ZSBkaXNwYXJhdGUgKG9yIGluY29tcGF0aWJsZSEpIHNvZnR3YXJlIG5lZWRzIGZvciBkaWZmZXJlbnQgdGFza3MuCgpZb3UnbGwgZmluZCB0aGF0IHRoZSB0b29scyB0aGF0IHdlIGVtcGxveSBmb3Igc29mdHdhcmUgbWFuYWdlbWVudCBkdXJpbmcgcmVzZWFyY2ggY29tcHV0aW5nIGhhdmUgc29tZSBleHRyYSBjYXBhYmlsaXRpZXMgdGhhdCBtYWtlIHRoZW0gcGFydGljdWxhcmx5IHdlbGwtc3VpdGVkIGZvciB0aGVzZSB1c2UgY2FzZXMuCgojIyMgUGFja2FnZSBNYW5hZ2VycwoKV2UgbGlrZWx5IGFsbCBoYXZlIHNvbWUgZXhwZXJpZW5jZSB3aXRoIHNvZnR3YXJlIG1hbmFnZW1lbnQuIEknZCBsaWtlIHRvIGV4YW1pbmUgb3VyIGV4cGVyaWVuY2Ugd2l0aCBzb2Z0d2FyZSBtYW5hZ2VtZW50LCBhbmQgcHJvbW90ZSBhcHByZWNpYXRpb24gZm9yIHRoZSB3b3JrIHRoYXQgb2Z0ZW4gaGFwcGVucyBiZWhpbmQgdGhlIHNjZW5lcy4KCjxicj4KCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2xvbmdfbGlzdC5wbmcpCgo8YnI+CgohW10oaW1hZ2VzL01vZHVsZTA0X2RlcGVuZGVuY2llc194c2RrX3RhbmdsZWRfbWVzcy5wbmcpCgo8YnI+CgojIyMgVGhlIE5lZWQgZm9yIE1vZHVsYXIgU29sdXRpb25zCgpTeXN0ZW0tbGV2ZWwgc29mdHdhcmUKCkp1c3Qgb25lIGVudgoKUG9sbCBhYm91dCBzb2Z0d2FyZSBpbmNvbXBhdGliaWxpdHkgZXhwZXJpZW5jZXMKCgpodHRwczovL2Jzc3cuaW8vYmxvZ19wb3N0cy9idWlsZC1pbnRlZ3JhdGlvbi1hbmQtdGVzdGluZy1mb3Itc3VzdGFpbmFibGUtc2NpZW50aWZpYy1jb21wdXRpbmctc29mdHdhcmUKCgojIyBDb25kYQoKLSBCcm9hZCBzdXBwb3J0IGZvciBtYW55IHR5cGVzIG9mIHNvZnR3YXJlIHBhY2thZ2VzCiAgLSBBY3Jvc3MgbGFuZ3VhZ2VzIGFuZCBwbGF0Zm9ybXMKLSBQbHVnYWJsZSAtIEFiaWxpdHkgdG8gc3dpdGNoIGJldHdlZW4gc29mdHdhcmUgZW52aXJvbm1lbnRzIGF0IHdpbGwKLSBBdXRvbWF0aWNhbGx5IGhhbmRsZXMgc29mdHdhcmUgcmVxdWlyZW1lbnRzCi0gQSAnQ29uZGEgcmVjaXBlJyBpcyB1c2VkIHRvIGxpc3Qgc3BlY2lmaWNhdGlvbnMKICAtIFVzZWQgZHVyaW5nIGVudmlyb25tZW50IGNyZWF0aW9uCiAgLSBDYW4gY29tbXVuaWNhdGUgcmVxdWlyZW1lbnRzIHRvIG90aGVycyB3aGVuIHNoYXJlZAoKIyMjIFNpbXBsaWZpZXMgRGlzdHJpYnV0aW9uIG9mIE5ldyBTb2Z0d2FyZQoKQ3V0dGluZyBlZGdlIHNvZnR3YXJlIC0gY3V0dGluZyBlZGdlIGRlcGVuZGVuY2llcwoKQWJpbGl0eSB0byByZWNvcmQgcmVjaXBlIGFuZCBzaGFyZQoKSWYgSSdtIGRldmVsb3BpbmcgYSBwYWNrYWdlLCBJIGNhbiB0YWtlIHRoZXNlIHNpbXBsZSBzdGVwcyAtIGVuc3VyZXMgZXZlcnlvbmUgY2FuIHVzZSBzb2Z0d2FyZQoKCiMjIyBFbnZpcm9ubWVudHMKClRoZSB0aGluZyB0aGF0IGlzICdidWlsdCcgYnkgQ29uZGEgYW5kIGNhbiBiZSBlbmFibGVkL2Rpc2FibGVkIGF0IHdpbGwKCkFjdHVhbCB0ZXJtcyBgYWN0aXZhdGVgIGFuZCBgZGVhY3RpdmF0ZWAgdXNlZCBpbiBjb25kYQoKV2l0aGluIHRoZSBlbnZpcm9ubWVudCwgZGVwZW5kZW5jaWVzIGFyZSBoYW5kbGVkLCBzb2Z0d2FyZSBpcyBtYWRlIGF2YWlsYWJsZQoKUXVpY2sgYXNpZGUgYWJvdXQgJFBBVEgKCgojIyMgUGFja2FnZXMgYW5kIENoYW5uZWxzCgpXZSBzdGFydCB0byBjYXJlIGFib3V0IHRoZXNlIHdoZW4gd2UgYXJlIGNyZWF0aW5nIG91ciBvd24gY29uZGEgZW52aXJvbm1lbnRzCgpQYWNrYWdlcyAtIGEgYnVuY2ggb2YgZmlsZXMgKGJpbmFyaWVzLCBjb25maWcgZmlsZXMsIGV0YyksIGFsbCBidW5kbGVkIHVwIHRvZ2V0aGVyCgpDb25kYSB3aWxsIGRvd25sb2FkIHZhcmlvdXMgcGFja2FnZXMgYXMgZGVzY3JpYmVkLCBhbmQgaGFzIGEgc3lzdGVtIGZvciBzdG9yaW5nIHRoZXNlIHBhY2thZ2VzIGFuZCAiaW5zdGFsbGluZyIgdGhlbSBpbiBhbiBwYXJ0aWN1bGFyIGxvY2F0aW9uCgoiSW5zdGFsbCIgaXMgYWlyLXF1b3RlZCAtIGFsdGhvdWdoIHRoZSBzb2Z0d2FyZSBpcyBpbnN0YWxsZWQsIGl0IGRpZmZlcnMgZnJvbSBhIHR5cGljYWwgc29mdHdhcmUgaW5zdGFsbGF0aW9uIGluIHRoYXQgZXZlcnl0aGluZyB3aXRoaW4gdGhlIHBhY2thZ2UgaXMgY29udGFpbmVkIGluIGEgc3BlY2lhbCBsb2NhdGlvbiBzZXQgYnkgQ29uZGEKCgojIyMgQW5hY29uZGEgdnMgTWluaWNvbmRhCgpBbmFjb25kYSBjb21lcyBwcmUtYnVuZGxlZCB3aXRoIGEgcGxldGhvcmEgb2YgY29tbW9uIHB5dGhvbiBhbmQgZGF0YSBzY2llbmNlIHBhY2thZ2VzLiBNaW5pY29uZGEgc3RhcnRzIG91dCBhcyBtb3JlIG9mIGEgYmxhbmsgc2xhdGUuCgojIyMgQ29uZGEgY29uZmlndXJhdGlvbiB3aXRoIC5jb25kYXJjCgpDb25kYXJjIGZpbGUgY29udGFpbnMgY29uZmlndXJhdGlvbiBkZXRhaWxzIGZvciB5b3VyIGNvbmRhIGluc3RhbGxhdGlvbi4gCgpodHRwczovL2NvbmRhLmlvL3Byb2plY3RzL2NvbmRhL2VuL2xhdGVzdC91c2VyLWd1aWRlL2NvbmZpZ3VyYXRpb24vdXNlLWNvbmRhcmMuaHRtbAoKU3BlY2lmaWMgcmVjb21tZW5kYXRpb246IHVzZSBgZW52c19kaXJzYCB0byBwbGFjZSBjb25kYSBlbnZzIGFuZCBkb3dubG9hZGVkIHBhY2thZ2VzIGludG8gYW4gYXBwcm9wcmlhdGUgbG9jYXRpb24KCiMjIENvbmRhIEluc3RhbGwgYW5kIENvbmZpZ3VyZSBFeGVyY2lzZQoKRm9sbG93aW5nIGFsb25nIHdpdGggaW5zdHJ1Y3RvciwgbGVhcm5lcnMgd2lsbCBpbnN0YWxsIG1pbmljb25kYSBhbmQgY3JlYXRlIGEgYC5jb25kYXJjYCBmaWxlCgojIyBDb25kYSBBY3RpdmF0ZSBFeGVyY2lzZQoKRm9sbG93aW5nIGFsb25nIHdpdGggaW5zdHJ1Y3RvciwgbGVhcm5lcnMgd2lsbCBhY3RpdmF0ZSBhbiBleGlzdGluZyBlbnZpcm9ubWVudC4gV2UnbGwgZGVtb25zdHJhdGUgYWRkaXRpb24gdG8gdGhlICRQQVRIIChhbmQgYHdoaWNoYD8pCgojIyBDb25kYSBDcmVhdGUgRXhlcmNpc2UKCkluc3RydWN0b3Igd2lsbCBkZW1vbnN0cmF0ZSBjcmVhdGluZyBhIHNpbXBsZSBjb25kYSBlbnZpcm9ubWVudCBvbiB0aGUgY29tbWFuZCBsaW5lLiAKCldlJ2xsIHRoZW4gYXNrIGFib3V0IGhvdyB0byBjcmVhdGUgYSBzbGlnaHRseSBtb3JlIGNvbXBsaWNhdGVkIGNvbmRhIGVudmlyb25tZW50LiBXZSdsbCBzdGFydCBhIHRocmVhZCBhbmQgbGVhcm5lcnMgd2lsbCByZXNwb25kIGFuZC9vciB2b3RlIG9uIHRoZSBjb21tYW5kIHRoYXQgdGhleSB3b3VsZCB1c2UKCiMjIFNSVU4gd2l0aCBDb25kYSBDcmVhdGUgRXhlcmNpc2UKCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIHdlJ2xsIGxhdW5jaCBhbiBzcnVuIGpvYiBhbmQgdGhlbiBjcmVhdGUgYSBjb25kYSBlbnZpcm9ubWVudCBpbiBpdAoKIyMgU0JBVENIIHdpdGggQ29uZGEgQWN0aXZhdGUgRXhlcmNpc2UKCkluZGl2aWR1YWwgZXhlcmNpc2UuIExhdW5jaCBhbiBTQkFUQ0ggam9iIHRoYXQgYWN0aXZhdGVzIGEgY29uZGEgZW52aXJvbm1lbnQsIGNoZWNrcyBhIHZlcnNpb24gb2Ygc2FtdG9vbHMgYW5kIHVzZXMgYHdoaWNoYCB0byB2ZXJpZnkgaXRzIGxvY2F0aW9uLiBJbnNwZWN0IHRoZSBqb2IgbG9nIGluIG9yZGVyIHRvIGRldGVybWluZSBzdWNjZXNzCgojIyBDb25kYSBFeHBvcnQgRXhlcmNpc2UKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgQ29uZGEncyBleHBvcnQgZnVuY3Rpb25hbGl0eSB0byBjcmVhdGUgYW4gZXhwb3J0IC0gYSBtb3JlIGNvbXBsZXRlIHJlY2lwZSB3aXRoIGFsbCBkZXBlbmRlbmNpZXMgYW5kIHRoZWlyIHZlcnNpb25zIGZ1bGx5IGxpc3RlZC4KCkZJWE1FOiBBbGx1ZGUgdG8gdGhlIGlkZWEgb2YgdGltZS1iYXNlZCBkdXJhYmlsaXR5CgoKIyMgUmV2aWV3CgpDb25kYSBhbGxvd3MgdXMgdG8gaW5zdGFsbCBhbmQgbWFuYWdlIG91ciBvd24gc29mdHdhcmUuIE9uIGEgbXVsdGktdXNlciBzeXN0ZW0gbGlrZSBHcmVhdCBMYWtlcywgdGhpcyBpcyB2ZXJ5IHBvd2VyZnVsLiAKCkl0IHByb3ZpZGVzIHBsdWdhYmlsaXR5IHRvIG91ciBzb2Z0d2FyZSBuZWVkcy4gV2hlbiB3ZSBuZWVkIGEgd2lkZSB2YXJpZXR5IG9mIHRvb2xzIGF0IGRpZmZlcmVudCB0aW1lcywgd2l0aCBzb21lIGJlaW5nIGluY29tcGF0aWJsZSB3aXRoIG9uZSBhbm90aGVyLCB0aGlzIGJlY29tZXMgY3JpdGljYWwuCgpXaGVuIGdpdmVuIGEgc2V0IG9mIHNvZnR3YXJlIHJlcXVpcmVtZW50IHNwZWNpZmljYXRpb25zLCBDb25kYSBoYW5kbGVzIGFsbCBvZiB0aGUgZGVwZW5kZW5jaWVzIGFuZCBjcmVhdGVzIGEgc29tZXdoYXQgY29udGFpbmVkIGVudmlyb25tZW50IHRoYXQgd2UgY2FuIGBhY3RpdmF0ZWAgYW5kIGBkZWFjdGl2YXRlYCBhcyBuZWVkZWQuCgp8IFtQcmV2aW91cyBsZXNzb25dKE1vZHVsZTAzYl9ncmVhdF9sYWtlc19jbHVzdGVyLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZTA1X2NvbnRhaW5lcnNfZG9ja2VyX3Npbmd1bGFyaXR5Lmh0bWwpIHwKfCA6LS0tIHwgOi0tLS06IHwgLS0tOiB8Cg==</div>
 
 
-</div>
-</div>
 
 </div>
 
@@ -641,35 +526,6 @@ $(document).ready(function () {
 });
 </script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

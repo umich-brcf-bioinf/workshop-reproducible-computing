@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -43,8 +40,15 @@ You'll find that the tools that we employ for software management during researc
 
 We likely all have some experience with software management. I'd like to examine our experience with software management, and promote appreciation for the work that often happens behind the scenes.
 
-![](images/Module04_dependencies_long_list.jpg)
+<br>
 
+![](images/Module04_dependencies_long_list.png)
+
+<br>
+
+![](images/Module04_dependencies_xsdk_tangled_mess.png)
+
+<br>
 
 ### The Need for Modular Solutions
 
@@ -55,14 +59,8 @@ Just one env
 Poll about software incompatibility experiences
 
 
+https://bssw.io/blog_posts/build-integration-and-testing-for-sustainable-scientific-computing-software
 
-### Simplifies Distribution of New Software
-
-Cutting edge software - cutting edge dependencies
-
-Ability to record recipe and share
-
-If I'm developing a package, I can take these simple steps - ensures everyone can use software
 
 ## Conda
 
@@ -73,6 +71,15 @@ If I'm developing a package, I can take these simple steps - ensures everyone ca
 - A 'Conda recipe' is used to list specifications
   - Used during environment creation
   - Can communicate requirements to others when shared
+
+### Simplifies Distribution of New Software
+
+Cutting edge software - cutting edge dependencies
+
+Ability to record recipe and share
+
+If I'm developing a package, I can take these simple steps - ensures everyone can use software
+
 
 ### Environments
 
@@ -130,9 +137,20 @@ Following along with instructor, we'll launch an srun job and then create a cond
 
 Individual exercise. Launch an SBATCH job that activates a conda environment, checks a version of samtools and uses `which` to verify its location. Inspect the job log in order to determine success
 
+## Conda Export Exercise
+
+Following along with the instructor, we'll use Conda's export functionality to create an export - a more complete recipe with all dependencies and their versions fully listed.
+
+FIXME: Allude to the idea of time-based durability
+
 
 ## Review
 
+Conda allows us to install and manage our own software. On a multi-user system like Great Lakes, this is very powerful. 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+It provides plugability to our software needs. When we need a wide variety of tools at different times, with some being incompatible with one another, this becomes critical.
+
+When given a set of software requirement specifications, Conda handles all of the dependencies and creates a somewhat contained environment that we can `activate` and `deactivate` as needed.
+
+| [Previous lesson](Module03b_great_lakes_cluster.html) | [Top of this lesson](#top) | [Next lesson](Module05_containers_docker_singularity.html) |
 | :--- | :----: | ---: |
