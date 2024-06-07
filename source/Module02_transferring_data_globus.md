@@ -6,9 +6,6 @@ output:
             includes:
                 in_header: header.html
             theme: paper
-            toc: true
-            toc_depth: 4
-            toc_float: true
             number_sections: false
             fig_caption: true
             markdown: GFM
@@ -103,7 +100,9 @@ Sometimes, if we expect many data deliveries over a period of time, and if we're
 
 As shown in the figure, we can grant read **and** write access to them, and this enables them to transfer data to us without our involvement.
 
-[link for AGC data retrieval which includes the push-to-data-den instructions](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval)
+The Advanced Genomics Core at UMich is increasingly recommending this type of arrangement, especially to researchers who already have Data Den storage allocations through the UMRCP. This is an excellent way to ensure that your data are automatically placed in a good place for long-term archival storage.  
+
+Here is a [link for the AGC data retrieval page which includes the push-to-data-den instructions](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval). If you scroll to the bottom of that page, under the "Where to keep your data" heading, there is a drop-down section for "U-M Clients". The instructions therein are the details of how to set up a `push-to-data-den`, where you set up a designated location in your Data Den space and grant permissions for the AGC to write your sequencing data directly to that location.
 
 
 </details>
@@ -113,17 +112,29 @@ As shown in the figure, we can grant read **and** write access to them, and this
 <details>
 <summary>Collaborator Shares Data with Me</summary>
 
-FIXME: Add section/notes about Globus Connect Personal
-
 1 | 2
 :-------------------------------------------------------------:|:-------------------------------------------------------------:
 ![](images/Module02_data_collab_shared_with_me_I_transfer_1.png) | ![](images/Module02_data_collab_shared_with_me_I_transfer_2.png)
+
 
 </details>
 
 <br>
 
-FIXME: Properly place this within lesson(s) [AGC link on checking md5sum](http://michmed.org/agc-md5sum)
+<details>
+<summary>Using Globus Connect Personal to Transfer to/from Non-Institutional Storage</summary>
+
+During this workshop, we've emphasized usage of institutional storage allocations like Turbo and Data Den. Our example exercises have also only utilized institutional storage. As discussed, we recommend keeping your data within the institutional storage options if possible, for the redundancy and safety capabilities that they offer. However, there may be situations where you must transfer data to/from non-institutional storage. We can also use the Globus software suite to accomplish this, using a tool called Globus Connect Personal.
+
+It may be easy to forget that Globus is not a Cloud Storage provider while using it. As mentioned, when we're using Globus to transfer data among institutional storage locations, we have always-on, fire-and-forget capabilities that can feel similar to other tools like DropBox. However, this is only possible because UMich (and other research institutions) provide this always-on capability. Essentially, our academic IT provides the constant connection between the Globus software and our institutional storage like Data Den, Turbo, etc. If we want to transfer data to/from non-institutional storage, though, we don't have this luxury.
+
+Globus Connect Personal is an application that you download and install on the computer that holds (or has access to) the data that you want to transfer. For instance, if you have sequencing data stored on the hard-drive of an old laptop (not recommended, but it happens), you would install Globus Connect Personal on that laptop and it could provide the connection between the laptop's hard drive and other Globus-connected storage like the Data Den and Turbo locations we've used above. After installing and configuring this, you could then see (and share, etc.) data from the laptop using the Globus Web App to perform transfers just as we have in the exercises above.
+
+You can find documentation about installing and configuring Globus Connect Personal at [this page on Globus's documentation website](https://docs.globus.org/globus-connect-personal/).
+
+>Note: The computer that's running Globus Connect Personal must remain on and connected to the network for the entire duration of the transfer. Remember that in this case, the Globus Connect Personal software that's running on that computer is what provides the connection to all other Globus-connected storage.
+
+</details>
 
 <br>
 <br>
