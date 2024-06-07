@@ -79,6 +79,8 @@ Globus is *not* a cloud storage service, in contrast with something like DropBox
 
 ### Additional Scenarios
 
+<br>
+
 <details>
 <summary>Sharing Data with a Collaborator</summary>
 
@@ -90,7 +92,10 @@ Globus is *not* a cloud storage service, in contrast with something like DropBox
 
 
 <details>
-<summary>Data Provider (AGC) Transfers Data to Me</summary>
+
+<br>
+
+<summary>Data Provider (AGC) 'Pushes' Data to Me</summary>
 
 1 | 2
 :-------------------------------------------------------------:|:-------------------------------------------------------------:
@@ -98,7 +103,7 @@ Globus is *not* a cloud storage service, in contrast with something like DropBox
 
 Sometimes, if we expect many data deliveries over a period of time, and if we're dealing with an entity that we can trust with write access to our storage location, it may be advantageous to set up an arrangement so that they may transfer the data to us without any action on our part. 
 
-As shown in the figure, we can grant read **and** write access to them, and this enables them to transfer data to us without our involvement.
+As shown in the figure, we can grant read **and** write access to them, and this enables them to transfer data to us without our involvement. In other words, this allows them to 'push' data to us, without the need for interaction from us.
 
 The Advanced Genomics Core at UMich is increasingly recommending this type of arrangement, especially to researchers who already have Data Den storage allocations through the UMRCP. This is an excellent way to ensure that your data are automatically placed in a good place for long-term archival storage.  
 
@@ -141,11 +146,13 @@ You can find documentation about installing and configuring Globus Connect Perso
 
 ## Review Main Points
 
-Must understand where the data currently resides, and where you want to transfer it
+When considering any data transfer, you must understand:
 
-Must understand who is responsible for performing the transfer
+- Where the data currently resides
+- Where the data will be transferred to
+- Who is responsible for performing the transfer
 
-Unless this is arranged previously for an ongoing relationship, *someone* will *always* need to grant permissions to enable a transfer between two parties
+Unless this is arranged previously for an ongoing relationship, *someone* will *always* need to grant permissions to enable a transfer between two parties.
 
 
 | [Previous lesson](Module01_storage_best_practices_UMRCP.html) | [Top of this lesson](#top) | [Next lesson](Module03a_sneak_peek_great_lakes.html) |
