@@ -56,8 +56,20 @@ Globus is a software suite for data transfer operations with the following chara
 
 Globus is *not* a cloud storage service, in contrast with something like DropBox
 
-![Globus vs DropBox](images/Module02_globus_vs_dropbox.png)
+![](images/Module02_globus_vs_dropbox.png)
 
+
+<br>
+
+## Globus Sneak Preview / Orientation
+
+<br>
+
+![Globus Single Pane Preview](images/Module02_globus_preview_single_pane_highlights.png)
+
+<br>
+
+![Globus Dual Pane Preview](images/Module02_globus_preview_dual_pane_highlights.png)
 
 <br>
 
@@ -90,6 +102,7 @@ Globus is *not* a cloud storage service, in contrast with something like DropBox
 
 </details>
 
+<br>
 
 <details>
 

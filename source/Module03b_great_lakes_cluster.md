@@ -24,13 +24,15 @@ In this module, we will:
 
 * discuss the Great Lakes HPC cluster and review its usage
 * discuss software modules available on Great Lakes
+* log in to the Great Lakes cluster using `ssh`
+* review some of the fundamental helper commands on Great Lakes
 * review SBATCH and submit jobs for our analysis
 
 ## Review - UMRCP and the Components We'll Use in This Workshop
 
 ![](images/Module01_UMRCP_provides.png)
 
-UMRCP provides compute hours on the Great Lakes and/or Armis clusters, fast "Turbo" storage, slower tape-based "Data Den" storage, and a "Secure Enclave" RAM allocation. In this workshop, we'll be primarily using the Great Lakes cluster and the Turbo and Data Den storage allocations.
+<br>
 
 
 ## Great Lakes HPC
