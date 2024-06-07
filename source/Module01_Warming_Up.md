@@ -173,5 +173,5 @@ Sneak Preview
 <br/>
 <br/>
 <hr/>
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module02a_Sequence_QC.html) |
+| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module01_storage_best_practices_UMRCP.html) |
 | :--- | :----: | ---: |

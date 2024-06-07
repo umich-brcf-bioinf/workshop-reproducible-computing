@@ -1,5 +1,5 @@
 ---
-title: "Reproducible Computation Workshop"
+title: "Reproducible Computing Workshop"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
@@ -20,7 +20,6 @@ body, td {
 }
 </style>
 
-#### [Pre-workshop checklist](workshop_setup/preworkshop_checklist.html){target="_blank"} / [Intro to RNA-Seq Webinar](https://www.mivideo.it.umich.edu/media/t/1_tx74a3v9){target="_blank"}
 
 #### [Setup instructions](workshop_setup/setup_instructions.html){target="_blank"}
 
@@ -39,7 +38,7 @@ body, td {
 | 11:00 | Break |
 | 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[Transferring data with Globus](Module02_transferring_data_globus.html) |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 1](exercise-1.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Sneak peek: Great Lakes](Module03a_sneak_peek_great_lakes.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to Great Lakes](Module03a_sneak_peek_great_lakes.html) |
 |  1:00 | Day 1 concludes |
 #### Day 2
 | | |
@@ -57,11 +56,9 @@ body, td {
 | :---  | :---- |
 |  9:00 | Review |
 |  9:10 | **Workflow automation** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Why workflow automation?](why-workflow-automation.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Basic workflow automation](basic-workflow-automation.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to Snakemake](intro-to-snakemake.html) |
+|       | [Basic workflow automation](Module06-basic-workflow-automation.html) |
+|       | [Intro to Snakemake](Module07-intro-to-snakemake.html) |
 | 11:00 | Break |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 3](exercise-3.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Capstone exercise](capstone-exercise.html) |
+|       | [Advanced Snakemake](Module08-intro-to-snakemake.html) |
 | 12:45 | [Wrap-up](Module99_Wrap_up.html) |
 |  1:00 | Day 3 concludes |

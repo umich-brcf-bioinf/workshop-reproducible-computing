@@ -289,5 +289,5 @@ There are two video links below. There's a decent amount of overlap in the conte
 <br>
 <br>
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module02_transferring_data_globus.html) |
+| [Previous lesson](Module01_Warming_Up.html) | [Top of this lesson](#top) | [Next lesson](Module02_transferring_data_globus.html) |
 | :--- | :----: | ---: |

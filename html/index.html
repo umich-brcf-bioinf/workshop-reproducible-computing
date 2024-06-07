@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core Workshop Team" />
 
 
-<title>Reproducible Computation Workshop</title>
+<title>Reproducible Computing Workshop</title>
 
 <script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -268,19 +268,16 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="storage-best-practices.html">Storage best practices</a>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
     </li>
     <li>
-      <a href="arc-and-umrcp.html">ARC and UMRCP</a>
-    </li>
-    <li>
-      <a href="transferring-data-with-globus.html">Transferring data with Globus</a>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
     </li>
     <li>
       <a href="exercise-1.html">Exercise 1</a>
     </li>
     <li>
-      <a href="sneak-peek-sbatch.html">Sneak peek: sbatch</a>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
     </li>
   </ul>
 </li>
@@ -292,13 +289,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="greatlakes-sbatch-and-lmod.html">GreatLakes: sbatch and lmod</a>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
     </li>
     <li>
-      <a href="software-management-with-conda.html">Software management with Conda</a>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
     </li>
     <li>
-      <a href="containerization-with-docker-singulairty.html">Containerization with Docker/Singulairty</a>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
     </li>
     <li>
       <a href="exercise-2.html">Exercise 2</a>
@@ -313,19 +310,13 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="why-workflow-automation.html">Why workflow automation?</a>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
     </li>
     <li>
-      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="exercise-3.html">Exercise 3</a>
-    </li>
-    <li>
-      <a href="capstone-exercise.html">Capstone exercise</a>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
     </li>
   </ul>
 </li>
@@ -344,7 +335,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Reproducible Computation Workshop</h1>
+<h1 class="title toc-ignore">Reproducible Computing Workshop</h1>
 <h4 class="author">UM Bioinformatics Core Workshop Team</h4>
 
 </div>
@@ -356,13 +347,6 @@ body, td {
    font-size: 18px;
 }
 </style>
-<div id="pre-workshop-checklist-intro-to-rna-seq-webinar"
-class="section level4">
-<h4><a href="workshop_setup/preworkshop_checklist.html"
-target="_blank">Pre-workshop checklist</a> / <a
-href="https://www.mivideo.it.umich.edu/media/t/1_tx74a3v9"
-target="_blank">Intro to RNA-Seq Webinar</a></h4>
-</div>
 <div id="setup-instructions" class="section level4">
 <h4><a href="workshop_setup/setup_instructions.html"
 target="_blank">Setup instructions</a></h4>
@@ -399,8 +383,9 @@ Startup</a></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">    <a href="storage-best-practices.html">Storage best
-practices</a></td>
+<td align="left">    <a
+href="Module01_storage_best_practices_UMRCP.html">Storage best practices
+and UMRCP</a></td>
 </tr>
 <tr class="even">
 <td align="left">11:00</td>
@@ -408,24 +393,21 @@ practices</a></td>
 </tr>
 <tr class="odd">
 <td align="left">11:15</td>
-<td align="left">    <a href="arc-and-umrcp.html">ARC and UMRCP</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
 <td align="left">    <a
-href="transferring-data-with-globus.html">Transferring data with
+href="Module02_transferring_data_globus.html">Transferring data with
 Globus</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"></td>
 <td align="left">    <a href="exercise-1.html">Exercise 1</a></td>
 </tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="sneak-peek-sbatch.html">Sneak peek:
-sbatch</a></td>
-</tr>
 <tr class="odd">
+<td align="left"></td>
+<td align="left">    <a
+href="Module03a_sneak_peek_great_lakes.html">Intro to Great
+Lakes</a></td>
+</tr>
+<tr class="even">
 <td align="left">1:00</td>
 <td align="left">Day 1 concludes</td>
 </tr>
@@ -450,14 +432,13 @@ sbatch</a></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">    <a
-href="greatlakes-sbatch-and-lmod.html">GreatLakes: sbatch and
-lmod</a></td>
+<td align="left">    <a href="Module03b_great_lakes_cluster.html">The
+Great Lakes HPC cluster</a></td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">    <a
-href="software-management-with-conda.html">Software management with
+href="Module04_software_management_conda.html">Software management and
 Conda</a></td>
 </tr>
 <tr class="odd">
@@ -467,8 +448,8 @@ Conda</a></td>
 <tr class="even">
 <td align="left">11:15</td>
 <td align="left">    <a
-href="containerization-with-docker-singulairty.html">Containerization
-with Docker/Singulairty</a></td>
+href="Module05_containers_docker_singularity.html">Containerization with
+Docker/Singularity</a></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
@@ -499,31 +480,22 @@ with Docker/Singulairty</a></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">    <a href="why-workflow-automation.html">Why workflow
-automation?</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="basic-workflow-automation.html">Basic
+<td align="left"><a href="Module06-basic-workflow-automation.html">Basic
 workflow automation</a></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"></td>
-<td align="left">    <a href="intro-to-snakemake.html">Intro to
+<td align="left"><a href="Module07-intro-to-snakemake.html">Intro to
 Snakemake</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">11:00</td>
 <td align="left">Break</td>
 </tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="exercise-3.html">Exercise 3</a></td>
-</tr>
 <tr class="even">
 <td align="left"></td>
-<td align="left">    <a href="capstone-exercise.html">Capstone
-exercise</a></td>
+<td align="left"><a href="Module08-intro-to-snakemake.html">Advanced
+Snakemake</a></td>
 </tr>
 <tr class="odd">
 <td align="left">12:45</td>

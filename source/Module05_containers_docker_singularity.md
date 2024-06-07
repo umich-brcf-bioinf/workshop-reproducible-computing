@@ -157,5 +157,5 @@ MirrorURL: http://ftp.us.debian.org/debian/
 ## Review
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Previous lesson](Module04_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
 | :--- | :----: | ---: |

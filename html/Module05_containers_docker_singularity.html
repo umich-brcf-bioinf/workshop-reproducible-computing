@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Containers - Docker and Singularity</title>
+
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="exercise-1.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+    </li>
+    <li>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Containers - Docker and Singularity</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>learn about container systems Docker and Singularity</li>
+<li>discuss the what and why of containerization</li>
+<li>compare container solutions to other software management tools that
+we’ve discussed</li>
+<li>learn how to utilize publically available Docker or Singularity
+containers</li>
+<li>learn how to build our own singularity containers</li>
+</ul>
+<div id="commonalities-between-software-management-tools"
+class="section level2">
+<h2>Commonalities Between Software Management Tools</h2>
+<p><img
+src="images/Module05_software_management_commonalities.jpg" /></p>
+</div>
+<div id="overview-of-containerized-software" class="section level2">
+<h2>Overview of Containerized Software</h2>
+<p>The software management tools we’ve discussed so far are extremely
+helpful and important for reproducible research. However, they do have
+some limitations that we’ve mentioned, which we’ll bring into focus and
+elaborate in this module as we consider some additional options -
+containerized software. We’ll discuss in a moment what we mean by this
+term, but to start I’ll mention some of the additional things that
+containerized software can grant us:</p>
+<ul>
+<li>Additional portability</li>
+<li>Additional isolation of compute environments</li>
+<li>Additional long-term reliability</li>
+</ul>
+<p>The simplest way to think of containers is as if there is a virtual
+computer system, running inside of your computer. You can imagine that
+the hardware layout of your typical computer can also be recreated
+through software, and that is kind of what is happening when we use
+software containers. This is of course a gross simplification, but for
+now we can think of it in this way.</p>
+<p><br> <br></p>
+<p><img src="images/Module05_computer_in_computer.png" /></p>
+<p><br></p>
+<p>Imagine your typical hardware layout like shown above. Imagine that
+there is software that is able to respectfully request a portion of CPU
+and memory (RAM) from the system, and then create abstractions for all
+of the other portions that you see.</p>
+<p>If you imagined that this would enable you to create several running
+“virtual computers” each taking a portion of the physical CPU and RAM
+available to them and treating it as their own, then you’ve basically
+imagined what containers can offer us.</p>
+<p>You may have already heard the term “virtual machine” in the past,
+and this is a technology that is related to, but distinct from
+containers. We will be discussing containerization software
+specifically, and focusing on these because containers are more
+efficient, streamlined, and perfectly suited for reproducibility, when
+compared to virtual machines. When comparing between these, some things
+I’d like to highlight that work highly in favor of containerized
+software are:</p>
+<ul>
+<li>The usage of standardized specification files
+<ul>
+<li>e.g. Dockerfiles, Singularity definition files</li>
+<li>allow for superior transparency and reproducibility.</li>
+</ul></li>
+<li>The layered nature of container architecture
+<ul>
+<li>During creation, the result of each task is formed into its own
+layer</li>
+<li>The separate layers are “stacked” one over another until the entire
+environment is built</li>
+<li>Allows for high transparency and portability, and streamlines the
+build process</li>
+</ul></li>
+</ul>
+<p><br></p>
+<p><img
+src="images/Module05_file_image_container_generalized.png" /></p>
+<p><br></p>
+<div id="sharing-software-environments" class="section level3">
+<h3>Sharing Software Environments</h3>
+<p><br></p>
+<p><img src="images/Module05_sharing_analyses.png" /></p>
+<p><br></p>
+<p>If we take the example of sharing an analysis with a colleague or a
+collaborator, we get to a point where we need to share not only the
+analysis code, but also the particulars of the compute environment that
+we ran the analysis within. Many of you may have an experience like
+this, where you tried to share some analysis code with a collaborator or
+with a colleague, and when they try to run it on their machine they are
+unsuccessful. Maybe they don’t have the required software. Maybe they
+have some certain configuration details that are set incorrectly. Or
+maybe the software that you’ve given them is actually incompatible with
+some software that’s running on their system. In the figure above, we’ve
+shown a very simplistic idea for getting around these issues, which is
+to just share your entire laptop with your colleague. However, you can
+imagine that there are many practical reasons why this is not a very
+good solution.</p>
+<p>So far we’ve started to hint at the idea of shareability as being
+integral to reproducibility. When we’ve discussed conda, there have been
+some limitations or aspects that are not quite ideal for sharing, that
+are remedied By using a solution like containers.</p>
+<p>An important aspect of containers that makes them unique in this way
+is that after they’re built according to specifications, the container
+is basically unchangeable. Once again, this is a simplification, but for
+the most common usages, in terms of shareability and reproducibility, we
+can consider it to be so.</p>
+<p>There are several ways that you can share containerized software:</p>
+<ul>
+<li>Sharing the specification files (akin to sharing a conda
+recipe)</li>
+<li>Sharing by hosting the images in an accessible repository (Docker
+Hub)</li>
+<li>Sharing the image directly (Singularity Image File)</li>
+</ul>
+</div>
+<div id="environment-isolation" class="section level3">
+<h3>Environment Isolation</h3>
+<p>Another important aspect of containers is their relative isolation
+from the host system when compared to something like Conda. Remember
+that when we are running software within a container, the software
+interacts with a completely virtualized version of the hardware system.
+By nature of that, that means that there is additional separation
+between the software in the container and the software that is outside
+of the container. Conda makes no such distinction, but rather uses a
+couple of tricks to make it easy to switch between environments.</p>
+<p><br></p>
+<p><img src="images/Module05_container_isolation.png" /></p>
+<p><br></p>
+<p>The isolation capabilities go hand in hand with the traits of
+encapsulation that are inherent to containerized software. If you design
+and build a</p>
+</div>
+<div id="static-images-are-stable-across-time" class="section level3">
+<h3>Static Images are Stable Across Time</h3>
+<p><img
+src="images/Module05_dependency_complications_over_time.jpg" /></p>
+</div>
+</div>
+<div id="docker" class="section level2">
+<h2>Docker</h2>
+<p>We’ve discussed containerized software as a concept, and now it’s
+time to dive into one containerization tool - in fact arguably the most
+widely used container software today.</p>
+<p><img src="images/Module05_file_image_container_docker.png" /></p>
+<p>Example of a Dockerfile:</p>
+<pre><code>FROM centos:centos7
+
+RUN yum -y install wget gdb
+
+COPY foo.yaml /tmp
+
+RUN wget -P /tmp &quot;https://download.example.com/example-installer-3.2.1.el7.x86_64.rpm&quot; &amp;&amp; \
+    rpm -i /tmp/example-installer-3.2.1.el7.x86_64.rpm &amp;&amp; \
+    rm /tmp/example-installer-3.2.1.el7.x86_64.rpm
+
+ENV PATH ${PATH}:/opt/foo/bin</code></pre>
+</div>
+<div id="singularity" class="section level2">
+<h2>Singularity</h2>
+<p><img
+src="images/Module05_file_image_container_singularity.png" /></p>
+<p>Example of a Singularity definition file:</p>
+<pre><code>BootStrap: debootstrap
+OSVersion: stable
+MirrorURL: http://ftp.us.debian.org/debian/
+
+%runscript
+    echo &quot;This is what happens when you run the container...&quot;
+
+%post
+    echo &quot;Hello from inside the container&quot;
+    apt-get update
+    apt-get -y install fortune cowsay lolcat
+
+%environment
+    export PATH=$PATH:/usr/games</code></pre>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module04_software_management_conda.html">Previous lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udGFpbmVycyAtIERvY2tlciBhbmQgU2luZ3VsYXJpdHkiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBjb250YWluZXIgc3lzdGVtcyBEb2NrZXIgYW5kIFNpbmd1bGFyaXR5CiogZGlzY3VzcyB0aGUgd2hhdCBhbmQgd2h5IG9mIGNvbnRhaW5lcml6YXRpb24KKiBjb21wYXJlIGNvbnRhaW5lciBzb2x1dGlvbnMgdG8gb3RoZXIgc29mdHdhcmUgbWFuYWdlbWVudCB0b29scyB0aGF0IHdlJ3ZlIGRpc2N1c3NlZAoqIGxlYXJuIGhvdyB0byB1dGlsaXplIHB1YmxpY2FsbHkgYXZhaWxhYmxlIERvY2tlciBvciBTaW5ndWxhcml0eSBjb250YWluZXJzCiogbGVhcm4gaG93IHRvIGJ1aWxkIG91ciBvd24gc2luZ3VsYXJpdHkgY29udGFpbmVycwoKIyMgQ29tbW9uYWxpdGllcyBCZXR3ZWVuIFNvZnR3YXJlIE1hbmFnZW1lbnQgVG9vbHMKCiFbXShpbWFnZXMvTW9kdWxlMDVfc29mdHdhcmVfbWFuYWdlbWVudF9jb21tb25hbGl0aWVzLmpwZykKCiMjIE92ZXJ2aWV3IG9mIENvbnRhaW5lcml6ZWQgU29mdHdhcmUKClRoZSBzb2Z0d2FyZSBtYW5hZ2VtZW50IHRvb2xzIHdlJ3ZlIGRpc2N1c3NlZCBzbyBmYXIgYXJlIGV4dHJlbWVseSBoZWxwZnVsIGFuZCBpbXBvcnRhbnQgZm9yIHJlcHJvZHVjaWJsZSByZXNlYXJjaC4gSG93ZXZlciwgdGhleSBkbyBoYXZlIHNvbWUgbGltaXRhdGlvbnMgdGhhdCB3ZSd2ZSBtZW50aW9uZWQsIHdoaWNoIHdlJ2xsIGJyaW5nIGludG8gZm9jdXMgYW5kIGVsYWJvcmF0ZSBpbiB0aGlzIG1vZHVsZSBhcyB3ZSBjb25zaWRlciBzb21lIGFkZGl0aW9uYWwgb3B0aW9ucyAtIGNvbnRhaW5lcml6ZWQgc29mdHdhcmUuIFdlJ2xsIGRpc2N1c3MgaW4gYSBtb21lbnQgd2hhdCB3ZSBtZWFuIGJ5IHRoaXMgdGVybSwgYnV0IHRvIHN0YXJ0IEknbGwgbWVudGlvbiBzb21lIG9mIHRoZSBhZGRpdGlvbmFsIHRoaW5ncyB0aGF0IGNvbnRhaW5lcml6ZWQgc29mdHdhcmUgY2FuIGdyYW50IHVzOgoKLSBBZGRpdGlvbmFsIHBvcnRhYmlsaXR5Ci0gQWRkaXRpb25hbCBpc29sYXRpb24gb2YgY29tcHV0ZSBlbnZpcm9ubWVudHMKLSBBZGRpdGlvbmFsIGxvbmctdGVybSByZWxpYWJpbGl0eQoKClRoZSBzaW1wbGVzdCB3YXkgdG8gdGhpbmsgb2YgY29udGFpbmVycyBpcyBhcyBpZiB0aGVyZSBpcyBhIHZpcnR1YWwgY29tcHV0ZXIgc3lzdGVtLCBydW5uaW5nIGluc2lkZSBvZiB5b3VyIGNvbXB1dGVyLiBZb3UgY2FuIGltYWdpbmUgdGhhdCB0aGUgaGFyZHdhcmUgbGF5b3V0IG9mIHlvdXIgdHlwaWNhbCBjb21wdXRlciBjYW4gYWxzbyBiZSByZWNyZWF0ZWQgdGhyb3VnaCBzb2Z0d2FyZSwgYW5kIHRoYXQgaXMga2luZCBvZiB3aGF0IGlzIGhhcHBlbmluZyB3aGVuIHdlIHVzZSBzb2Z0d2FyZSBjb250YWluZXJzLiBUaGlzIGlzIG9mIGNvdXJzZSBhIGdyb3NzIHNpbXBsaWZpY2F0aW9uLCBidXQgZm9yIG5vdyB3ZSBjYW4gdGhpbmsgb2YgaXQgaW4gdGhpcyB3YXkuCgo8YnI+Cjxicj4KCiFbXShpbWFnZXMvTW9kdWxlMDVfY29tcHV0ZXJfaW5fY29tcHV0ZXIucG5nKQoKPGJyPgoKSW1hZ2luZSB5b3VyIHR5cGljYWwgaGFyZHdhcmUgbGF5b3V0IGxpa2Ugc2hvd24gYWJvdmUuIEltYWdpbmUgdGhhdCB0aGVyZSBpcyBzb2Z0d2FyZSB0aGF0IGlzIGFibGUgdG8gcmVzcGVjdGZ1bGx5IHJlcXVlc3QgYSBwb3J0aW9uIG9mIENQVSBhbmQgbWVtb3J5IChSQU0pIGZyb20gdGhlIHN5c3RlbSwgYW5kIHRoZW4gY3JlYXRlIGFic3RyYWN0aW9ucyBmb3IgYWxsIG9mIHRoZSBvdGhlciBwb3J0aW9ucyB0aGF0IHlvdSBzZWUuCgpJZiB5b3UgaW1hZ2luZWQgdGhhdCB0aGlzIHdvdWxkIGVuYWJsZSB5b3UgdG8gY3JlYXRlIHNldmVyYWwgcnVubmluZyAidmlydHVhbCBjb21wdXRlcnMiIGVhY2ggdGFraW5nIGEgcG9ydGlvbiBvZiB0aGUgcGh5c2ljYWwgQ1BVIGFuZCBSQU0gYXZhaWxhYmxlIHRvIHRoZW0gYW5kIHRyZWF0aW5nIGl0IGFzIHRoZWlyIG93biwgdGhlbiB5b3UndmUgYmFzaWNhbGx5IGltYWdpbmVkIHdoYXQgY29udGFpbmVycyBjYW4gb2ZmZXIgdXMuCgpZb3UgbWF5IGhhdmUgYWxyZWFkeSBoZWFyZCB0aGUgdGVybSAidmlydHVhbCBtYWNoaW5lIiBpbiB0aGUgcGFzdCwgYW5kIHRoaXMgaXMgYSB0ZWNobm9sb2d5IHRoYXQgaXMgcmVsYXRlZCB0bywgYnV0IGRpc3RpbmN0IGZyb20gY29udGFpbmVycy4gV2Ugd2lsbCBiZSBkaXNjdXNzaW5nIGNvbnRhaW5lcml6YXRpb24gc29mdHdhcmUgc3BlY2lmaWNhbGx5LCBhbmQgZm9jdXNpbmcgb24gdGhlc2UgYmVjYXVzZSBjb250YWluZXJzIGFyZSBtb3JlIGVmZmljaWVudCwgc3RyZWFtbGluZWQsIGFuZCBwZXJmZWN0bHkgc3VpdGVkIGZvciByZXByb2R1Y2liaWxpdHksIHdoZW4gY29tcGFyZWQgdG8gdmlydHVhbCBtYWNoaW5lcy4gV2hlbiBjb21wYXJpbmcgYmV0d2VlbiB0aGVzZSwgc29tZSB0aGluZ3MgSSdkIGxpa2UgdG8gaGlnaGxpZ2h0IHRoYXQgd29yayBoaWdobHkgaW4gZmF2b3Igb2YgY29udGFpbmVyaXplZCBzb2Z0d2FyZSBhcmU6CgotIFRoZSB1c2FnZSBvZiBzdGFuZGFyZGl6ZWQgc3BlY2lmaWNhdGlvbiBmaWxlcwogIC0gZS5nLiBEb2NrZXJmaWxlcywgU2luZ3VsYXJpdHkgZGVmaW5pdGlvbiBmaWxlcwogIC0gYWxsb3cgZm9yIHN1cGVyaW9yIHRyYW5zcGFyZW5jeSBhbmQgcmVwcm9kdWNpYmlsaXR5LgotIFRoZSBsYXllcmVkIG5hdHVyZSBvZiBjb250YWluZXIgYXJjaGl0ZWN0dXJlCiAgLSBEdXJpbmcgY3JlYXRpb24sIHRoZSByZXN1bHQgb2YgZWFjaCB0YXNrIGlzIGZvcm1lZCBpbnRvIGl0cyBvd24gbGF5ZXIKICAtIFRoZSBzZXBhcmF0ZSBsYXllcnMgYXJlICJzdGFja2VkIiBvbmUgb3ZlciBhbm90aGVyIHVudGlsIHRoZSBlbnRpcmUgZW52aXJvbm1lbnQgaXMgYnVpbHQKICAtIEFsbG93cyBmb3IgaGlnaCB0cmFuc3BhcmVuY3kgYW5kIHBvcnRhYmlsaXR5LCBhbmQgc3RyZWFtbGluZXMgdGhlIGJ1aWxkIHByb2Nlc3MKCjxicj4KCiFbXShpbWFnZXMvTW9kdWxlMDVfZmlsZV9pbWFnZV9jb250YWluZXJfZ2VuZXJhbGl6ZWQucG5nKQoKPGJyPgoKCiMjIyBTaGFyaW5nIFNvZnR3YXJlIEVudmlyb25tZW50cwoKPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9zaGFyaW5nX2FuYWx5c2VzLnBuZykKCjxicj4KCgpJZiB3ZSB0YWtlIHRoZSBleGFtcGxlIG9mIHNoYXJpbmcgYW4gYW5hbHlzaXMgd2l0aCBhIGNvbGxlYWd1ZSBvciBhIGNvbGxhYm9yYXRvciwgd2UgZ2V0IHRvIGEgcG9pbnQgd2hlcmUgd2UgbmVlZCB0byBzaGFyZSBub3Qgb25seSB0aGUgYW5hbHlzaXMgY29kZSwgYnV0IGFsc28gdGhlIHBhcnRpY3VsYXJzIG9mIHRoZSBjb21wdXRlIGVudmlyb25tZW50IHRoYXQgd2UgcmFuIHRoZSBhbmFseXNpcyB3aXRoaW4uIE1hbnkgb2YgeW91IG1heSBoYXZlIGFuIGV4cGVyaWVuY2UgbGlrZSB0aGlzLCB3aGVyZSB5b3UgdHJpZWQgdG8gc2hhcmUgc29tZSBhbmFseXNpcyBjb2RlIHdpdGggYSBjb2xsYWJvcmF0b3Igb3Igd2l0aCBhIGNvbGxlYWd1ZSwgYW5kIHdoZW4gdGhleSB0cnkgdG8gcnVuIGl0IG9uIHRoZWlyIG1hY2hpbmUgdGhleSBhcmUgdW5zdWNjZXNzZnVsLiBNYXliZSB0aGV5IGRvbid0IGhhdmUgdGhlIHJlcXVpcmVkIHNvZnR3YXJlLiBNYXliZSB0aGV5IGhhdmUgc29tZSBjZXJ0YWluIGNvbmZpZ3VyYXRpb24gZGV0YWlscyB0aGF0IGFyZSBzZXQgaW5jb3JyZWN0bHkuIE9yIG1heWJlIHRoZSBzb2Z0d2FyZSB0aGF0IHlvdSd2ZSBnaXZlbiB0aGVtIGlzIGFjdHVhbGx5IGluY29tcGF0aWJsZSB3aXRoIHNvbWUgc29mdHdhcmUgdGhhdCdzIHJ1bm5pbmcgb24gdGhlaXIgc3lzdGVtLiBJbiB0aGUgZmlndXJlIGFib3ZlLCB3ZSd2ZSBzaG93biBhIHZlcnkgc2ltcGxpc3RpYyBpZGVhIGZvciBnZXR0aW5nIGFyb3VuZCB0aGVzZSBpc3N1ZXMsIHdoaWNoIGlzIHRvIGp1c3Qgc2hhcmUgeW91ciBlbnRpcmUgbGFwdG9wIHdpdGggeW91ciBjb2xsZWFndWUuIEhvd2V2ZXIsIHlvdSBjYW4gaW1hZ2luZSB0aGF0IHRoZXJlIGFyZSBtYW55IHByYWN0aWNhbCByZWFzb25zIHdoeSB0aGlzIGlzIG5vdCBhIHZlcnkgZ29vZCBzb2x1dGlvbi4gCgpTbyBmYXIgd2UndmUgc3RhcnRlZCB0byBoaW50IGF0IHRoZSBpZGVhIG9mIHNoYXJlYWJpbGl0eSBhcyBiZWluZyBpbnRlZ3JhbCB0byByZXByb2R1Y2liaWxpdHkuIFdoZW4gd2UndmUgZGlzY3Vzc2VkIGNvbmRhLCB0aGVyZSBoYXZlIGJlZW4gc29tZSBsaW1pdGF0aW9ucyBvciBhc3BlY3RzIHRoYXQgYXJlIG5vdCBxdWl0ZSBpZGVhbCBmb3Igc2hhcmluZywgdGhhdCBhcmUgcmVtZWRpZWQgQnkgdXNpbmcgYSBzb2x1dGlvbiBsaWtlIGNvbnRhaW5lcnMuCgpBbiBpbXBvcnRhbnQgYXNwZWN0IG9mIGNvbnRhaW5lcnMgdGhhdCBtYWtlcyB0aGVtIHVuaXF1ZSBpbiB0aGlzIHdheSBpcyB0aGF0IGFmdGVyIHRoZXkncmUgYnVpbHQgYWNjb3JkaW5nIHRvIHNwZWNpZmljYXRpb25zLCB0aGUgY29udGFpbmVyIGlzIGJhc2ljYWxseSB1bmNoYW5nZWFibGUuIE9uY2UgYWdhaW4sIHRoaXMgaXMgYSBzaW1wbGlmaWNhdGlvbiwgYnV0IGZvciB0aGUgbW9zdCBjb21tb24gdXNhZ2VzLCBpbiB0ZXJtcyBvZiBzaGFyZWFiaWxpdHkgYW5kIHJlcHJvZHVjaWJpbGl0eSwgd2UgY2FuIGNvbnNpZGVyIGl0IHRvIGJlIHNvLgoKVGhlcmUgYXJlIHNldmVyYWwgd2F5cyB0aGF0IHlvdSBjYW4gc2hhcmUgY29udGFpbmVyaXplZCBzb2Z0d2FyZToKCi0gU2hhcmluZyB0aGUgc3BlY2lmaWNhdGlvbiBmaWxlcyAoYWtpbiB0byBzaGFyaW5nIGEgY29uZGEgcmVjaXBlKQotIFNoYXJpbmcgYnkgaG9zdGluZyB0aGUgaW1hZ2VzIGluIGFuIGFjY2Vzc2libGUgcmVwb3NpdG9yeSAoRG9ja2VyIEh1YikKLSBTaGFyaW5nIHRoZSBpbWFnZSBkaXJlY3RseSAoU2luZ3VsYXJpdHkgSW1hZ2UgRmlsZSkKCiMjIyBFbnZpcm9ubWVudCBJc29sYXRpb24KCkFub3RoZXIgaW1wb3J0YW50IGFzcGVjdCBvZiBjb250YWluZXJzIGlzIHRoZWlyIHJlbGF0aXZlIGlzb2xhdGlvbiBmcm9tIHRoZSBob3N0IHN5c3RlbSB3aGVuIGNvbXBhcmVkIHRvIHNvbWV0aGluZyBsaWtlIENvbmRhLiBSZW1lbWJlciB0aGF0IHdoZW4gd2UgYXJlIHJ1bm5pbmcgc29mdHdhcmUgd2l0aGluIGEgY29udGFpbmVyLCB0aGUgc29mdHdhcmUgaW50ZXJhY3RzIHdpdGggYSBjb21wbGV0ZWx5IHZpcnR1YWxpemVkIHZlcnNpb24gb2YgdGhlIGhhcmR3YXJlIHN5c3RlbS4gQnkgbmF0dXJlIG9mIHRoYXQsIHRoYXQgbWVhbnMgdGhhdCB0aGVyZSBpcyBhZGRpdGlvbmFsIHNlcGFyYXRpb24gYmV0d2VlbiB0aGUgc29mdHdhcmUgaW4gdGhlIGNvbnRhaW5lciBhbmQgdGhlIHNvZnR3YXJlIHRoYXQgaXMgb3V0c2lkZSBvZiB0aGUgY29udGFpbmVyLiBDb25kYSBtYWtlcyBubyBzdWNoIGRpc3RpbmN0aW9uLCBidXQgcmF0aGVyIHVzZXMgYSBjb3VwbGUgb2YgdHJpY2tzIHRvIG1ha2UgaXQgZWFzeSB0byBzd2l0Y2ggYmV0d2VlbiBlbnZpcm9ubWVudHMuIAoKPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9jb250YWluZXJfaXNvbGF0aW9uLnBuZykKCjxicj4KClRoZSBpc29sYXRpb24gY2FwYWJpbGl0aWVzIGdvIGhhbmQgaW4gaGFuZCB3aXRoIHRoZSB0cmFpdHMgb2YgZW5jYXBzdWxhdGlvbiB0aGF0IGFyZSBpbmhlcmVudCB0byBjb250YWluZXJpemVkIHNvZnR3YXJlLiBJZiB5b3UgZGVzaWduIGFuZCBidWlsZCBhCgojIyMgU3RhdGljIEltYWdlcyBhcmUgU3RhYmxlIEFjcm9zcyBUaW1lCgohW10oaW1hZ2VzL01vZHVsZTA1X2RlcGVuZGVuY3lfY29tcGxpY2F0aW9uc19vdmVyX3RpbWUuanBnKQoKIyMgRG9ja2VyCgpXZSd2ZSBkaXNjdXNzZWQgY29udGFpbmVyaXplZCBzb2Z0d2FyZSBhcyBhIGNvbmNlcHQsIGFuZCBub3cgaXQncyB0aW1lIHRvIGRpdmUgaW50byBvbmUgY29udGFpbmVyaXphdGlvbiB0b29sIC0gaW4gZmFjdCBhcmd1YWJseSB0aGUgbW9zdCB3aWRlbHkgdXNlZCBjb250YWluZXIgc29mdHdhcmUgdG9kYXkuCgohW10oaW1hZ2VzL01vZHVsZTA1X2ZpbGVfaW1hZ2VfY29udGFpbmVyX2RvY2tlci5wbmcpCgpFeGFtcGxlIG9mIGEgRG9ja2VyZmlsZToKCmBgYApGUk9NIGNlbnRvczpjZW50b3M3CgpSVU4geXVtIC15IGluc3RhbGwgd2dldCBnZGIKCkNPUFkgZm9vLnlhbWwgL3RtcAoKUlVOIHdnZXQgLVAgL3RtcCAiaHR0cHM6Ly9kb3dubG9hZC5leGFtcGxlLmNvbS9leGFtcGxlLWluc3RhbGxlci0zLjIuMS5lbDcueDg2XzY0LnJwbSIgJiYgXAogICAgcnBtIC1pIC90bXAvZXhhbXBsZS1pbnN0YWxsZXItMy4yLjEuZWw3Lng4Nl82NC5ycG0gJiYgXAogICAgcm0gL3RtcC9leGFtcGxlLWluc3RhbGxlci0zLjIuMS5lbDcueDg2XzY0LnJwbQoKRU5WIFBBVEggJHtQQVRIfTovb3B0L2Zvby9iaW4KYGBgCgojIyBTaW5ndWxhcml0eQoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9zaW5ndWxhcml0eS5wbmcpCgpFeGFtcGxlIG9mIGEgU2luZ3VsYXJpdHkgZGVmaW5pdGlvbiBmaWxlOgoKYGBgCkJvb3RTdHJhcDogZGVib290c3RyYXAKT1NWZXJzaW9uOiBzdGFibGUKTWlycm9yVVJMOiBodHRwOi8vZnRwLnVzLmRlYmlhbi5vcmcvZGViaWFuLwoKJXJ1bnNjcmlwdAogICAgZWNobyAiVGhpcyBpcyB3aGF0IGhhcHBlbnMgd2hlbiB5b3UgcnVuIHRoZSBjb250YWluZXIuLi4iCgolcG9zdAogICAgZWNobyAiSGVsbG8gZnJvbSBpbnNpZGUgdGhlIGNvbnRhaW5lciIKICAgIGFwdC1nZXQgdXBkYXRlCiAgICBhcHQtZ2V0IC15IGluc3RhbGwgZm9ydHVuZSBjb3dzYXkgbG9sY2F0CgolZW52aXJvbm1lbnQKICAgIGV4cG9ydCBQQVRIPSRQQVRIOi91c3IvZ2FtZXMKYGBgCgoKIyMgUmV2aWV3CgoKfCBbUHJldmlvdXMgbGVzc29uXShNb2R1bGUwNF9zb2Z0d2FyZV9tYW5hZ2VtZW50X2NvbmRhLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZSBGSVhNRSAuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module05_containers_docker_singularity.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -114,5 +114,5 @@ Following along with the instructor, we will use the `nano` utility to write the
 Here is a [link from AGC on validating file integrity using md5sum](http://michmed.org/agc-md5sum)
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
+| [Previous lesson](Module02_transferring_data_globus.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
 | :--- | :----: | ---: |
