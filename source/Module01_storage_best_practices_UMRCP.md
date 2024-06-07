@@ -59,6 +59,7 @@ One simple way to organize our thinking about storage best practices is to divid
 When considering best practices for raw data storage, we can generally orient ourselves around one task - ensure that the data are safe.
 
 Safe from:
+
 - Accidental deletion
 - Hardware failure
 - Loss of access
@@ -68,6 +69,7 @@ With this in mind, we recommend placing your raw experimental data into a specif
 Soon we'll talk about specific options for UMich researchers, but for now we'll just speak of the general process. Data that cannot easily be re-obtained should be treated with great care. By following the recommendations here, we can achieve this and have peace of mind that we are preserving our raw data and our capabilities for reproducible research well into the future.
 
 Recommended:
+
 - Designated location for storing raw data
 - Limit write access of stored data files
 - Use institutional storage
@@ -86,6 +88,7 @@ Another thing to mention for raw data best practices is the procedure of checkin
 We can begin thinking of our next task - handling data and organizing files and artifacts for our analysis - by starting with the idea of the data flow described above. One of the first tasks in this area is to set up a new location for your analysis and make a copy of your raw data there.
 
 Some considerations:
+
  - Fast storage, well suited for computation
  - Project organization that facilitates reproducibility
  - In-progress analyses, cleanup procedures, and end-to-end repeatable analyses
@@ -95,6 +98,7 @@ When we think about fast storage that is well suited for computation, we mostly 
 In terms of project organization, generally we want to have distinct locations for specific purposes, and preferably organizing things in a consistent manner for all of our projects.
 
 In a particular project, you may want:
+
 - `input_data` directory for copy of raw data
 - `scripts` directory for analysis scripts
 - Directories for intermediates, log files, and final outputs
@@ -107,11 +111,12 @@ Taking time to segregate specific efforts within a project, documenting our step
 
 Think ahead when designing the layout of your projects. If you will be trying several related analysis approaches using the same input data, but intend on using results from only one of the evaluated methods, it may make sense to intentionally subdivide the contents of your project directory accordingly. If you have several distinct analyses that may use the same input data, then perhaps creating separate projects for each of them will make the most sense. It's hard to be totally prescriptive when making recommendations here, but through our example we hope to spark the kinds of conversations and the types of thinking that are required here.
 
-<!-- FIXME: Add figure specific for our analysis -->
+![](images/Module01_projects_layout.png)
 
 One last note on handling and organizing analysis projects - use some form of identification system for projects in your lab. This simplifies communication and record keeping, in addition to the organizational benefits.
 
 Some ideas for project identification systems:
+
 - Codenames
 - Alphanumeric IDs
 
@@ -237,6 +242,7 @@ Lighthouse is also similar in feel to the Great Lakes cluster, except it is a cl
 <br>
 
 Main ideas:
+
  - PI must be the one to fill out form
  - PI will automatically become an administrator
  - Others can become administrators (lab manager) or members

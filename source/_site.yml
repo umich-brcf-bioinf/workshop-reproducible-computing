@@ -21,8 +21,6 @@ navbar:
           href: Module01_storage_best_practices_UMRCP.html
         - text: "Transferring data with Globus"
           href: Module02_transferring_data_globus.html
-        - text: "Exercise 1"
-          href: exercise-1.html
         - text: "Intro to Great Lakes"
           href: Module03a_sneak_peek_great_lakes.html
 
@@ -32,7 +30,7 @@ navbar:
           href: Module03b_great_lakes_cluster.html
         - text: "Software management with Conda"
           href: Module04_software_management_conda.html
-        - text: "Containerization with Docker/Singulairty"
+        - text: "Containerization with Docker/Singularity"
           href: Module05_containers_docker_singularity.html
         - text: "Exercise 2"
           href: exercise-2.html
