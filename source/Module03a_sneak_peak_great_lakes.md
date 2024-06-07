@@ -108,5 +108,5 @@ FIXME: Elaborate review section
 
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
+| [Previous lesson](Module02_transferring_data_globus.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
 | :--- | :----: | ---: |

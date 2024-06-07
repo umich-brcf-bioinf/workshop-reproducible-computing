@@ -147,5 +147,5 @@ It provides plugability to our software needs. When we need a wide variety of to
 
 When given a set of software requirement specifications, Conda handles all of the dependencies and creates a somewhat contained environment that we can `activate` and `deactivate` as needed.
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module05_containers_docker_singularity.html) |
+| [Previous lesson](Module03b_great_lakes_cluster.html) | [Top of this lesson](#top) | [Next lesson](Module05_containers_docker_singularity.html) |
 | :--- | :----: | ---: |

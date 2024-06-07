@@ -39,15 +39,11 @@ navbar:
           
     - text: "Workflow automation"
       menu:
-        - text: "Why workflow automation?"
-          href: why-workflow-automation.html
         - text: "Basic workflow automation"
-          href: basic-workflow-automation.html
+          href: Module06-basic-workflow-automation.html
         - text: "Intro to Snakemake"
-          href: intro-to-snakemake.html
-        - text: "Exercise 3"
-          href: exercise-3.html
-        - text: "Capstone exercise"
-          href: capstone-exercise.html
+          href: Module-07-intro-to-snakemake.html
+        - text: "Advanced Snakemake"
+          href: Module-08-advanced-snakemake.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html

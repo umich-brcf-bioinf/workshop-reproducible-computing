@@ -137,5 +137,5 @@ Must understand who is responsible for performing the transfer
 Unless this is arranged previously for an ongoing relationship, *someone* will *always* need to grant permissions to enable a transfer between two parties
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module03a_sneak_peek_great_lakes.html) |
+| [Previous lesson](Module01_storage_best_practices_UMRCP.html) | [Top of this lesson](#top) | [Next lesson](Module03a_sneak_peek_great_lakes.html) |
 | :--- | :----: | ---: |

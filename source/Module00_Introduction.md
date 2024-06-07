@@ -105,7 +105,7 @@ pre {
 - We will be using Breakout Rooms occasionally for ad-hoc 1-1 helper support.
   We will review this in detail together in a few minutes.
 - Zoom's "Reactions" are a useful way to interact. You can access these from 
-  the **React** button on you main Zoom window
+  the **React** button.
 
 ![Zoom reactions](images/Module00_zoom_reactions.png)
 
