@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Intro to Snakemake</title>
+
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="exercise-1.html">Exercise 1</a>
+    </li>
+    <li>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+    </li>
+    <li>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Intro to Snakemake</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>By the end of this module, we will: * List the advantages of a robust
+workflow automation solution like Snakemake. * Compare graph
+transformation in addition to wide and tall transformations. * Describe
+the fundamental relationship between Snakemake, a Snakefile, and the
+file system. * Describe key parts of a Snakemake rule. * Build a
+Snakefile and use Snakemake to automate a simple transform. * Use
+wildcards to easily extend a workflow to new inputs. * Show a Snakemake
+dry-run and other ways to visualize the workflow.</p>
+<div id="what-is-snakemake" class="section level2">
+<h2>What is Snakemake?</h2>
+<div id="consider-a-traditional-data-workflow" class="section level3">
+<h3>Consider a “traditional” data workflow</h3>
+<p>TODO: Pic This is a single script with three steps to transform raw
+chicken into fried chicken. Note that there is one input and one output
+to this pipeline.</p>
+</div>
+<div id="an-equivalent-snakefile" class="section level3">
+<h3>An equivalent Snakefile</h3>
+<p>TODO: Pic By declaring the inputs and outputs for each of the rules,
+Snakemake now understands the relationship of the individual rules.</p>
+</div>
+<div id="snakemake-interprets-the-snakefile" class="section level3">
+<h3>Snakemake Interprets the Snakefile</h3>
+<p>TODO: Pic Snakemake is a python program that interprets the Snakefile
+against the file system and uses rules to transform inputs into outputs
+as necessary. Snakemake is essentially <strong>declarative</strong>
+meaning that you don’t tell it what to do, you simply ask for the final
+output and Snakemake figures out what it needs to do. That declarative
+pattern enables key functionality: - Snakemake workflows can gracefully
+extend to new inputs. - Snakemake is modular. - Snakemake is portable. -
+Snakemake is “durable” (i.e it crashes with poise). - Snakemake is
+efficient.</p>
+</div>
+<div id="snakemake-is-efficient" class="section level3">
+<h3>Snakemake is efficient</h3>
+<p>TODO: Pic</p>
+<p>A. Consider a traditional workflow with four transformation steps.
+Each step has a expected run-time (height) and also requires a certain
+amount of resources (CPUs, memory, etc.) (width). To run these steps in
+a single script, I have to allocate the maximum amount of resources for
+the entire execution time. The resulting “whitespace” is wasted money or
+wasted resources.</p>
+<p>B. Multiplexing makes this worse.</p>
+<p>C. Snakemake rules declare their resource footprints individually.
+Snakemake can pack transformations tighter and automatically parallelize
+anything that fits into your resource allocation.</p>
+</div>
+<div id="snakemake-lets-you-focus-on-your-workflow"
+class="section level3">
+<h3>Snakemake lets you focus on your workflow</h3>
+<p>TODO: Pic</p>
+<p>Snakemake neatly separates the general concerns of workflow
+automation from the specific steps of your workflow.</p>
+</div>
+</div>
+<div id="build-a-snakefile" class="section level2">
+<h2>Build a Snakefile</h2>
+<p>To build a Snakefile it’s helpful to use a concrete example and also
+helpful to adapt an existing script. The script below considers the 1868
+novel “Little Women”, by Louisa May Alcott. It outputs a file containing
+the ranked name counts for each of the four March sisters: Amy, Beth,
+Jo, and Laurie. (And it also emits a few intermediate files).</p>
+<pre><code>#!/bin/bash
+# Which of the March sisters is referred to most often in
+# part 1 of the Little Women?
+
+# Split lines into words
+cat inputs/little_women_part_1.txt \
+    | tr -cs &#39;[:alpha:]&#39; &#39;\n&#39; \
+    &gt; 1.split_words.txt
+
+# Count words
+sort 1.split_words.txt | uniq -c \
+    &gt; 2.count_words.txt
+
+# Sort words by descending count and add header
+sort -k1,1nr 2.count_words.txt \
+    | awk &#39;BEGIN {print &quot;word\tcount&quot;} { print $2 &quot;\t&quot; $1}&#39; \
+    &gt; 3.sort_counts.txt
+
+# Select names with respective counts
+egrep &#39;^(Jo|Amy|Laurie|Beth)\s&#39; 3.sort_counts.txt &gt; 4.select_words.txt
+
+# Print excerpts of input and results from each step
+head inputs/little_women_part_1.txt `ls *.txt` | less</code></pre>
+<p>You can examine the input:</p>
+<pre><code>less inputs/little_women_part_1.txt
+# type ctrl-q to exit the less command</code></pre>
+<p>You can execute this script:</p>
+<pre><code>export WORKSHOP_HOME=&quot;/nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}&quot;
+cd $WORKSHOP_HOME/alcott-script
+./alcott-script.sh</code></pre>
+<p>And view an except of the results:</p>
+<pre><code>head `ls *.txt` | less
+
+==&gt; 1.split_words.txt &lt;==
+CHAPTER
+ONE
+PLAYING
+PILGRIMS
+Christmas
+won
+t
+be
+Christmas
+without
+
+==&gt; 2.count_words.txt &lt;==
+   1992 a
+     75 A
+      1 aback
+      1 abase
+      3 abashed
+      1 abed
+      1 abject
+      3 able
+      3 abominable
+      1 abominably
+
+==&gt; 3.sort_counts.txt &lt;==
+word    count
+and     3811
+the     3303
+to      2303
+a       1992
+I       1988
+her     1660
+of      1490
+in      1094
+you     1010
+
+==&gt; 4.select_words.txt &lt;==
+Jo      737
+Laurie  319
+Beth    294
+Amy     283</code></pre>
+<p>A Snakefile is a simple markdown file. It is composed of rules; each
+rule specifies directives such as input, output, and shell. By
+convention, the snakefile is named <code>Snakefile</code> and lives in
+the <code>workflow</code> sub-directory. We will keep the inputs and
+outputs in separate directories. TODO: Example</p>
+<p>The snakemake program is installed as a module on Great Lakes.</p>
+<p><code>module load snakemake</code></p>
+<p>The <code>snakemake</code> python program interprets the Snakefile
+and executes rules as appropriate to produce the expected output. When
+launching snakemake, You specify the number of cores (i.e. CPUs) with
+the -c flag.</p>
+<p><code>snakemake -c2</code></p>
+<p>TODO interpreting the snakemake output &amp; check the outputs
+dir.</p>
+<p>Adding a new rule. By default, snakemake executes the first rule.
+Alternatively, you can provide a rule name or an output file.</p>
+<p>You can use variables in the shell directive: TODO {input}
+{output}</p>
+<p>Use triple quotes to create multiline shell commands. If your
+commands use curly braces ({}) you need to double them so snakemake
+doesn’t get confused.</p>
+<p>Note that snakemake will only run the rules it needs to (based on
+changes in files or scripts or missing files). You can preview what
+Snakemake will do by using the dry-run flag <code>--dry-run</code> or
+<code>-n</code>. This will show the typical snakemake output but will
+not change any files.</p>
+<hr />
+<p>One target to rule them all:</p>
+<p>Extending to run new inputs Expand <a
+href="https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#the-expand-function"
+class="uri">https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#the-expand-function</a></p>
+<p>Adding a config file</p>
+<p>Adding a param directive</p>
+<p>Visualize the directed acyclic graph and rules.</p>
+<div id="pro-tips" class="section level3">
+<h3>Pro tips</h3>
+<ol style="list-style-type: decimal">
+<li>Start learning Snakemake with a simple workflow. Don’t start with a
+really complex workflow.</li>
+<li>It’s ok to build your Snakefile from the first steps toward the
+last, but remember that Snakemake “thinks” from the last output
+backward.</li>
+<li>Keep your inputs, outputs, and workflow in separate
+directories.</li>
+<li>Build your Snakefile incrementally.
+<ol style="list-style-type: lower-alpha">
+<li>Start with a single input.</li>
+<li>Add a rule at a time.</li>
+<li>Make small changes and use <code>dry-run</code> liberally.</li>
+<li>OK to start by hardcoding filenames; put the wildcards in
+afterward.</li>
+</ol></li>
+<li>Keep consistent naming conventions. Including your rule names in
+your file names will help you troubleshoot. Some people include numbers
+in the file names or place different outputs in different directories.
+Choose a pattern that works for you and be consistent.</li>
+<li>If you subset your input data so that your steps are fast and light,
+you can prototype the Snakefile on the login-nodes. (But be ready to hit
+control-C if you wander into a computationally intensive step.)</li>
+<li>Use spaces not tabs.</li>
+<li>Use config files to avoid hardcoding paths of “magic values”.</li>
+</ol>
+</div>
+</div>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
+<ul>
+<li>A robust workflow automation solution is great because:
+<ul>
+<li>it supports simple (e.g. wide or tall) and complex (e.g. graph)
+transformations equally well</li>
+<li>only outstanding steps are run and individual steps are atomic</li>
+<li>it’s designed with software dependency management in mind</li>
+<li>it’s easy to tune, resulting in higher resource efficiency</li>
+<li>it’s portable across execution environments</li>
+<li>it’s designed to gracefully scale to many inputs</li>
+<li>all the capabilities above don’t obscure the actual data
+transfromation</li>
+</ul></li>
+<li>Snakemake is a Python program that evaluates the rules in a
+Snakefile against the file system and applies rules as necessary to
+produce the desired output files.</li>
+<li>The Snakefile is a simple markdown file composed of rules. Each rule
+contains <strong>directives</strong> that specify inputs, outputs,
+commands to run foe that rule.</li>
+<li>Snakemake builds the intended set of rules into a <strong>directed
+acyclic graph</strong> (DAG).</li>
+<li>The <strong>dry-run</strong> enables you to see the rules it will
+execute in advance.</li>
+<li>You can visualize the Snakemake DAG or rulegraph using
+<code>dot</code>.</li>
+</ul>
+<p>References and links: - <a
+href="https://snakemake.readthedocs.io/en/stable/index.html"
+class="uri">https://snakemake.readthedocs.io/en/stable/index.html</a></p>
+<p>Exercise 1A: cd to the project publication_snakemake_1 Given this DAG
+can you fill in the missing parts of this Snakefile?</p>
+<p>Exercise 1B: Use params and a config file to extract hardcoded inputs
+and “magic values”.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module00_Introduction.html">Back to
+Introduction</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm8gdG8gU25ha2VtYWtlIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoqIExpc3QgdGhlIGFkdmFudGFnZXMgb2YgYSByb2J1c3Qgd29ya2Zsb3cgYXV0b21hdGlvbiBzb2x1dGlvbiBsaWtlIFNuYWtlbWFrZS4KKiBDb21wYXJlIGdyYXBoIHRyYW5zZm9ybWF0aW9uIGluIGFkZGl0aW9uIHRvIHdpZGUgYW5kIHRhbGwgdHJhbnNmb3JtYXRpb25zLgoqIERlc2NyaWJlIHRoZSBmdW5kYW1lbnRhbCByZWxhdGlvbnNoaXAgYmV0d2VlbiBTbmFrZW1ha2UsIGEgU25ha2VmaWxlLCBhbmQgdGhlIGZpbGUgc3lzdGVtLgoqIERlc2NyaWJlIGtleSBwYXJ0cyBvZiBhIFNuYWtlbWFrZSBydWxlLgoqIEJ1aWxkIGEgU25ha2VmaWxlIGFuZCB1c2UgU25ha2VtYWtlIHRvIGF1dG9tYXRlIGEgc2ltcGxlIHRyYW5zZm9ybS4KKiBVc2Ugd2lsZGNhcmRzIHRvIGVhc2lseSBleHRlbmQgYSB3b3JrZmxvdyB0byBuZXcgaW5wdXRzLgoqIFNob3cgYSBTbmFrZW1ha2UgZHJ5LXJ1biBhbmQgb3RoZXIgd2F5cyB0byB2aXN1YWxpemUgdGhlIHdvcmtmbG93LgoKCiMjIFdoYXQgaXMgU25ha2VtYWtlPwoKIyMjIENvbnNpZGVyIGEgInRyYWRpdGlvbmFsIiBkYXRhIHdvcmtmbG93CgpUT0RPOiBQaWMKVGhpcyBpcyBhIHNpbmdsZSBzY3JpcHQgd2l0aCB0aHJlZSBzdGVwcyB0byB0cmFuc2Zvcm0gcmF3IGNoaWNrZW4gaW50byBmcmllZApjaGlja2VuLiBOb3RlIHRoYXQgdGhlcmUgaXMgb25lIGlucHV0IGFuZCBvbmUgb3V0cHV0IHRvIHRoaXMgcGlwZWxpbmUuCgojIyMgQW4gZXF1aXZhbGVudCBTbmFrZWZpbGUKClRPRE86IFBpYwpCeSBkZWNsYXJpbmcgdGhlIGlucHV0cyBhbmQgb3V0cHV0cyBmb3IgZWFjaCBvZiB0aGUgcnVsZXMsIFNuYWtlbWFrZSBub3cgCnVuZGVyc3RhbmRzIHRoZSByZWxhdGlvbnNoaXAgb2YgdGhlIGluZGl2aWR1YWwgcnVsZXMuCgojIyMgU25ha2VtYWtlIEludGVycHJldHMgdGhlIFNuYWtlZmlsZQoKVE9ETzogUGljClNuYWtlbWFrZSBpcyBhIHB5dGhvbiBwcm9ncmFtIHRoYXQgaW50ZXJwcmV0cyB0aGUgU25ha2VmaWxlIGFnYWluc3QgdGhlIGZpbGUKc3lzdGVtIGFuZCB1c2VzIHJ1bGVzIHRvIHRyYW5zZm9ybSBpbnB1dHMgaW50byBvdXRwdXRzIGFzIG5lY2Vzc2FyeS4gU25ha2VtYWtlCmlzIGVzc2VudGlhbGx5ICoqZGVjbGFyYXRpdmUqKiBtZWFuaW5nIHRoYXQgeW91IGRvbid0IHRlbGwgaXQgd2hhdCB0byBkbywgeW91CnNpbXBseSBhc2sgZm9yIHRoZSBmaW5hbCBvdXRwdXQgYW5kIFNuYWtlbWFrZSBmaWd1cmVzIG91dCB3aGF0IGl0IG5lZWRzIHRvIGRvLgpUaGF0IGRlY2xhcmF0aXZlIHBhdHRlcm4gZW5hYmxlcyBrZXkgZnVuY3Rpb25hbGl0eToKLSBTbmFrZW1ha2Ugd29ya2Zsb3dzIGNhbiBncmFjZWZ1bGx5IGV4dGVuZCB0byBuZXcgaW5wdXRzLgotIFNuYWtlbWFrZSBpcyBtb2R1bGFyLgotIFNuYWtlbWFrZSBpcyBwb3J0YWJsZS4KLSBTbmFrZW1ha2UgaXMg4oCcZHVyYWJsZeKAnSAoaS5lIGl0IGNyYXNoZXMgd2l0aCBwb2lzZSkuCi0gU25ha2VtYWtlIGlzIGVmZmljaWVudC4KCiMjIyBTbmFrZW1ha2UgaXMgZWZmaWNpZW50ClRPRE86IFBpYwoKQS4gQ29uc2lkZXIgYSB0cmFkaXRpb25hbCB3b3JrZmxvdyB3aXRoIGZvdXIgdHJhbnNmb3JtYXRpb24gc3RlcHMuIEVhY2ggc3RlcCBoYXMKYSBleHBlY3RlZCBydW4tdGltZSAoaGVpZ2h0KSBhbmQgYWxzbyByZXF1aXJlcyBhIGNlcnRhaW4gYW1vdW50IG9mIHJlc291cmNlcwooQ1BVcywgbWVtb3J5LCBldGMuKSAod2lkdGgpLiBUbyBydW4gdGhlc2Ugc3RlcHMgaW4gYSBzaW5nbGUgc2NyaXB0LCBJIGhhdmUgdG8KYWxsb2NhdGUgdGhlIG1heGltdW0gYW1vdW50IG9mIHJlc291cmNlcyBmb3IgdGhlIGVudGlyZSBleGVjdXRpb24gdGltZS4gVGhlCnJlc3VsdGluZyAid2hpdGVzcGFjZSIgaXMgd2FzdGVkIG1vbmV5IG9yIHdhc3RlZCByZXNvdXJjZXMuCgpCLiBNdWx0aXBsZXhpbmcgbWFrZXMgdGhpcyB3b3JzZS4KCkMuIFNuYWtlbWFrZSBydWxlcyBkZWNsYXJlIHRoZWlyIHJlc291cmNlIGZvb3RwcmludHMgaW5kaXZpZHVhbGx5LiBTbmFrZW1ha2UgY2FuCnBhY2sgdHJhbnNmb3JtYXRpb25zIHRpZ2h0ZXIgYW5kIGF1dG9tYXRpY2FsbHkgcGFyYWxsZWxpemUgYW55dGhpbmcgdGhhdCBmaXRzCmludG8geW91ciByZXNvdXJjZSBhbGxvY2F0aW9uLgoKIyMjIFNuYWtlbWFrZSBsZXRzIHlvdSBmb2N1cyBvbiB5b3VyIHdvcmtmbG93ClRPRE86IFBpYwoKU25ha2VtYWtlIG5lYXRseSBzZXBhcmF0ZXMgdGhlIGdlbmVyYWwgY29uY2VybnMgb2Ygd29ya2Zsb3cgYXV0b21hdGlvbiBmcm9tIHRoZQpzcGVjaWZpYyBzdGVwcyBvZiB5b3VyIHdvcmtmbG93LgoKCiMjIEJ1aWxkIGEgU25ha2VmaWxlCgpUbyBidWlsZCBhIFNuYWtlZmlsZSBpdCdzIGhlbHBmdWwgdG8gdXNlIGEgY29uY3JldGUgZXhhbXBsZSBhbmQgYWxzbyBoZWxwZnVsIHRvCmFkYXB0IGFuIGV4aXN0aW5nIHNjcmlwdC4gVGhlIHNjcmlwdCBiZWxvdyBjb25zaWRlcnMgdGhlIDE4Njggbm92ZWwgIkxpdHRsZQpXb21lbiIsIGJ5IExvdWlzYSBNYXkgQWxjb3R0LiBJdCBvdXRwdXRzIGEgZmlsZSBjb250YWluaW5nIHRoZSByYW5rZWQgbmFtZQpjb3VudHMgZm9yIGVhY2ggb2YgdGhlIGZvdXIgTWFyY2ggc2lzdGVyczogQW15LCBCZXRoLCBKbywgYW5kIExhdXJpZS4gKEFuZCBpdAphbHNvIGVtaXRzIGEgZmV3IGludGVybWVkaWF0ZSBmaWxlcykuCgogICAgIyEvYmluL2Jhc2gKICAgICMgV2hpY2ggb2YgdGhlIE1hcmNoIHNpc3RlcnMgaXMgcmVmZXJyZWQgdG8gbW9zdCBvZnRlbiBpbgogICAgIyBwYXJ0IDEgb2YgdGhlIExpdHRsZSBXb21lbj8KICAgIAogICAgIyBTcGxpdCBsaW5lcyBpbnRvIHdvcmRzCiAgICBjYXQgaW5wdXRzL2xpdHRsZV93b21lbl9wYXJ0XzEudHh0IFwKICAgICAgICB8IHRyIC1jcyAnWzphbHBoYTpdJyAnXG4nIFwKICAgICAgICA+IDEuc3BsaXRfd29yZHMudHh0CiAgICAKICAgICMgQ291bnQgd29yZHMKICAgIHNvcnQgMS5zcGxpdF93b3Jkcy50eHQgfCB1bmlxIC1jIFwKICAgICAgICA+IDIuY291bnRfd29yZHMudHh0CiAgICAKICAgICMgU29ydCB3b3JkcyBieSBkZXNjZW5kaW5nIGNvdW50IGFuZCBhZGQgaGVhZGVyCiAgICBzb3J0IC1rMSwxbnIgMi5jb3VudF93b3Jkcy50eHQgXAogICAgICAgIHwgYXdrICdCRUdJTiB7cHJpbnQgIndvcmRcdGNvdW50In0geyBwcmludCAkMiAiXHQiICQxfScgXAogICAgICAgID4gMy5zb3J0X2NvdW50cy50eHQKICAgIAogICAgIyBTZWxlY3QgbmFtZXMgd2l0aCByZXNwZWN0aXZlIGNvdW50cwogICAgZWdyZXAgJ14oSm98QW15fExhdXJpZXxCZXRoKVxzJyAzLnNvcnRfY291bnRzLnR4dCA+IDQuc2VsZWN0X3dvcmRzLnR4dAogICAgCiAgICAjIFByaW50IGV4Y2VycHRzIG9mIGlucHV0IGFuZCByZXN1bHRzIGZyb20gZWFjaCBzdGVwCiAgICBoZWFkIGlucHV0cy9saXR0bGVfd29tZW5fcGFydF8xLnR4dCBgbHMgKi50eHRgIHwgbGVzcwoKCllvdSBjYW4gZXhhbWluZSB0aGUgaW5wdXQ6CgogICAgbGVzcyBpbnB1dHMvbGl0dGxlX3dvbWVuX3BhcnRfMS50eHQKICAgICMgdHlwZSBjdHJsLXEgdG8gZXhpdCB0aGUgbGVzcyBjb21tYW5kCgoKWW91IGNhbiBleGVjdXRlIHRoaXMgc2NyaXB0OgoKICAgIGV4cG9ydCBXT1JLU0hPUF9IT01FPSIvbmZzL3R1cmJvL3VtbXMtYmlvaW5mLXdrc2hwL3dvcmtzaG9wL2hvbWUvJHtVU0VSfSIKICAgIGNkICRXT1JLU0hPUF9IT01FL2FsY290dC1zY3JpcHQKICAgIC4vYWxjb3R0LXNjcmlwdC5zaAoKQW5kIHZpZXcgYW4gZXhjZXB0IG9mIHRoZSByZXN1bHRzOgoKICAgIGhlYWQgYGxzICoudHh0YCB8IGxlc3MKICAgIAogICAgPT0+IDEuc3BsaXRfd29yZHMudHh0IDw9PQogICAgQ0hBUFRFUgogICAgT05FCiAgICBQTEFZSU5HCiAgICBQSUxHUklNUwogICAgQ2hyaXN0bWFzCiAgICB3b24KICAgIHQKICAgIGJlCiAgICBDaHJpc3RtYXMKICAgIHdpdGhvdXQKICAgIAogICAgPT0+IDIuY291bnRfd29yZHMudHh0IDw9PQogICAgICAgMTk5MiBhCiAgICAgICAgIDc1IEEKICAgICAgICAgIDEgYWJhY2sKICAgICAgICAgIDEgYWJhc2UKICAgICAgICAgIDMgYWJhc2hlZAogICAgICAgICAgMSBhYmVkCiAgICAgICAgICAxIGFiamVjdAogICAgICAgICAgMyBhYmxlCiAgICAgICAgICAzIGFib21pbmFibGUKICAgICAgICAgIDEgYWJvbWluYWJseQogICAgCiAgICA9PT4gMy5zb3J0X2NvdW50cy50eHQgPD09CiAgICB3b3JkICAgIGNvdW50CiAgICBhbmQgICAgIDM4MTEKICAgIHRoZSAgICAgMzMwMwogICAgdG8gICAgICAyMzAzCiAgICBhICAgICAgIDE5OTIKICAgIEkgICAgICAgMTk4OAogICAgaGVyICAgICAxNjYwCiAgICBvZiAgICAgIDE0OTAKICAgIGluICAgICAgMTA5NAogICAgeW91ICAgICAxMDEwCiAgICAKICAgID09PiA0LnNlbGVjdF93b3Jkcy50eHQgPD09CiAgICBKbyAgICAgIDczNwogICAgTGF1cmllICAzMTkKICAgIEJldGggICAgMjk0CiAgICBBbXkgICAgIDI4MwoKCkEgU25ha2VmaWxlIGlzIGEgc2ltcGxlIG1hcmtkb3duIGZpbGUuIEl0IGlzIGNvbXBvc2VkIG9mIHJ1bGVzOyBlYWNoIHJ1bGUgc3BlY2lmaWVzIGRpcmVjdGl2ZXMgc3VjaCBhcyBpbnB1dCwgb3V0cHV0LCBhbmQgc2hlbGwuIEJ5IGNvbnZlbnRpb24sIHRoZSBzbmFrZWZpbGUgaXMgbmFtZWQgYFNuYWtlZmlsZWAgYW5kIGxpdmVzIGluIHRoZSBgd29ya2Zsb3dgIHN1Yi1kaXJlY3RvcnkuIFdlIHdpbGwga2VlcCB0aGUgaW5wdXRzIGFuZCBvdXRwdXRzIGluIHNlcGFyYXRlIGRpcmVjdG9yaWVzLgpUT0RPOiBFeGFtcGxlCgpUaGUgc25ha2VtYWtlIHByb2dyYW0gaXMgaW5zdGFsbGVkIGFzIGEgbW9kdWxlIG9uIEdyZWF0IExha2VzLgoKYG1vZHVsZSBsb2FkIHNuYWtlbWFrZWAKClRoZSBgc25ha2VtYWtlYCBweXRob24gcHJvZ3JhbSBpbnRlcnByZXRzIHRoZSBTbmFrZWZpbGUgYW5kIGV4ZWN1dGVzIHJ1bGVzIGFzIGFwcHJvcHJpYXRlIHRvIHByb2R1Y2UgdGhlIGV4cGVjdGVkIG91dHB1dC4gV2hlbiBsYXVuY2hpbmcgc25ha2VtYWtlLCBZb3Ugc3BlY2lmeSB0aGUgbnVtYmVyIG9mIGNvcmVzIChpLmUuIENQVXMpIHdpdGggdGhlIC1jIGZsYWcuCgpgc25ha2VtYWtlIC1jMmAKClRPRE8gaW50ZXJwcmV0aW5nIHRoZSBzbmFrZW1ha2Ugb3V0cHV0ICYgY2hlY2sgdGhlIG91dHB1dHMgZGlyLgoKQWRkaW5nIGEgbmV3IHJ1bGUuIEJ5IGRlZmF1bHQsIHNuYWtlbWFrZSBleGVjdXRlcyB0aGUgZmlyc3QgcnVsZS4gQWx0ZXJuYXRpdmVseSwgCnlvdSBjYW4gcHJvdmlkZSBhIHJ1bGUgbmFtZSBvciBhbiBvdXRwdXQgZmlsZS4KCllvdSBjYW4gdXNlIHZhcmlhYmxlcyBpbiB0aGUgc2hlbGwgZGlyZWN0aXZlOgpUT0RPIHtpbnB1dH0ge291dHB1dH0KClVzZSB0cmlwbGUgcXVvdGVzIHRvIGNyZWF0ZSBtdWx0aWxpbmUgc2hlbGwgY29tbWFuZHMuIElmIHlvdXIgY29tbWFuZHMgdXNlIGN1cmx5IGJyYWNlcyAoe30pIHlvdSBuZWVkIHRvIGRvdWJsZSB0aGVtIHNvIHNuYWtlbWFrZSBkb2Vzbid0IGdldCBjb25mdXNlZC4KCk5vdGUgdGhhdCBzbmFrZW1ha2Ugd2lsbCBvbmx5IHJ1biB0aGUgcnVsZXMgaXQgbmVlZHMgdG8gKGJhc2VkIG9uIGNoYW5nZXMgaW4KZmlsZXMgb3Igc2NyaXB0cyBvciBtaXNzaW5nIGZpbGVzKS4gWW91IGNhbiBwcmV2aWV3IHdoYXQgU25ha2VtYWtlIHdpbGwgZG8gYnkKdXNpbmcgdGhlIGRyeS1ydW4gZmxhZyBgLS1kcnktcnVuYCBvciBgLW5gLiBUaGlzIHdpbGwgc2hvdyB0aGUgdHlwaWNhbCBzbmFrZW1ha2UKb3V0cHV0IGJ1dCB3aWxsIG5vdCBjaGFuZ2UgYW55IGZpbGVzLgoKCgotLS0KCk9uZSB0YXJnZXQgdG8gcnVsZSB0aGVtIGFsbDoKCgpFeHRlbmRpbmcgdG8gcnVuIG5ldyBpbnB1dHMKRXhwYW5kCmh0dHBzOi8vc25ha2VtYWtlLnJlYWR0aGVkb2NzLmlvL2VuL3N0YWJsZS9zbmFrZWZpbGVzL3J1bGVzLmh0bWwjdGhlLWV4cGFuZC1mdW5jdGlvbgoKQWRkaW5nIGEgY29uZmlnIGZpbGUKCkFkZGluZyBhIHBhcmFtIGRpcmVjdGl2ZQoKVmlzdWFsaXplIHRoZSBkaXJlY3RlZCBhY3ljbGljIGdyYXBoIGFuZCBydWxlcy4KCiMjIyBQcm8gdGlwcwoKMS4gU3RhcnQgbGVhcm5pbmcgU25ha2VtYWtlIHdpdGggYSBzaW1wbGUgd29ya2Zsb3cuIERvbid0IHN0YXJ0IHdpdGggYSByZWFsbHkKICAgY29tcGxleCB3b3JrZmxvdy4KMi4gSXQncyBvayB0byBidWlsZCB5b3VyIFNuYWtlZmlsZSBmcm9tIHRoZSBmaXJzdCBzdGVwcyB0b3dhcmQgdGhlIGxhc3QsCiAgIGJ1dCByZW1lbWJlciB0aGF0IFNuYWtlbWFrZSAidGhpbmtzIiBmcm9tIHRoZSBsYXN0IG91dHB1dCBiYWNrd2FyZC4KMy4gS2VlcCB5b3VyIGlucHV0cywgb3V0cHV0cywgYW5kIHdvcmtmbG93IGluIHNlcGFyYXRlIGRpcmVjdG9yaWVzLgo0LiBCdWlsZCB5b3VyIFNuYWtlZmlsZSBpbmNyZW1lbnRhbGx5LgogICBhKSBTdGFydCB3aXRoIGEgc2luZ2xlIGlucHV0LgogICBiKSBBZGQgYSBydWxlIGF0IGEgdGltZS4KICAgYykgTWFrZSBzbWFsbCBjaGFuZ2VzIGFuZCAgdXNlIGBkcnktcnVuYCBsaWJlcmFsbHkuCiAgIGQpIE9LIHRvIHN0YXJ0IGJ5IGhhcmRjb2RpbmcgZmlsZW5hbWVzOyBwdXQgdGhlIHdpbGRjYXJkcyBpbiBhZnRlcndhcmQuCjUuIEtlZXAgY29uc2lzdGVudCBuYW1pbmcgY29udmVudGlvbnMuIEluY2x1ZGluZyB5b3VyIHJ1bGUgbmFtZXMgaW4geW91ciBmaWxlCiAgIG5hbWVzIHdpbGwgaGVscCB5b3UgdHJvdWJsZXNob290LiBTb21lIHBlb3BsZSBpbmNsdWRlIG51bWJlcnMgaW4gdGhlIGZpbGUKICAgbmFtZXMgb3IgcGxhY2UgZGlmZmVyZW50IG91dHB1dHMgaW4gZGlmZmVyZW50IGRpcmVjdG9yaWVzLiBDaG9vc2UgYSBwYXR0ZXJuCiAgIHRoYXQgd29ya3MgZm9yIHlvdSBhbmQgYmUgY29uc2lzdGVudC4KNi4gSWYgeW91IHN1YnNldCB5b3VyIGlucHV0IGRhdGEgc28gdGhhdCB5b3VyIHN0ZXBzIGFyZSBmYXN0IGFuZCBsaWdodCwgeW91IAogICBjYW4gcHJvdG90eXBlIHRoZSBTbmFrZWZpbGUgb24gdGhlIGxvZ2luLW5vZGVzLiAoQnV0IGJlIHJlYWR5IHRvIGhpdCBjb250cm9sLUMKICAgaWYgeW91IHdhbmRlciBpbnRvIGEgY29tcHV0YXRpb25hbGx5IGludGVuc2l2ZSBzdGVwLikKNy4gVXNlIHNwYWNlcyBub3QgdGFicy4KOC4gVXNlIGNvbmZpZyBmaWxlcyB0byBhdm9pZCBoYXJkY29kaW5nIHBhdGhzIG9mICJtYWdpYyB2YWx1ZXMiLgoKIyMgS2V5IGlkZWFzCgoqIEEgcm9idXN0IHdvcmtmbG93IGF1dG9tYXRpb24gc29sdXRpb24gaXMgZ3JlYXQgYmVjYXVzZToKICAqIGl0IHN1cHBvcnRzIHNpbXBsZSAoZS5nLiB3aWRlIG9yIHRhbGwpIGFuZCBjb21wbGV4IChlLmcuIGdyYXBoKQogICAgdHJhbnNmb3JtYXRpb25zIGVxdWFsbHkgd2VsbAogICogb25seSBvdXRzdGFuZGluZyBzdGVwcyBhcmUgcnVuIGFuZCBpbmRpdmlkdWFsIHN0ZXBzIGFyZSBhdG9taWMKICAqIGl0J3MgZGVzaWduZWQgd2l0aCBzb2Z0d2FyZSBkZXBlbmRlbmN5IG1hbmFnZW1lbnQgaW4gbWluZAogICogaXQncyBlYXN5IHRvIHR1bmUsIHJlc3VsdGluZyBpbiBoaWdoZXIgcmVzb3VyY2UgZWZmaWNpZW5jeQogICogaXQncyBwb3J0YWJsZSBhY3Jvc3MgZXhlY3V0aW9uIGVudmlyb25tZW50cwogICogaXQncyBkZXNpZ25lZCB0byBncmFjZWZ1bGx5IHNjYWxlIHRvIG1hbnkgaW5wdXRzCiAgKiBhbGwgdGhlIGNhcGFiaWxpdGllcyBhYm92ZSBkb24ndCBvYnNjdXJlIHRoZSBhY3R1YWwgZGF0YSB0cmFuc2Zyb21hdGlvbgoqIFNuYWtlbWFrZSBpcyBhIFB5dGhvbiBwcm9ncmFtIHRoYXQgZXZhbHVhdGVzIHRoZSBydWxlcyBpbiBhIFNuYWtlZmlsZSBhZ2FpbnN0CiAgdGhlIGZpbGUgc3lzdGVtIGFuZCBhcHBsaWVzIHJ1bGVzIGFzIG5lY2Vzc2FyeSB0byBwcm9kdWNlIHRoZSBkZXNpcmVkIG91dHB1dCAKICBmaWxlcy4KKiBUaGUgU25ha2VmaWxlIGlzIGEgc2ltcGxlIG1hcmtkb3duIGZpbGUgY29tcG9zZWQgb2YgcnVsZXMuIEVhY2ggcnVsZSBjb250YWlucwogICoqZGlyZWN0aXZlcyoqIHRoYXQgc3BlY2lmeSBpbnB1dHMsIG91dHB1dHMsIGNvbW1hbmRzIHRvIHJ1biBmb2UgdGhhdCBydWxlLgoqIFNuYWtlbWFrZSBidWlsZHMgdGhlIGludGVuZGVkIHNldCBvZiBydWxlcyBpbnRvIGEgKipkaXJlY3RlZCBhY3ljbGljIGdyYXBoKiogCiAgKERBRykuCiogVGhlICoqZHJ5LXJ1bioqIGVuYWJsZXMgeW91IHRvIHNlZSB0aGUgcnVsZXMgaXQgd2lsbCBleGVjdXRlIGluIGFkdmFuY2UuCiogWW91IGNhbiB2aXN1YWxpemUgdGhlIFNuYWtlbWFrZSBEQUcgb3IgcnVsZWdyYXBoIHVzaW5nIGBkb3RgLgoKClJlZmVyZW5jZXMgYW5kIGxpbmtzOgotIGh0dHBzOi8vc25ha2VtYWtlLnJlYWR0aGVkb2NzLmlvL2VuL3N0YWJsZS9pbmRleC5odG1sCgpFeGVyY2lzZSAxQToKY2QgdG8gdGhlIHByb2plY3QgcHVibGljYXRpb25fc25ha2VtYWtlXzEKR2l2ZW4gdGhpcyBEQUcgY2FuIHlvdSBmaWxsIGluIHRoZSBtaXNzaW5nIHBhcnRzIG9mIHRoaXMgU25ha2VmaWxlPwoKCkV4ZXJjaXNlIDFCOgpVc2UgcGFyYW1zIGFuZCBhIGNvbmZpZyBmaWxlIHRvIGV4dHJhY3QgaGFyZGNvZGVkIGlucHV0cyBhbmQgIm1hZ2ljIHZhbHVlcyIuCgp8IFtCYWNrIHRvIEludHJvZHVjdGlvbl0oTW9kdWxlMDBfSW50cm9kdWN0aW9uLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZSBGSVhNRSAuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module07-intro-to-snakemake.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

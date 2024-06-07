@@ -85,7 +85,7 @@ specific steps of your workflow.
 
 ## Build a Snakefile
 
-To build a Snakefile iot's helpful to use a concrete example and also helpful to
+To build a Snakefile it's helpful to use a concrete example and also helpful to
 adapt an existing script. The script below considers the 1868 novel "Little
 Women", by Louisa May Alcott. It outputs a file containing the ranked name
 counts for each of the four March sisters: Amy, Beth, Jo, and Laurie. (And it
@@ -175,9 +175,48 @@ And view an except of the results:
     Amy     283
 
 
+A Snakefile is a simple markdown file. It is composed of rules; each rule specifies directives such as input, output, and shell. By convention, the snakefile is named `Snakefile` and lives in the `workflow` sub-directory. We will keep the inputs and outputs in separate directories.
+TODO: Example
+
+The snakemake program is installed as a module on Great Lakes.
+
+`module load snakemake`
+
+The `snakemake` python program interprets the Snakefile and executes rules as appropriate to produce the expected output. When launching snakemake, You specify the number of cores (i.e. CPUs) with the -c flag.
+
+`snakemake -c2`
+
+TODO interpreting the snakemake output & check the outputs dir.
+
+Adding a new rule. By default, snakemake executes the first rule. Alternatively, 
+you can provide a rule name or an output file.
+
+You can use variables in the shell directive:
+TODO {input} {output}
+
+Use triple quotes to create multiline shell commands. If your commands use curly braces ({}) you need to double them so snakemake doesn't get confused.
+
+Note that snakemake will only run the rules it needs to (based on changes in
+files or scripts or missing files). You can preview what Snakemake will do by
+using the dry-run flag `--dry-run` or `-n`. This will show the typical snakemake
+output but will not change any files.
 
 
 
+---
+
+One target to rule them all:
+
+
+Extending to run new inputs
+Expand
+https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#the-expand-function
+
+Adding a config file
+
+Adding a param directive
+
+Visualize the directed acyclic graph and rules.
 
 ### Pro tips
 
@@ -222,6 +261,17 @@ And view an except of the results:
 * The **dry-run** enables you to see the rules it will execute in advance.
 * You can visualize the Snakemake DAG or rulegraph using `dot`.
 
+
+References and links:
+- https://snakemake.readthedocs.io/en/stable/index.html
+
+Exercise 1A:
+cd to the project publication_snakemake_1
+Given this DAG can you fill in the missing parts of this Snakefile?
+
+
+Exercise 1B:
+Use params and a config file to extract hardcoded inputs and "magic values".
 
 | [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
 | :--- | :----: | ---: |

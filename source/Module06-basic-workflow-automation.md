@@ -84,5 +84,5 @@ By the end of this module, we will:
   resource efficient - choose one. Consider more robust solutions (e.g. Snakemake) as 
   necessary.
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Previous lesson](Module05_containers_docker_singularity.html) | [Top of this lesson](#top) | [Next lesson](Module07-intro-to-snakemake.html) |
 | :--- | :----: | ---: |
