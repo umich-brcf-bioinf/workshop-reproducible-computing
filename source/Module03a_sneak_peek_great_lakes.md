@@ -39,7 +39,7 @@ In this module we'll start to get a feel for what it's like to use an HPC cluste
 
 ![](images/Module03a_ask_for_resources.png)
 
-When using an HPC cluster, there is a pattern that is quite different from our typical interactions with a computer system - we must ask for resources before we are able to use them. This is a characteristic of a shared, large, multi-user system like Great Lakes. Within the entirety of the system, we have an enormous amount of computing power, but at the same time, we need to allow equal access to this resource to the entirety of the University. Therefore, we use this pattern of requesting resources and receiving them before we begin our computing tasks.
+When using an HPC cluster, there is a pattern that is quite different from our typical interactions with a computer system - we must ask for resources before we are able to use them. This is a characteristic of a shared, large, multi-user system like Great Lakes. Within the entirety of the system, we have an enormous amount of computing power, but at the same time, we need to allow equal access to this resource to the whole university. Therefore, we use this pattern of requesting resources and receiving them before we begin our computing tasks.
 
 ### Several ways to access Great Lakes
 
@@ -48,9 +48,10 @@ When using an HPC cluster, there is a pattern that is quite different from our t
     - Web-based shell
     - OpenOnDemand interactive apps (e.g. RStudio, Basic Desktop)
 - For file access:
+    - Web-based file browser
     - Globus
-    - Direct (Storage is mounted on Great Lakes)
-    - Remote mount (Storage is mounted on your workstation)
+    - Direct (it's directly connected to Great Lakes)
+    - Remote mount (it can be network-connected to your workstation)
     - `scp`, `rsync`, etc.
 
 ### Using the web-based access methods
@@ -121,6 +122,14 @@ Following along with the instructor, we'll use OpenOnDemand to launch a Basic De
 ## Exercise - Write a README File
 
 Following along with the instructor, we will use the `nano` utility to write the beginnings of a README for our project as it exists so far.
+
+## Exercise - Organize your project
+
+Following along with the instructor, we'll organize the files that are in our `$WORKSHOP_HOME` directory.
+
+<!-- FIXME: More project org description here -->
+
+<br>
 
 ## Review
 
