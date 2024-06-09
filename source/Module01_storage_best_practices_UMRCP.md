@@ -28,6 +28,8 @@ In this module, we will:
 * learn about the UMRCP and how to request it
 * make a plan for enrolling PIs in UMRCP and enabling access to all researchers
 
+<br>
+
 ## Reproducible Computing
 
 Reproducible computing has become increasingly important in recent years. As experimental data volumes have increased exponentially, and as research endeavors have employed more complicated analyses over time, computation has become a fundamental aspect of virtually every type of research.
@@ -44,6 +46,8 @@ There are a number of tools and techniques that have emerged to address some of 
 
 In this workshop we'll discuss these tools and techniques, we'll provide specific guidance for University of Michigan researchers to address reproducibility concerns, and we'll use practical examples along the way to gain experience and emphasize the concepts that we learn.
 
+<br>
+
 ## Storage Best Practices
 
 One simple way to organize our thinking about storage best practices is to divide the topic into raw data considerations, and considerations for analysis projects. By separating and focusing on those two aspects, we can effectively address many of the challenges associated with each.
@@ -59,6 +63,7 @@ One simple way to organize our thinking about storage best practices is to divid
 When considering best practices for raw data storage, we can generally orient ourselves around one task - ensure that the data are safe.
 
 Safe from:
+
 - Accidental deletion
 - Hardware failure
 - Loss of access
@@ -68,6 +73,7 @@ With this in mind, we recommend placing your raw experimental data into a specif
 Soon we'll talk about specific options for UMich researchers, but for now we'll just speak of the general process. Data that cannot easily be re-obtained should be treated with great care. By following the recommendations here, we can achieve this and have peace of mind that we are preserving our raw data and our capabilities for reproducible research well into the future.
 
 Recommended:
+
 - Designated location for storing raw data
 - Limit write access of stored data files
 - Use institutional storage
@@ -75,8 +81,6 @@ Recommended:
   - Long-term support
   - Hardware redundancy
   - Location redundancy
-
-<br>
 
 Another thing to mention for raw data best practices is the procedure of checking file integrity. Whenever transferring data from one storage location to another, and especially while doing so over a network connection, it is good practice to follow up with a file integrity check. Briefly, we use software to inspect our files and determine if any of the contents have changed. In a later module we'll have a chance to try this ourselves, using the `md5sum` utility. This is a relatively efficient way of verifying file integrity after a file transfer.
 
@@ -86,6 +90,7 @@ Another thing to mention for raw data best practices is the procedure of checkin
 We can begin thinking of our next task - handling data and organizing files and artifacts for our analysis - by starting with the idea of the data flow described above. One of the first tasks in this area is to set up a new location for your analysis and make a copy of your raw data there.
 
 Some considerations:
+
  - Fast storage, well suited for computation
  - Project organization that facilitates reproducibility
  - In-progress analyses, cleanup procedures, and end-to-end repeatable analyses
@@ -95,6 +100,7 @@ When we think about fast storage that is well suited for computation, we mostly 
 In terms of project organization, generally we want to have distinct locations for specific purposes, and preferably organizing things in a consistent manner for all of our projects.
 
 In a particular project, you may want:
+
 - `input_data` directory for copy of raw data
 - `scripts` directory for analysis scripts
 - Directories for intermediates, log files, and final outputs
@@ -107,14 +113,16 @@ Taking time to segregate specific efforts within a project, documenting our step
 
 Think ahead when designing the layout of your projects. If you will be trying several related analysis approaches using the same input data, but intend on using results from only one of the evaluated methods, it may make sense to intentionally subdivide the contents of your project directory accordingly. If you have several distinct analyses that may use the same input data, then perhaps creating separate projects for each of them will make the most sense. It's hard to be totally prescriptive when making recommendations here, but through our example we hope to spark the kinds of conversations and the types of thinking that are required here.
 
-<!-- FIXME: Add figure specific for our analysis -->
+![](images/Module01_projects_layout.png)
 
 One last note on handling and organizing analysis projects - use some form of identification system for projects in your lab. This simplifies communication and record keeping, in addition to the organizational benefits.
 
 Some ideas for project identification systems:
+
 - Codenames
 - Alphanumeric IDs
 
+<br>
 
 ## Storage Options for UMich Researchers
 
@@ -131,20 +139,24 @@ Later in this module we'll discuss in detail how to request resources through AR
 
 Data Den is a low-cost, highly durable storage system operated by ARC.
 
-Tape-based archival storage. The largest and cheapest storage available through ARC.
+- Tape-based archival storage
+- The largest and most affordable storage available through ARC.
+- Can only access this indirectly
+  - i.e. use Globus to interface with this storage. 
+  
+<!-- Due to its architecture, slow speeds, and need to eliminate unnecessary read/write operations -->
 
-Generally can only access this indirectly i.e. use Globus to interface with this storage. Due to its architecture, slow read speeds, and need to eliminate write operations and unnecessary read operations.
-
-File size limitation / constraint - does not handle large amounts of small files. 10,000 files per TB limitation. Optimal file size in the multi-gigabyte range.
+> Note: Data Den has a file size limitation - it does not handle large amounts of small files. Optimal file size is in the multi-gigabyte range.
+> The limitation 10,000 files per TB of storage.
 
 
 ### Turbo
 
-Turbo is a high-capacity, reliable, and fast storage system operated by ARC.
+Turbo is a high-capacity, reliable, and fast storage system operated by ARC. It is more costly than Data Den.
 
-It is tuned for files moderate to large in size, but can also easily accomodate small files as well.
-
-Can be accessed through the High-Performance Computing (HPC) cluster.
+- More costly than Data Den
+- Tuned for files moderate to large in size, but can also easily accomodate small files
+- Can be accessed through the High-Performance Computing (HPC) cluster
 
 Fast storage like Turbo is well-equipped for computing direcly from it. Turbo supports fast read/write times, and is an excellent place to perform analyses.
 
@@ -178,12 +190,14 @@ Notice that Turbo storage is about 8x more costly than Data Den for the same amo
 
 ### Institutional Storage vs Other Storage
 
-| Institutional   | Other                             |
-| --------------- | --------------------------------- |
+| Institutional | Other |
+|:--------------- |:--------------------------------- |
 | Turbo           | Laptop Storage                    |
 | Data Den        | Storage on a Shared Lab Computer  |
 | Home / Scratch* | Portable Hard Drive / Flash Drive |
 | MiStorage       | Cloud Storage                     |
+
+<br>
 
 ## UMRCP
 
@@ -237,6 +251,7 @@ Lighthouse is also similar in feel to the Great Lakes cluster, except it is a cl
 <br>
 
 Main ideas:
+
  - PI must be the one to fill out form
  - PI will automatically become an administrator
  - Others can become administrators (lab manager) or members
@@ -246,9 +261,9 @@ Main ideas:
 ### Administrators vs Users
 
 |              | Change Allocations | Add/Remove Users | Use GL compute time | Read/Write access to Turbo | Globus Admin |
-| ------------ | ------------------ | ---------------- | ------------------- | -------------------------- | ------------- |
+| ------------ |:------------------ |:---------------- |:------------------- |:-------------------------- |:------------- |
 | PI           | ✅                  | ✅                | ⏳                   | ⏳                          | ✅             |
-| Lab Manager  | ✅                  | ✅                | ⏳                   | ✅                          | ✅             |
+| Lab Manager  | ✅                  | ✅                | ⏳                   | ⏳                          | ✅             |
 | Grad Student |                    |                  | ✅                   | ✅                          |               |
 
 > Legend:
@@ -280,11 +295,11 @@ There are two video links below. There's a decent amount of overlap in the conte
 
 <br>
 
-[UMRCP How to Enroll - Existing Owner of ARC Services](https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561)
+[UMRCP How to Enroll - New to ARC Services](https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561)
 
 <br>
 
-[UMRCP How to Enroll - New to ARC Services](https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561)
+[UMRCP How to Enroll - Existing Owner of ARC Services](https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561)
 
 <br>
 <br>

@@ -24,56 +24,133 @@ In this module, we will:
 
 * discuss the Great Lakes HPC cluster and review its usage
 * discuss software modules available on Great Lakes
+* log in to the Great Lakes cluster using `ssh`
+* review some of the fundamental helper commands on Great Lakes
 * review SBATCH and submit jobs for our analysis
 
-## Review - UMRCP and the Components We'll Use in This Workshop
+## Review of Yesterday
+
+Very briefly, yesterday after learning about storage best practices and various storage options available to UMich researchers, we gained direct experience using these options by transferring our dataset to our own Data Den and Turbo storage locations.
+
+<br>
+
+We learned about a broadly-available and very generous compute package available to UMich researchers - the UMRCP - and now we'll take a few moments to briefly review that.
 
 ![](images/Module01_UMRCP_provides.png)
 
-UMRCP provides compute hours on the Great Lakes and/or Armis clusters, fast "Turbo" storage, slower tape-based "Data Den" storage, and a "Secure Enclave" RAM allocation. In this workshop, we'll be primarily using the Great Lakes cluster and the Turbo and Data Den storage allocations.
+<br>
 
+We also discussed HPC compute clusters managed by ARC and had some opportunities to use the Great Lakes cluster,  utilizing some of the web-based connection methods.
+
+We talked about a pattern that may be new to us. In order to really use the HPC cluster, we had to request the appropriate resources from the system ahead of time. Let's take a few moments to briefly review our experiences there. Today we'll extend this idea.
+
+<br>
+
+Today we're going to discuss more in depth about additional, powerful methods for connecting to the Great Lakes cluster, requesting resources, and ultimately running jobs in a more reproducible and automatable way. We'll add more concrete detail about how this works, and gain experience through our exercises.
 
 ## Great Lakes HPC
 
-https://arc.umich.edu/greatlakes/
+Again, we'll provide the link to ARC's general overview page on Great Lakes here: https://arc.umich.edu/greatlakes/
 
-https://arc.umich.edu/greatlakes/slurm-user-guide/
+![](images/Module03b_arc_site_navbar.png)
 
+Let's not go there right now, but I'd just like to point out that there's a good deal of informational resources available on ARC's website.
+
+
+### A More Detailed Look at How Great Lakes Works
 ![](images/Module03_cluster_overview.png)
+
+We may have briefly mentioned the concept of a login node and a worker node when getting acquainted with Great Lakes, but we kept the explanation minimal, and only stated the fact that resources must be specified ahead of time for our tasks. With this figure we can dive a bit deeper into how this works.
+
+<br>
+
+### Software Modules Available on Great Lakes
+
+For our benefit, ARC has made available a plethora of widely used and oft-requested software tools, via their module system. We may refer to this module system as LMOD. We won't cover the details of how it works<!-- LIVE_NOTE: note we will revisit this idea when comparing with other software management solutions later -->, however we'll demonstrate their usage and get a feel for using these LMOD modules on Great Lakes in our exercises.
+
+The usage is very simple:
+
+- `module load <name-of-module>` to enable a particular module
+- `module unload <name-of-module>` to disable that module
+- `module purge` to unload all modules
+- `module keyword <keyword>` to search the modules for a particular keyword
+- `module spider <name-of-module>` to view all versions of a particular software - many different versions may be available
+
+We'll use these command-line methods for exploring and using LMOD modules in our exercises shortly, but it may also be helpful to later review this [link to all software modules available on various ARC HPC clusters](https://arc.umich.edu/software/).
+
+### Exercise - Log in to Great Lakes using ssh
+
+Following along with the instructor, we'll all log in to the Great Lakes cluster using ssh. Once there, we'll get a brief introduction to using the module system.
+
+<br>
 
 ### Scheduled Jobs
 
 ![](images/Module03_scheduled_jobs.png)
 
+We've taken a look into how, but now we're going to go a little deeper on the why aspect - why is the HPC cluster set up this way? 
 
-### Interactive vs Scripted Jobs
+Remember, this infrastructure must support the entire university. This means that we need a system to provide resources in a controlled, efficient, and reasonably fair way.
 
-As we've discussed, for any computational tasks that are moderately demanding, we should not attempt them on the login nodes. Instead, we must request resources and arrange for our job to run on a worker node. In yesterday's exercises, we explored a couple of quick ways to request resources and run jobs using the 'Interactive App' web-based tools. Now, we'll discuss some additional, very useful and powerful ways that we can request resources and run jobs - through interactive jobs and scripted jobs.
+By having formal mechanisms for requesting resources, and utilizing a job queue and a scheduler to allocate resources and assign them to jobs, we can achieve these goals.
 
-FIXME: Elaborate right-sizing your SBATCH
+<br>
+
+### Interactive and Scripted Jobs
+
+We've gained a little experience with some types of interactive jobs, for instance during our `RStudio` demonstration or when we verified the file integrity of our BAMs with `md5sum` using the OpenOnDemand 'Basic Desktop' app. During that exercise, we mentioned that there are other ways of doing this, which we'll introduce here.
+
+We've just logged in using SSH to the Great Lakes HPC, and now we're all interacting with the login node. Thinking back to yesterday when we were writing the README file, we were similarly interacting with the login node.  We mentioned that we can't do anything compute-intensive here, and instead offered the OpenOnDemand apps as an alternative.
+
+What we didn't discuss was that where we are now - on the login node - we have the ability to request resources and run jobs via the command line. These are the powerful abilities that we alluded to, and we have two ways of doing this - interactive and scripted jobs.
+
+<!-- LIVE_NOTE: These are both examples of scheduled jobs, either way we'll request resources and use them once granted -->
+
+<br>
 
 ### Interactive Jobs
+
+When we speak of interactive jobs on the command line, what we really mean is that we request resources in a special way so that once they are granted, our shell will be 'sent' into a worker node, and we will be able to interact with a command-line interface that is running inside of our worker node. We'll have all of our desired resources, and we'll be able to execute our compute-intensive tasks in an interactive way.
+
+In some of the educational material provided by ARC, a lot of times they will introduce this idea later on, or briefly mentioned as an aside. However, we want to introduce it right away, because it's very useful as a starting point, and is a great way to 'right-size' your scripted jobs, which we'll cover in a moment.
+
+When would we want to run an interactive job?
+
+- When we're not quite sure about the resources needed
+- When we want to verify that our commands will work correctly
+- When runtimes are relatively short and commands are fairly straightforward
+
+<!-- LIVE_NOTE: Commands inside of the interactive job may lack reproducibility, we have to manually record what we do within the interactive job. -->
+
+How do we launch an interactive job from the command line? See the example here:
 
 ```
 srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash
 ```
 
-### Exercise - Log in to Great Lakes using ssh
+<br>
 
-Following along with the instructor, we'll all log in to the Great Lakes cluster using ssh
+### Scripted Jobs
 
-### Exercise - Launch an Interactive Job and Calculate MD5sum
+When we talk about scripted jobs, generally we mean that inside of a file we place commands that we want to run in order - a script - along with the resource requirements.
 
-Following along with instructor, we'll launch an interactive job using `srun`. Once the job is allocated, we'll use the `md5sum` command to confirm the success and completeness of our data transfer.
+In this case, when the resources become available, the contents of the script are executed on a worker node. There is no interaction with the running job<!-- LIVE_NOTE: Except maybe to observe it -->. Any feedback that we'd normally receive in the terminal, can go to a log file. We'll see an example of this.
 
-### LMOD Modules
+When would we want to run scripted jobs?
 
-FIXME: Elaborate on LMOD
+- When we're confident that our script/processes are correct and do what we want
+- When we're confident that we are requesting adequate resources
+- When we want reproducibility
+- When we want scalability, we have the ability of creating many scripted jobs ahead of time, and launching them all at once
 
-https://arc.umich.edu/software/
+<!-- LIVE_NOTE: There are many solutions for scalability, that can leverege scripted jobs without as much upfront work. Chris will cover these tomorrow -->
 
+What does a scripted job look like? See the dropdown section here:
 
-### SBATCH
+<!-- LIVE_NOTE: We'll see this in just a moment, no need to look at it here -->
+
+<details>
+<summary>SBATCH example</summary>
 
 ```
 #!/bin/bash
@@ -101,18 +178,42 @@ echo "Hello, SBATCH!"
 sleep 60
 ```
 
+</details>
+
+<br>
+
+Briefly, we place our resource requirements at the top of our file - the preamble - and then we place our scripted commands until the end of the file. Once we have our file written - our SBATCH file - we'll launch it with the command `sbatch`. For example:
+
+`sbatch <name-of-SBATCH-file>`
+
+We'll have a chance to try this in a moment, after we get warmed up with some interactive jobs.
+
+>Note: We're just going to demonstrate some of the most salient bits of requesting resources. There are a lot more informational resources available at [ARC's SLURM user guide](https://arc.umich.edu/greatlakes/slurm-user-guide/).
+
+<br>
+
 ## Exercise SBATCH Hello World
 
 Following along with the instructor, we will inspect the `hello_SBATCH.sh` shell script that each of us have in our `$WORKSHOP_HOME` directory, review the preamble and body of it, and then submit it with `sbatch`. Once it is running, we will use `squeue` to view the status of the job. After it completes, we'll view its log.
 
-## Exercise `srun` with LMOD
+<br>
+
+## Exercise `srun` with LMOD - Indexing our BAM Files
+
+Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to index our BAM files. This is a required step for some of our later processes, so we'll take care of it now.
+
+<br>
+
+## Exercise `srun` with LMOD - Filtering our BAM Files
 
 Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to filter our sample_A BAM file to select only alignments from chromosome 19.
 
-## Exercise SBATCH with LMOD
+<br>
+
+## Exercise SBATCH with LMOD - Filtering our BAM Files Cont'd
 
 Following along with the instructor, we'll create an SBATCH script that is similar to our previous `srun` exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with `sbatch` and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.
 
 
-| [Previous lesson](odule03a_sneak_peak_great_lakes.html) | [Top of this lesson](#top) | [Next lesson](Module04_software_management_conda.html) |
+| [Previous lesson](odule03a_sneak_peek_great_lakes.html) | [Top of this lesson](#top) | [Next lesson](Module04_software_management_conda.html) |
 | :--- | :----: | ---: |

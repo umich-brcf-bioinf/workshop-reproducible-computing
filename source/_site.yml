@@ -6,11 +6,11 @@
 #       <(egrep '^[^#].*href:' source/_site.yml | awk '{print $2}'| sort) \
 #   | awk -F'\t' 'BEGIN {OFS="\t\t\t\t"; print "in_html_only","in_site_only","in_both"} {print $1,$2,$3}'
 
-name: "Reprodicble Computing Workshop"
+name: "Reproducible Computing Workshop"
 output_dir: ../html
 exclude: ["Example.md"]
 navbar:
-  title: "Reprodicble Computing"
+  title: "Reproducible Computing"
   type: inverse
   left:
     - text: "Intro"
@@ -21,8 +21,6 @@ navbar:
           href: Module01_storage_best_practices_UMRCP.html
         - text: "Transferring data with Globus"
           href: Module02_transferring_data_globus.html
-        - text: "Exercise 1"
-          href: exercise-1.html
         - text: "Intro to Great Lakes"
           href: Module03a_sneak_peek_great_lakes.html
 
@@ -32,15 +30,15 @@ navbar:
           href: Module03b_great_lakes_cluster.html
         - text: "Software management with Conda"
           href: Module04_software_management_conda.html
-        - text: "Containerization with Docker/Singulairty"
+        - text: "Containerization with Docker/Singularity"
           href: Module05_containers_docker_singularity.html
         - text: "Exercise 2"
           href: exercise-2.html
           
     - text: "Workflow automation"
       menu:
-        - text: "Basic workflow automation"
-          href: Module06-basic-workflow-automation.html
+        - text: "Intro to workflow automation"
+          href: Module06-intro-to-workflow-automation.html
         - text: "Intro to Snakemake"
           href: Module-07-intro-to-snakemake.html
         - text: "Advanced Snakemake"

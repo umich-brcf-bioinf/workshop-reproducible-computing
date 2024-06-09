@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Sneak peek: Great Lakes</title>
+
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Working with Data
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    </li>
+    <li>
+      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+    <li>
+      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Using the GreatLakes HPC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+    </li>
+    <li>
+      <a href="Module04_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Exercise 2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
+    </li>
+    <li>
+      <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Sneak peek: Great Lakes</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>take an introductory look at the Great Lakes HPC cluster</li>
+<li>discuss the need for requesting compute resources</li>
+<li>learn about several ways to access Great Lakes</li>
+<li>use the web-based file browser for Great Lakes</li>
+<li>introduce or review the nano text editor</li>
+<li>use the OpenOnDemand service to launch a web-based interactive
+job</li>
+</ul>
+<div id="great-lakes---sneak-peek" class="section level2">
+<h2>Great Lakes - Sneak Peek</h2>
+<p>So far, we’ve briefly described Great Lakes as a general-purpose
+High-Performance Compute (HPC) cluster.</p>
+<p>In this module we’ll start to get a feel for what it’s like to use an
+HPC cluster. It’s not intended to be a deep dive, but rather to use some
+of the quickest ways to get started in order to start getting some
+experience with this system.</p>
+<div id="using-an-hpc-cluster---must-request-resources"
+class="section level3">
+<h3>Using an HPC Cluster - Must Request Resources</h3>
+<p><img src="images/Module03a_ask_for_resources.png" /></p>
+<p>When using an HPC cluster, there is a pattern that is quite different
+from our typical interactions with a computer system - we must ask for
+resources before we are able to use them. This is a characteristic of a
+shared, large, multi-user system like Great Lakes. Within the entirety
+of the system, we have an enormous amount of computing power, but at the
+same time, we need to allow equal access to this resource to the
+entirety of the University. Therefore, we use this pattern of requesting
+resources and receiving them before we begin our computing tasks.</p>
+</div>
+<div id="several-ways-to-access-great-lakes" class="section level3">
+<h3>Several ways to access Great Lakes</h3>
+<ul>
+<li>For compute access:
+<ul>
+<li>Secure Shell (ssh)</li>
+<li>Web-based shell</li>
+<li>OpenOnDemand interactive apps (e.g. RStudio, Basic Desktop)</li>
+</ul></li>
+<li>For file access:
+<ul>
+<li>Web-based file browser</li>
+<li>Globus</li>
+<li>Direct (it’s directly connected to Great Lakes)</li>
+<li>Remote mount (it can be network-connected to your workstation)</li>
+<li><code>scp</code>, <code>rsync</code>, etc.</li>
+</ul></li>
+</ul>
+</div>
+<div id="using-the-web-based-access-methods" class="section level3">
+<h3>Using the web-based access methods</h3>
+<p>The web-based tools that provide access to Great Lakes and other ARC
+resources are a quick and easy way to get started. We’ll use these in
+our upcoming exercises to make our first foray into using the Great
+Lakes HPC. Additionally, the ‘Interactive Apps’ with ARC’s Open On
+Demand service offer a unique solution for when we need to run graphical
+applications. We’ll preview this and give some practical tips for using
+the RStudio and the Basic Desktop apps.</p>
+<p><br></p>
+<p>Sneak preview of the web-based file browser <img
+src="images/Module03a_accessing_web_based_file_browser.png" /> <img
+src="images/Module03a_preview_web_based_file_browser.png" /></p>
+<p><br></p>
+<p>Sneak preview of the web-based shell <img
+src="images/Module03a_accessing_web_based_shell.png" /> <img
+src="images/Module03a_preview_web_based_shell.png" /></p>
+<p><br></p>
+<p>Sneak preview of a web-based RStudio session <img
+src="images/Module03a_accessing_interactive_rstudio.png" /> <img
+src="images/Module03a_preview_interactive_rstudio.png" /></p>
+<p><br></p>
+<p>Sneak preview of a web-based Basic Desktop session <img
+src="images/Module03a_accessing_interactive_basic_desktop.png" /> <img
+src="images/Module03a_preview_interactive_basic_desktop.png" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="quick-review-or-crash-course-on-the-nano-editor"
+class="section level2">
+<h2>Quick Review or Crash Course on the Nano Editor</h2>
+<p>Before we dive into some of the exercises in this module, we should
+do a quick review or crash course on the nano text editor, which is a
+command-line-based text editor. In some of the upcoming exercises, we
+will be connected to Great Lakes via the web-based shell, which means
+that we will be limited to using command-line tools. During that time,
+we’ll use nano to edit READMEs and script files. Nano, along with other
+command-line-based text editor tools, use the keyboard as the main way
+of interfacing with the software. This means we will use various
+keystrokes to carry out tasks like saving the file and exiting the tool,
+which may take some practice to get comfortable with. Thankfully, nano
+is relatively intuitive and easy to use, which is one reason why we’ve
+chosen to use it for this workshop.</p>
+<p>The basic layout of the nano editor is shown below. A helpful list of
+common tasks and their keyboard shortcuts is found at the bottom. The
+title bar and the status bar provide some additional context about the
+file we’re interacting with and feedback messages from nano,
+respectively.</p>
+<p><img src="images/Module03a_nano_editor_layout.png" /></p>
+<p><br></p>
+</div>
+<div id="handy-links-for-great-lakes" class="section level2">
+<h2>Handy links for Great Lakes</h2>
+<ul>
+<li><a href="https://arc.umich.edu/greatlakes/">Link to ARC’s Great
+Lakes overview page</a></li>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard</a></li>
+</ul>
+<p><br></p>
+</div>
+<div id="exercise---view-transferred-files" class="section level2">
+<h2>Exercise - View Transferred Files</h2>
+<p>Following along with the instructor, we’ll use the web-based file
+browser to confirm that we’ve transferred the data files to our turbo
+space</p>
+</div>
+<div id="exercise---connect-with-the-web-based-shell"
+class="section level2">
+<h2>Exercise - Connect with the Web-Based Shell</h2>
+<p>Following along with the instructor, we’ll use the web-based shell to
+connect to Great Lakes. Once there, we’ll run an introductory script,
+and take another look at our transferred files.</p>
+</div>
+<div id="exercise---launch-an-rstudio-instance-on-openondemand"
+class="section level2">
+<h2>Exercise - Launch an RStudio Instance on OpenOnDemand</h2>
+<p>Following along with the instructor, we’ll use OpenOnDemand to launch
+an RStudio instance. Once there, we’ll run a basic R script as a quick
+demonstration of these capabilities.</p>
+</div>
+<div
+id="exercise---launch-a-basic-desktop-instance-and-verify-file-integrity"
+class="section level2">
+<h2>Exercise - Launch a Basic Desktop Instance and Verify File
+Integrity</h2>
+<p>Following along with the instructor, we’ll use OpenOnDemand to launch
+a Basic Desktop instance. Once there, we’ll open a terminal and use the
+<code>md5sum</code> utility to verify file integrity of the data that we
+recently transferred to our Turbo location.</p>
+<blockquote>
+<p>Note: Using an OpenOnDemand Basic Desktop instance in order to run a
+command line application can be a bit of an odd pattern. We do this here
+primarily as a means for requesting and receiving the proper
+computational resources for this task. In the next module, we’ll learn
+about some other patterns for requesting resources and running
+command-line utilities which may be better choices going forward.</p>
+</blockquote>
+</div>
+<div id="exercise---write-a-readme-file" class="section level2">
+<h2>Exercise - Write a README File</h2>
+<p>Following along with the instructor, we will use the
+<code>nano</code> utility to write the beginnings of a README for our
+project as it exists so far.</p>
+</div>
+<div id="exercise---organize-your-project" class="section level2">
+<h2>Exercise - Organize your project</h2>
+<p>Following along with the instructor, we’ll organize the files that are in our <code>$WORKSHOP_HOME</code> directory.</p>
+<!-- FIXME: More project org description here -->
+<p><br></p>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<ul>
+<li>Learned about different ways of accessing the Great Lakes HPC
+cluster</li>
+<li>Experienced using the web-based access methods
+<ul>
+<li>With web-based file browser, examined the data that we previously
+transferred</li>
+<li>With web-based shell access, we ran an introductory script and used
+CLI commands to examine the data that we previously transferred</li>
+<li>With OpenOnDemand RStudio, we ran an introductory R script</li>
+<li>With OpenOnDemand Basic Desktop, we verified file integrity of data
+the we previously transferred, and used <code>nano</code> to write a
+README file</li>
+</ul></li>
+</ul>
+<p><br></p>
+<div id="handy-links" class="section level3">
+<h3>Handy Links</h3>
+<ul>
+<li><a href="https://arc.umich.edu/greatlakes/">Link to ARC’s Great
+Lakes overview page (same as above)</a></li>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard (same as above)</a></li>
+<li><a href="http://michmed.org/agc-md5sum">link from AGC on validating
+file integrity using md5sum</a></li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module02_transferring_data_globus.html">Previous lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module03b_great_lakes_cluster.html">Next
+lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU25lYWsgcGVlazogR3JlYXQgTGFrZXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiB0YWtlIGFuIGludHJvZHVjdG9yeSBsb29rIGF0IHRoZSBHcmVhdCBMYWtlcyBIUEMgY2x1c3RlcgoqIGRpc2N1c3MgdGhlIG5lZWQgZm9yIHJlcXVlc3RpbmcgY29tcHV0ZSByZXNvdXJjZXMKKiBsZWFybiBhYm91dCBzZXZlcmFsIHdheXMgdG8gYWNjZXNzIEdyZWF0IExha2VzCiogdXNlIHRoZSB3ZWItYmFzZWQgZmlsZSBicm93c2VyIGZvciBHcmVhdCBMYWtlcwoqIGludHJvZHVjZSBvciByZXZpZXcgdGhlIG5hbm8gdGV4dCBlZGl0b3IKKiB1c2UgdGhlIE9wZW5PbkRlbWFuZCBzZXJ2aWNlIHRvIGxhdW5jaCBhIHdlYi1iYXNlZCBpbnRlcmFjdGl2ZSBqb2IKCiMjIEdyZWF0IExha2VzIC0gU25lYWsgUGVlawoKU28gZmFyLCB3ZSd2ZSBicmllZmx5IGRlc2NyaWJlZCBHcmVhdCBMYWtlcyBhcyBhIGdlbmVyYWwtcHVycG9zZSBIaWdoLVBlcmZvcm1hbmNlIENvbXB1dGUgKEhQQykgY2x1c3Rlci4gCgpJbiB0aGlzIG1vZHVsZSB3ZSdsbCBzdGFydCB0byBnZXQgYSBmZWVsIGZvciB3aGF0IGl0J3MgbGlrZSB0byB1c2UgYW4gSFBDIGNsdXN0ZXIuIEl0J3Mgbm90IGludGVuZGVkIHRvIGJlIGEgZGVlcCBkaXZlLCBidXQgcmF0aGVyIHRvIHVzZSBzb21lIG9mIHRoZSBxdWlja2VzdCB3YXlzIHRvIGdldCBzdGFydGVkIGluIG9yZGVyIHRvIHN0YXJ0IGdldHRpbmcgc29tZSBleHBlcmllbmNlIHdpdGggdGhpcyBzeXN0ZW0uCgojIyMgVXNpbmcgYW4gSFBDIENsdXN0ZXIgLSBNdXN0IFJlcXVlc3QgUmVzb3VyY2VzCgohW10oaW1hZ2VzL01vZHVsZTAzYV9hc2tfZm9yX3Jlc291cmNlcy5wbmcpCgpXaGVuIHVzaW5nIGFuIEhQQyBjbHVzdGVyLCB0aGVyZSBpcyBhIHBhdHRlcm4gdGhhdCBpcyBxdWl0ZSBkaWZmZXJlbnQgZnJvbSBvdXIgdHlwaWNhbCBpbnRlcmFjdGlvbnMgd2l0aCBhIGNvbXB1dGVyIHN5c3RlbSAtIHdlIG11c3QgYXNrIGZvciByZXNvdXJjZXMgYmVmb3JlIHdlIGFyZSBhYmxlIHRvIHVzZSB0aGVtLiBUaGlzIGlzIGEgY2hhcmFjdGVyaXN0aWMgb2YgYSBzaGFyZWQsIGxhcmdlLCBtdWx0aS11c2VyIHN5c3RlbSBsaWtlIEdyZWF0IExha2VzLiBXaXRoaW4gdGhlIGVudGlyZXR5IG9mIHRoZSBzeXN0ZW0sIHdlIGhhdmUgYW4gZW5vcm1vdXMgYW1vdW50IG9mIGNvbXB1dGluZyBwb3dlciwgYnV0IGF0IHRoZSBzYW1lIHRpbWUsIHdlIG5lZWQgdG8gYWxsb3cgZXF1YWwgYWNjZXNzIHRvIHRoaXMgcmVzb3VyY2UgdG8gdGhlIHdob2xlIHVuaXZlcnNpdHkuIFRoZXJlZm9yZSwgd2UgdXNlIHRoaXMgcGF0dGVybiBvZiByZXF1ZXN0aW5nIHJlc291cmNlcyBhbmQgcmVjZWl2aW5nIHRoZW0gYmVmb3JlIHdlIGJlZ2luIG91ciBjb21wdXRpbmcgdGFza3MuCgojIyMgU2V2ZXJhbCB3YXlzIHRvIGFjY2VzcyBHcmVhdCBMYWtlcwoKLSBGb3IgY29tcHV0ZSBhY2Nlc3M6CiAgICAtIFNlY3VyZSBTaGVsbCAoc3NoKQogICAgLSBXZWItYmFzZWQgc2hlbGwKICAgIC0gT3Blbk9uRGVtYW5kIGludGVyYWN0aXZlIGFwcHMgKGUuZy4gUlN0dWRpbywgQmFzaWMgRGVza3RvcCkKLSBGb3IgZmlsZSBhY2Nlc3M6CiAgICAtIFdlYi1iYXNlZCBmaWxlIGJyb3dzZXIKICAgIC0gR2xvYnVzCiAgICAtIERpcmVjdCAoaXQncyBkaXJlY3RseSBjb25uZWN0ZWQgdG8gR3JlYXQgTGFrZXMpCiAgICAtIFJlbW90ZSBtb3VudCAoaXQgY2FuIGJlIG5ldHdvcmstY29ubmVjdGVkIHRvIHlvdXIgd29ya3N0YXRpb24pCiAgICAtIGBzY3BgLCBgcnN5bmNgLCBldGMuCgojIyMgVXNpbmcgdGhlIHdlYi1iYXNlZCBhY2Nlc3MgbWV0aG9kcwoKVGhlIHdlYi1iYXNlZCB0b29scyB0aGF0IHByb3ZpZGUgYWNjZXNzIHRvIEdyZWF0IExha2VzIGFuZCBvdGhlciBBUkMgcmVzb3VyY2VzIGFyZSBhIHF1aWNrIGFuZCBlYXN5IHdheSB0byBnZXQgc3RhcnRlZC4gV2UnbGwgdXNlIHRoZXNlIGluIG91ciB1cGNvbWluZyBleGVyY2lzZXMgdG8gbWFrZSBvdXIgZmlyc3QgZm9yYXkgaW50byB1c2luZyB0aGUgR3JlYXQgTGFrZXMgSFBDLiBBZGRpdGlvbmFsbHksIHRoZSAnSW50ZXJhY3RpdmUgQXBwcycgd2l0aCBBUkMncyBPcGVuIE9uIERlbWFuZCBzZXJ2aWNlIG9mZmVyIGEgdW5pcXVlIHNvbHV0aW9uIGZvciB3aGVuIHdlIG5lZWQgdG8gcnVuIGdyYXBoaWNhbCBhcHBsaWNhdGlvbnMuIFdlJ2xsIHByZXZpZXcgdGhpcyBhbmQgZ2l2ZSBzb21lIHByYWN0aWNhbCB0aXBzIGZvciB1c2luZyB0aGUgUlN0dWRpbyBhbmQgdGhlIEJhc2ljIERlc2t0b3AgYXBwcy4KCjxicj4KClNuZWFrIHByZXZpZXcgb2YgdGhlIHdlYi1iYXNlZCBmaWxlIGJyb3dzZXIKIVtdKGltYWdlcy9Nb2R1bGUwM2FfYWNjZXNzaW5nX3dlYl9iYXNlZF9maWxlX2Jyb3dzZXIucG5nKQohW10oaW1hZ2VzL01vZHVsZTAzYV9wcmV2aWV3X3dlYl9iYXNlZF9maWxlX2Jyb3dzZXIucG5nKQoKPGJyPgoKU25lYWsgcHJldmlldyBvZiB0aGUgd2ViLWJhc2VkIHNoZWxsCiFbXShpbWFnZXMvTW9kdWxlMDNhX2FjY2Vzc2luZ193ZWJfYmFzZWRfc2hlbGwucG5nKQohW10oaW1hZ2VzL01vZHVsZTAzYV9wcmV2aWV3X3dlYl9iYXNlZF9zaGVsbC5wbmcpCgo8YnI+CgpTbmVhayBwcmV2aWV3IG9mIGEgd2ViLWJhc2VkIFJTdHVkaW8gc2Vzc2lvbgohW10oaW1hZ2VzL01vZHVsZTAzYV9hY2Nlc3NpbmdfaW50ZXJhY3RpdmVfcnN0dWRpby5wbmcpCiFbXShpbWFnZXMvTW9kdWxlMDNhX3ByZXZpZXdfaW50ZXJhY3RpdmVfcnN0dWRpby5wbmcpCgo8YnI+CgpTbmVhayBwcmV2aWV3IG9mIGEgd2ViLWJhc2VkIEJhc2ljIERlc2t0b3Agc2Vzc2lvbgohW10oaW1hZ2VzL01vZHVsZTAzYV9hY2Nlc3NpbmdfaW50ZXJhY3RpdmVfYmFzaWNfZGVza3RvcC5wbmcpCiFbXShpbWFnZXMvTW9kdWxlMDNhX3ByZXZpZXdfaW50ZXJhY3RpdmVfYmFzaWNfZGVza3RvcC5wbmcpCgo8YnI+CgojIyBRdWljayBSZXZpZXcgb3IgQ3Jhc2ggQ291cnNlIG9uIHRoZSBOYW5vIEVkaXRvcgoKQmVmb3JlIHdlIGRpdmUgaW50byBzb21lIG9mIHRoZSBleGVyY2lzZXMgaW4gdGhpcyBtb2R1bGUsIHdlIHNob3VsZCBkbyBhIHF1aWNrIHJldmlldyBvciBjcmFzaCBjb3Vyc2Ugb24gdGhlIG5hbm8gdGV4dCBlZGl0b3IsIHdoaWNoIGlzIGEgY29tbWFuZC1saW5lLWJhc2VkIHRleHQgZWRpdG9yLiBJbiBzb21lIG9mIHRoZSB1cGNvbWluZyBleGVyY2lzZXMsIHdlIHdpbGwgYmUgY29ubmVjdGVkIHRvIEdyZWF0IExha2VzIHZpYSB0aGUgd2ViLWJhc2VkIHNoZWxsLCB3aGljaCBtZWFucyB0aGF0IHdlIHdpbGwgYmUgbGltaXRlZCB0byB1c2luZyBjb21tYW5kLWxpbmUgdG9vbHMuIER1cmluZyB0aGF0IHRpbWUsIHdlJ2xsIHVzZSBuYW5vIHRvIGVkaXQgUkVBRE1FcyBhbmQgc2NyaXB0IGZpbGVzLiBOYW5vLCBhbG9uZyB3aXRoIG90aGVyIGNvbW1hbmQtbGluZS1iYXNlZCB0ZXh0IGVkaXRvciB0b29scywgdXNlIHRoZSBrZXlib2FyZCBhcyB0aGUgbWFpbiB3YXkgb2YgaW50ZXJmYWNpbmcgd2l0aCB0aGUgc29mdHdhcmUuIFRoaXMgbWVhbnMgd2Ugd2lsbCB1c2UgdmFyaW91cyBrZXlzdHJva2VzIHRvIGNhcnJ5IG91dCB0YXNrcyBsaWtlIHNhdmluZyB0aGUgZmlsZSBhbmQgZXhpdGluZyB0aGUgdG9vbCwgd2hpY2ggbWF5IHRha2Ugc29tZSBwcmFjdGljZSB0byBnZXQgY29tZm9ydGFibGUgd2l0aC4gVGhhbmtmdWxseSwgbmFubyBpcyByZWxhdGl2ZWx5IGludHVpdGl2ZSBhbmQgZWFzeSB0byB1c2UsIHdoaWNoIGlzIG9uZSByZWFzb24gd2h5IHdlJ3ZlIGNob3NlbiB0byB1c2UgaXQgZm9yIHRoaXMgd29ya3Nob3AuCgpUaGUgYmFzaWMgbGF5b3V0IG9mIHRoZSBuYW5vIGVkaXRvciBpcyBzaG93biBiZWxvdy4gQSBoZWxwZnVsIGxpc3Qgb2YgY29tbW9uIHRhc2tzIGFuZCB0aGVpciBrZXlib2FyZCBzaG9ydGN1dHMgaXMgZm91bmQgYXQgdGhlIGJvdHRvbS4gVGhlIHRpdGxlIGJhciBhbmQgdGhlIHN0YXR1cyBiYXIgcHJvdmlkZSBzb21lIGFkZGl0aW9uYWwgY29udGV4dCBhYm91dCB0aGUgZmlsZSB3ZSdyZSBpbnRlcmFjdGluZyB3aXRoIGFuZCBmZWVkYmFjayBtZXNzYWdlcyBmcm9tIG5hbm8sIHJlc3BlY3RpdmVseS4KCiFbXShpbWFnZXMvTW9kdWxlMDNhX25hbm9fZWRpdG9yX2xheW91dC5wbmcpCgo8YnI+CgojIyBIYW5keSBsaW5rcyBmb3IgR3JlYXQgTGFrZXMKCi0gW0xpbmsgdG8gQVJDJ3MgR3JlYXQgTGFrZXMgb3ZlcnZpZXcgcGFnZV0oaHR0cHM6Ly9hcmMudW1pY2guZWR1L2dyZWF0bGFrZXMvKQotIFtMaW5rIHRvIEdyZWF0IExha2VzIERhc2hib2FyZF0oaHR0cHM6Ly9ncmVhdGxha2VzLmFyYy10cy51bWljaC5lZHUpCgo8YnI+CgojIyBFeGVyY2lzZSAtIFZpZXcgVHJhbnNmZXJyZWQgRmlsZXMKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgdGhlIHdlYi1iYXNlZCBmaWxlIGJyb3dzZXIgdG8gY29uZmlybSB0aGF0IHdlJ3ZlIHRyYW5zZmVycmVkIHRoZSBkYXRhIGZpbGVzIHRvIG91ciB0dXJibyBzcGFjZQoKIyMgRXhlcmNpc2UgLSBDb25uZWN0IHdpdGggdGhlIFdlYi1CYXNlZCBTaGVsbAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIHVzZSB0aGUgd2ViLWJhc2VkIHNoZWxsIHRvIGNvbm5lY3QgdG8gR3JlYXQgTGFrZXMuIE9uY2UgdGhlcmUsIHdlJ2xsIHJ1biBhbiBpbnRyb2R1Y3Rvcnkgc2NyaXB0LCBhbmQgdGFrZSBhbm90aGVyIGxvb2sgYXQgb3VyIHRyYW5zZmVycmVkIGZpbGVzLgoKIyMgRXhlcmNpc2UgLSBMYXVuY2ggYW4gUlN0dWRpbyBJbnN0YW5jZSBvbiBPcGVuT25EZW1hbmQKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgT3Blbk9uRGVtYW5kIHRvIGxhdW5jaCBhbiBSU3R1ZGlvIGluc3RhbmNlLiBPbmNlIHRoZXJlLCB3ZSdsbCBydW4gYSBiYXNpYyBSIHNjcmlwdCBhcyBhIHF1aWNrIGRlbW9uc3RyYXRpb24gb2YgdGhlc2UgY2FwYWJpbGl0aWVzLgoKIyMgRXhlcmNpc2UgLSBMYXVuY2ggYSBCYXNpYyBEZXNrdG9wIEluc3RhbmNlIGFuZCBWZXJpZnkgRmlsZSBJbnRlZ3JpdHkKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgT3Blbk9uRGVtYW5kIHRvIGxhdW5jaCBhIEJhc2ljIERlc2t0b3AgaW5zdGFuY2UuIE9uY2UgdGhlcmUsIHdlJ2xsIG9wZW4gYSB0ZXJtaW5hbCBhbmQgdXNlIHRoZSBgbWQ1c3VtYCB1dGlsaXR5IHRvIHZlcmlmeSBmaWxlIGludGVncml0eSBvZiB0aGUgZGF0YSB0aGF0IHdlIHJlY2VudGx5IHRyYW5zZmVycmVkIHRvIG91ciBUdXJibyBsb2NhdGlvbi4KCj5Ob3RlOiBVc2luZyBhbiBPcGVuT25EZW1hbmQgQmFzaWMgRGVza3RvcCBpbnN0YW5jZSBpbiBvcmRlciB0byBydW4gYSBjb21tYW5kIGxpbmUgYXBwbGljYXRpb24gY2FuIGJlIGEgYml0IG9mIGFuIG9kZCBwYXR0ZXJuLiBXZSBkbyB0aGlzIGhlcmUgcHJpbWFyaWx5IGFzIGEgbWVhbnMgZm9yIHJlcXVlc3RpbmcgYW5kIHJlY2VpdmluZyB0aGUgcHJvcGVyIGNvbXB1dGF0aW9uYWwgcmVzb3VyY2VzIGZvciB0aGlzIHRhc2suIEluIHRoZSBuZXh0IG1vZHVsZSwgd2UnbGwgbGVhcm4gYWJvdXQgc29tZSBvdGhlciBwYXR0ZXJucyBmb3IgcmVxdWVzdGluZyByZXNvdXJjZXMgYW5kIHJ1bm5pbmcgY29tbWFuZC1saW5lIHV0aWxpdGllcyB3aGljaCBtYXkgYmUgYmV0dGVyIGNob2ljZXMgZ29pbmcgZm9yd2FyZC4KCiMjIEV4ZXJjaXNlIC0gV3JpdGUgYSBSRUFETUUgRmlsZQoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlIHdpbGwgdXNlIHRoZSBgbmFub2AgdXRpbGl0eSB0byB3cml0ZSB0aGUgYmVnaW5uaW5ncyBvZiBhIFJFQURNRSBmb3Igb3VyIHByb2plY3QgYXMgaXQgZXhpc3RzIHNvIGZhci4KCiMjIEV4ZXJjaXNlIC0gT3JnYW5pemUgeW91ciBwcm9qZWN0CgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgb3JnYW5pemUgdGhlIGZpbGVzIHRoYXQgYXJlIGluIG91ciBgJFdPUktTSE9QX0hPTUVgIGRpcmVjdG9yeS4KCjwhLS0gRklYTUU6IE1vcmUgcHJvamVjdCBvcmcgZGVzY3JpcHRpb24gaGVyZSAtLT4KCjxicj4KCiMjIFJldmlldwoKLSBMZWFybmVkIGFib3V0IGRpZmZlcmVudCB3YXlzIG9mIGFjY2Vzc2luZyB0aGUgR3JlYXQgTGFrZXMgSFBDIGNsdXN0ZXIKLSBFeHBlcmllbmNlZCB1c2luZyB0aGUgd2ViLWJhc2VkIGFjY2VzcyBtZXRob2RzCiAgLSBXaXRoIHdlYi1iYXNlZCBmaWxlIGJyb3dzZXIsIGV4YW1pbmVkIHRoZSBkYXRhIHRoYXQgd2UgcHJldmlvdXNseSB0cmFuc2ZlcnJlZAogIC0gV2l0aCB3ZWItYmFzZWQgc2hlbGwgYWNjZXNzLCB3ZSByYW4gYW4gaW50cm9kdWN0b3J5IHNjcmlwdCBhbmQgdXNlZCBDTEkgY29tbWFuZHMgdG8gZXhhbWluZSB0aGUgZGF0YSB0aGF0IHdlIHByZXZpb3VzbHkgdHJhbnNmZXJyZWQKICAtIFdpdGggT3Blbk9uRGVtYW5kIFJTdHVkaW8sIHdlIHJhbiBhbiBpbnRyb2R1Y3RvcnkgUiBzY3JpcHQKICAtIFdpdGggT3Blbk9uRGVtYW5kIEJhc2ljIERlc2t0b3AsIHdlIHZlcmlmaWVkIGZpbGUgaW50ZWdyaXR5IG9mIGRhdGEgdGhlIHdlIHByZXZpb3VzbHkgdHJhbnNmZXJyZWQsIGFuZCB1c2VkIGBuYW5vYCB0byB3cml0ZSBhIFJFQURNRSBmaWxlCgo8YnI+CgojIyMgSGFuZHkgTGlua3MKCi0gW0xpbmsgdG8gQVJDJ3MgR3JlYXQgTGFrZXMgb3ZlcnZpZXcgcGFnZSAoc2FtZSBhcyBhYm92ZSldKGh0dHBzOi8vYXJjLnVtaWNoLmVkdS9ncmVhdGxha2VzLykKLSBbTGluayB0byBHcmVhdCBMYWtlcyBEYXNoYm9hcmQgKHNhbWUgYXMgYWJvdmUpXShodHRwczovL2dyZWF0bGFrZXMuYXJjLXRzLnVtaWNoLmVkdSkKLSBbbGluayBmcm9tIEFHQyBvbiB2YWxpZGF0aW5nIGZpbGUgaW50ZWdyaXR5IHVzaW5nIG1kNXN1bV0oaHR0cDovL21pY2htZWQub3JnL2FnYy1tZDVzdW0pCgoKfCBbUHJldmlvdXMgbGVzc29uXShNb2R1bGUwMl90cmFuc2ZlcnJpbmdfZGF0YV9nbG9idXMuaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlMDNiX2dyZWF0X2xha2VzX2NsdXN0ZXIuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module03a_sneak_peek_great_lakes.md");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

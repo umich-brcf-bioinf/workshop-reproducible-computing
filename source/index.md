@@ -37,7 +37,7 @@ body, td {
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Storage best practices and UMRCP](Module01_storage_best_practices_UMRCP.html) |
 | 11:00 | Break |
 | 11:15 | &nbsp;&nbsp;&nbsp;&nbsp;[Transferring data with Globus](Module02_transferring_data_globus.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Exercise 1](exercise-1.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;Exercise 1 |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to Great Lakes](Module03a_sneak_peek_great_lakes.html) |
 |  1:00 | Day 1 concludes |
 #### Day 2
@@ -56,7 +56,7 @@ body, td {
 | :---  | :---- |
 |  9:00 | Review |
 |  9:10 | **Workflow automation** |
-|       | [Basic workflow automation](Module06-basic-workflow-automation.html) |
+|       | [Intro to workflow automation](Module06-intro-to-workflow-automation.html) |
 |       | [Intro to Snakemake](Module07-intro-to-snakemake.html) |
 | 11:00 | Break |
 |       | [Advanced Snakemake](Module08-intro-to-snakemake.html) |

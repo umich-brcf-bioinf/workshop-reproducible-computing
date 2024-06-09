@@ -31,13 +31,15 @@ In this module, we will:
 
 ## Great Lakes - Sneak Peek
 
-[Link to Great Lakes Dashboard](https://greatlakes.arc-ts.umich.edu)
+So far, we've briefly described Great Lakes as a general-purpose High-Performance Compute (HPC) cluster. 
+
+In this module we'll start to get a feel for what it's like to use an HPC cluster. It's not intended to be a deep dive, but rather to use some of the quickest ways to get started in order to start getting some experience with this system.
 
 ### Using an HPC Cluster - Must Request Resources
 
 ![](images/Module03a_ask_for_resources.png)
 
-When using an hpc cluster, there is a pattern that is quite different from our typical interactions with a computer system - we must ask for resources before we are able to use them. This is a characteristic of a shared, large, multi-user system like Great Lakes. Within the entirety of the system, we have an enormous amount of computing power, but at the same time, we need to allow equal access to this resource to the entirety of the University. Therefore, we use this pattern of requesting resources and receiving them before we begin our computing tasks.
+When using an HPC cluster, there is a pattern that is quite different from our typical interactions with a computer system - we must ask for resources before we are able to use them. This is a characteristic of a shared, large, multi-user system like Great Lakes. Within the entirety of the system, we have an enormous amount of computing power, but at the same time, we need to allow equal access to this resource to the whole university. Therefore, we use this pattern of requesting resources and receiving them before we begin our computing tasks.
 
 ### Several ways to access Great Lakes
 
@@ -46,30 +48,41 @@ When using an hpc cluster, there is a pattern that is quite different from our t
     - Web-based shell
     - OpenOnDemand interactive apps (e.g. RStudio, Basic Desktop)
 - For file access:
+    - Web-based file browser
     - Globus
-    - Direct (Storage is mounted on Great Lakes)
-    - Remote mount (Storage is mounted on your workstation)
+    - Direct (it's directly connected to Great Lakes)
+    - Remote mount (it can be network-connected to your workstation)
     - `scp`, `rsync`, etc.
 
-## Using the web-based access methods
+### Using the web-based access methods
 
 The web-based tools that provide access to Great Lakes and other ARC resources are a quick and easy way to get started. We'll use these in our upcoming exercises to make our first foray into using the Great Lakes HPC. Additionally, the 'Interactive Apps' with ARC's Open On Demand service offer a unique solution for when we need to run graphical applications. We'll preview this and give some practical tips for using the RStudio and the Basic Desktop apps.
 
+<br>
 
 Sneak preview of the web-based file browser
 ![](images/Module03a_accessing_web_based_file_browser.png)
 ![](images/Module03a_preview_web_based_file_browser.png)
 
+<br>
+
 Sneak preview of the web-based shell
 ![](images/Module03a_accessing_web_based_shell.png)
 ![](images/Module03a_preview_web_based_shell.png)
+
+<br>
 
 Sneak preview of a web-based RStudio session
 ![](images/Module03a_accessing_interactive_rstudio.png)
 ![](images/Module03a_preview_interactive_rstudio.png)
 
-<!-- FIXME: Add preview of web-based Basic Desktop session -->
+<br>
 
+Sneak preview of a web-based Basic Desktop session
+![](images/Module03a_accessing_interactive_basic_desktop.png)
+![](images/Module03a_preview_interactive_basic_desktop.png)
+
+<br>
 
 ## Quick Review or Crash Course on the Nano Editor
 
@@ -78,6 +91,15 @@ Before we dive into some of the exercises in this module, we should do a quick r
 The basic layout of the nano editor is shown below. A helpful list of common tasks and their keyboard shortcuts is found at the bottom. The title bar and the status bar provide some additional context about the file we're interacting with and feedback messages from nano, respectively.
 
 ![](images/Module03a_nano_editor_layout.png)
+
+<br>
+
+## Handy links for Great Lakes
+
+- [Link to ARC's Great Lakes overview page](https://arc.umich.edu/greatlakes/)
+- [Link to Great Lakes Dashboard](https://greatlakes.arc-ts.umich.edu)
+
+<br>
 
 ## Exercise - View Transferred Files
 
@@ -101,6 +123,14 @@ Following along with the instructor, we'll use OpenOnDemand to launch a Basic De
 
 Following along with the instructor, we will use the `nano` utility to write the beginnings of a README for our project as it exists so far.
 
+## Exercise - Organize your project
+
+Following along with the instructor, we'll organize the files that are in our `$WORKSHOP_HOME` directory.
+
+<!-- FIXME: More project org description here -->
+
+<br>
+
 ## Review
 
 - Learned about different ways of accessing the Great Lakes HPC cluster
@@ -110,8 +140,13 @@ Following along with the instructor, we will use the `nano` utility to write the
   - With OpenOnDemand RStudio, we ran an introductory R script
   - With OpenOnDemand Basic Desktop, we verified file integrity of data the we previously transferred, and used `nano` to write a README file
 
+<br>
 
-Here is a [link from AGC on validating file integrity using md5sum](http://michmed.org/agc-md5sum)
+### Handy Links
+
+- [Link to ARC's Great Lakes overview page (same as above)](https://arc.umich.edu/greatlakes/)
+- [Link to Great Lakes Dashboard (same as above)](https://greatlakes.arc-ts.umich.edu)
+- [link from AGC on validating file integrity using md5sum](http://michmed.org/agc-md5sum)
 
 
 | [Previous lesson](Module02_transferring_data_globus.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
