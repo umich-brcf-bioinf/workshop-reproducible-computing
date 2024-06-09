@@ -67,7 +67,7 @@ tasks on Great Lakes:
 
 - A serial task loop
 - Parallelizing tasks using driver scripts and sbatch files.
-- The SLURM Job Launcher
+- The SLURM Launcher
 
 All these approaches execute the same workflow in different ways. The workflow
 produces word pangrams. A **word pangram** is like an anagram that allows
@@ -80,10 +80,13 @@ pangrams.
 
 [TODO workflow image](Module06_pangram_workflow.png)
 
+<br/>
+
+---
+
 ## Pangram: A serial task loop
 
-
-```bash
+```r
 # Orient on project pangram
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
 cd project_pangrams
@@ -253,7 +256,7 @@ letters.txt          results.Hacilno.txt  results.Yacilrt.txt
 pangram.sh           results.Nailmpt.txt  slurm-1234567.out
 README.md            results.Ndefglu.txt
 results.Achnopy.txt  results.Pbegikn.txt
-```
+  ```
 
 This approach is correct, clear, and reproducible; however it's not ideal.
 Consider how the tasks are contained within a job:
@@ -277,19 +280,364 @@ neatly/efficiently as possible.
 </td></tr></table>
 <br/>
 
-Considering that each of these pangram tasks are completely independent of each 
-other (i.e. pleasingly parallel). We might be able to make better use of our ~16000 CPUs by 
-parallelizing the workflow.
+Considering that each of these pangram tasks are completely independent of each
+other (i.e. pleasingly parallel). We might be able to make better use of our
+~16000 CPUs by parallelizing the workflow. The approaches below show two 
+different ways to accomplish this.
 
 
+<br/>
 
-## Pangram: Parallel tasks
+---
 
-## Pangram: Job Launcher
+## Pangram: Parallel SBATCH
 
-## Reviewing job/task geometries 
+```r
+# Orient on project
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_pangrams/pangram_parallel_sbatch
+ls -1
+```
+
+> ```
+letters.txt
+make_sbat_scripts.sh
+pangram.sh
+README.md
+run_sbat_scripts.sh
+  ```
+
+<table class='fig'><tr><th class='fig'>README.md</th></tr>
+<tr><td class='fig'><pre>
+# pangram_parallel_sbatch
+
+- Produces pangrams for letters.txt. Makes one file per line in letters.
+- cgates 6/1/2024
+- Usage: 
+  `./make_sbat_scripts.sh`
+  `./run_sbat_scripts.sh`
+
+Files:
+- letters.txt: list of letter sequences seperated by newlines.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+- make_sbat_scripts.sh : Build sbat scripts based on letters.txt; 
+  for each row in letters.txt adds a new sbat file.
+- run_sbat_scripts.sh : Submit all sbat scripts for cluster execution 
+</pre></td></tr></table>
+<br/>
+
+Executing make_sbat_scripts creates a new directory and adding a collection of 
+sbat files.
+
+```r
+./make_sbat_scripts.sh 
+ls sbat_scripts
+```
+
+> ```
+...
+Achnopy.sbat  Nailmpt.sbat  Uginoqt.sbat
+Alhyidn.sbat  Ndefglu.sbat  Yacilrt.sbat
+Eachkmn.sbat  Pbegikn.sbat
+Hacilno.sbat  Tdghnou.sbat
+  ```
+
+Consider a single sbat file.
+
+<table class='fig'><tr><th class='fig'>sbat_scripts/Achnopy.sbat</th></tr>
+<tr><td class='fig'><pre>
+#!/bin/bash
+
+#SBATCH --job-name=pangram_Achnopy
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+./pangram.sh Achnopy > results.Achnopy.txt
+</pre></td></tr></table>
+<br/>
+
+Briefly consider the script to see how these sbat files was constructed. Note 
+the SLURM preamble directives are integrated into the new files using a 
+[HereDoc](https://phoenixnap.com/kb/bash-heredoc){target="_blank"}.
+
+<table class='fig' width="100%"><tr><th class='fig'>make_sbat_scripts.sh</th></tr>
+<tr><td class='fig'><pre>
+#!/bin/bash
+set -eu
+
+mkdir -p sbat_scripts
+
+for letters in $(cat letters.txt); do
+    echo sbat for: $letters >> /dev/stderr
+    cat << HERE_DOC > sbat_scripts/$letters.sbat
+#!/bin/bash
+
+#SBATCH --job-name=pangram_${letters}
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+./pangram.sh $letters > results.${letters}.txt
+HERE_DOC
+done
+echo done >> /dev/stderr
+</pre></td></tr></table>
+<br/>
+
+We can submit jobs one at a time using sbatch. OR we could build a 
+for loop to automate submission; conveniently `run_sbat_scripts.sh` has
+done this for us.
+
+<table class='fig' width="100%"><tr><th class='fig'>run_sbat_scripts.sh</th></tr>
+<tr><td class='fig'><pre>
+for sbat in $(ls sbat_scripts/*.sbat); do 
+  sbatch $sbat
+done
+</pre></td></tr></table>
+<br/>
+
+Before we execute `run_sbat_scripts.sh`, you might consider opening a separate 
+window to monitor the SLURM job queue. In this second window, you can execute 
+`watch squeue -u $USER` to see how the jobs are being scheduled. Hit ctrl-C to 
+exit watch. (More info on [watch](https://linux.die.net/man/1/watch).)
+
+```r
+./run_sbat_scripts.sh 
+```
+
+> ```
+Submitted batch job 9289496
+Submitted batch job 9289497
+Submitted batch job 9289498
+Submitted batch job 9289499
+Submitted batch job 9289500
+Submitted batch job 9289501
+Submitted batch job 9289502
+Submitted batch job 9289503
+Submitted batch job 9289504
+Submitted batch job 9289505
+  ```
+
+And in a few short seconds, you see the results and SLURM log files. This
+approach is correct, more complex than the serial loop, and reproducible. And
+because the tasks are working in parallel, it's **much** faster. Contrast this
+job/task geometry with the serial loop approach from above:
+
+<table class='fig' width='100%'><tr><th class='fig'>Job/task geometries: serial loop vs parallel sbatch</th></tr>
+<tr><td class='fig'>![TODO geometry_serial_vs_parallel](Module06_geometry_serial_vs_parallel.png)</td></tr></table>
+
+This is great. But there's two to three minor drawbacks to this approach:
+
+- Between the the sbat files, the result files, and the slum log files, it's
+created quite a lot more files. There's smallish files, but it's more output to
+deal with to keep track of.
+- For very quick jobs (<=60 seconds), when the scheduler is under a heavy load,
+it can take longer to schedule a job than it takes to run the job. In these
+circumstances the serial approach might be faster. (If we scaled up from 10 jobs
+to 1000 jobs, we might see this kind of slowdown.)
+- Each ARC account has an upper limit on the number of jobs that can be 
+submitted and the number actively running. If your account exceeds this limit 
+the jobs will start to queue up, awaiting a turn at scheduling and execution. 
+That's not a big problem, except for the fact that you share the account with
+other users. If you saturate your queue, others will have to wait until your job
+finishes before starting theirs. 
+
+To address these concerns, the Texas Advanced Computing Center built a SLURM
+tool called [launcher](https://arc.umich.edu/greatlakes/software/launcher/){target="_blank"}
+detailed below.
+
+<br/>
+
+---
+
+## Pangram: Launcher
+
+```r
+# Orient on project
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_pangrams/pangram_launcher
+ls -1
+```
+
+> ```
+launcher.sbat
+letters.txt
+make_launcher_tasks.sh
+pangram.sh
+README.md
+  ```
+
+<table class='fig'><tr><th class='fig'>README.md</th></tr>
+<tr><td class='fig'><pre>
+# pangram_launcher
+
+- Produces pangrams for letters.txt. Makes one file per line in letters.
+- cgates 6/1/2024
+- Usage: 
+  `./make_launcher_tasks.sh`
+  `sbatch launcher.sbat`
+
+Files:
+- launcher.sbat: sbatch file to start the launcher.
+- letters.txt: list of letter sequences seperated by newlines.
+- make_launcher_tasks.sh: builds a single file for all tasks to be executed 
+  by the launcher.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+</pre></td></tr></table>
+<br/>
+
+Run `make_launcher_tasks.sh` and note it creates one new file `launcher_tasks.txt`.
+
+```r
+./make_launcher_tasks.sh 
+```
+
+<table class='fig'><tr><th class='fig'>launcher_tasks.txt</th></tr>
+<tr><td class='fig'><pre>
+./pangram.sh Ndefglu > results.Ndefglu.txt
+./pangram.sh Hacilno > results.Hacilno.txt
+./pangram.sh Tdghnou > results.Tdghnou.txt
+./pangram.sh Nailmpt > results.Nailmpt.txt
+./pangram.sh Pbegikn > results.Pbegikn.txt
+./pangram.sh Yacilrt > results.Yacilrt.txt
+./pangram.sh Achnopy > results.Achnopy.txt
+./pangram.sh Uginoqt > results.Uginoqt.txt
+./pangram.sh Eachkmn > results.Eachkmn.txt
+./pangram.sh Alhyidn > results.Alhyidn.txt
+</pre></td></tr></table>
+<br/>
+
+This might remind you of the serial loop approach, but there's a twist and to 
+see it you need to consider the `launcher.sbat` file:
+
+<table class='fig'><tr><th class='fig'>launcher.sbat</th></tr>
+<tr><td class='fig'><pre>
+#!/bin/bash
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=5
+#SBATCH --cpus-per-task=1
+#SBATCH --time=0:30:00
+
+module load launcher
+export LAUNCHER_JOB_FILE=launcher_tasks.txt
+paramrun
+</pre></td></tr>
+<tr><td class='fig'>Some details:
+
+- The file starts with a basic SLURM preamble. Note that it's asking for 1 node,
+  and 5 CPUs (5 tasks/node * 1 cpu/task) for 30 minutes.
+- The last three lines establish that this is a launcher job and the tasks to
+  execute live in launcher_tasks.txt.
+</td></tr>
+</table>
+<br/>
+
+Given this setup, sbatch will allocate a node with 5 CPUs for 30 minutes. Then 
+the launcher will start looping through the launcher_tasks and as each one
+completes it will send another one through until all tasks are complete.
+
+Consider running `watch squeue -u $USER` in another window before you run the 
+sbatch command:
+```r
+sbatch launcher.sbat
+```
+> ```
+Submitted batch job 9290535
+  ```
+
+Note that all the tasks are running but they are running "inside"" of the one job.
+The job should finish in a few seconds. It will produce the familliar `results.*`
+files and also a single SLURM log file which is a bit more interesting than the 
+previous log files.
+
+<table class='fig'><tr><th class='fig'>slurm-9290535.out</th></tr>
+<tr><td class='fig'><pre class="pre-scrollable">
+WARNING (06/09/24 15:38:39): LAUNCHER_WORKDIR variable not set. Using current directory.
+windowsP is false
+NOTE (06/09/24 15:38:40): Started dynamic task service on port 9471
+Launcher: Setup complete.
+
+------------- SUMMARY ---------------
+   Number of hosts:    1
+   Working directory:  /nfs/turbo/umms-bioinf-wkshp/workshop/home/cgates/project_pangrams/pangram_launcher
+   Processes per host: 5
+   Total processes:    5
+   Total jobs:         10
+   Scheduling method:  dynamic
+
+-------------------------------------
+Launcher: Starting parallel tasks...
+using /tmp/launcher.9290535.hostlist.GYzdOWsB to get hosts
+starting job on gl3079
+Warning: Permanently added the ED25519 host key for IP address '10.164.8.129' 
+ to the list of known hosts.
+Launcher: Task 0 running job 1 on gl3079.arc-ts.umich.edu (./pangram.sh Ndefglu > results.Ndefglu.txt)
+Launcher: Job 1 completed in 1 seconds.
+Launcher: Task 0 running job 2 on gl3079.arc-ts.umich.edu (./pangram.sh Hacilno > results.Hacilno.txt)
+Launcher: Task 2 running job 3 on gl3079.arc-ts.umich.edu (./pangram.sh Tdghnou > results.Tdghnou.txt)
+Launcher: Job 3 completed in 1 seconds.
+...
+Launcher: Task 0 done. Exiting.
+Launcher: Done. Job exited without errors
+</pre></td></tr></table>
+<br/>
+
+The launcher solution is correct, clear, and efficient. It is a very nice option
+if you have *many* independent tasks that each run quickly (<=60 seconds) and 
+each tasks has a modest compute request (e.g. each task needs a single CPU).
+
+<br/>
+
+---
+
+## Geometries and dependencies
+
+<table class='fig' width='100%'><tr><th class='fig'>Job/task geometries compared</th></tr>
+<tr><td class='fig'>![TODO geometry_serial_vs_parallel_vs_launcher](Module06_geometry_serial_vs_parallel_launcher.png)
+</td></tr></table>
+
+The three job geometries diagrammed above reveal that we quietly made a
+a few simplifying assumptions along the way:
+
+- We assumed that all the tasks were independent (and thus pleasingly parallel).
+- We assumed that all the tasks in a workflow were the same transformation applied many different inputs.
+
+Commonly workflows contain several different steps which where the input of one 
+step often depends on the output of the previous. A simple approach is to combine
+related steps into a single job, depicted graphically like so:
+
+![TODO: Geometry of a multi-step job](images/Module06_geometry_of_multistep_job.png)
+
+Moreover, workflows are not always linear; the logical flow of steps may join the outputs of two steps as an input to a third:
+
+![TODO: nonlinear workflow](images/Module06_nonlinear_workflow.png)
+
+The techniques we reviewed above are execllent for smaller, simpler workflows, a
+more complex, more resource intensive workflow will require either a much more
+nuanced set of scripts or a more sophisticated approach altogether. SLURM
+supports these more complex scenarios natively with something called job arrays
+(see job arrays in [links](#links-and-references) below). In the next module, we
+introduce the
+**Snakemake** workflow automation framework to address these more complicated
+scenarios.
+
+<br/>
+
+---
 
 ## Pro tips
+
+Automating workflows is a learning process. Here's a few ideas to consider along
+the way:
 
 1. **Do not try to automate something that you cannot do by hand.**
 2. **Make it right. Make it clear. Make it efficient. (In that order.)**
@@ -311,14 +659,18 @@ parallelizing the workflow.
 5. **Instead of developing the whole workflow end to end, consider an iterative and incremental approach.** <br/>
    ![](images/Module06_iterative_and_incremental.jpg)<br/>
    From [Henrik Kniberg](https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp){target=""}
-   
+   TODO: incremental geometry
    Break workflow development into __at least__ three steps:
    a) do one sample and verify correctness of outputs. (For a large dataset
   consider subsetting/downsampling your inputs so you can iterate quicker.)
    b) scale to a few samples and check those outputs; tune resource allocations
    c) run the whole batch
 
+---
+
 ## TODO Exercise 1
+
+---
 
 ## Key ideas
 
@@ -333,23 +685,29 @@ parallelizing the workflow.
 * Job/task geometries help visualize how different approaches are executed. (It 
 also hints at the n-dimensional game of Tetris the job-scheduler is playing to
 pack everyones jobs as neatly as possible.
-* The **SLURM job launcher** allows you to gather many parallel tasks into a main job,
+* The **SLURM launcher** allows you to gather many parallel tasks into a main job,
   in effect creating a transient sub-cluster within the main HPC.
-* For a more complex transformation, a driver script can be either simple or
-  resource efficient - choose one. Consider more robust solutions (e.g. Snakemake) as 
-  necessary.
+* For a more complex transformation, ascript can be either simple or
+  resource efficient - choose one. Consider more robust solutions (e.g.
+  Snakemake) as necessary.
 
+---
 
 ## Links and references
 
-- UM ITS docs on [job launcher](https://arc.umich.edu/greatlakes/software/launcher/){target="_blank"}
-- UM ARC [miVideo](https://www.mivideo.it.umich.edu/media/t/1_z4df84ti/181860561){target="_blank"} on advanced SLURM techniques (including job launcher, job arrays, and more)
+- UM ITS docs on [launcher](https://arc.umich.edu/greatlakes/software/launcher/){target="_blank"}
+- UM ARC docs on [job arrays](https://docs.support.arc.umich.edu/slurm/array/){target="_blank"}
+- SLURM docs on [job arrays](https://slurm.schedmd.com/job_array.html){target="_blank"}
+- UM ARC [miVideo](https://www.mivideo.it.umich.edu/media/t/1_z4df84ti/181860561){target="_blank"} on advanced SLURM techniques (including launcher, job arrays, and more)
 - For more examples of pangrams in action, checkout:
 
-  - (https://www.nytimes.com/puzzles/spelling-bee){target="_blank"}
-  - (https://www.sbsolver.com/archive){target="_blank"}
+  - [The New York Times Spelling Bee Puzzle](https://www.nytimes.com/puzzles/spelling-bee){target="_blank"}
+  - [Spelling Bee puzzle solver](https://www.sbsolver.com/archive){target="_blank"}
 
+<br/>
+<br/>
 
+---
 
 | [Previous lesson](Module05_containers_docker_singularity.html) | [Top of this lesson](#top) | [Next lesson](Module07-intro-to-snakemake.html) |
 | :--- | :----: | ---: |

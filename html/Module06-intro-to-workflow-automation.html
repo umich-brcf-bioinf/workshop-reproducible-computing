@@ -486,7 +486,7 @@ target="_blank">pleasingly parallel</a> tasks on Great Lakes:</p>
 <ul>
 <li>A serial task loop</li>
 <li>Parallelizing tasks using driver scripts and sbatch files.</li>
-<li>The SLURM Job Launcher</li>
+<li>The SLURM Launcher</li>
 </ul>
 <p>All these approaches execute the same workflow in different ways. The
 workflow produces word pangrams. A <strong>word pangram</strong> is like
@@ -497,10 +497,12 @@ ENCHANTMENT, and ENHANCEMENT.</p>
 separated by lines; for each letter sequence it produces a file
 containing one or more pangrams.</p>
 <p><a href="Module06_pangram_workflow.png">TODO workflow image</a></p>
+<p><br/></p>
+<hr />
 </div>
 <div id="pangram-a-serial-task-loop" class="section level2">
 <h2>Pangram: A serial task loop</h2>
-<pre class="bash"><code># Orient on project pangram
+<pre class="r"><code># Orient on project pangram
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
 cd project_pangrams
 ls -1</code></pre>
@@ -688,22 +690,444 @@ clusters as neatly/efficiently as possible.</p>
 </td>
 </tr>
 </table>
-<p><br/> <br/></p>
+<p><br/></p>
 <p>Considering that each of these pangram tasks are completely
 independent of each other (i.e. pleasingly parallel). We might be able
-to make better use of our ~16000 CPUs by parallelizing the workflow.</p>
+to make better use of our ~16000 CPUs by parallelizing the workflow. The
+approaches below show two different ways to accomplish this.</p>
+<p><br/></p>
+<hr />
 </div>
-<div id="pangram-parallel-tasks" class="section level2">
-<h2>Pangram: Parallel tasks</h2>
+<div id="pangram-parallel-sbatch" class="section level2">
+<h2>Pangram: Parallel SBATCH</h2>
+<pre class="r"><code># Orient on project
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_pangrams/pangram_parallel_sbatch
+ls -1</code></pre>
+<blockquote>
+<pre><code>letters.txt
+make_sbat_scripts.sh
+pangram.sh
+README.md
+run_sbat_scripts.sh</code></pre>
+</blockquote>
+<table class="fig">
+<tr>
+<th class="fig">
+README.md
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+# pangram_parallel_sbatch
+
+- Produces pangrams for letters.txt. Makes one file per line in letters.
+- cgates 6/1/2024
+- Usage: 
+  `./make_sbat_scripts.sh`
+  `./run_sbat_scripts.sh`
+
+Files:
+- letters.txt: list of letter sequences seperated by newlines.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+- make_sbat_scripts.sh : Build sbat scripts based on letters.txt; 
+  for each row in letters.txt adds a new sbat file.
+- run_sbat_scripts.sh : Submit all sbat scripts for cluster execution 
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Executing make_sbat_scripts creates a new directory and adding a
+collection of sbat files.</p>
+<pre class="r"><code>./make_sbat_scripts.sh 
+ls sbat_scripts</code></pre>
+<blockquote>
+<pre><code>...
+Achnopy.sbat  Nailmpt.sbat  Uginoqt.sbat
+Alhyidn.sbat  Ndefglu.sbat  Yacilrt.sbat
+Eachkmn.sbat  Pbegikn.sbat
+Hacilno.sbat  Tdghnou.sbat</code></pre>
+</blockquote>
+<p>Consider a single sbat file.</p>
+<table class="fig">
+<tr>
+<th class="fig">
+sbat_scripts/Achnopy.sbat
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+#!/bin/bash
+
+#SBATCH --job-name=pangram_Achnopy
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+./pangram.sh Achnopy > results.Achnopy.txt
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Briefly consider the script to see how these sbat files was
+constructed. Note the SLURM preamble directives are integrated into the
+new files using a <a href="https://phoenixnap.com/kb/bash-heredoc"
+target="_blank">HereDoc</a>.</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+make_sbat_scripts.sh
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+#!/bin/bash
+set -eu
+
+mkdir -p sbat_scripts
+
+for letters in $(cat letters.txt); do
+    echo sbat for: $letters >> /dev/stderr
+    cat << HERE_DOC > sbat_scripts/$letters.sbat
+#!/bin/bash
+
+#SBATCH --job-name=pangram_${letters}
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+./pangram.sh $letters > results.${letters}.txt
+HERE_DOC
+done
+echo done >> /dev/stderr
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>We can submit jobs one at a time using sbatch. OR we could build a
+for loop to automate submission; conveniently
+<code>run_sbat_scripts.sh</code> has done this for us.</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+run_sbat_scripts.sh
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+for sbat in $(ls sbat_scripts/*.sbat); do 
+  sbatch $sbat
+done
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Before we execute <code>run_sbat_scripts.sh</code>, you might
+consider opening a separate window to monitor the SLURM job queue. In
+this second window, you can execute <code>watch squeue -u $USER</code>
+to see how the jobs are being scheduled. Hit ctrl-C to exit watch. (More
+info on <a href="https://linux.die.net/man/1/watch">watch</a>.)</p>
+<pre class="r"><code>./run_sbat_scripts.sh </code></pre>
+<blockquote>
+<pre><code>Submitted batch job 9289496
+Submitted batch job 9289497
+Submitted batch job 9289498
+Submitted batch job 9289499
+Submitted batch job 9289500
+Submitted batch job 9289501
+Submitted batch job 9289502
+Submitted batch job 9289503
+Submitted batch job 9289504
+Submitted batch job 9289505</code></pre>
+</blockquote>
+<p>And in a few short seconds, you see the results and SLURM log files.
+This approach is correct, more complex than the serial loop, and
+reproducible. And because the tasks are working in parallel, it’s
+<strong>much</strong> faster. Contrast this job/task geometry with the
+serial loop approach from above:</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+Job/task geometries: serial loop vs parallel sbatch
+</th>
+</tr>
+<tr>
+<td class="fig">
+<div class="float">
+<img src="Module06_geometry_serial_vs_parallel.png"
+alt="TODO geometry_serial_vs_parallel" />
+<div class="figcaption">TODO geometry_serial_vs_parallel</div>
 </div>
-<div id="pangram-job-launcher" class="section level2">
-<h2>Pangram: Job Launcher</h2>
+</td>
+</tr>
+</table>
+<p>This is great. But there’s two to three minor drawbacks to this
+approach:</p>
+<ul>
+<li>Between the the sbat files, the result files, and the slum log
+files, it’s created quite a lot more files. There’s smallish files, but
+it’s more output to deal with to keep track of.</li>
+<li>For very quick jobs (&lt;=60 seconds), when the scheduler is under a
+heavy load, it can take longer to schedule a job than it takes to run
+the job. In these circumstances the serial approach might be faster. (If
+we scaled up from 10 jobs to 1000 jobs, we might see this kind of
+slowdown.)</li>
+<li>Each ARC account has an upper limit on the number of jobs that can
+be submitted and the number actively running. If your account exceeds
+this limit the jobs will start to queue up, awaiting a turn at
+scheduling and execution. That’s not a big problem, except for the fact
+that you share the account with other users. If you saturate your queue,
+others will have to wait until your job finishes before starting
+theirs.</li>
+</ul>
+<p>To address these concerns, the Texas Advanced Computing Center built
+a SLURM tool called <a
+href="https://arc.umich.edu/greatlakes/software/launcher/"
+target="_blank">launcher</a> detailed below.</p>
+<p><br/></p>
+<hr />
 </div>
-<div id="reviewing-jobtask-geometries" class="section level2">
-<h2>Reviewing job/task geometries</h2>
+<div id="pangram-launcher" class="section level2">
+<h2>Pangram: Launcher</h2>
+<pre class="r"><code># Orient on project
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_pangrams/pangram_launcher
+ls -1</code></pre>
+<blockquote>
+<pre><code>launcher.sbat
+letters.txt
+make_launcher_tasks.sh
+pangram.sh
+README.md</code></pre>
+</blockquote>
+<table class="fig">
+<tr>
+<th class="fig">
+README.md
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+# pangram_launcher
+
+- Produces pangrams for letters.txt. Makes one file per line in letters.
+- cgates 6/1/2024
+- Usage: 
+  `./make_launcher_tasks.sh`
+  `sbatch launcher.sbat`
+
+Files:
+- launcher.sbat: sbatch file to start the launcher.
+- letters.txt: list of letter sequences seperated by newlines.
+- make_launcher_tasks.sh: builds a single file for all tasks to be executed 
+  by the launcher.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Run <code>make_launcher_tasks.sh</code> and note it creates one new
+file <code>launcher_tasks.txt</code>.</p>
+<pre class="r"><code>./make_launcher_tasks.sh </code></pre>
+<table class="fig">
+<tr>
+<th class="fig">
+launcher_tasks.txt
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+./pangram.sh Ndefglu > results.Ndefglu.txt
+./pangram.sh Hacilno > results.Hacilno.txt
+./pangram.sh Tdghnou > results.Tdghnou.txt
+./pangram.sh Nailmpt > results.Nailmpt.txt
+./pangram.sh Pbegikn > results.Pbegikn.txt
+./pangram.sh Yacilrt > results.Yacilrt.txt
+./pangram.sh Achnopy > results.Achnopy.txt
+./pangram.sh Uginoqt > results.Uginoqt.txt
+./pangram.sh Eachkmn > results.Eachkmn.txt
+./pangram.sh Alhyidn > results.Alhyidn.txt
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>This might remind you of the serial loop approach, but there’s a
+twist and to see it you need to consider the <code>launcher.sbat</code>
+file:</p>
+<table class="fig">
+<tr>
+<th class="fig">
+launcher.sbat
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+#!/bin/bash
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=5
+#SBATCH --cpus-per-task=1
+#SBATCH --time=0:30:00
+
+module load launcher
+export LAUNCHER_JOB_FILE=launcher_tasks.txt
+paramrun
+</pre>
+</td>
+</tr>
+<tr>
+<td class="fig">
+<p>Some details:</p>
+<ul>
+<li>The file starts with a basic SLURM preamble. Note that it’s asking
+for 1 node, and 5 CPUs (5 tasks/node * 1 cpu/task) for 30 minutes.</li>
+<li>The last three lines establish that this is a launcher job and the
+tasks to execute live in launcher_tasks.txt.</li>
+</ul>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Given this setup, sbatch will allocate a node with 5 CPUs for 30
+minutes. Then the launcher will start looping through the launcher_tasks
+and as each one completes it will send another one through until all
+tasks are complete.</p>
+<p>Consider running <code>watch squeue -u $USER</code> in another window
+before you run the sbatch command:</p>
+<pre class="r"><code>sbatch launcher.sbat</code></pre>
+<blockquote>
+<pre><code>Submitted batch job 9290535</code></pre>
+</blockquote>
+<p>Note that all the tasks are running but they are running “inside”” of
+the one job. The job should finish in a few seconds. It will produce the
+familliar <code>results.*</code> files and also a single SLURM log file
+which is a bit more interesting than the previous log files.</p>
+<table class="fig">
+<tr>
+<th class="fig">
+slurm-9290535.out
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre class="pre-scrollable">
+WARNING (06/09/24 15:38:39): LAUNCHER_WORKDIR variable not set. Using current directory.
+windowsP is false
+NOTE (06/09/24 15:38:40): Started dynamic task service on port 9471
+Launcher: Setup complete.
+
+------------- SUMMARY ---------------
+   Number of hosts:    1
+   Working directory:  /nfs/turbo/umms-bioinf-wkshp/workshop/home/cgates/project_pangrams/pangram_launcher
+   Processes per host: 5
+   Total processes:    5
+   Total jobs:         10
+   Scheduling method:  dynamic
+
+-------------------------------------
+Launcher: Starting parallel tasks...
+using /tmp/launcher.9290535.hostlist.GYzdOWsB to get hosts
+starting job on gl3079
+Warning: Permanently added the ED25519 host key for IP address '10.164.8.129' 
+ to the list of known hosts.
+Launcher: Task 0 running job 1 on gl3079.arc-ts.umich.edu (./pangram.sh Ndefglu > results.Ndefglu.txt)
+Launcher: Job 1 completed in 1 seconds.
+Launcher: Task 0 running job 2 on gl3079.arc-ts.umich.edu (./pangram.sh Hacilno > results.Hacilno.txt)
+Launcher: Task 2 running job 3 on gl3079.arc-ts.umich.edu (./pangram.sh Tdghnou > results.Tdghnou.txt)
+Launcher: Job 3 completed in 1 seconds.
+...
+Launcher: Task 0 done. Exiting.
+Launcher: Done. Job exited without errors
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>The launcher solution is correct, clear, and efficient. It is a very
+nice option if you have <em>many</em> independent tasks that each run
+quickly (&lt;=60 seconds) and each tasks has a modest compute request
+(e.g. each task needs a single CPU).</p>
+<p><br/></p>
+<hr />
+</div>
+<div id="geometries-and-dependencies" class="section level2">
+<h2>Geometries and dependencies</h2>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+Job/task geometries compared
+</th>
+</tr>
+<tr>
+<td class="fig">
+<div class="float">
+<img src="Module06_geometry_serial_vs_parallel_launcher.png"
+alt="TODO geometry_serial_vs_parallel_vs_launcher" />
+<div class="figcaption">TODO
+geometry_serial_vs_parallel_vs_launcher</div>
+</div>
+</td>
+</tr>
+</table>
+<p>The three job geometries diagrammed above reveal that we quietly made
+a a few simplifying assumptions along the way:</p>
+<ul>
+<li>We assumed that all the tasks were independent (and thus pleasingly
+parallel).</li>
+<li>We assumed that all the tasks in a workflow were the same
+transformation applied many different inputs.</li>
+</ul>
+<p>Commonly workflows contain several different steps which where the
+input of one step often depends on the output of the previous. A simple
+approach is to combine related steps into a single job, depicted
+graphically like so:</p>
+<div class="float">
+<img src="images/Module06_geometry_of_multistep_job.png"
+alt="TODO: Geometry of a multi-step job" />
+<div class="figcaption">TODO: Geometry of a multi-step job</div>
+</div>
+<p>Moreover, workflows are not always linear; the logical flow of steps
+may join the outputs of two steps as an input to a third:</p>
+<div class="float">
+<img src="images/Module06_nonlinear_workflow.png"
+alt="TODO: nonlinear workflow" />
+<div class="figcaption">TODO: nonlinear workflow</div>
+</div>
+<p>The techniques we reviewed above are execllent for smaller, simpler
+workflows, a more complex, more resource intensive workflow will require
+either a much more nuanced set of scripts or a more sophisticated
+approach altogether. SLURM supports these more complex scenarios
+natively with something called job arrays (see job arrays in <a
+href="#links-and-references">links</a> below). In the next module, we
+introduce the <strong>Snakemake</strong> workflow automation framework
+to address these more complicated scenarios.</p>
+<p><br/></p>
+<hr />
 </div>
 <div id="pro-tips" class="section level2">
 <h2>Pro tips</h2>
+<p>Automating workflows is a learning process. Here’s a few ideas to
+consider along the way:</p>
 <ol style="list-style-type: decimal">
 <li><p><strong>Do not try to automate something that you cannot do by
 hand.</strong></p></li>
@@ -728,9 +1152,8 @@ make that change when you need to.</p></li>
 consider an iterative and incremental approach.</strong> <br/> <img
 src="images/Module06_iterative_and_incremental.jpg" /><br/> From <a
 href="https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp"
-target="">Henrik Kniberg</a></p>
-<p>Break workflow development into <strong>at least</strong> three
-steps:</p>
+target="">Henrik Kniberg</a> TODO: incremental geometry Break workflow
+development into <strong>at least</strong> three steps:</p>
 <ol style="list-style-type: lower-alpha">
 <li>do one sample and verify correctness of outputs. (For a large
 dataset consider subsetting/downsampling your inputs so you can iterate
@@ -740,9 +1163,11 @@ allocations</li>
 <li>run the whole batch</li>
 </ol></li>
 </ol>
+<hr />
 </div>
 <div id="todo-exercise-1" class="section level2">
 <h2>TODO Exercise 1</h2>
+<hr />
 </div>
 <div id="key-ideas" class="section level2">
 <h2>Key ideas</h2>
@@ -763,32 +1188,40 @@ left them.</li>
 executed. (It also hints at the n-dimensional game of Tetris the
 job-scheduler is playing to pack everyones jobs as neatly as
 possible.</li>
-<li>The <strong>SLURM job launcher</strong> allows you to gather many
+<li>The <strong>SLURM launcher</strong> allows you to gather many
 parallel tasks into a main job, in effect creating a transient
 sub-cluster within the main HPC.</li>
-<li>For a more complex transformation, a driver script can be either
-simple or resource efficient - choose one. Consider more robust
-solutions (e.g. Snakemake) as necessary.</li>
+<li>For a more complex transformation, ascript can be either simple or
+resource efficient - choose one. Consider more robust solutions (e.g.
+Snakemake) as necessary.</li>
 </ul>
+<hr />
 </div>
 <div id="links-and-references" class="section level2">
 <h2>Links and references</h2>
 <ul>
 <li><p>UM ITS docs on <a
 href="https://arc.umich.edu/greatlakes/software/launcher/"
-target="_blank">job launcher</a></p></li>
+target="_blank">launcher</a></p></li>
+<li><p>UM ARC docs on <a
+href="https://docs.support.arc.umich.edu/slurm/array/"
+target="_blank">job arrays</a></p></li>
+<li><p>SLURM docs on <a href="https://slurm.schedmd.com/job_array.html"
+target="_blank">job arrays</a></p></li>
 <li><p>UM ARC <a
 href="https://www.mivideo.it.umich.edu/media/t/1_z4df84ti/181860561"
-target="_blank">miVideo</a> on advanced SLURM techniques (including job
+target="_blank">miVideo</a> on advanced SLURM techniques (including
 launcher, job arrays, and more)</p></li>
 <li><p>For more examples of pangrams in action, checkout:</p>
 <ul>
-<li>(<a href="https://www.nytimes.com/puzzles/spelling-bee"
-class="uri">https://www.nytimes.com/puzzles/spelling-bee</a>){target=“_blank”}</li>
-<li>(<a href="https://www.sbsolver.com/archive"
-class="uri">https://www.sbsolver.com/archive</a>){target=“_blank”}</li>
+<li><a href="https://www.nytimes.com/puzzles/spelling-bee"
+target="_blank">The New York Times Spelling Bee Puzzle</a></li>
+<li><a href="https://www.sbsolver.com/archive" target="_blank">Spelling
+Bee puzzle solver</a></li>
 </ul></li>
 </ul>
+<p><br/> <br/></p>
+<hr />
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -810,7 +1243,7 @@ lesson</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm8gdG8gd29ya2Zsb3cgYXV0b21hdGlvbiIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQp0YWJsZS5maWcsIHRoLmZpZywgdGQuZmlnIHsKICBib3JkZXI6IDFweCBzb2xpZCBibGFjazsKICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwogIHBhZGRpbmc6IDE1cHg7Cn0KPC9zdHlsZT4KCkJ5IHRoZSBlbmQgb2YgdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgotIFVuZGVyc3RhbmQgd2hhdCB3b3JrZmxvdyBhdXRvbWF0aW9uIGlzIGFuZCBob3cgaXQgaGVscHMgcmVwcm9kdWNpYmlsaXR5LgotIFJldmlldyBzZXZlcmFsIGRpZmZlcmVudCB3YXlzIHRvIGV4ZWN1dGUgcmVwZXRpdGl2ZSB0YXNrcyBvbiBHcmVhdCBMYWtlcy4KLSBJbnRyb2R1Y2UgdGhlIGlkZWEgb2Ygam9iL3Rhc2sgZ2VvbWV0cmllcyB0byB2aXN1YWxpemUgYXBwcm9hY2hzIGFuZCB0aGVpciBhZHZhbnRhZ2VzIGFuZCBsaW1pdGF0aW9ucy4KCgojIyBXb3JrZmxvdyBhdXRvbWF0aW9uIGhlbHBzIHJlcHJvZHVjaWJpbGl0eQoKRGF0YS1pbnRlbnNpdmUgcmVzZWFyY2ggZW50YWlscyB0cmFuc2Zvcm1pbmcgcmF3IGRhdGEgaW50byBtb3JlCm1lYW5pbmdmdWwvdmFsdWFibGUgcmVzdWx0cy4gT2Z0ZW4sIHRoaXMgaW52b2x2ZXMgYSBzZXJpZXMgb2Ygc3RlcC13aXNlCnRyYW5zZm9ybWF0aW9uIHRhc2tzLiBUbyBtYWtlIHRoaXMgcmVzZWFyY2ggcmVwcm9kdWNpYmxlIGJ5IHNvbWVvbmUgZWxzZSwgYWxsIHRoZSAKdHJhbnNmb3JtYXRpb25zIG11c3QgZWl0aGVyIGJlIGRvY3VtZW50ZWQgc28gdGhhdCBhIGh1bWFuIGNhbiByZXByb2R1Y2UgdGhlbSwgb3IKYXV0b21hdGVkIHNvIGEgY29tcHV0ZXIgY2FuLiBBIHJlcHJvZHVjaWJsZSBzb2x1dGlvbiBoYXMgYSBibGVuZCBvZiAKZG9jdW1lbnRhdGlvbiBhbmQgYXV0b21hdGlvbi4KCkRhdGEtaW50ZW5zaXZlIHJlc2VhcmNoIG9mdGVuIGludm9sdmVzIHJlcGVhdGluZyB0cmFuc2Zvcm1hdGlvbiB0YXNrcyBtYW55CnRpbWVzLiBBbHNvIG92ZXJ0aW1lIHRyYW5zZm9ybWF0aW9ucyBldm9sdmUgdG8gYmUgbW9yZSBjb21wbGV4LCBtb3JlCmNvbXB1dGF0aW9uYWxseSBkZW1hbmRpbmcsIG9yIHRha2UgbG9uZ2VyLiBBICoqd29ya2Zsb3cqKiBkZXNjcmliZXMgdGhlIGtleQp0cmFuc2Zvcm1hdGlvbiB0YXNrcyBhbmQgdGhlaXIgcmVsYXRpb25zaGlwcyB0byB0aGUgaW5wdXRzIGFuZCBvdXRwdXRzLgoKKipXb3JrZmxvdyBhdXRvbWF0aW9uKiogZGVzY3JpYmVzIHRoZSB0b29scyBhbmQgdGVjaG5pcXVlcyB0byBzeXN0ZW1hdGljYWxseQphc3NlbWJsZSB0aGVzZSB0YXNrcyBpbnRvIGEgZXhlY3V0YWJsZSwgcmVwZWF0YWJsZSwgcm9idXN0IHNvbHV0aW9uLiBCdWlsZGluZyBhbgphdXRvbWF0ZWQgd29ya2Zsb3cgYXBwZWFycyBoYXJkZXIgdGhhbiBkb2N1bWVudGluZyBpdCB0byBiZSBydW4gbWFudWFsbHksIGJ1dAp0aGVyZSBhcmUgbWFueSBiZW5lZml0cyB0byByZXByb2R1Y2liaWxpdHk6CgogIC0gQXV0b21hdGlvbiBmYWNpbGl0YXRlcyByZXBldGl0aW9uLgogIC0gQXV0b21hdGlvbiBjYW4gc2ltcGxpZnkgbWFudWFsIGRvY3VtZW50YXRpb24uCiAgLSBBdXRvbWF0aW9uIHNpbXBsaWZpZXMgdmFsaWRhdGlvbiBvZiB5b3VyIHdvcmtmbG93LgogIC0gQXV0b21hdGlvbiBzdHJlYW1saW5lcyBzaGFyaW5nLgogIC0gQXV0b21hdGlvbiBzY2FsZXMgdG8gbGFyZ2VyIGlucHV0cwoKVGhlcmUgYXJlIG1hbnkgd2F5cyB0byBidWlsZCBhbiBhdXRvbWF0ZWQgd29ya2Zsb3cuIEluIHRoaXMgbW9kdWxlIHdlIHdpbGwKY29uc2lkZXIgc2V2ZXJhbCB3YXlzIG9mIGV4ZWN1dGluZyBbcGxlYXNpbmdseQpwYXJhbGxlbF0oaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRW1iYXJyYXNzaW5nbHlfcGFyYWxsZWwpe3RhcmdldD0iX2JsYW5rIn0KdGFza3Mgb24gR3JlYXQgTGFrZXM6CgotIEEgc2VyaWFsIHRhc2sgbG9vcAotIFBhcmFsbGVsaXppbmcgdGFza3MgdXNpbmcgZHJpdmVyIHNjcmlwdHMgYW5kIHNiYXRjaCBmaWxlcy4KLSBUaGUgU0xVUk0gSm9iIExhdW5jaGVyCgpBbGwgdGhlc2UgYXBwcm9hY2hlcyBleGVjdXRlIHRoZSBzYW1lIHdvcmtmbG93IGluIGRpZmZlcmVudCB3YXlzLiBUaGUgd29ya2Zsb3cKcHJvZHVjZXMgd29yZCBwYW5ncmFtcy4gQSAqKndvcmQgcGFuZ3JhbSoqIGlzIGxpa2UgYW4gYW5hZ3JhbSB0aGF0IGFsbG93cwpyZXBlYXRpbmcgbGV0dGVycywgZS5nLiB0aGUgc2VxdWVuY2Ugb2YgbGV0dGVycyBBQ0VITU5UIGNhbiBiZSByZWFycmFuZ2VkIHRvCmNyZWF0ZSB0aGUgcGFuZ3JhbXMgQVRUQUNITUVOVCwgQ0FUQ0hNRU5ULCBFTkNIQU5UTUVOVCwgYW5kIEVOSEFOQ0VNRU5ULgoKVGhlIHdvcmtmbG93IGFjY2VwdHMgYSB0ZXh0IGZpbGUgY29udGFpbmluZyBsaXN0IG9mIGxldHRlciBzZXF1ZW5jZXMgc2VwYXJhdGVkCmJ5IGxpbmVzOyBmb3IgZWFjaCBsZXR0ZXIgc2VxdWVuY2UgaXQgcHJvZHVjZXMgYSBmaWxlIGNvbnRhaW5pbmcgb25lIG9yIG1vcmUgCnBhbmdyYW1zLgoKW1RPRE8gd29ya2Zsb3cgaW1hZ2VdKE1vZHVsZTA2X3BhbmdyYW1fd29ya2Zsb3cucG5nKQoKIyMgUGFuZ3JhbTogQSBzZXJpYWwgdGFzayBsb29wCgoKYGBgYmFzaAojIE9yaWVudCBvbiBwcm9qZWN0IHBhbmdyYW0KY2QgL25mcy90dXJiby91bW1zLWJpb2luZi13a3NocC93b3Jrc2hvcC9ob21lLyRVU0VSCmNkIHByb2plY3RfcGFuZ3JhbXMKbHMgLTEKYGBgCgo+IGBgYApwYW5ncmFtX2pvYl9sYXVuY2hlcgpwYW5ncmFtX3BhcmFsbGVsX3NiYXRjaApwYW5ncmFtX3NlcmlhbF9sb29wClJFQURNRS5tZAogICAgYGBgCgpgYGByCmNkIHBhbmdyYW1fc2VyaWFsX2xvb3AKbHMgLTEKYGBgCgo+IGBgYApmaW5kX3BhbmdyYW1zLnNiYXQKZmluZF9wYW5ncmFtcy5zaApsZXR0ZXJzLnR4dApwYW5ncmFtLnNoClJFQURNRS5tZAogIGBgYAoKTGV0J3MgY29uc2lkZXIgYSBmZXcgb2YgdGhlc2UgZmlsZXMgaW4gdHVybiwgc3RhcnRpbmcgd2l0aCB0aGUgUkVBRE1FLgoKPHRhYmxlIGNsYXNzPSdmaWcnPjx0cj48dGggY2xhc3M9J2ZpZyc+UkVBRE1FLm1kPC90aD48L3RyPgo8dHI+PHRkIGNsYXNzPSdmaWcnPjxwcmU+CiMgcGFuZ3JhbV9zZXJpYWxfbG9vcAoKLSBQcm9kdWNlcyBwYW5ncmFtcyBmb3IgaW5wdXRzIGluIGxldHRlcnMudHh0LiAKICBNYWtlcyBvbmUgZmlsZSBmb3IgZWFjaCBsaW5lIGluIGxldHRlcnMuCi0gY2dhdGVzIDYvMS8yMDI0Ci0gVXNhZ2U6IAogIC4vZmluZF9wYW5ncmFtcy5zaCAjdG8gcnVuIGxvY2FsbHkKICBvcgogIHNiYXRjaCBmaW5kX3BhbmdyYW1zLnNiYXQgIyB0byBzdWJtaXQgdG8gd29ya2VyIG5vZGUKCkZpbGVzOgotIGZpbmRfcGFuZ3JhbXMuc2JhdDogU0xVUk0gYmF0Y2ggZmlsZTsgY2FsbHMgZmluZF9wYW5ncmFtcy5zaAotIGZpbmRfcGFuZ3JhbXMuc2g6IExvb3BzIHRocm91Z2h0IGlucHV0IGFuZCBjYWxscyBwYW5ncmFtLnNoCi0gbGV0dGVycy50eHQ6IGxpc3Qgb2YgbGV0dGVyIHNlcXVlbmNlcyBzZXBlcmF0ZWQgYnkgbmV3bGluZXMuCi0gcGFuZ3JhbS5zaDogYWNjZXB0cyBhIHNpbmdsZSBsZXR0ZXIgc2VxdWVuY2UgYW5kIHByaW50cyBhbGwgcGFuZ3JhbXMuCjwvcHJlPjwvdGQ+PC90cj48L3RhYmxlPgo8YnIvPgo8YnIvPgoKVGhlIHBhbmdyYW0uc2ggc2NyaXB0IGlzIHRoZSB3b3JraG9yc2Ugb2YgdGhpcyB3b3JrZmxvdy4gWW91IGFyZSB3ZWxjb21lIHRvIGxvb2sKYXQgdGhlIGltcGxlbWVudGF0aW9uLCBidXQgZm9yIG91ciBwdXJwb3NlcyB3ZSBjYW4gdHJlYXQgaXQgYXMgYSBibGFjayBib3guCldlJ2xsIHJ1biBpdCBvbmNlIHRvIHNlZSBpdCBpbiBhY3Rpb24uCgpgYGByCi4vcGFuZ3JhbS5zaCBsb3ZlbHkKYGBgCgo+IGBgYApsb3ZlbHkKbG92ZXkKdm9sbGV5CiAgYGBgCgoKQ29uc2lkZXIgdGhlIGlucHV0IHRvIHRoZSB3b3JrZmxvdzoKCjx0YWJsZSBjbGFzcz0nZmlnJyB3aWR0aD0nMTAwJSc+PHRyPjx0aCBjbGFzcz0nZmlnJz5sZXR0ZXJzLnR4dDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz4KYGBgCk5kZWZnbHUKSGFjaWxubwpUZGdobm91Ck5haWxtcHQKUGJlZ2lrbgpZYWNpbHJ0CkFjaG5vcHkKVWdpbm9xdApFYWNoa21uCkFsaHlpZG4KYGBgCjwvdGQ+PC90cj48L3RhYmxlPgo8YnIvPgo8YnIvPgoKQW5kIGZpbmFsbHksIHRoZSBzY3JpcHQgd2Ugd2lsbCBsYXVuY2ggdG8gZXhlY3V0ZSB0aGUgd29ya2Zsb3c6Cgo8dGFibGUgY2xhc3M9J2ZpZycgd2lkdGg9JzEwMCUnPjx0cj48dGggY2xhc3M9J2ZpZyc+ZmluZF9wYW5ncmFtcy5zaDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz4KYGBgCiMvYmluL2Jhc2gKc2V0IC1ldQoKZm9yIGxldHRlcnMgaW4gJChjYXQgbGV0dGVycy50eHQpOyBkbwogICAgZWNobyBwYW5ncmFtcyBmb3I6ICRsZXR0ZXJzID4+IC9kZXYvc3RkZXJyCiAgICAuL3BhbmdyYW0uc2ggJGxldHRlcnMgPiByZXN1bHRzLiR7bGV0dGVyc30udHh0CmRvbmUKZWNobyBkb25lID4+IC9kZXYvc3RkZXJyCmBgYAo8L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KPGJyLz4KCkhhdmluZyByZXZpZXdlZCB0aGUgaW5wdXRzIGFuZCBzY3JpcHRzLCB3ZSBjYW4gbGF1bmNoIHRoZSB3b3JrZmxvdyBsaWtlIGFzIApzaG93biBiZWxvdy4gKFRoaXMgcHJvamVjdCBpcyBjYWxsZWQgInNlcmlhbCBsb29wIiBiZWNhdXNlIGluIHRoaXMgd29ya2Zsb3cgCndlIGFyZSBsb29waW5nIG92ZXIgdGhlIGlucHV0cyBhbmQgcHJvY2Vzc2luZyBvbmUgYXQgYSB0aW1lLikKCmBgYHIKLi9maW5kX3BhbmdyYW1zLnNoCmBgYAoKPiBgYGAKcGFuZ3JhbXMgZm9yOiBOZGVmZ2x1CnBhbmdyYW1zIGZvcjogSGFjaWxubwpwYW5ncmFtcyBmb3I6IFRkZ2hub3UKcGFuZ3JhbXMgZm9yOiBOYWlsbXB0CnBhbmdyYW1zIGZvcjogUGJlZ2lrbgpwYW5ncmFtcyBmb3I6IFlhY2lscnQKcGFuZ3JhbXMgZm9yOiBBY2hub3B5CnBhbmdyYW1zIGZvcjogVWdpbm9xdApwYW5ncmFtcyBmb3I6IEVhY2hrbW4KcGFuZ3JhbXMgZm9yOiBBbGh5aWRuCiAgYGBgCgpXZSBzZWUgdGhlIHJlc3VsdHMgZmlsZXMgaGF2ZSBiZWVuIGFkZGVkOgoKYGBgcgpscwpgYGAKCj4gYGBgCmZpbmRfcGFuZ3JhbXMuc2JhdCAgcmVzdWx0cy5BY2hub3B5LnR4dCAgcmVzdWx0cy5OZGVmZ2x1LnR4dApmaW5kX3BhbmdyYW1zLnNoICAgIHJlc3VsdHMuQWxoeWlkbi50eHQgIHJlc3VsdHMuUGJlZ2lrbi50eHQKbGV0dGVycy50eHQgICAgICAgICByZXN1bHRzLkVhY2hrbW4udHh0ICByZXN1bHRzLlRkZ2hub3UudHh0CnBhbmdyYW0uc2ggICAgICAgICAgcmVzdWx0cy5IYWNpbG5vLnR4dCAgcmVzdWx0cy5VZ2lub3F0LnR4dApSRUFETUUubWQgICAgICAgICAgIHJlc3VsdHMuTmFpbG1wdC50eHQgIHJlc3VsdHMuWWFjaWxydC50eHQKICBgYGAKICAKYGBgcgpjYXQgcmVzdWx0cy5BY2hub3B5LnR4dApgYGAKPiBgYGAKY2Fjb3Bob255CiAgYGBgCgoqUXVlc3Rpb246IFdoaWNoIGxldHRlciBjb21iaW5hdGlvbiBnZW5lcmF0ZWQgdGhlIG1vc3QgcGFuZ3JhbXM/KgoKTGV0J3MgcnVuIGl0IGFnYWluIGJ1dCBpbnN0ZWFkIG9mIHVzaW5nIHRoZSBsb2dpbi1ub2RlLCB3ZSdsbCBzdWJtaXQgdGhpcyB0byBhCndvcmtlciBub2RlIHVzaW5nIHRoZSBwcm92aWRlZCBzYmF0IHNjcmlwdDoKCmBgYHIKIyBmaXJzdCBjbGVhciBvdXQgdGhlIG9sZCByZXN1bHRzCnJtIHJlc3VsdHMuKgpzYmF0Y2ggZmluZF9wYW5ncmFtcy5zYmF0IApgYGAKCj4gYGBgClN1Ym1pdHRlZCBiYXRjaCBqb2IgMTIzNDU2NwogIGBgYAoKVXNlIGBzcXVldWUgLXUgJFVTRVJgIHRvIHNlZSB3aGVuIHRoZSBqb2IgaXMgZmluaXNoZWQgYW5kIHRoZW4gcmV2aWV3IHRoZSAKb3V0cHV0cy4gV2Ugbm93IHNlZSB0aGUgcmVzdWx0cyBmaWxlcyBhbmQgYWxzbyB0aGUgc2x1cm0gbG9nIGZpbGU6Cgo+IGBgYApmaW5kX3BhbmdyYW1zLnNiYXQgICByZXN1bHRzLkFsaHlpZG4udHh0ICByZXN1bHRzLlRkZ2hub3UudHh0CmZpbmRfcGFuZ3JhbXMuc2ggICAgIHJlc3VsdHMuRWFjaGttbi50eHQgIHJlc3VsdHMuVWdpbm9xdC50eHQKbGV0dGVycy50eHQgICAgICAgICAgcmVzdWx0cy5IYWNpbG5vLnR4dCAgcmVzdWx0cy5ZYWNpbHJ0LnR4dApwYW5ncmFtLnNoICAgICAgICAgICByZXN1bHRzLk5haWxtcHQudHh0ICBzbHVybS0xMjM0NTY3Lm91dApSRUFETUUubWQgICAgICAgICAgICByZXN1bHRzLk5kZWZnbHUudHh0CnJlc3VsdHMuQWNobm9weS50eHQgIHJlc3VsdHMuUGJlZ2lrbi50eHQKYGBgCgpUaGlzIGFwcHJvYWNoIGlzIGNvcnJlY3QsIGNsZWFyLCBhbmQgcmVwcm9kdWNpYmxlOyBob3dldmVyIGl0J3Mgbm90IGlkZWFsLgpDb25zaWRlciBob3cgdGhlIHRhc2tzIGFyZSBjb250YWluZWQgd2l0aGluIGEgam9iOgoKPHRhYmxlIGNsYXNzPSdmaWcnIHdpZHRoPScxMDAlJz48dHI+PHRoIGNsYXNzPSdmaWcnPkpvYi90YXNrIGdlb21ldHJ5IG9mIHRoZSBzZXJpYWwgbG9vcCBhcHByb2FjaDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz4hW1RPRE8gZ2VvbWV0cnlfc2VyaWFsX2xvb3BdKE1vZHVsZTA2X2dlb21ldHJ5X3NlcmlhbF9sb29wLnBuZyk8L3RkPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+RWFjaCBzYmF0Y2ggcmVxdWVzdCBpcyBhIGpvYiBzY3JpcHQ7IGEgam9iIHNjcmlwdCBtYXkgYmUKY29tcG9zZWQgb2YgbXVsdGlwbGUgdGFza3MuIEtleSBhdHRyaWJ1dGVzIG9mIGEgam9iIHNjcmlwdCBhcmUgCi0gd2hhdCBzdWItdGFza3Mgd2lsbCBJIHJ1bj8KLSBob3cgbWFueSByZXNvdXJjZXMgZG8gSSBuZWVkPwotIGhvdyBsb25nIHdpbGwgSSBuZWVkIHRvIHJ1bj8KCllvdSBjYW4gcmVwcmVzZW50IHRoZXNlIGdyYXBoaWNhbGx5IGJ5IG1ha2luZyBib3hlcyBmb3IgZWFjaCBqb2IgYW5kIHRoZWlyIHRhc2tzCihoZWlnaHQgPSByZXNvdXJjZSByZXF1ZXN0IGFuZCBsZW5ndGggPSB0aW1lKS4gSW4gdGhlIGNhc2UgYWJvdmUsIHRoZXJlIGFyZSBtYW55CnNpbWlsYXIgdGFza3MgY29udGFpbmVkIGluIGEgc2luZ2xlIGpvYi4gVGhpcyBkaWFncmFtIGlzIGEgcm91Z2ggcmVwcmVzZW50YXRpb24Kb2YgdGhlICoqam9iL3Rhc2sgZ2VvbWV0cnkqKi4gVGhpcyBpcyBhIHVzZWZ1bCB3YXkgb2YgdmlzdWFsaXppbmcgYW5kIGNvbXBhcmluZwphcHByb2FjaGVzOyBhbHNvLCB0aGUgam9iIGdlb21ldHJ5IGlzIGNyaXRpY2FsbHkgdXNlZnVsIGluZm9ybWF0aW9uIHRvIHRoZQpzY2hlZHVsZXIgd2hpY2ggaXMgdHJ5aW5nIHRvIHBhY2sgZXZlcnlvbmUncyBqb2JzIGludG8gdGhlIGF2YWlsYWJsZSBjbHVzdGVycyBhcwpuZWF0bHkvZWZmaWNpZW50bHkgYXMgcG9zc2libGUuCgo8L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KPGJyLz4KCkNvbnNpZGVyaW5nIHRoYXQgZWFjaCBvZiB0aGVzZSBwYW5ncmFtIHRhc2tzIGFyZSBjb21wbGV0ZWx5IGluZGVwZW5kZW50IG9mIGVhY2ggCm90aGVyIChpLmUuIHBsZWFzaW5nbHkgcGFyYWxsZWwpLiBXZSBtaWdodCBiZSBhYmxlIHRvIG1ha2UgYmV0dGVyIHVzZSBvZiBvdXIgfjE2MDAwIENQVXMgYnkgCnBhcmFsbGVsaXppbmcgdGhlIHdvcmtmbG93LgoKCgojIyBQYW5ncmFtOiBQYXJhbGxlbCB0YXNrcwoKIyMgUGFuZ3JhbTogSm9iIExhdW5jaGVyCgojIyBSZXZpZXdpbmcgam9iL3Rhc2sgZ2VvbWV0cmllcyAKCiMjIFBybyB0aXBzCgoxLiAqKkRvIG5vdCB0cnkgdG8gYXV0b21hdGUgc29tZXRoaW5nIHRoYXQgeW91IGNhbm5vdCBkbyBieSBoYW5kLioqCjIuICoqTWFrZSBpdCByaWdodC4gTWFrZSBpdCBjbGVhci4gTWFrZSBpdCBlZmZpY2llbnQuIChJbiB0aGF0IG9yZGVyLikqKgozLiAqKkJ1aWxkIGEgUkVBRE1FIGZvciBlYWNoIHdvcmtmbG93LioqIAogICBDb25zaWRlciBpbmNsdWRpbmc6CiAgIC0gWW91ciBuYW1lL2VtYWlsCiAgIC0gVGhlIGRhdGUKICAgLSBIb3cgdG8gaW5zdGFsbCB0aGUgd29ya2Zsb3cKICAgLSBIb3cgdG8gcnVuIHRoZSB3b3JrZmxvdwogICAtIEFueSBuZWNlc3NhcnkgY29udGV4dC9jb25zdHJhaW50cyB0aGF0IHdvdWxkIGhlbHAgeW91ciBmdXR1cmUgY29sbGFib3JhdG9yCiAgICAgcmVwcm9kdWNlIHlvdXIgcmVzdWx0cy4KCjQuICoqQXV0b21hdGUgdGhlIHdvcmtmbG93IHdpdGggdGhlIGRhdGEgeW91IGhhdmUuKiogCiAgIERvbid0IGdlbmVyYWxpemUgYSB3b3JrZmxvdyB0b28gc29vbi4gWW91IG1pZ2h0IHNlZSB0aGF0IGEgd29ya2Zsb3cgY291bGQgYmUgCiAgIHBhcmFtZXRlcml6ZWQvZXh0ZW5kZWQgdG8gYXBwbHkgdG8gbmV3IHR5cGVzIG9mIGRhdGEuIEZlZWwgdGhhdCBleGNpdGVtZW50LCAKICAgbm90ZSB0aGUgb3Bwb3J0dW5pdHkgaW4gdGhlIFJFQURNRSwgYW5kIHRydXN0IHRoYXQgeW91IHdpbGwgbWFrZSB0aGF0IGNoYW5nZQogICB3aGVuIHlvdSBuZWVkIHRvLgoKNS4gKipJbnN0ZWFkIG9mIGRldmVsb3BpbmcgdGhlIHdob2xlIHdvcmtmbG93IGVuZCB0byBlbmQsIGNvbnNpZGVyIGFuIGl0ZXJhdGl2ZSBhbmQgaW5jcmVtZW50YWwgYXBwcm9hY2guKiogPGJyLz4KICAgIVtdKGltYWdlcy9Nb2R1bGUwNl9pdGVyYXRpdmVfYW5kX2luY3JlbWVudGFsLmpwZyk8YnIvPgogICBGcm9tIFtIZW5yaWsgS25pYmVyZ10oaHR0cHM6Ly9ibG9nLmNyaXNwLnNlLzIwMTYvMDEvMjUvaGVucmlra25pYmVyZy9tYWtpbmctc2Vuc2Utb2YtbXZwKXt0YXJnZXQ9IiJ9CiAgIAogICBCcmVhayB3b3JrZmxvdyBkZXZlbG9wbWVudCBpbnRvIF9fYXQgbGVhc3RfXyB0aHJlZSBzdGVwczoKICAgYSkgZG8gb25lIHNhbXBsZSBhbmQgdmVyaWZ5IGNvcnJlY3RuZXNzIG9mIG91dHB1dHMuIChGb3IgYSBsYXJnZSBkYXRhc2V0CiAgY29uc2lkZXIgc3Vic2V0dGluZy9kb3duc2FtcGxpbmcgeW91ciBpbnB1dHMgc28geW91IGNhbiBpdGVyYXRlIHF1aWNrZXIuKQogICBiKSBzY2FsZSB0byBhIGZldyBzYW1wbGVzIGFuZCBjaGVjayB0aG9zZSBvdXRwdXRzOyB0dW5lIHJlc291cmNlIGFsbG9jYXRpb25zCiAgIGMpIHJ1biB0aGUgd2hvbGUgYmF0Y2gKCiMjIFRPRE8gRXhlcmNpc2UgMQoKIyMgS2V5IGlkZWFzCgoqIEFjaGlldmluZyByZXByb2R1Y2libGUgcmVzZWFyY2ggcmVxdWlyZXMgYSBibGVuZCBvZiBkb2N1bWVudGF0aW9uIGFuZCBhdXRvbWF0aW9uLgoqIEJlIGtpbmQgdG8geW91ciBmdXR1cmUgc2VsZjsgdGhleSB3aWxsIHRoYW5rIHlvdSBmb3IgdGhlIFJFQURNRSB5b3UgbGVmdCB0aGVtLgoqIEF1dG9tYXRpb24gaGVscHMgcmVwcm9kdWNpYmlsaXR5OgogICogQXV0b21hdGlvbiBzaHJpbmtzIHlvdXIgUkVBRE1FLgogICogQXV0b21hdGlvbiBzaW1wbGlmaWVzIHZhbGlkYXRpb24gb2YgeW91ciB3b3JrZmxvdy4KICAqIEF1dG9tYXRpb24gZW5hYmxlcyByZXBldGl0aW9uLgogICogQXV0b21hdGlvbiBzdHJlYW1saW5lcyBzaGFyaW5nLgogICogQXV0b21hdGlvbiBzY2FsZXMgdG8gbGFyZ2VyIGlucHV0cwoqIEpvYi90YXNrIGdlb21ldHJpZXMgaGVscCB2aXN1YWxpemUgaG93IGRpZmZlcmVudCBhcHByb2FjaGVzIGFyZSBleGVjdXRlZC4gKEl0IAphbHNvIGhpbnRzIGF0IHRoZSBuLWRpbWVuc2lvbmFsIGdhbWUgb2YgVGV0cmlzIHRoZSBqb2Itc2NoZWR1bGVyIGlzIHBsYXlpbmcgdG8KcGFjayBldmVyeW9uZXMgam9icyBhcyBuZWF0bHkgYXMgcG9zc2libGUuCiogVGhlICoqU0xVUk0gam9iIGxhdW5jaGVyKiogYWxsb3dzIHlvdSB0byBnYXRoZXIgbWFueSBwYXJhbGxlbCB0YXNrcyBpbnRvIGEgbWFpbiBqb2IsCiAgaW4gZWZmZWN0IGNyZWF0aW5nIGEgdHJhbnNpZW50IHN1Yi1jbHVzdGVyIHdpdGhpbiB0aGUgbWFpbiBIUEMuCiogRm9yIGEgbW9yZSBjb21wbGV4IHRyYW5zZm9ybWF0aW9uLCBhIGRyaXZlciBzY3JpcHQgY2FuIGJlIGVpdGhlciBzaW1wbGUgb3IKICByZXNvdXJjZSBlZmZpY2llbnQgLSBjaG9vc2Ugb25lLiBDb25zaWRlciBtb3JlIHJvYnVzdCBzb2x1dGlvbnMgKGUuZy4gU25ha2VtYWtlKSBhcyAKICBuZWNlc3NhcnkuCgoKIyMgTGlua3MgYW5kIHJlZmVyZW5jZXMKCi0gVU0gSVRTIGRvY3Mgb24gW2pvYiBsYXVuY2hlcl0oaHR0cHM6Ly9hcmMudW1pY2guZWR1L2dyZWF0bGFrZXMvc29mdHdhcmUvbGF1bmNoZXIvKXt0YXJnZXQ9Il9ibGFuayJ9Ci0gVU0gQVJDIFttaVZpZGVvXShodHRwczovL3d3dy5taXZpZGVvLml0LnVtaWNoLmVkdS9tZWRpYS90LzFfejRkZjg0dGkvMTgxODYwNTYxKXt0YXJnZXQ9Il9ibGFuayJ9IG9uIGFkdmFuY2VkIFNMVVJNIHRlY2huaXF1ZXMgKGluY2x1ZGluZyBqb2IgbGF1bmNoZXIsIGpvYiBhcnJheXMsIGFuZCBtb3JlKQotIEZvciBtb3JlIGV4YW1wbGVzIG9mIHBhbmdyYW1zIGluIGFjdGlvbiwgY2hlY2tvdXQ6CgogIC0gKGh0dHBzOi8vd3d3Lm55dGltZXMuY29tL3B1enpsZXMvc3BlbGxpbmctYmVlKXt0YXJnZXQ9Il9ibGFuayJ9CiAgLSAoaHR0cHM6Ly93d3cuc2Jzb2x2ZXIuY29tL2FyY2hpdmUpe3RhcmdldD0iX2JsYW5rIn0KCgoKfCBbUHJldmlvdXMgbGVzc29uXShNb2R1bGUwNV9jb250YWluZXJzX2RvY2tlcl9zaW5ndWxhcml0eS5odG1sKSB8IFtUb3Agb2YgdGhpcyBsZXNzb25dKCN0b3ApIHwgW05leHQgbGVzc29uXShNb2R1bGUwNy1pbnRyby10by1zbmFrZW1ha2UuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW50cm8gdG8gd29ya2Zsb3cgYXV0b21hdGlvbiIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQp0YWJsZS5maWcsIHRoLmZpZywgdGQuZmlnIHsKICBib3JkZXI6IDFweCBzb2xpZCBibGFjazsKICBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOwogIHBhZGRpbmc6IDE1cHg7Cn0KPC9zdHlsZT4KCkJ5IHRoZSBlbmQgb2YgdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgotIFVuZGVyc3RhbmQgd2hhdCB3b3JrZmxvdyBhdXRvbWF0aW9uIGlzIGFuZCBob3cgaXQgaGVscHMgcmVwcm9kdWNpYmlsaXR5LgotIFJldmlldyBzZXZlcmFsIGRpZmZlcmVudCB3YXlzIHRvIGV4ZWN1dGUgcmVwZXRpdGl2ZSB0YXNrcyBvbiBHcmVhdCBMYWtlcy4KLSBJbnRyb2R1Y2UgdGhlIGlkZWEgb2Ygam9iL3Rhc2sgZ2VvbWV0cmllcyB0byB2aXN1YWxpemUgYXBwcm9hY2hzIGFuZCB0aGVpciBhZHZhbnRhZ2VzIGFuZCBsaW1pdGF0aW9ucy4KCgojIyBXb3JrZmxvdyBhdXRvbWF0aW9uIGhlbHBzIHJlcHJvZHVjaWJpbGl0eQoKRGF0YS1pbnRlbnNpdmUgcmVzZWFyY2ggZW50YWlscyB0cmFuc2Zvcm1pbmcgcmF3IGRhdGEgaW50byBtb3JlCm1lYW5pbmdmdWwvdmFsdWFibGUgcmVzdWx0cy4gT2Z0ZW4sIHRoaXMgaW52b2x2ZXMgYSBzZXJpZXMgb2Ygc3RlcC13aXNlCnRyYW5zZm9ybWF0aW9uIHRhc2tzLiBUbyBtYWtlIHRoaXMgcmVzZWFyY2ggcmVwcm9kdWNpYmxlIGJ5IHNvbWVvbmUgZWxzZSwgYWxsIHRoZSAKdHJhbnNmb3JtYXRpb25zIG11c3QgZWl0aGVyIGJlIGRvY3VtZW50ZWQgc28gdGhhdCBhIGh1bWFuIGNhbiByZXByb2R1Y2UgdGhlbSwgb3IKYXV0b21hdGVkIHNvIGEgY29tcHV0ZXIgY2FuLiBBIHJlcHJvZHVjaWJsZSBzb2x1dGlvbiBoYXMgYSBibGVuZCBvZiAKZG9jdW1lbnRhdGlvbiBhbmQgYXV0b21hdGlvbi4KCkRhdGEtaW50ZW5zaXZlIHJlc2VhcmNoIG9mdGVuIGludm9sdmVzIHJlcGVhdGluZyB0cmFuc2Zvcm1hdGlvbiB0YXNrcyBtYW55CnRpbWVzLiBBbHNvIG92ZXJ0aW1lIHRyYW5zZm9ybWF0aW9ucyBldm9sdmUgdG8gYmUgbW9yZSBjb21wbGV4LCBtb3JlCmNvbXB1dGF0aW9uYWxseSBkZW1hbmRpbmcsIG9yIHRha2UgbG9uZ2VyLiBBICoqd29ya2Zsb3cqKiBkZXNjcmliZXMgdGhlIGtleQp0cmFuc2Zvcm1hdGlvbiB0YXNrcyBhbmQgdGhlaXIgcmVsYXRpb25zaGlwcyB0byB0aGUgaW5wdXRzIGFuZCBvdXRwdXRzLgoKKipXb3JrZmxvdyBhdXRvbWF0aW9uKiogZGVzY3JpYmVzIHRoZSB0b29scyBhbmQgdGVjaG5pcXVlcyB0byBzeXN0ZW1hdGljYWxseQphc3NlbWJsZSB0aGVzZSB0YXNrcyBpbnRvIGEgZXhlY3V0YWJsZSwgcmVwZWF0YWJsZSwgcm9idXN0IHNvbHV0aW9uLiBCdWlsZGluZyBhbgphdXRvbWF0ZWQgd29ya2Zsb3cgYXBwZWFycyBoYXJkZXIgdGhhbiBkb2N1bWVudGluZyBpdCB0byBiZSBydW4gbWFudWFsbHksIGJ1dAp0aGVyZSBhcmUgbWFueSBiZW5lZml0cyB0byByZXByb2R1Y2liaWxpdHk6CgogIC0gQXV0b21hdGlvbiBmYWNpbGl0YXRlcyByZXBldGl0aW9uLgogIC0gQXV0b21hdGlvbiBjYW4gc2ltcGxpZnkgbWFudWFsIGRvY3VtZW50YXRpb24uCiAgLSBBdXRvbWF0aW9uIHNpbXBsaWZpZXMgdmFsaWRhdGlvbiBvZiB5b3VyIHdvcmtmbG93LgogIC0gQXV0b21hdGlvbiBzdHJlYW1saW5lcyBzaGFyaW5nLgogIC0gQXV0b21hdGlvbiBzY2FsZXMgdG8gbGFyZ2VyIGlucHV0cwoKVGhlcmUgYXJlIG1hbnkgd2F5cyB0byBidWlsZCBhbiBhdXRvbWF0ZWQgd29ya2Zsb3cuIEluIHRoaXMgbW9kdWxlIHdlIHdpbGwKY29uc2lkZXIgc2V2ZXJhbCB3YXlzIG9mIGV4ZWN1dGluZyBbcGxlYXNpbmdseQpwYXJhbGxlbF0oaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRW1iYXJyYXNzaW5nbHlfcGFyYWxsZWwpe3RhcmdldD0iX2JsYW5rIn0KdGFza3Mgb24gR3JlYXQgTGFrZXM6CgotIEEgc2VyaWFsIHRhc2sgbG9vcAotIFBhcmFsbGVsaXppbmcgdGFza3MgdXNpbmcgZHJpdmVyIHNjcmlwdHMgYW5kIHNiYXRjaCBmaWxlcy4KLSBUaGUgU0xVUk0gTGF1bmNoZXIKCkFsbCB0aGVzZSBhcHByb2FjaGVzIGV4ZWN1dGUgdGhlIHNhbWUgd29ya2Zsb3cgaW4gZGlmZmVyZW50IHdheXMuIFRoZSB3b3JrZmxvdwpwcm9kdWNlcyB3b3JkIHBhbmdyYW1zLiBBICoqd29yZCBwYW5ncmFtKiogaXMgbGlrZSBhbiBhbmFncmFtIHRoYXQgYWxsb3dzCnJlcGVhdGluZyBsZXR0ZXJzLCBlLmcuIHRoZSBzZXF1ZW5jZSBvZiBsZXR0ZXJzIEFDRUhNTlQgY2FuIGJlIHJlYXJyYW5nZWQgdG8KY3JlYXRlIHRoZSBwYW5ncmFtcyBBVFRBQ0hNRU5ULCBDQVRDSE1FTlQsIEVOQ0hBTlRNRU5ULCBhbmQgRU5IQU5DRU1FTlQuCgpUaGUgd29ya2Zsb3cgYWNjZXB0cyBhIHRleHQgZmlsZSBjb250YWluaW5nIGxpc3Qgb2YgbGV0dGVyIHNlcXVlbmNlcyBzZXBhcmF0ZWQKYnkgbGluZXM7IGZvciBlYWNoIGxldHRlciBzZXF1ZW5jZSBpdCBwcm9kdWNlcyBhIGZpbGUgY29udGFpbmluZyBvbmUgb3IgbW9yZSAKcGFuZ3JhbXMuCgpbVE9ETyB3b3JrZmxvdyBpbWFnZV0oTW9kdWxlMDZfcGFuZ3JhbV93b3JrZmxvdy5wbmcpCgo8YnIvPgoKLS0tCgojIyBQYW5ncmFtOiBBIHNlcmlhbCB0YXNrIGxvb3AKCmBgYHIKIyBPcmllbnQgb24gcHJvamVjdCBwYW5ncmFtCmNkIC9uZnMvdHVyYm8vdW1tcy1iaW9pbmYtd2tzaHAvd29ya3Nob3AvaG9tZS8kVVNFUgpjZCBwcm9qZWN0X3BhbmdyYW1zCmxzIC0xCmBgYAoKPiBgYGAKcGFuZ3JhbV9qb2JfbGF1bmNoZXIKcGFuZ3JhbV9wYXJhbGxlbF9zYmF0Y2gKcGFuZ3JhbV9zZXJpYWxfbG9vcApSRUFETUUubWQKICAgIGBgYAoKYGBgcgpjZCBwYW5ncmFtX3NlcmlhbF9sb29wCmxzIC0xCmBgYAoKPiBgYGAKZmluZF9wYW5ncmFtcy5zYmF0CmZpbmRfcGFuZ3JhbXMuc2gKbGV0dGVycy50eHQKcGFuZ3JhbS5zaApSRUFETUUubWQKICBgYGAKCkxldCdzIGNvbnNpZGVyIGEgZmV3IG9mIHRoZXNlIGZpbGVzIGluIHR1cm4sIHN0YXJ0aW5nIHdpdGggdGhlIFJFQURNRS4KCjx0YWJsZSBjbGFzcz0nZmlnJz48dHI+PHRoIGNsYXNzPSdmaWcnPlJFQURNRS5tZDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz48cHJlPgojIHBhbmdyYW1fc2VyaWFsX2xvb3AKCi0gUHJvZHVjZXMgcGFuZ3JhbXMgZm9yIGlucHV0cyBpbiBsZXR0ZXJzLnR4dC4gCiAgTWFrZXMgb25lIGZpbGUgZm9yIGVhY2ggbGluZSBpbiBsZXR0ZXJzLgotIGNnYXRlcyA2LzEvMjAyNAotIFVzYWdlOiAKICAuL2ZpbmRfcGFuZ3JhbXMuc2ggI3RvIHJ1biBsb2NhbGx5CiAgb3IKICBzYmF0Y2ggZmluZF9wYW5ncmFtcy5zYmF0ICMgdG8gc3VibWl0IHRvIHdvcmtlciBub2RlCgpGaWxlczoKLSBmaW5kX3BhbmdyYW1zLnNiYXQ6IFNMVVJNIGJhdGNoIGZpbGU7IGNhbGxzIGZpbmRfcGFuZ3JhbXMuc2gKLSBmaW5kX3BhbmdyYW1zLnNoOiBMb29wcyB0aHJvdWdodCBpbnB1dCBhbmQgY2FsbHMgcGFuZ3JhbS5zaAotIGxldHRlcnMudHh0OiBsaXN0IG9mIGxldHRlciBzZXF1ZW5jZXMgc2VwZXJhdGVkIGJ5IG5ld2xpbmVzLgotIHBhbmdyYW0uc2g6IGFjY2VwdHMgYSBzaW5nbGUgbGV0dGVyIHNlcXVlbmNlIGFuZCBwcmludHMgYWxsIHBhbmdyYW1zLgo8L3ByZT48L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KPGJyLz4KClRoZSBwYW5ncmFtLnNoIHNjcmlwdCBpcyB0aGUgd29ya2hvcnNlIG9mIHRoaXMgd29ya2Zsb3cuIFlvdSBhcmUgd2VsY29tZSB0byBsb29rCmF0IHRoZSBpbXBsZW1lbnRhdGlvbiwgYnV0IGZvciBvdXIgcHVycG9zZXMgd2UgY2FuIHRyZWF0IGl0IGFzIGEgYmxhY2sgYm94LgpXZSdsbCBydW4gaXQgb25jZSB0byBzZWUgaXQgaW4gYWN0aW9uLgoKYGBgcgouL3BhbmdyYW0uc2ggbG92ZWx5CmBgYAoKPiBgYGAKbG92ZWx5CmxvdmV5CnZvbGxleQogIGBgYAoKCkNvbnNpZGVyIHRoZSBpbnB1dCB0byB0aGUgd29ya2Zsb3c6Cgo8dGFibGUgY2xhc3M9J2ZpZycgd2lkdGg9JzEwMCUnPjx0cj48dGggY2xhc3M9J2ZpZyc+bGV0dGVycy50eHQ8L3RoPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+CmBgYApOZGVmZ2x1CkhhY2lsbm8KVGRnaG5vdQpOYWlsbXB0ClBiZWdpa24KWWFjaWxydApBY2hub3B5ClVnaW5vcXQKRWFjaGttbgpBbGh5aWRuCmBgYAo8L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KPGJyLz4KCkFuZCBmaW5hbGx5LCB0aGUgc2NyaXB0IHdlIHdpbGwgbGF1bmNoIHRvIGV4ZWN1dGUgdGhlIHdvcmtmbG93OgoKPHRhYmxlIGNsYXNzPSdmaWcnIHdpZHRoPScxMDAlJz48dHI+PHRoIGNsYXNzPSdmaWcnPmZpbmRfcGFuZ3JhbXMuc2g8L3RoPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+CmBgYAojL2Jpbi9iYXNoCnNldCAtZXUKCmZvciBsZXR0ZXJzIGluICQoY2F0IGxldHRlcnMudHh0KTsgZG8KICAgIGVjaG8gcGFuZ3JhbXMgZm9yOiAkbGV0dGVycyA+PiAvZGV2L3N0ZGVycgogICAgLi9wYW5ncmFtLnNoICRsZXR0ZXJzID4gcmVzdWx0cy4ke2xldHRlcnN9LnR4dApkb25lCmVjaG8gZG9uZSA+PiAvZGV2L3N0ZGVycgpgYGAKPC90ZD48L3RyPjwvdGFibGU+Cjxici8+Cjxici8+CgpIYXZpbmcgcmV2aWV3ZWQgdGhlIGlucHV0cyBhbmQgc2NyaXB0cywgd2UgY2FuIGxhdW5jaCB0aGUgd29ya2Zsb3cgbGlrZSBhcyAKc2hvd24gYmVsb3cuIChUaGlzIHByb2plY3QgaXMgY2FsbGVkICJzZXJpYWwgbG9vcCIgYmVjYXVzZSBpbiB0aGlzIHdvcmtmbG93IAp3ZSBhcmUgbG9vcGluZyBvdmVyIHRoZSBpbnB1dHMgYW5kIHByb2Nlc3Npbmcgb25lIGF0IGEgdGltZS4pCgpgYGByCi4vZmluZF9wYW5ncmFtcy5zaApgYGAKCj4gYGBgCnBhbmdyYW1zIGZvcjogTmRlZmdsdQpwYW5ncmFtcyBmb3I6IEhhY2lsbm8KcGFuZ3JhbXMgZm9yOiBUZGdobm91CnBhbmdyYW1zIGZvcjogTmFpbG1wdApwYW5ncmFtcyBmb3I6IFBiZWdpa24KcGFuZ3JhbXMgZm9yOiBZYWNpbHJ0CnBhbmdyYW1zIGZvcjogQWNobm9weQpwYW5ncmFtcyBmb3I6IFVnaW5vcXQKcGFuZ3JhbXMgZm9yOiBFYWNoa21uCnBhbmdyYW1zIGZvcjogQWxoeWlkbgogIGBgYAoKV2Ugc2VlIHRoZSByZXN1bHRzIGZpbGVzIGhhdmUgYmVlbiBhZGRlZDoKCmBgYHIKbHMKYGBgCgo+IGBgYApmaW5kX3BhbmdyYW1zLnNiYXQgIHJlc3VsdHMuQWNobm9weS50eHQgIHJlc3VsdHMuTmRlZmdsdS50eHQKZmluZF9wYW5ncmFtcy5zaCAgICByZXN1bHRzLkFsaHlpZG4udHh0ICByZXN1bHRzLlBiZWdpa24udHh0CmxldHRlcnMudHh0ICAgICAgICAgcmVzdWx0cy5FYWNoa21uLnR4dCAgcmVzdWx0cy5UZGdobm91LnR4dApwYW5ncmFtLnNoICAgICAgICAgIHJlc3VsdHMuSGFjaWxuby50eHQgIHJlc3VsdHMuVWdpbm9xdC50eHQKUkVBRE1FLm1kICAgICAgICAgICByZXN1bHRzLk5haWxtcHQudHh0ICByZXN1bHRzLllhY2lscnQudHh0CiAgYGBgCiAgCmBgYHIKY2F0IHJlc3VsdHMuQWNobm9weS50eHQKYGBgCj4gYGBgCmNhY29waG9ueQogIGBgYAoKKlF1ZXN0aW9uOiBXaGljaCBsZXR0ZXIgY29tYmluYXRpb24gZ2VuZXJhdGVkIHRoZSBtb3N0IHBhbmdyYW1zPyoKCkxldCdzIHJ1biBpdCBhZ2FpbiBidXQgaW5zdGVhZCBvZiB1c2luZyB0aGUgbG9naW4tbm9kZSwgd2UnbGwgc3VibWl0IHRoaXMgdG8gYQp3b3JrZXIgbm9kZSB1c2luZyB0aGUgcHJvdmlkZWQgc2JhdCBzY3JpcHQ6CgpgYGByCiMgZmlyc3QgY2xlYXIgb3V0IHRoZSBvbGQgcmVzdWx0cwpybSByZXN1bHRzLioKc2JhdGNoIGZpbmRfcGFuZ3JhbXMuc2JhdCAKYGBgCgo+IGBgYApTdWJtaXR0ZWQgYmF0Y2ggam9iIDEyMzQ1NjcKICBgYGAKClVzZSBgc3F1ZXVlIC11ICRVU0VSYCB0byBzZWUgd2hlbiB0aGUgam9iIGlzIGZpbmlzaGVkIGFuZCB0aGVuIHJldmlldyB0aGUgCm91dHB1dHMuIFdlIG5vdyBzZWUgdGhlIHJlc3VsdHMgZmlsZXMgYW5kIGFsc28gdGhlIHNsdXJtIGxvZyBmaWxlOgoKPiBgYGAKZmluZF9wYW5ncmFtcy5zYmF0ICAgcmVzdWx0cy5BbGh5aWRuLnR4dCAgcmVzdWx0cy5UZGdobm91LnR4dApmaW5kX3BhbmdyYW1zLnNoICAgICByZXN1bHRzLkVhY2hrbW4udHh0ICByZXN1bHRzLlVnaW5vcXQudHh0CmxldHRlcnMudHh0ICAgICAgICAgIHJlc3VsdHMuSGFjaWxuby50eHQgIHJlc3VsdHMuWWFjaWxydC50eHQKcGFuZ3JhbS5zaCAgICAgICAgICAgcmVzdWx0cy5OYWlsbXB0LnR4dCAgc2x1cm0tMTIzNDU2Ny5vdXQKUkVBRE1FLm1kICAgICAgICAgICAgcmVzdWx0cy5OZGVmZ2x1LnR4dApyZXN1bHRzLkFjaG5vcHkudHh0ICByZXN1bHRzLlBiZWdpa24udHh0CiAgYGBgCgpUaGlzIGFwcHJvYWNoIGlzIGNvcnJlY3QsIGNsZWFyLCBhbmQgcmVwcm9kdWNpYmxlOyBob3dldmVyIGl0J3Mgbm90IGlkZWFsLgpDb25zaWRlciBob3cgdGhlIHRhc2tzIGFyZSBjb250YWluZWQgd2l0aGluIGEgam9iOgoKPHRhYmxlIGNsYXNzPSdmaWcnIHdpZHRoPScxMDAlJz48dHI+PHRoIGNsYXNzPSdmaWcnPkpvYi90YXNrIGdlb21ldHJ5IG9mIHRoZSBzZXJpYWwgbG9vcCBhcHByb2FjaDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz4hW1RPRE8gZ2VvbWV0cnlfc2VyaWFsX2xvb3BdKE1vZHVsZTA2X2dlb21ldHJ5X3NlcmlhbF9sb29wLnBuZyk8L3RkPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+RWFjaCBzYmF0Y2ggcmVxdWVzdCBpcyBhIGpvYiBzY3JpcHQ7IGEgam9iIHNjcmlwdCBtYXkgYmUKY29tcG9zZWQgb2YgbXVsdGlwbGUgdGFza3MuIEtleSBhdHRyaWJ1dGVzIG9mIGEgam9iIHNjcmlwdCBhcmUgCi0gd2hhdCBzdWItdGFza3Mgd2lsbCBJIHJ1bj8KLSBob3cgbWFueSByZXNvdXJjZXMgZG8gSSBuZWVkPwotIGhvdyBsb25nIHdpbGwgSSBuZWVkIHRvIHJ1bj8KCllvdSBjYW4gcmVwcmVzZW50IHRoZXNlIGdyYXBoaWNhbGx5IGJ5IG1ha2luZyBib3hlcyBmb3IgZWFjaCBqb2IgYW5kIHRoZWlyIHRhc2tzCihoZWlnaHQgPSByZXNvdXJjZSByZXF1ZXN0IGFuZCBsZW5ndGggPSB0aW1lKS4gSW4gdGhlIGNhc2UgYWJvdmUsIHRoZXJlIGFyZSBtYW55CnNpbWlsYXIgdGFza3MgY29udGFpbmVkIGluIGEgc2luZ2xlIGpvYi4gVGhpcyBkaWFncmFtIGlzIGEgcm91Z2ggcmVwcmVzZW50YXRpb24Kb2YgdGhlICoqam9iL3Rhc2sgZ2VvbWV0cnkqKi4gVGhpcyBpcyBhIHVzZWZ1bCB3YXkgb2YgdmlzdWFsaXppbmcgYW5kIGNvbXBhcmluZwphcHByb2FjaGVzOyBhbHNvLCB0aGUgam9iIGdlb21ldHJ5IGlzIGNyaXRpY2FsbHkgdXNlZnVsIGluZm9ybWF0aW9uIHRvIHRoZQpzY2hlZHVsZXIgd2hpY2ggaXMgdHJ5aW5nIHRvIHBhY2sgZXZlcnlvbmUncyBqb2JzIGludG8gdGhlIGF2YWlsYWJsZSBjbHVzdGVycyBhcwpuZWF0bHkvZWZmaWNpZW50bHkgYXMgcG9zc2libGUuCgo8L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KCkNvbnNpZGVyaW5nIHRoYXQgZWFjaCBvZiB0aGVzZSBwYW5ncmFtIHRhc2tzIGFyZSBjb21wbGV0ZWx5IGluZGVwZW5kZW50IG9mIGVhY2gKb3RoZXIgKGkuZS4gcGxlYXNpbmdseSBwYXJhbGxlbCkuIFdlIG1pZ2h0IGJlIGFibGUgdG8gbWFrZSBiZXR0ZXIgdXNlIG9mIG91cgp+MTYwMDAgQ1BVcyBieSBwYXJhbGxlbGl6aW5nIHRoZSB3b3JrZmxvdy4gVGhlIGFwcHJvYWNoZXMgYmVsb3cgc2hvdyB0d28gCmRpZmZlcmVudCB3YXlzIHRvIGFjY29tcGxpc2ggdGhpcy4KCgo8YnIvPgoKLS0tCgojIyBQYW5ncmFtOiBQYXJhbGxlbCBTQkFUQ0gKCmBgYHIKIyBPcmllbnQgb24gcHJvamVjdApjZCAvbmZzL3R1cmJvL3VtbXMtYmlvaW5mLXdrc2hwL3dvcmtzaG9wL2hvbWUvJFVTRVIKY2QgcHJvamVjdF9wYW5ncmFtcy9wYW5ncmFtX3BhcmFsbGVsX3NiYXRjaApscyAtMQpgYGAKCj4gYGBgCmxldHRlcnMudHh0Cm1ha2Vfc2JhdF9zY3JpcHRzLnNoCnBhbmdyYW0uc2gKUkVBRE1FLm1kCnJ1bl9zYmF0X3NjcmlwdHMuc2gKICBgYGAKCjx0YWJsZSBjbGFzcz0nZmlnJz48dHI+PHRoIGNsYXNzPSdmaWcnPlJFQURNRS5tZDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz48cHJlPgojIHBhbmdyYW1fcGFyYWxsZWxfc2JhdGNoCgotIFByb2R1Y2VzIHBhbmdyYW1zIGZvciBsZXR0ZXJzLnR4dC4gTWFrZXMgb25lIGZpbGUgcGVyIGxpbmUgaW4gbGV0dGVycy4KLSBjZ2F0ZXMgNi8xLzIwMjQKLSBVc2FnZTogCiAgYC4vbWFrZV9zYmF0X3NjcmlwdHMuc2hgCiAgYC4vcnVuX3NiYXRfc2NyaXB0cy5zaGAKCkZpbGVzOgotIGxldHRlcnMudHh0OiBsaXN0IG9mIGxldHRlciBzZXF1ZW5jZXMgc2VwZXJhdGVkIGJ5IG5ld2xpbmVzLgotIHBhbmdyYW0uc2g6IGFjY2VwdHMgYSBzaW5nbGUgbGV0dGVyIHNlcXVlbmNlIGFuZCBwcmludHMgYWxsIHBhbmdyYW1zLgotIG1ha2Vfc2JhdF9zY3JpcHRzLnNoIDogQnVpbGQgc2JhdCBzY3JpcHRzIGJhc2VkIG9uIGxldHRlcnMudHh0OyAKICBmb3IgZWFjaCByb3cgaW4gbGV0dGVycy50eHQgYWRkcyBhIG5ldyBzYmF0IGZpbGUuCi0gcnVuX3NiYXRfc2NyaXB0cy5zaCA6IFN1Ym1pdCBhbGwgc2JhdCBzY3JpcHRzIGZvciBjbHVzdGVyIGV4ZWN1dGlvbiAKPC9wcmU+PC90ZD48L3RyPjwvdGFibGU+Cjxici8+CgpFeGVjdXRpbmcgbWFrZV9zYmF0X3NjcmlwdHMgY3JlYXRlcyBhIG5ldyBkaXJlY3RvcnkgYW5kIGFkZGluZyBhIGNvbGxlY3Rpb24gb2YgCnNiYXQgZmlsZXMuCgpgYGByCi4vbWFrZV9zYmF0X3NjcmlwdHMuc2ggCmxzIHNiYXRfc2NyaXB0cwpgYGAKCj4gYGBgCi4uLgpBY2hub3B5LnNiYXQgIE5haWxtcHQuc2JhdCAgVWdpbm9xdC5zYmF0CkFsaHlpZG4uc2JhdCAgTmRlZmdsdS5zYmF0ICBZYWNpbHJ0LnNiYXQKRWFjaGttbi5zYmF0ICBQYmVnaWtuLnNiYXQKSGFjaWxuby5zYmF0ICBUZGdobm91LnNiYXQKICBgYGAKCkNvbnNpZGVyIGEgc2luZ2xlIHNiYXQgZmlsZS4KCjx0YWJsZSBjbGFzcz0nZmlnJz48dHI+PHRoIGNsYXNzPSdmaWcnPnNiYXRfc2NyaXB0cy9BY2hub3B5LnNiYXQ8L3RoPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+PHByZT4KIyEvYmluL2Jhc2gKCiNTQkFUQ0ggLS1qb2ItbmFtZT1wYW5ncmFtX0FjaG5vcHkKI1NCQVRDSCAtLWNwdXMtcGVyLXRhc2s9MQojU0JBVENIIC0tbm9kZXM9MQojU0JBVENIIC0tbnRhc2tzLXBlci1ub2RlPTEKI1NCQVRDSCAtLW1lbS1wZXItY3B1PTQwMG0KI1NCQVRDSCAtLXRpbWU9MDA6MDU6MDAKI1NCQVRDSCAtLWFjY291bnQ9YmlvaW5mX3drc2hwX2NsYXNzCiNTQkFUQ0ggLS1wYXJ0aXRpb249c3RhbmRhcmQKLi9wYW5ncmFtLnNoIEFjaG5vcHkgPiByZXN1bHRzLkFjaG5vcHkudHh0CjwvcHJlPjwvdGQ+PC90cj48L3RhYmxlPgo8YnIvPgoKQnJpZWZseSBjb25zaWRlciB0aGUgc2NyaXB0IHRvIHNlZSBob3cgdGhlc2Ugc2JhdCBmaWxlcyB3YXMgY29uc3RydWN0ZWQuIE5vdGUgCnRoZSBTTFVSTSBwcmVhbWJsZSBkaXJlY3RpdmVzIGFyZSBpbnRlZ3JhdGVkIGludG8gdGhlIG5ldyBmaWxlcyB1c2luZyBhIApbSGVyZURvY10oaHR0cHM6Ly9waG9lbml4bmFwLmNvbS9rYi9iYXNoLWhlcmVkb2Mpe3RhcmdldD0iX2JsYW5rIn0uCgo8dGFibGUgY2xhc3M9J2ZpZycgd2lkdGg9IjEwMCUiPjx0cj48dGggY2xhc3M9J2ZpZyc+bWFrZV9zYmF0X3NjcmlwdHMuc2g8L3RoPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+PHByZT4KIyEvYmluL2Jhc2gKc2V0IC1ldQoKbWtkaXIgLXAgc2JhdF9zY3JpcHRzCgpmb3IgbGV0dGVycyBpbiAkKGNhdCBsZXR0ZXJzLnR4dCk7IGRvCiAgICBlY2hvIHNiYXQgZm9yOiAkbGV0dGVycyA+PiAvZGV2L3N0ZGVycgogICAgY2F0IDw8IEhFUkVfRE9DID4gc2JhdF9zY3JpcHRzLyRsZXR0ZXJzLnNiYXQKIyEvYmluL2Jhc2gKCiNTQkFUQ0ggLS1qb2ItbmFtZT1wYW5ncmFtXyR7bGV0dGVyc30KI1NCQVRDSCAtLWNwdXMtcGVyLXRhc2s9MQojU0JBVENIIC0tbm9kZXM9MQojU0JBVENIIC0tbnRhc2tzLXBlci1ub2RlPTEKI1NCQVRDSCAtLW1lbS1wZXItY3B1PTQwMG0KI1NCQVRDSCAtLXRpbWU9MDA6MDU6MDAKI1NCQVRDSCAtLWFjY291bnQ9YmlvaW5mX3drc2hwX2NsYXNzCiNTQkFUQ0ggLS1wYXJ0aXRpb249c3RhbmRhcmQKLi9wYW5ncmFtLnNoICRsZXR0ZXJzID4gcmVzdWx0cy4ke2xldHRlcnN9LnR4dApIRVJFX0RPQwpkb25lCmVjaG8gZG9uZSA+PiAvZGV2L3N0ZGVycgo8L3ByZT48L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KCldlIGNhbiBzdWJtaXQgam9icyBvbmUgYXQgYSB0aW1lIHVzaW5nIHNiYXRjaC4gT1Igd2UgY291bGQgYnVpbGQgYSAKZm9yIGxvb3AgdG8gYXV0b21hdGUgc3VibWlzc2lvbjsgY29udmVuaWVudGx5IGBydW5fc2JhdF9zY3JpcHRzLnNoYCBoYXMKZG9uZSB0aGlzIGZvciB1cy4KCjx0YWJsZSBjbGFzcz0nZmlnJyB3aWR0aD0iMTAwJSI+PHRyPjx0aCBjbGFzcz0nZmlnJz5ydW5fc2JhdF9zY3JpcHRzLnNoPC90aD48L3RyPgo8dHI+PHRkIGNsYXNzPSdmaWcnPjxwcmU+CmZvciBzYmF0IGluICQobHMgc2JhdF9zY3JpcHRzLyouc2JhdCk7IGRvIAogIHNiYXRjaCAkc2JhdApkb25lCjwvcHJlPjwvdGQ+PC90cj48L3RhYmxlPgo8YnIvPgoKQmVmb3JlIHdlIGV4ZWN1dGUgYHJ1bl9zYmF0X3NjcmlwdHMuc2hgLCB5b3UgbWlnaHQgY29uc2lkZXIgb3BlbmluZyBhIHNlcGFyYXRlIAp3aW5kb3cgdG8gbW9uaXRvciB0aGUgU0xVUk0gam9iIHF1ZXVlLiBJbiB0aGlzIHNlY29uZCB3aW5kb3csIHlvdSBjYW4gZXhlY3V0ZSAKYHdhdGNoIHNxdWV1ZSAtdSAkVVNFUmAgdG8gc2VlIGhvdyB0aGUgam9icyBhcmUgYmVpbmcgc2NoZWR1bGVkLiBIaXQgY3RybC1DIHRvIApleGl0IHdhdGNoLiAoTW9yZSBpbmZvIG9uIFt3YXRjaF0oaHR0cHM6Ly9saW51eC5kaWUubmV0L21hbi8xL3dhdGNoKS4pCgpgYGByCi4vcnVuX3NiYXRfc2NyaXB0cy5zaCAKYGBgCgo+IGBgYApTdWJtaXR0ZWQgYmF0Y2ggam9iIDkyODk0OTYKU3VibWl0dGVkIGJhdGNoIGpvYiA5Mjg5NDk3ClN1Ym1pdHRlZCBiYXRjaCBqb2IgOTI4OTQ5OApTdWJtaXR0ZWQgYmF0Y2ggam9iIDkyODk0OTkKU3VibWl0dGVkIGJhdGNoIGpvYiA5Mjg5NTAwClN1Ym1pdHRlZCBiYXRjaCBqb2IgOTI4OTUwMQpTdWJtaXR0ZWQgYmF0Y2ggam9iIDkyODk1MDIKU3VibWl0dGVkIGJhdGNoIGpvYiA5Mjg5NTAzClN1Ym1pdHRlZCBiYXRjaCBqb2IgOTI4OTUwNApTdWJtaXR0ZWQgYmF0Y2ggam9iIDkyODk1MDUKICBgYGAKCkFuZCBpbiBhIGZldyBzaG9ydCBzZWNvbmRzLCB5b3Ugc2VlIHRoZSByZXN1bHRzIGFuZCBTTFVSTSBsb2cgZmlsZXMuIFRoaXMKYXBwcm9hY2ggaXMgY29ycmVjdCwgbW9yZSBjb21wbGV4IHRoYW4gdGhlIHNlcmlhbCBsb29wLCBhbmQgcmVwcm9kdWNpYmxlLiBBbmQKYmVjYXVzZSB0aGUgdGFza3MgYXJlIHdvcmtpbmcgaW4gcGFyYWxsZWwsIGl0J3MgKiptdWNoKiogZmFzdGVyLiBDb250cmFzdCB0aGlzCmpvYi90YXNrIGdlb21ldHJ5IHdpdGggdGhlIHNlcmlhbCBsb29wIGFwcHJvYWNoIGZyb20gYWJvdmU6Cgo8dGFibGUgY2xhc3M9J2ZpZycgd2lkdGg9JzEwMCUnPjx0cj48dGggY2xhc3M9J2ZpZyc+Sm9iL3Rhc2sgZ2VvbWV0cmllczogc2VyaWFsIGxvb3AgdnMgcGFyYWxsZWwgc2JhdGNoPC90aD48L3RyPgo8dHI+PHRkIGNsYXNzPSdmaWcnPiFbVE9ETyBnZW9tZXRyeV9zZXJpYWxfdnNfcGFyYWxsZWxdKE1vZHVsZTA2X2dlb21ldHJ5X3NlcmlhbF92c19wYXJhbGxlbC5wbmcpPC90ZD48L3RyPjwvdGFibGU+CgpUaGlzIGlzIGdyZWF0LiBCdXQgdGhlcmUncyB0d28gdG8gdGhyZWUgbWlub3IgZHJhd2JhY2tzIHRvIHRoaXMgYXBwcm9hY2g6CgotIEJldHdlZW4gdGhlIHRoZSBzYmF0IGZpbGVzLCB0aGUgcmVzdWx0IGZpbGVzLCBhbmQgdGhlIHNsdW0gbG9nIGZpbGVzLCBpdCdzCmNyZWF0ZWQgcXVpdGUgYSBsb3QgbW9yZSBmaWxlcy4gVGhlcmUncyBzbWFsbGlzaCBmaWxlcywgYnV0IGl0J3MgbW9yZSBvdXRwdXQgdG8KZGVhbCB3aXRoIHRvIGtlZXAgdHJhY2sgb2YuCi0gRm9yIHZlcnkgcXVpY2sgam9icyAoPD02MCBzZWNvbmRzKSwgd2hlbiB0aGUgc2NoZWR1bGVyIGlzIHVuZGVyIGEgaGVhdnkgbG9hZCwKaXQgY2FuIHRha2UgbG9uZ2VyIHRvIHNjaGVkdWxlIGEgam9iIHRoYW4gaXQgdGFrZXMgdG8gcnVuIHRoZSBqb2IuIEluIHRoZXNlCmNpcmN1bXN0YW5jZXMgdGhlIHNlcmlhbCBhcHByb2FjaCBtaWdodCBiZSBmYXN0ZXIuIChJZiB3ZSBzY2FsZWQgdXAgZnJvbSAxMCBqb2JzCnRvIDEwMDAgam9icywgd2UgbWlnaHQgc2VlIHRoaXMga2luZCBvZiBzbG93ZG93bi4pCi0gRWFjaCBBUkMgYWNjb3VudCBoYXMgYW4gdXBwZXIgbGltaXQgb24gdGhlIG51bWJlciBvZiBqb2JzIHRoYXQgY2FuIGJlIApzdWJtaXR0ZWQgYW5kIHRoZSBudW1iZXIgYWN0aXZlbHkgcnVubmluZy4gSWYgeW91ciBhY2NvdW50IGV4Y2VlZHMgdGhpcyBsaW1pdCAKdGhlIGpvYnMgd2lsbCBzdGFydCB0byBxdWV1ZSB1cCwgYXdhaXRpbmcgYSB0dXJuIGF0IHNjaGVkdWxpbmcgYW5kIGV4ZWN1dGlvbi4gClRoYXQncyBub3QgYSBiaWcgcHJvYmxlbSwgZXhjZXB0IGZvciB0aGUgZmFjdCB0aGF0IHlvdSBzaGFyZSB0aGUgYWNjb3VudCB3aXRoCm90aGVyIHVzZXJzLiBJZiB5b3Ugc2F0dXJhdGUgeW91ciBxdWV1ZSwgb3RoZXJzIHdpbGwgaGF2ZSB0byB3YWl0IHVudGlsIHlvdXIgam9iCmZpbmlzaGVzIGJlZm9yZSBzdGFydGluZyB0aGVpcnMuIAoKVG8gYWRkcmVzcyB0aGVzZSBjb25jZXJucywgdGhlIFRleGFzIEFkdmFuY2VkIENvbXB1dGluZyBDZW50ZXIgYnVpbHQgYSBTTFVSTQp0b29sIGNhbGxlZCBbbGF1bmNoZXJdKGh0dHBzOi8vYXJjLnVtaWNoLmVkdS9ncmVhdGxha2VzL3NvZnR3YXJlL2xhdW5jaGVyLyl7dGFyZ2V0PSJfYmxhbmsifQpkZXRhaWxlZCBiZWxvdy4KCjxici8+CgotLS0KCiMjIFBhbmdyYW06IExhdW5jaGVyCgpgYGByCiMgT3JpZW50IG9uIHByb2plY3QKY2QgL25mcy90dXJiby91bW1zLWJpb2luZi13a3NocC93b3Jrc2hvcC9ob21lLyRVU0VSCmNkIHByb2plY3RfcGFuZ3JhbXMvcGFuZ3JhbV9sYXVuY2hlcgpscyAtMQpgYGAKCj4gYGBgCmxhdW5jaGVyLnNiYXQKbGV0dGVycy50eHQKbWFrZV9sYXVuY2hlcl90YXNrcy5zaApwYW5ncmFtLnNoClJFQURNRS5tZAogIGBgYAoKPHRhYmxlIGNsYXNzPSdmaWcnPjx0cj48dGggY2xhc3M9J2ZpZyc+UkVBRE1FLm1kPC90aD48L3RyPgo8dHI+PHRkIGNsYXNzPSdmaWcnPjxwcmU+CiMgcGFuZ3JhbV9sYXVuY2hlcgoKLSBQcm9kdWNlcyBwYW5ncmFtcyBmb3IgbGV0dGVycy50eHQuIE1ha2VzIG9uZSBmaWxlIHBlciBsaW5lIGluIGxldHRlcnMuCi0gY2dhdGVzIDYvMS8yMDI0Ci0gVXNhZ2U6IAogIGAuL21ha2VfbGF1bmNoZXJfdGFza3Muc2hgCiAgYHNiYXRjaCBsYXVuY2hlci5zYmF0YAoKRmlsZXM6Ci0gbGF1bmNoZXIuc2JhdDogc2JhdGNoIGZpbGUgdG8gc3RhcnQgdGhlIGxhdW5jaGVyLgotIGxldHRlcnMudHh0OiBsaXN0IG9mIGxldHRlciBzZXF1ZW5jZXMgc2VwZXJhdGVkIGJ5IG5ld2xpbmVzLgotIG1ha2VfbGF1bmNoZXJfdGFza3Muc2g6IGJ1aWxkcyBhIHNpbmdsZSBmaWxlIGZvciBhbGwgdGFza3MgdG8gYmUgZXhlY3V0ZWQgCiAgYnkgdGhlIGxhdW5jaGVyLgotIHBhbmdyYW0uc2g6IGFjY2VwdHMgYSBzaW5nbGUgbGV0dGVyIHNlcXVlbmNlIGFuZCBwcmludHMgYWxsIHBhbmdyYW1zLgo8L3ByZT48L3RkPjwvdHI+PC90YWJsZT4KPGJyLz4KClJ1biBgbWFrZV9sYXVuY2hlcl90YXNrcy5zaGAgYW5kIG5vdGUgaXQgY3JlYXRlcyBvbmUgbmV3IGZpbGUgYGxhdW5jaGVyX3Rhc2tzLnR4dGAuCgpgYGByCi4vbWFrZV9sYXVuY2hlcl90YXNrcy5zaCAKYGBgCgo8dGFibGUgY2xhc3M9J2ZpZyc+PHRyPjx0aCBjbGFzcz0nZmlnJz5sYXVuY2hlcl90YXNrcy50eHQ8L3RoPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+PHByZT4KLi9wYW5ncmFtLnNoIE5kZWZnbHUgPiByZXN1bHRzLk5kZWZnbHUudHh0Ci4vcGFuZ3JhbS5zaCBIYWNpbG5vID4gcmVzdWx0cy5IYWNpbG5vLnR4dAouL3BhbmdyYW0uc2ggVGRnaG5vdSA+IHJlc3VsdHMuVGRnaG5vdS50eHQKLi9wYW5ncmFtLnNoIE5haWxtcHQgPiByZXN1bHRzLk5haWxtcHQudHh0Ci4vcGFuZ3JhbS5zaCBQYmVnaWtuID4gcmVzdWx0cy5QYmVnaWtuLnR4dAouL3BhbmdyYW0uc2ggWWFjaWxydCA+IHJlc3VsdHMuWWFjaWxydC50eHQKLi9wYW5ncmFtLnNoIEFjaG5vcHkgPiByZXN1bHRzLkFjaG5vcHkudHh0Ci4vcGFuZ3JhbS5zaCBVZ2lub3F0ID4gcmVzdWx0cy5VZ2lub3F0LnR4dAouL3BhbmdyYW0uc2ggRWFjaGttbiA+IHJlc3VsdHMuRWFjaGttbi50eHQKLi9wYW5ncmFtLnNoIEFsaHlpZG4gPiByZXN1bHRzLkFsaHlpZG4udHh0CjwvcHJlPjwvdGQ+PC90cj48L3RhYmxlPgo8YnIvPgoKVGhpcyBtaWdodCByZW1pbmQgeW91IG9mIHRoZSBzZXJpYWwgbG9vcCBhcHByb2FjaCwgYnV0IHRoZXJlJ3MgYSB0d2lzdCBhbmQgdG8gCnNlZSBpdCB5b3UgbmVlZCB0byBjb25zaWRlciB0aGUgYGxhdW5jaGVyLnNiYXRgIGZpbGU6Cgo8dGFibGUgY2xhc3M9J2ZpZyc+PHRyPjx0aCBjbGFzcz0nZmlnJz5sYXVuY2hlci5zYmF0PC90aD48L3RyPgo8dHI+PHRkIGNsYXNzPSdmaWcnPjxwcmU+CiMhL2Jpbi9iYXNoCiNTQkFUQ0ggLS1hY2NvdW50PWJpb2luZl93a3NocF9jbGFzcwojU0JBVENIIC0tcGFydGl0aW9uPXN0YW5kYXJkCiNTQkFUQ0ggLS1ub2Rlcz0xCiNTQkFUQ0ggLS1udGFza3MtcGVyLW5vZGU9NQojU0JBVENIIC0tY3B1cy1wZXItdGFzaz0xCiNTQkFUQ0ggLS10aW1lPTA6MzA6MDAKCm1vZHVsZSBsb2FkIGxhdW5jaGVyCmV4cG9ydCBMQVVOQ0hFUl9KT0JfRklMRT1sYXVuY2hlcl90YXNrcy50eHQKcGFyYW1ydW4KPC9wcmU+PC90ZD48L3RyPgo8dHI+PHRkIGNsYXNzPSdmaWcnPlNvbWUgZGV0YWlsczoKCi0gVGhlIGZpbGUgc3RhcnRzIHdpdGggYSBiYXNpYyBTTFVSTSBwcmVhbWJsZS4gTm90ZSB0aGF0IGl0J3MgYXNraW5nIGZvciAxIG5vZGUsCiAgYW5kIDUgQ1BVcyAoNSB0YXNrcy9ub2RlICogMSBjcHUvdGFzaykgZm9yIDMwIG1pbnV0ZXMuCi0gVGhlIGxhc3QgdGhyZWUgbGluZXMgZXN0YWJsaXNoIHRoYXQgdGhpcyBpcyBhIGxhdW5jaGVyIGpvYiBhbmQgdGhlIHRhc2tzIHRvCiAgZXhlY3V0ZSBsaXZlIGluIGxhdW5jaGVyX3Rhc2tzLnR4dC4KPC90ZD48L3RyPgo8L3RhYmxlPgo8YnIvPgoKR2l2ZW4gdGhpcyBzZXR1cCwgc2JhdGNoIHdpbGwgYWxsb2NhdGUgYSBub2RlIHdpdGggNSBDUFVzIGZvciAzMCBtaW51dGVzLiBUaGVuIAp0aGUgbGF1bmNoZXIgd2lsbCBzdGFydCBsb29waW5nIHRocm91Z2ggdGhlIGxhdW5jaGVyX3Rhc2tzIGFuZCBhcyBlYWNoIG9uZQpjb21wbGV0ZXMgaXQgd2lsbCBzZW5kIGFub3RoZXIgb25lIHRocm91Z2ggdW50aWwgYWxsIHRhc2tzIGFyZSBjb21wbGV0ZS4KCkNvbnNpZGVyIHJ1bm5pbmcgYHdhdGNoIHNxdWV1ZSAtdSAkVVNFUmAgaW4gYW5vdGhlciB3aW5kb3cgYmVmb3JlIHlvdSBydW4gdGhlIApzYmF0Y2ggY29tbWFuZDoKYGBgcgpzYmF0Y2ggbGF1bmNoZXIuc2JhdApgYGAKPiBgYGAKU3VibWl0dGVkIGJhdGNoIGpvYiA5MjkwNTM1CiAgYGBgCgpOb3RlIHRoYXQgYWxsIHRoZSB0YXNrcyBhcmUgcnVubmluZyBidXQgdGhleSBhcmUgcnVubmluZyAiaW5zaWRlIiIgb2YgdGhlIG9uZSBqb2IuClRoZSBqb2Igc2hvdWxkIGZpbmlzaCBpbiBhIGZldyBzZWNvbmRzLiBJdCB3aWxsIHByb2R1Y2UgdGhlIGZhbWlsbGlhciBgcmVzdWx0cy4qYApmaWxlcyBhbmQgYWxzbyBhIHNpbmdsZSBTTFVSTSBsb2cgZmlsZSB3aGljaCBpcyBhIGJpdCBtb3JlIGludGVyZXN0aW5nIHRoYW4gdGhlIApwcmV2aW91cyBsb2cgZmlsZXMuCgo8dGFibGUgY2xhc3M9J2ZpZyc+PHRyPjx0aCBjbGFzcz0nZmlnJz5zbHVybS05MjkwNTM1Lm91dDwvdGg+PC90cj4KPHRyPjx0ZCBjbGFzcz0nZmlnJz48cHJlIGNsYXNzPSJwcmUtc2Nyb2xsYWJsZSI+CldBUk5JTkcgKDA2LzA5LzI0IDE1OjM4OjM5KTogTEFVTkNIRVJfV09SS0RJUiB2YXJpYWJsZSBub3Qgc2V0LiBVc2luZyBjdXJyZW50IGRpcmVjdG9yeS4Kd2luZG93c1AgaXMgZmFsc2UKTk9URSAoMDYvMDkvMjQgMTU6Mzg6NDApOiBTdGFydGVkIGR5bmFtaWMgdGFzayBzZXJ2aWNlIG9uIHBvcnQgOTQ3MQpMYXVuY2hlcjogU2V0dXAgY29tcGxldGUuCgotLS0tLS0tLS0tLS0tIFNVTU1BUlkgLS0tLS0tLS0tLS0tLS0tCiAgIE51bWJlciBvZiBob3N0czogICAgMQogICBXb3JraW5nIGRpcmVjdG9yeTogIC9uZnMvdHVyYm8vdW1tcy1iaW9pbmYtd2tzaHAvd29ya3Nob3AvaG9tZS9jZ2F0ZXMvcHJvamVjdF9wYW5ncmFtcy9wYW5ncmFtX2xhdW5jaGVyCiAgIFByb2Nlc3NlcyBwZXIgaG9zdDogNQogICBUb3RhbCBwcm9jZXNzZXM6ICAgIDUKICAgVG90YWwgam9iczogICAgICAgICAxMAogICBTY2hlZHVsaW5nIG1ldGhvZDogIGR5bmFtaWMKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KTGF1bmNoZXI6IFN0YXJ0aW5nIHBhcmFsbGVsIHRhc2tzLi4uCnVzaW5nIC90bXAvbGF1bmNoZXIuOTI5MDUzNS5ob3N0bGlzdC5HWXpkT1dzQiB0byBnZXQgaG9zdHMKc3RhcnRpbmcgam9iIG9uIGdsMzA3OQpXYXJuaW5nOiBQZXJtYW5lbnRseSBhZGRlZCB0aGUgRUQyNTUxOSBob3N0IGtleSBmb3IgSVAgYWRkcmVzcyAnMTAuMTY0LjguMTI5JyAKIHRvIHRoZSBsaXN0IG9mIGtub3duIGhvc3RzLgpMYXVuY2hlcjogVGFzayAwIHJ1bm5pbmcgam9iIDEgb24gZ2wzMDc5LmFyYy10cy51bWljaC5lZHUgKC4vcGFuZ3JhbS5zaCBOZGVmZ2x1ID4gcmVzdWx0cy5OZGVmZ2x1LnR4dCkKTGF1bmNoZXI6IEpvYiAxIGNvbXBsZXRlZCBpbiAxIHNlY29uZHMuCkxhdW5jaGVyOiBUYXNrIDAgcnVubmluZyBqb2IgMiBvbiBnbDMwNzkuYXJjLXRzLnVtaWNoLmVkdSAoLi9wYW5ncmFtLnNoIEhhY2lsbm8gPiByZXN1bHRzLkhhY2lsbm8udHh0KQpMYXVuY2hlcjogVGFzayAyIHJ1bm5pbmcgam9iIDMgb24gZ2wzMDc5LmFyYy10cy51bWljaC5lZHUgKC4vcGFuZ3JhbS5zaCBUZGdobm91ID4gcmVzdWx0cy5UZGdobm91LnR4dCkKTGF1bmNoZXI6IEpvYiAzIGNvbXBsZXRlZCBpbiAxIHNlY29uZHMuCi4uLgpMYXVuY2hlcjogVGFzayAwIGRvbmUuIEV4aXRpbmcuCkxhdW5jaGVyOiBEb25lLiBKb2IgZXhpdGVkIHdpdGhvdXQgZXJyb3JzCjwvcHJlPjwvdGQ+PC90cj48L3RhYmxlPgo8YnIvPgoKVGhlIGxhdW5jaGVyIHNvbHV0aW9uIGlzIGNvcnJlY3QsIGNsZWFyLCBhbmQgZWZmaWNpZW50LiBJdCBpcyBhIHZlcnkgbmljZSBvcHRpb24KaWYgeW91IGhhdmUgKm1hbnkqIGluZGVwZW5kZW50IHRhc2tzIHRoYXQgZWFjaCBydW4gcXVpY2tseSAoPD02MCBzZWNvbmRzKSBhbmQgCmVhY2ggdGFza3MgaGFzIGEgbW9kZXN0IGNvbXB1dGUgcmVxdWVzdCAoZS5nLiBlYWNoIHRhc2sgbmVlZHMgYSBzaW5nbGUgQ1BVKS4KCjxici8+CgotLS0KCiMjIEdlb21ldHJpZXMgYW5kIGRlcGVuZGVuY2llcwoKPHRhYmxlIGNsYXNzPSdmaWcnIHdpZHRoPScxMDAlJz48dHI+PHRoIGNsYXNzPSdmaWcnPkpvYi90YXNrIGdlb21ldHJpZXMgY29tcGFyZWQ8L3RoPjwvdHI+Cjx0cj48dGQgY2xhc3M9J2ZpZyc+IVtUT0RPIGdlb21ldHJ5X3NlcmlhbF92c19wYXJhbGxlbF92c19sYXVuY2hlcl0oTW9kdWxlMDZfZ2VvbWV0cnlfc2VyaWFsX3ZzX3BhcmFsbGVsX2xhdW5jaGVyLnBuZykKPC90ZD48L3RyPjwvdGFibGU+CgpUaGUgdGhyZWUgam9iIGdlb21ldHJpZXMgZGlhZ3JhbW1lZCBhYm92ZSByZXZlYWwgdGhhdCB3ZSBxdWlldGx5IG1hZGUgYQphIGZldyBzaW1wbGlmeWluZyBhc3N1bXB0aW9ucyBhbG9uZyB0aGUgd2F5OgoKLSBXZSBhc3N1bWVkIHRoYXQgYWxsIHRoZSB0YXNrcyB3ZXJlIGluZGVwZW5kZW50IChhbmQgdGh1cyBwbGVhc2luZ2x5IHBhcmFsbGVsKS4KLSBXZSBhc3N1bWVkIHRoYXQgYWxsIHRoZSB0YXNrcyBpbiBhIHdvcmtmbG93IHdlcmUgdGhlIHNhbWUgdHJhbnNmb3JtYXRpb24gYXBwbGllZCBtYW55IGRpZmZlcmVudCBpbnB1dHMuCgpDb21tb25seSB3b3JrZmxvd3MgY29udGFpbiBzZXZlcmFsIGRpZmZlcmVudCBzdGVwcyB3aGljaCB3aGVyZSB0aGUgaW5wdXQgb2Ygb25lIApzdGVwIG9mdGVuIGRlcGVuZHMgb24gdGhlIG91dHB1dCBvZiB0aGUgcHJldmlvdXMuIEEgc2ltcGxlIGFwcHJvYWNoIGlzIHRvIGNvbWJpbmUKcmVsYXRlZCBzdGVwcyBpbnRvIGEgc2luZ2xlIGpvYiwgZGVwaWN0ZWQgZ3JhcGhpY2FsbHkgbGlrZSBzbzoKCiFbVE9ETzogR2VvbWV0cnkgb2YgYSBtdWx0aS1zdGVwIGpvYl0oaW1hZ2VzL01vZHVsZTA2X2dlb21ldHJ5X29mX211bHRpc3RlcF9qb2IucG5nKQoKTW9yZW92ZXIsIHdvcmtmbG93cyBhcmUgbm90IGFsd2F5cyBsaW5lYXI7IHRoZSBsb2dpY2FsIGZsb3cgb2Ygc3RlcHMgbWF5IGpvaW4gdGhlIG91dHB1dHMgb2YgdHdvIHN0ZXBzIGFzIGFuIGlucHV0IHRvIGEgdGhpcmQ6CgohW1RPRE86IG5vbmxpbmVhciB3b3JrZmxvd10oaW1hZ2VzL01vZHVsZTA2X25vbmxpbmVhcl93b3JrZmxvdy5wbmcpCgpUaGUgdGVjaG5pcXVlcyB3ZSByZXZpZXdlZCBhYm92ZSBhcmUgZXhlY2xsZW50IGZvciBzbWFsbGVyLCBzaW1wbGVyIHdvcmtmbG93cywgYQptb3JlIGNvbXBsZXgsIG1vcmUgcmVzb3VyY2UgaW50ZW5zaXZlIHdvcmtmbG93IHdpbGwgcmVxdWlyZSBlaXRoZXIgYSBtdWNoIG1vcmUKbnVhbmNlZCBzZXQgb2Ygc2NyaXB0cyBvciBhIG1vcmUgc29waGlzdGljYXRlZCBhcHByb2FjaCBhbHRvZ2V0aGVyLiBTTFVSTQpzdXBwb3J0cyB0aGVzZSBtb3JlIGNvbXBsZXggc2NlbmFyaW9zIG5hdGl2ZWx5IHdpdGggc29tZXRoaW5nIGNhbGxlZCBqb2IgYXJyYXlzCihzZWUgam9iIGFycmF5cyBpbiBbbGlua3NdKCNsaW5rcy1hbmQtcmVmZXJlbmNlcykgYmVsb3cpLiBJbiB0aGUgbmV4dCBtb2R1bGUsIHdlCmludHJvZHVjZSB0aGUKKipTbmFrZW1ha2UqKiB3b3JrZmxvdyBhdXRvbWF0aW9uIGZyYW1ld29yayB0byBhZGRyZXNzIHRoZXNlIG1vcmUgY29tcGxpY2F0ZWQKc2NlbmFyaW9zLgoKPGJyLz4KCi0tLQoKIyMgUHJvIHRpcHMKCkF1dG9tYXRpbmcgd29ya2Zsb3dzIGlzIGEgbGVhcm5pbmcgcHJvY2Vzcy4gSGVyZSdzIGEgZmV3IGlkZWFzIHRvIGNvbnNpZGVyIGFsb25nCnRoZSB3YXk6CgoxLiAqKkRvIG5vdCB0cnkgdG8gYXV0b21hdGUgc29tZXRoaW5nIHRoYXQgeW91IGNhbm5vdCBkbyBieSBoYW5kLioqCjIuICoqTWFrZSBpdCByaWdodC4gTWFrZSBpdCBjbGVhci4gTWFrZSBpdCBlZmZpY2llbnQuIChJbiB0aGF0IG9yZGVyLikqKgozLiAqKkJ1aWxkIGEgUkVBRE1FIGZvciBlYWNoIHdvcmtmbG93LioqIAogICBDb25zaWRlciBpbmNsdWRpbmc6CiAgIC0gWW91ciBuYW1lL2VtYWlsCiAgIC0gVGhlIGRhdGUKICAgLSBIb3cgdG8gaW5zdGFsbCB0aGUgd29ya2Zsb3cKICAgLSBIb3cgdG8gcnVuIHRoZSB3b3JrZmxvdwogICAtIEFueSBuZWNlc3NhcnkgY29udGV4dC9jb25zdHJhaW50cyB0aGF0IHdvdWxkIGhlbHAgeW91ciBmdXR1cmUgY29sbGFib3JhdG9yCiAgICAgcmVwcm9kdWNlIHlvdXIgcmVzdWx0cy4KCjQuICoqQXV0b21hdGUgdGhlIHdvcmtmbG93IHdpdGggdGhlIGRhdGEgeW91IGhhdmUuKiogCiAgIERvbid0IGdlbmVyYWxpemUgYSB3b3JrZmxvdyB0b28gc29vbi4gWW91IG1pZ2h0IHNlZSB0aGF0IGEgd29ya2Zsb3cgY291bGQgYmUgCiAgIHBhcmFtZXRlcml6ZWQvZXh0ZW5kZWQgdG8gYXBwbHkgdG8gbmV3IHR5cGVzIG9mIGRhdGEuIEZlZWwgdGhhdCBleGNpdGVtZW50LCAKICAgbm90ZSB0aGUgb3Bwb3J0dW5pdHkgaW4gdGhlIFJFQURNRSwgYW5kIHRydXN0IHRoYXQgeW91IHdpbGwgbWFrZSB0aGF0IGNoYW5nZQogICB3aGVuIHlvdSBuZWVkIHRvLgoKNS4gKipJbnN0ZWFkIG9mIGRldmVsb3BpbmcgdGhlIHdob2xlIHdvcmtmbG93IGVuZCB0byBlbmQsIGNvbnNpZGVyIGFuIGl0ZXJhdGl2ZSBhbmQgaW5jcmVtZW50YWwgYXBwcm9hY2guKiogPGJyLz4KICAgIVtdKGltYWdlcy9Nb2R1bGUwNl9pdGVyYXRpdmVfYW5kX2luY3JlbWVudGFsLmpwZyk8YnIvPgogICBGcm9tIFtIZW5yaWsgS25pYmVyZ10oaHR0cHM6Ly9ibG9nLmNyaXNwLnNlLzIwMTYvMDEvMjUvaGVucmlra25pYmVyZy9tYWtpbmctc2Vuc2Utb2YtbXZwKXt0YXJnZXQ9IiJ9CiAgIFRPRE86IGluY3JlbWVudGFsIGdlb21ldHJ5CiAgIEJyZWFrIHdvcmtmbG93IGRldmVsb3BtZW50IGludG8gX19hdCBsZWFzdF9fIHRocmVlIHN0ZXBzOgogICBhKSBkbyBvbmUgc2FtcGxlIGFuZCB2ZXJpZnkgY29ycmVjdG5lc3Mgb2Ygb3V0cHV0cy4gKEZvciBhIGxhcmdlIGRhdGFzZXQKICBjb25zaWRlciBzdWJzZXR0aW5nL2Rvd25zYW1wbGluZyB5b3VyIGlucHV0cyBzbyB5b3UgY2FuIGl0ZXJhdGUgcXVpY2tlci4pCiAgIGIpIHNjYWxlIHRvIGEgZmV3IHNhbXBsZXMgYW5kIGNoZWNrIHRob3NlIG91dHB1dHM7IHR1bmUgcmVzb3VyY2UgYWxsb2NhdGlvbnMKICAgYykgcnVuIHRoZSB3aG9sZSBiYXRjaAoKLS0tCgojIyBUT0RPIEV4ZXJjaXNlIDEKCi0tLQoKIyMgS2V5IGlkZWFzCgoqIEFjaGlldmluZyByZXByb2R1Y2libGUgcmVzZWFyY2ggcmVxdWlyZXMgYSBibGVuZCBvZiBkb2N1bWVudGF0aW9uIGFuZCBhdXRvbWF0aW9uLgoqIEJlIGtpbmQgdG8geW91ciBmdXR1cmUgc2VsZjsgdGhleSB3aWxsIHRoYW5rIHlvdSBmb3IgdGhlIFJFQURNRSB5b3UgbGVmdCB0aGVtLgoqIEF1dG9tYXRpb24gaGVscHMgcmVwcm9kdWNpYmlsaXR5OgogICogQXV0b21hdGlvbiBzaHJpbmtzIHlvdXIgUkVBRE1FLgogICogQXV0b21hdGlvbiBzaW1wbGlmaWVzIHZhbGlkYXRpb24gb2YgeW91ciB3b3JrZmxvdy4KICAqIEF1dG9tYXRpb24gZW5hYmxlcyByZXBldGl0aW9uLgogICogQXV0b21hdGlvbiBzdHJlYW1saW5lcyBzaGFyaW5nLgogICogQXV0b21hdGlvbiBzY2FsZXMgdG8gbGFyZ2VyIGlucHV0cwoqIEpvYi90YXNrIGdlb21ldHJpZXMgaGVscCB2aXN1YWxpemUgaG93IGRpZmZlcmVudCBhcHByb2FjaGVzIGFyZSBleGVjdXRlZC4gKEl0IAphbHNvIGhpbnRzIGF0IHRoZSBuLWRpbWVuc2lvbmFsIGdhbWUgb2YgVGV0cmlzIHRoZSBqb2Itc2NoZWR1bGVyIGlzIHBsYXlpbmcgdG8KcGFjayBldmVyeW9uZXMgam9icyBhcyBuZWF0bHkgYXMgcG9zc2libGUuCiogVGhlICoqU0xVUk0gbGF1bmNoZXIqKiBhbGxvd3MgeW91IHRvIGdhdGhlciBtYW55IHBhcmFsbGVsIHRhc2tzIGludG8gYSBtYWluIGpvYiwKICBpbiBlZmZlY3QgY3JlYXRpbmcgYSB0cmFuc2llbnQgc3ViLWNsdXN0ZXIgd2l0aGluIHRoZSBtYWluIEhQQy4KKiBGb3IgYSBtb3JlIGNvbXBsZXggdHJhbnNmb3JtYXRpb24sIGFzY3JpcHQgY2FuIGJlIGVpdGhlciBzaW1wbGUgb3IKICByZXNvdXJjZSBlZmZpY2llbnQgLSBjaG9vc2Ugb25lLiBDb25zaWRlciBtb3JlIHJvYnVzdCBzb2x1dGlvbnMgKGUuZy4KICBTbmFrZW1ha2UpIGFzIG5lY2Vzc2FyeS4KCi0tLQoKIyMgTGlua3MgYW5kIHJlZmVyZW5jZXMKCi0gVU0gSVRTIGRvY3Mgb24gW2xhdW5jaGVyXShodHRwczovL2FyYy51bWljaC5lZHUvZ3JlYXRsYWtlcy9zb2Z0d2FyZS9sYXVuY2hlci8pe3RhcmdldD0iX2JsYW5rIn0KLSBVTSBBUkMgZG9jcyBvbiBbam9iIGFycmF5c10oaHR0cHM6Ly9kb2NzLnN1cHBvcnQuYXJjLnVtaWNoLmVkdS9zbHVybS9hcnJheS8pe3RhcmdldD0iX2JsYW5rIn0KLSBTTFVSTSBkb2NzIG9uIFtqb2IgYXJyYXlzXShodHRwczovL3NsdXJtLnNjaGVkbWQuY29tL2pvYl9hcnJheS5odG1sKXt0YXJnZXQ9Il9ibGFuayJ9Ci0gVU0gQVJDIFttaVZpZGVvXShodHRwczovL3d3dy5taXZpZGVvLml0LnVtaWNoLmVkdS9tZWRpYS90LzFfejRkZjg0dGkvMTgxODYwNTYxKXt0YXJnZXQ9Il9ibGFuayJ9IG9uIGFkdmFuY2VkIFNMVVJNIHRlY2huaXF1ZXMgKGluY2x1ZGluZyBsYXVuY2hlciwgam9iIGFycmF5cywgYW5kIG1vcmUpCi0gRm9yIG1vcmUgZXhhbXBsZXMgb2YgcGFuZ3JhbXMgaW4gYWN0aW9uLCBjaGVja291dDoKCiAgLSBbVGhlIE5ldyBZb3JrIFRpbWVzIFNwZWxsaW5nIEJlZSBQdXp6bGVdKGh0dHBzOi8vd3d3Lm55dGltZXMuY29tL3B1enpsZXMvc3BlbGxpbmctYmVlKXt0YXJnZXQ9Il9ibGFuayJ9CiAgLSBbU3BlbGxpbmcgQmVlIHB1enpsZSBzb2x2ZXJdKGh0dHBzOi8vd3d3LnNic29sdmVyLmNvbS9hcmNoaXZlKXt0YXJnZXQ9Il9ibGFuayJ9Cgo8YnIvPgo8YnIvPgoKLS0tCgp8IFtQcmV2aW91cyBsZXNzb25dKE1vZHVsZTA1X2NvbnRhaW5lcnNfZG9ja2VyX3Npbmd1bGFyaXR5Lmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZTA3LWludHJvLXRvLXNuYWtlbWFrZS5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
 
 
 </div>
