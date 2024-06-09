@@ -224,5 +224,9 @@ When given a set of software requirement specifications, Conda handles all of th
 
 <br>
 
+---
+
+
 | [Previous lesson](Module03b_great_lakes_cluster.html) | [Top of this lesson](#top) | [Next lesson](Module05_containers_docker_singularity.html) |
 | :--- | :----: | ---: |
+
