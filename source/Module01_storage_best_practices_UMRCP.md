@@ -190,8 +190,8 @@ Notice that Turbo storage is about 8x more costly than Data Den for the same amo
 
 ### Institutional Storage vs Other Storage
 
-| Institutional   | Other                             |
-| --------------- | --------------------------------- |
+| Institutional | Other |
+|:--------------- |:--------------------------------- |
 | Turbo           | Laptop Storage                    |
 | Data Den        | Storage on a Shared Lab Computer  |
 | Home / Scratch* | Portable Hard Drive / Flash Drive |
@@ -261,9 +261,9 @@ Main ideas:
 ### Administrators vs Users
 
 |              | Change Allocations | Add/Remove Users | Use GL compute time | Read/Write access to Turbo | Globus Admin |
-| ------------ | ------------------ | ---------------- | ------------------- | -------------------------- | ------------- |
+| ------------ |:------------------ |:---------------- |:------------------- |:-------------------------- |:------------- |
 | PI           | ✅                  | ✅                | ⏳                   | ⏳                          | ✅             |
-| Lab Manager  | ✅                  | ✅                | ⏳                   | ✅                          | ✅             |
+| Lab Manager  | ✅                  | ✅                | ⏳                   | ⏳                          | ✅             |
 | Grad Student |                    |                  | ✅                   | ✅                          |               |
 
 > Legend:
