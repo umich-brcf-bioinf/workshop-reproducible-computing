@@ -157,5 +157,5 @@ MirrorURL: http://ftp.us.debian.org/debian/
 ## Review
 
 
-| [Previous lesson](Module04_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module06-basic-workflow-automation.html) |
+| [Previous lesson](Module04_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module06-intro-to-workflow-automation.html) |
 | :--- | :----: | ---: |

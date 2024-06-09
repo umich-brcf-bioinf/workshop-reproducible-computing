@@ -1,5 +1,5 @@
 ---
-title: "Basic workflow automation"
+title: "Intro to workflow automation"
 author: "UM Bioinformatics Core"
 output:
         html_document:

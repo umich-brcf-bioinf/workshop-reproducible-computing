@@ -68,5 +68,5 @@ TODO directive text
 
 
 
-| [Back to Introduction](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module FIXME .html) |
+| [Previous lesson](Module07-intro-to-snakemake.html) | [Top of this lesson](#top) | [Wrap up](Module99_Wrap_up.html) |
 | :--- | :----: | ---: |
