@@ -1,5 +1,4 @@
 library(rmarkdown)
-
 # The html from the files below don't have the nav bar
 
 render('source/workshop_setup/preworkshop_checklist.md', output_dir='html/workshop_setup/')
