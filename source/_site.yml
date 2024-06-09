@@ -37,8 +37,8 @@ navbar:
           
     - text: "Workflow automation"
       menu:
-        - text: "Basic workflow automation"
-          href: Module06-basic-workflow-automation.html
+        - text: "Intro to workflow automation"
+          href: Module06-intro-to-workflow-automation.html
         - text: "Intro to Snakemake"
           href: Module-07-intro-to-snakemake.html
         - text: "Advanced Snakemake"

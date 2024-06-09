@@ -14,7 +14,7 @@
 
 <title>Transferring Data with Globus</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -317,7 +317,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
     </li>
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
@@ -365,29 +365,45 @@ pre {
 </style>
 <p>In this module, we will:</p>
 <ul>
-<li>review storage best practices and relate them to real situations</li>
+<li>review storage best practices and relate them to real
+situations</li>
 <li>learn about the data transfer tool Globus</li>
 <li>gain real experience using Globus in various ways</li>
 </ul>
-<div id="relating-data-transfer-to-storage-best-practices-with-typical-examples" class="section level2">
-<h2>Relating Data Transfer to Storage Best Practices with Typical Examples</h2>
+<div
+id="relating-data-transfer-to-storage-best-practices-with-typical-examples"
+class="section level2">
+<h2>Relating Data Transfer to Storage Best Practices with Typical
+Examples</h2>
 <ul>
-<li>I need to retrieve raw data from a data provider, and keep it in a safe place</li>
-<li>I need to copy my raw data into a new location, to perform an analysis</li>
+<li>I need to retrieve raw data from a data provider, and keep it in a
+safe place</li>
+<li>I need to copy my raw data into a new location, to perform an
+analysis</li>
 <li>I need to share my raw data and my analysis with a collaborator</li>
 </ul>
 </div>
 <div id="data-transfer" class="section level2">
 <h2>Data Transfer</h2>
-<p>As you can see, data transfer itself is an important consideration that goes hand in hand with our storage best practices described in the previous module. Ensuring that data is transmitted and received intact, and understanding the movement and placement of data during your research life cycle is a very important aspect of reproducible computing.</p>
+<p>As you can see, data transfer itself is an important consideration
+that goes hand in hand with our storage best practices described in the
+previous module. Ensuring that data is transmitted and received intact,
+and understanding the movement and placement of data during your
+research life cycle is a very important aspect of reproducible
+computing.</p>
 </div>
 <div id="globus" class="section level2">
 <h2>Globus</h2>
-<p>For the data transfer portion of this workshop, we’ll focus on a software solution called Globus. Globus allows the transfer of data between different storage systems, and it’s designed particularly for transferring research data. Many universities and institutions, including the University of Michigan, are using Globus in this way.</p>
+<p>For the data transfer portion of this workshop, we’ll focus on a
+software solution called Globus. Globus allows the transfer of data
+between different storage systems, and it’s designed particularly for
+transferring research data. Many universities and institutions,
+including the University of Michigan, are using Globus in this way.</p>
 <div id="what-is-globus-and-what-it-isnt" class="section level3">
 <h3>What is Globus, and What it Isn’t</h3>
 <p><br></p>
-<p>Globus is a software suite for data transfer operations with the following characteristics:</p>
+<p>Globus is a software suite for data transfer operations with the
+following characteristics:</p>
 <ul>
 <li>Fast, with parallelized transfer operations</li>
 <li>Resilient to connectivity problems
@@ -396,9 +412,11 @@ pre {
 </ul></li>
 <li>Fire and forget*</li>
 <li>Highly configurable with fine-tuned access control</li>
-<li>Geared towards research data, particularly where data volumes are very high</li>
+<li>Geared towards research data, particularly where data volumes are
+very high</li>
 </ul>
-<p>Globus is <em>not</em> a cloud storage service, in contrast with something like DropBox</p>
+<p>Globus is <em>not</em> a cloud storage service, in contrast with
+something like DropBox</p>
 <p><img src="images/Module02_globus_vs_dropbox.png" /></p>
 <p><br></p>
 </div>
@@ -406,20 +424,27 @@ pre {
 <div id="globus-sneak-preview-orientation" class="section level2">
 <h2>Globus Sneak Preview / Orientation</h2>
 <p><br></p>
-<div class="figure">
-<img src="images/Module02_globus_preview_single_pane_highlights.png" alt="" />
-<p class="caption">Globus Single Pane Preview</p>
+<div class="float">
+<img src="images/Module02_globus_preview_single_pane_highlights.png"
+alt="Globus Single Pane Preview" />
+<div class="figcaption">Globus Single Pane Preview</div>
 </div>
 <p><br></p>
-<div class="figure">
-<img src="images/Module02_globus_preview_dual_pane_highlights.png" alt="" />
-<p class="caption">Globus Dual Pane Preview</p>
+<div class="float">
+<img src="images/Module02_globus_preview_dual_pane_highlights.png"
+alt="Globus Dual Pane Preview" />
+<div class="figcaption">Globus Dual Pane Preview</div>
 </div>
 <p><br></p>
 </div>
-<div id="exercise-transferring-data-from-data-provider-to-my-data-den" class="section level2">
+<div id="exercise-transferring-data-from-data-provider-to-my-data-den"
+class="section level2">
 <h2>Exercise Transferring Data from Data Provider to My Data Den</h2>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center">1</th>
@@ -428,15 +453,22 @@ pre {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="images/Module02_data_shared_with_me_I_transfer_1.png" /></td>
-<td align="center"><img src="images/Module02_data_shared_with_me_I_transfer_2.png" /></td>
+<td align="center"><img
+src="images/Module02_data_shared_with_me_I_transfer_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_shared_with_me_I_transfer_2.png" /></td>
 </tr>
 </tbody>
 </table>
 </div>
-<div id="exercise-transferring-data-from-my-data-den-to-my-turbo" class="section level2">
+<div id="exercise-transferring-data-from-my-data-den-to-my-turbo"
+class="section level2">
 <h2>Exercise Transferring Data from My Data Den to My Turbo</h2>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center">1</th>
@@ -445,8 +477,10 @@ pre {
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="images/Module02_data_I_transfer_between_own_storage_1.png" /></td>
-<td align="center"><img src="images/Module02_data_I_transfer_between_own_storage_2.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_transfer_between_own_storage_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_transfer_between_own_storage_2.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -459,6 +493,10 @@ pre {
 Sharing Data with a Collaborator
 </summary>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center">1</th>
@@ -467,8 +505,10 @@ Sharing Data with a Collaborator
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="images/Module02_data_I_share_collaborator_transfers_1.png" /></td>
-<td align="center"><img src="images/Module02_data_I_share_collaborator_transfers_2.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_share_collaborator_transfers_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_share_collaborator_transfers_2.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -480,6 +520,10 @@ Sharing Data with a Collaborator
 Data Provider (AGC) ‘Pushes’ Data to Me
 </summary>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center">1</th>
@@ -488,15 +532,36 @@ Data Provider (AGC) ‘Pushes’ Data to Me
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="images/Module02_data_I_grant_AGC_RW_AGC_transfers_1.png" /></td>
-<td align="center"><img src="images/Module02_data_I_grant_AGC_RW_AGC_transfers_2.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_grant_AGC_RW_AGC_transfers_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_grant_AGC_RW_AGC_transfers_2.png" /></td>
 </tr>
 </tbody>
 </table>
-<p>Sometimes, if we expect many data deliveries over a period of time, and if we’re dealing with an entity that we can trust with write access to our storage location, it may be advantageous to set up an arrangement so that they may transfer the data to us without any action on our part.</p>
-<p>As shown in the figure, we can grant read <strong>and</strong> write access to them, and this enables them to transfer data to us without our involvement. In other words, this allows them to ‘push’ data to us, without the need for interaction from us.</p>
-<p>The Advanced Genomics Core at UMich is increasingly recommending this type of arrangement, especially to researchers who already have Data Den storage allocations through the UMRCP. This is an excellent way to ensure that your data are automatically placed in a good place for long-term archival storage.</p>
-<p>Here is a <a href="https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval">link for the AGC data retrieval page which includes the push-to-data-den instructions</a>. If you scroll to the bottom of that page, under the “Where to keep your data” heading, there is a drop-down section for “U-M Clients”. The instructions therein are the details of how to set up a <code>push-to-data-den</code>, where you set up a designated location in your Data Den space and grant permissions for the AGC to write your sequencing data directly to that location.</p>
+<p>Sometimes, if we expect many data deliveries over a period of time,
+and if we’re dealing with an entity that we can trust with write access
+to our storage location, it may be advantageous to set up an arrangement
+so that they may transfer the data to us without any action on our
+part.</p>
+<p>As shown in the figure, we can grant read <strong>and</strong> write
+access to them, and this enables them to transfer data to us without our
+involvement. In other words, this allows them to ‘push’ data to us,
+without the need for interaction from us.</p>
+<p>The Advanced Genomics Core at UMich is increasingly recommending this
+type of arrangement, especially to researchers who already have Data Den
+storage allocations through the UMRCP. This is an excellent way to
+ensure that your data are automatically placed in a good place for
+long-term archival storage.</p>
+<p>Here is a <a
+href="https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval">link
+for the AGC data retrieval page which includes the push-to-data-den
+instructions</a>. If you scroll to the bottom of that page, under the
+“Where to keep your data” heading, there is a drop-down section for “U-M
+Clients”. The instructions therein are the details of how to set up a
+<code>push-to-data-den</code>, where you set up a designated location in
+your Data Den space and grant permissions for the AGC to write your
+sequencing data directly to that location.</p>
 </details>
 <p><br></p>
 <details>
@@ -504,6 +569,10 @@ Data Provider (AGC) ‘Pushes’ Data to Me
 Collaborator Shares Data with Me
 </summary>
 <table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="center">1</th>
@@ -512,8 +581,10 @@ Collaborator Shares Data with Me
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center"><img src="images/Module02_data_collab_shared_with_me_I_transfer_1.png" /></td>
-<td align="center"><img src="images/Module02_data_collab_shared_with_me_I_transfer_2.png" /></td>
+<td align="center"><img
+src="images/Module02_data_collab_shared_with_me_I_transfer_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_collab_shared_with_me_I_transfer_2.png" /></td>
 </tr>
 </tbody>
 </table>
@@ -521,14 +592,47 @@ Collaborator Shares Data with Me
 <p><br></p>
 <details>
 <summary>
-Using Globus Connect Personal to Transfer to/from Non-Institutional Storage
+Using Globus Connect Personal to Transfer to/from Non-Institutional
+Storage
 </summary>
-<p>During this workshop, we’ve emphasized usage of institutional storage allocations like Turbo and Data Den. Our example exercises have also only utilized institutional storage. As discussed, we recommend keeping your data within the institutional storage options if possible, for the redundancy and safety capabilities that they offer. However, there may be situations where you must transfer data to/from non-institutional storage. We can also use the Globus software suite to accomplish this, using a tool called Globus Connect Personal.</p>
-<p>It may be easy to forget that Globus is not a Cloud Storage provider while using it. As mentioned, when we’re using Globus to transfer data among institutional storage locations, we have always-on, fire-and-forget capabilities that can feel similar to other tools like DropBox. However, this is only possible because UMich (and other research institutions) provide this always-on capability. Essentially, our academic IT provides the constant connection between the Globus software and our institutional storage like Data Den, Turbo, etc. If we want to transfer data to/from non-institutional storage, though, we don’t have this luxury.</p>
-<p>Globus Connect Personal is an application that you download and install on the computer that holds (or has access to) the data that you want to transfer. For instance, if you have sequencing data stored on the hard-drive of an old laptop (not recommended, but it happens), you would install Globus Connect Personal on that laptop and it could provide the connection between the laptop’s hard drive and other Globus-connected storage like the Data Den and Turbo locations we’ve used above. After installing and configuring this, you could then see (and share, etc.) data from the laptop using the Globus Web App to perform transfers just as we have in the exercises above.</p>
-<p>You can find documentation about installing and configuring Globus Connect Personal at <a href="https://docs.globus.org/globus-connect-personal/">this page on Globus’s documentation website</a>.</p>
+<p>During this workshop, we’ve emphasized usage of institutional storage
+allocations like Turbo and Data Den. Our example exercises have also
+only utilized institutional storage. As discussed, we recommend keeping
+your data within the institutional storage options if possible, for the
+redundancy and safety capabilities that they offer. However, there may
+be situations where you must transfer data to/from non-institutional
+storage. We can also use the Globus software suite to accomplish this,
+using a tool called Globus Connect Personal.</p>
+<p>It may be easy to forget that Globus is not a Cloud Storage provider
+while using it. As mentioned, when we’re using Globus to transfer data
+among institutional storage locations, we have always-on,
+fire-and-forget capabilities that can feel similar to other tools like
+DropBox. However, this is only possible because UMich (and other
+research institutions) provide this always-on capability. Essentially,
+our academic IT provides the constant connection between the Globus
+software and our institutional storage like Data Den, Turbo, etc. If we
+want to transfer data to/from non-institutional storage, though, we
+don’t have this luxury.</p>
+<p>Globus Connect Personal is an application that you download and
+install on the computer that holds (or has access to) the data that you
+want to transfer. For instance, if you have sequencing data stored on
+the hard-drive of an old laptop (not recommended, but it happens), you
+would install Globus Connect Personal on that laptop and it could
+provide the connection between the laptop’s hard drive and other
+Globus-connected storage like the Data Den and Turbo locations we’ve
+used above. After installing and configuring this, you could then see
+(and share, etc.) data from the laptop using the Globus Web App to
+perform transfers just as we have in the exercises above.</p>
+<p>You can find documentation about installing and configuring Globus
+Connect Personal at <a
+href="https://docs.globus.org/globus-connect-personal/">this page on
+Globus’s documentation website</a>.</p>
 <blockquote>
-<p>Note: The computer that’s running Globus Connect Personal must remain on and connected to the network for the entire duration of the transfer. Remember that in this case, the Globus Connect Personal software that’s running on that computer is what provides the connection to all other Globus-connected storage.</p>
+<p>Note: The computer that’s running Globus Connect Personal must remain
+on and connected to the network for the entire duration of the transfer.
+Remember that in this case, the Globus Connect Personal software that’s
+running on that computer is what provides the connection to all other
+Globus-connected storage.</p>
 </blockquote>
 </details>
 <p><br> <br></p>
@@ -542,13 +646,23 @@ Using Globus Connect Personal to Transfer to/from Non-Institutional Storage
 <li>Where the data will be transferred to</li>
 <li>Who is responsible for performing the transfer</li>
 </ul>
-<p>Unless this is arranged previously for an ongoing relationship, <em>someone</em> will <em>always</em> need to grant permissions to enable a transfer between two parties.</p>
-<table>
+<p>Unless this is arranged previously for an ongoing relationship,
+<em>someone</em> will <em>always</em> need to grant permissions to
+enable a transfer between two parties.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module01_storage_best_practices_UMRCP.html">Previous lesson</a></th>
+<th align="left"><a
+href="Module01_storage_best_practices_UMRCP.html">Previous
+lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module03a_sneak_peek_great_lakes.html">Next lesson</a></th>
+<th align="right"><a href="Module03a_sneak_peek_great_lakes.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>

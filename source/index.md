@@ -56,7 +56,7 @@ body, td {
 | :---  | :---- |
 |  9:00 | Review |
 |  9:10 | **Workflow automation** |
-|       | [Basic workflow automation](Module06-basic-workflow-automation.html) |
+|       | [Intro to workflow automation](Module06-intro-to-workflow-automation.html) |
 |       | [Intro to Snakemake](Module07-intro-to-snakemake.html) |
 | 11:00 | Break |
 |       | [Advanced Snakemake](Module08-intro-to-snakemake.html) |

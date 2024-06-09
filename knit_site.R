@@ -17,7 +17,7 @@ render_site('source/Module03a_sneak_peek_great_lakes.md')
 render_site('source/Module03b_great_lakes_cluster.md')
 render_site('source/Module04_software_management_conda.md')
 render_site('source/Module05_containers_docker_singularity.md')
-render_site('source/Module06-basic-workflow-automation.md')
+render_site('source/Module06-intro-to-workflow-automation.md')
 render_site('source/Module07-intro-to-snakemake.md')
 render_site('source/Module08-advanced-snakemake.md')
 

@@ -14,7 +14,7 @@
 
 <title>Sneak peek: Great Lakes</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -317,7 +317,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
     </li>
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
@@ -370,16 +370,29 @@ pre {
 <li>learn about several ways to access Great Lakes</li>
 <li>use the web-based file browser for Great Lakes</li>
 <li>introduce or review the nano text editor</li>
-<li>use the OpenOnDemand service to launch a web-based interactive job</li>
+<li>use the OpenOnDemand service to launch a web-based interactive
+job</li>
 </ul>
 <div id="great-lakes---sneak-peek" class="section level2">
 <h2>Great Lakes - Sneak Peek</h2>
-<p>So far, we’ve briefly described Great Lakes as a general-purpose High-Performance Compute (HPC) cluster.</p>
-<p>In this module we’ll start to get a feel for what it’s like to use an HPC cluster. It’s not intended to be a deep dive, but rather to use some of the quickest ways to get started in order to start getting some experience with this system.</p>
-<div id="using-an-hpc-cluster---must-request-resources" class="section level3">
+<p>So far, we’ve briefly described Great Lakes as a general-purpose
+High-Performance Compute (HPC) cluster.</p>
+<p>In this module we’ll start to get a feel for what it’s like to use an
+HPC cluster. It’s not intended to be a deep dive, but rather to use some
+of the quickest ways to get started in order to start getting some
+experience with this system.</p>
+<div id="using-an-hpc-cluster---must-request-resources"
+class="section level3">
 <h3>Using an HPC Cluster - Must Request Resources</h3>
 <p><img src="images/Module03a_ask_for_resources.png" /></p>
-<p>When using an HPC cluster, there is a pattern that is quite different from our typical interactions with a computer system - we must ask for resources before we are able to use them. This is a characteristic of a shared, large, multi-user system like Great Lakes. Within the entirety of the system, we have an enormous amount of computing power, but at the same time, we need to allow equal access to this resource to the whole university. Therefore, we use this pattern of requesting resources and receiving them before we begin our computing tasks.</p>
+<p>When using an HPC cluster, there is a pattern that is quite different
+from our typical interactions with a computer system - we must ask for
+resources before we are able to use them. This is a characteristic of a
+shared, large, multi-user system like Great Lakes. Within the entirety
+of the system, we have an enormous amount of computing power, but at the
+same time, we need to allow equal access to this resource to the
+entirety of the University. Therefore, we use this pattern of requesting
+resources and receiving them before we begin our computing tasks.</p>
 </div>
 <div id="several-ways-to-access-great-lakes" class="section level3">
 <h3>Several ways to access Great Lakes</h3>
@@ -402,55 +415,108 @@ pre {
 </div>
 <div id="using-the-web-based-access-methods" class="section level3">
 <h3>Using the web-based access methods</h3>
-<p>The web-based tools that provide access to Great Lakes and other ARC resources are a quick and easy way to get started. We’ll use these in our upcoming exercises to make our first foray into using the Great Lakes HPC. Additionally, the ‘Interactive Apps’ with ARC’s Open On Demand service offer a unique solution for when we need to run graphical applications. We’ll preview this and give some practical tips for using the RStudio and the Basic Desktop apps.</p>
+<p>The web-based tools that provide access to Great Lakes and other ARC
+resources are a quick and easy way to get started. We’ll use these in
+our upcoming exercises to make our first foray into using the Great
+Lakes HPC. Additionally, the ‘Interactive Apps’ with ARC’s Open On
+Demand service offer a unique solution for when we need to run graphical
+applications. We’ll preview this and give some practical tips for using
+the RStudio and the Basic Desktop apps.</p>
 <p><br></p>
-<p>Sneak preview of the web-based file browser <img src="images/Module03a_accessing_web_based_file_browser.png" /> <img src="images/Module03a_preview_web_based_file_browser.png" /></p>
+<p>Sneak preview of the web-based file browser <img
+src="images/Module03a_accessing_web_based_file_browser.png" /> <img
+src="images/Module03a_preview_web_based_file_browser.png" /></p>
 <p><br></p>
-<p>Sneak preview of the web-based shell <img src="images/Module03a_accessing_web_based_shell.png" /> <img src="images/Module03a_preview_web_based_shell.png" /></p>
+<p>Sneak preview of the web-based shell <img
+src="images/Module03a_accessing_web_based_shell.png" /> <img
+src="images/Module03a_preview_web_based_shell.png" /></p>
 <p><br></p>
-<p>Sneak preview of a web-based RStudio session <img src="images/Module03a_accessing_interactive_rstudio.png" /> <img src="images/Module03a_preview_interactive_rstudio.png" /></p>
+<p>Sneak preview of a web-based RStudio session <img
+src="images/Module03a_accessing_interactive_rstudio.png" /> <img
+src="images/Module03a_preview_interactive_rstudio.png" /></p>
 <p><br></p>
-<p>Sneak preview of a web-based Basic Desktop session <img src="images/Module03a_accessing_interactive_basic_desktop.png" /> <img src="images/Module03a_preview_interactive_basic_desktop.png" /></p>
+<p>Sneak preview of a web-based Basic Desktop session <img
+src="images/Module03a_accessing_interactive_basic_desktop.png" /> <img
+src="images/Module03a_preview_interactive_basic_desktop.png" /></p>
 <p><br></p>
 </div>
 </div>
-<div id="quick-review-or-crash-course-on-the-nano-editor" class="section level2">
+<div id="quick-review-or-crash-course-on-the-nano-editor"
+class="section level2">
 <h2>Quick Review or Crash Course on the Nano Editor</h2>
-<p>Before we dive into some of the exercises in this module, we should do a quick review or crash course on the nano text editor, which is a command-line-based text editor. In some of the upcoming exercises, we will be connected to Great Lakes via the web-based shell, which means that we will be limited to using command-line tools. During that time, we’ll use nano to edit READMEs and script files. Nano, along with other command-line-based text editor tools, use the keyboard as the main way of interfacing with the software. This means we will use various keystrokes to carry out tasks like saving the file and exiting the tool, which may take some practice to get comfortable with. Thankfully, nano is relatively intuitive and easy to use, which is one reason why we’ve chosen to use it for this workshop.</p>
-<p>The basic layout of the nano editor is shown below. A helpful list of common tasks and their keyboard shortcuts is found at the bottom. The title bar and the status bar provide some additional context about the file we’re interacting with and feedback messages from nano, respectively.</p>
+<p>Before we dive into some of the exercises in this module, we should
+do a quick review or crash course on the nano text editor, which is a
+command-line-based text editor. In some of the upcoming exercises, we
+will be connected to Great Lakes via the web-based shell, which means
+that we will be limited to using command-line tools. During that time,
+we’ll use nano to edit READMEs and script files. Nano, along with other
+command-line-based text editor tools, use the keyboard as the main way
+of interfacing with the software. This means we will use various
+keystrokes to carry out tasks like saving the file and exiting the tool,
+which may take some practice to get comfortable with. Thankfully, nano
+is relatively intuitive and easy to use, which is one reason why we’ve
+chosen to use it for this workshop.</p>
+<p>The basic layout of the nano editor is shown below. A helpful list of
+common tasks and their keyboard shortcuts is found at the bottom. The
+title bar and the status bar provide some additional context about the
+file we’re interacting with and feedback messages from nano,
+respectively.</p>
 <p><img src="images/Module03a_nano_editor_layout.png" /></p>
 <p><br></p>
 </div>
 <div id="handy-links-for-great-lakes" class="section level2">
 <h2>Handy links for Great Lakes</h2>
 <ul>
-<li><a href="https://arc.umich.edu/greatlakes/">Link to ARC’s Great Lakes overview page</a></li>
-<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes Dashboard</a></li>
+<li><a href="https://arc.umich.edu/greatlakes/">Link to ARC’s Great
+Lakes overview page</a></li>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard</a></li>
 </ul>
 <p><br></p>
 </div>
 <div id="exercise---view-transferred-files" class="section level2">
 <h2>Exercise - View Transferred Files</h2>
-<p>Following along with the instructor, we’ll use the web-based file browser to confirm that we’ve transferred the data files to our turbo space</p>
+<p>Following along with the instructor, we’ll use the web-based file
+browser to confirm that we’ve transferred the data files to our turbo
+space</p>
 </div>
-<div id="exercise---connect-with-the-web-based-shell" class="section level2">
+<div id="exercise---connect-with-the-web-based-shell"
+class="section level2">
 <h2>Exercise - Connect with the Web-Based Shell</h2>
-<p>Following along with the instructor, we’ll use the web-based shell to connect to Great Lakes. Once there, we’ll run an introductory script, and take another look at our transferred files.</p>
+<p>Following along with the instructor, we’ll use the web-based shell to
+connect to Great Lakes. Once there, we’ll run an introductory script,
+and take another look at our transferred files.</p>
 </div>
-<div id="exercise---launch-an-rstudio-instance-on-openondemand" class="section level2">
+<div id="exercise---launch-an-rstudio-instance-on-openondemand"
+class="section level2">
 <h2>Exercise - Launch an RStudio Instance on OpenOnDemand</h2>
-<p>Following along with the instructor, we’ll use OpenOnDemand to launch an RStudio instance. Once there, we’ll run a basic R script as a quick demonstration of these capabilities.</p>
+<p>Following along with the instructor, we’ll use OpenOnDemand to launch
+an RStudio instance. Once there, we’ll run a basic R script as a quick
+demonstration of these capabilities.</p>
 </div>
-<div id="exercise---launch-a-basic-desktop-instance-and-verify-file-integrity" class="section level2">
-<h2>Exercise - Launch a Basic Desktop Instance and Verify File Integrity</h2>
-<p>Following along with the instructor, we’ll use OpenOnDemand to launch a Basic Desktop instance. Once there, we’ll open a terminal and use the <code>md5sum</code> utility to verify file integrity of the data that we recently transferred to our Turbo location.</p>
+<div
+id="exercise---launch-a-basic-desktop-instance-and-verify-file-integrity"
+class="section level2">
+<h2>Exercise - Launch a Basic Desktop Instance and Verify File
+Integrity</h2>
+<p>Following along with the instructor, we’ll use OpenOnDemand to launch
+a Basic Desktop instance. Once there, we’ll open a terminal and use the
+<code>md5sum</code> utility to verify file integrity of the data that we
+recently transferred to our Turbo location.</p>
 <blockquote>
-<p>Note: Using an OpenOnDemand Basic Desktop instance in order to run a command line application can be a bit of an odd pattern. We do this here primarily as a means for requesting and receiving the proper computational resources for this task. In the next module, we’ll learn about some other patterns for requesting resources and running command-line utilities which may be better choices going forward.</p>
+<p>Note: Using an OpenOnDemand Basic Desktop instance in order to run a
+command line application can be a bit of an odd pattern. We do this here
+primarily as a means for requesting and receiving the proper
+computational resources for this task. In the next module, we’ll learn
+about some other patterns for requesting resources and running
+command-line utilities which may be better choices going forward.</p>
 </blockquote>
 </div>
 <div id="exercise---write-a-readme-file" class="section level2">
 <h2>Exercise - Write a README File</h2>
-<p>Following along with the instructor, we will use the <code>nano</code> utility to write the beginnings of a README for our project as it exists so far.</p>
+<p>Following along with the instructor, we will use the
+<code>nano</code> utility to write the beginnings of a README for our
+project as it exists so far.</p>
 </div>
 <div id="exercise---organize-your-project" class="section level2">
 <h2>Exercise - Organize your project</h2>
@@ -461,29 +527,44 @@ pre {
 <div id="review" class="section level2">
 <h2>Review</h2>
 <ul>
-<li>Learned about different ways of accessing the Great Lakes HPC cluster</li>
+<li>Learned about different ways of accessing the Great Lakes HPC
+cluster</li>
 <li>Experienced using the web-based access methods
 <ul>
-<li>With web-based file browser, examined the data that we previously transferred</li>
-<li>With web-based shell access, we ran an introductory script and used CLI commands to examine the data that we previously transferred</li>
+<li>With web-based file browser, examined the data that we previously
+transferred</li>
+<li>With web-based shell access, we ran an introductory script and used
+CLI commands to examine the data that we previously transferred</li>
 <li>With OpenOnDemand RStudio, we ran an introductory R script</li>
-<li>With OpenOnDemand Basic Desktop, we verified file integrity of data the we previously transferred, and used <code>nano</code> to write a README file</li>
+<li>With OpenOnDemand Basic Desktop, we verified file integrity of data
+the we previously transferred, and used <code>nano</code> to write a
+README file</li>
 </ul></li>
 </ul>
 <p><br></p>
 <div id="handy-links" class="section level3">
 <h3>Handy Links</h3>
 <ul>
-<li><a href="https://arc.umich.edu/greatlakes/">Link to ARC’s Great Lakes overview page (same as above)</a></li>
-<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes Dashboard (same as above)</a></li>
-<li><a href="http://michmed.org/agc-md5sum">link from AGC on validating file integrity using md5sum</a></li>
+<li><a href="https://arc.umich.edu/greatlakes/">Link to ARC’s Great
+Lakes overview page (same as above)</a></li>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard (same as above)</a></li>
+<li><a href="http://michmed.org/agc-md5sum">link from AGC on validating
+file integrity using md5sum</a></li>
 </ul>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module02_transferring_data_globus.html">Previous lesson</a></th>
+<th align="left"><a
+href="Module02_transferring_data_globus.html">Previous lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module03b_great_lakes_cluster.html">Next lesson</a></th>
+<th align="right"><a href="Module03b_great_lakes_cluster.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>
