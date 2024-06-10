@@ -57,8 +57,7 @@ body, td {
 |  9:00 | Review |
 |  9:10 | **Workflow automation** |
 |       | [Intro to workflow automation](Module06-intro-to-workflow-automation.html) |
-|       | [Intro to Snakemake](Module07-intro-to-snakemake.html) |
 | 11:00 | Break |
-|       | [Advanced Snakemake](Module08-intro-to-snakemake.html) |
+|       | [Intro to Snakemake](Module07-intro-to-snakemake.html) |
 | 12:45 | [Wrap-up](Module99_Wrap_up.html) |
 |  1:00 | Day 3 concludes |
