@@ -66,7 +66,7 @@ Exercise 4D:
 In rule TODO, replace the module loads with a container directive to specify a singularity instance for the analysis rules.
 TODO directive text
 
-
+---
 
 | [Previous lesson](Module07-intro-to-snakemake.html) | [Top of this lesson](#top) | [Wrap up](Module99_Wrap_up.html) |
 | :--- | :----: | ---: |
