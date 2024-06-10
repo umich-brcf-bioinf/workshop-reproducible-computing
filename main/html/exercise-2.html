@@ -14,7 +14,7 @@
 
 <title>Independent Exercise - SBATCH, Conda, Filtering out BAMs</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -322,9 +322,6 @@ $(document).ready(function () {
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
     </li>
-    <li>
-      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -349,7 +346,8 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda, Filtering out BAMs</h1>
+<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda,
+Filtering out BAMs</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -369,33 +367,47 @@ pre {
 <p><br></p>
 <p><strong>15 Minutes</strong></p>
 <p><br></p>
-<p>We just learned how to activate an existing conda environment and use it to provide software that we want - <code>samtools</code> - and use samtools to filter our BAM files. We also recently learned how to create SBATCH script files and submit them using <code>sbatch</code>.</p>
+<p>We just learned how to activate an existing conda environment and use
+it to provide software that we want - <code>samtools</code> - and use
+samtools to filter our BAM files. We also recently learned how to create
+SBATCH script files and submit them using <code>sbatch</code>.</p>
 <p>Let’s combine these ideas and filter the rest of our BAM files.</p>
-<p>If you have extra time, there’s a bonus exercise of indexing your BAMs as well</p>
+<p>If you have extra time, there’s a bonus exercise of indexing your
+BAMs as well</p>
 <p><br></p>
 <div id="instructions" class="section level3">
 <h3>Instructions:</h3>
 <p><br></p>
 <ul>
-<li>Work independently in the main room, posting any questions that arise to slack.</li>
+<li>Work independently in the main room, posting any questions that
+arise to slack.</li>
 <li>Recommendations for writing your own code:
 <ul>
 <li>Read function documentation</li>
 <li>Test out ideas - it’s okay to make mistakes and generate errors</li>
-<li>Use a search engine to look up errors or recommended solutions using keywords</li>
+<li>Use a search engine to look up errors or recommended solutions using
+keywords</li>
 </ul></li>
 <li>We’ll review possible solutions after time is up as a group.</li>
 </ul>
 <p><br></p>
 <ul>
-<li>Review our samtools command that we used earlier. Combine this with what we’ve learned about using conda environments and creating SBATCH files.</li>
-<li>Create an SBATCH file that activates our <code>samtools_deeptools</code> conda environment. With the conda environment active, use <code>samtools</code> to filter sample_A.</li>
-<li>Submit the SBATCH file, view the output, and verify once it’s complete that we have created the filtered sample_A BAM file.</li>
-<li>Once we are happy with the results, create additional SBATCH files for our other samples, and submit them as well.</li>
+<li>Review our samtools command that we used earlier. Combine this with
+what we’ve learned about using conda environments and creating SBATCH
+files.</li>
+<li>Create an SBATCH file that activates our
+<code>samtools_deeptools</code> conda environment. With the conda
+environment active, use <code>samtools</code> to filter sample_A.</li>
+<li>Submit the SBATCH file, view the output, and verify once it’s
+complete that we have created the filtered sample_A BAM file.</li>
+<li>Once we are happy with the results, create additional SBATCH files
+for our other samples, and submit them as well.</li>
 </ul>
 <p><br></p>
 <blockquote>
-<p>Bonus: If you have extra time, extend this exercise and use <code>samtools index</code> to index the filtered BAM file for sample_A.</p>
+<p>Bonus: If you have extra time, extend this exercise and use
+<code>samtools index</code> to index the filtered BAM file for
+sample_A.</p>
 </blockquote>
 <p><br></p>
 </div>
