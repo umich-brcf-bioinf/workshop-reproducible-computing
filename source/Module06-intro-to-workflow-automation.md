@@ -668,7 +668,69 @@ the way:
 
 ---
 
-## TODO Exercise 1
+## Exercise: Project Railfence
+
+This project is focused around a transformation that can encode or decode a 
+specific kind of encryption called a [rail fence cipher](https://en.wikipedia.org/wiki/Rail_fence_cipher){target="_blank"}. The
+details of this encryption are interesting and I encourage you to check out the
+link, but for the purposes of this exercise it's ok to treat it as 
+magic/black-box transformation.
+
+Review the project directory here:
+```sh
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_railfence
+ls -1
+```
+
+> ```
+codes.txt
+railfence_decode.py
+railfence_encode.py
+README.md
+  ```
+
+
+The `railfence_decode.py` script accepts two arguments separated by a comma:
+
+  - a number (a positive integer)
+  - a quoted string (the cipher text)
+
+It returns the decoded clear text. You can run the railfence_decode.py script
+like so:
+
+```sh
+# need to load python once in the session
+module load python
+
+./railfence_decode.py 3,"wrivdetceaedsoee-lea ne  crf o!"
+```
+
+> ```
+we are discovered-flee at once!
+  ```
+
+There is a list of encrypted codes in the `codes.txt` file:
+<table class='fig'><tr><th class='fig'>codes.txt</th></tr>
+<tr><td class='fig'><pre>
+2,"onttyt uoaesmtigta o antd yhn"d o r oatmt oehn htyucno ob ad
+3,"e hM craifi.nar.mk trgt aei la.Mk tefcet I htodr)aii.kte e in(t e"
+4,"aefie aamth klwth ayhvuoetwro htdto et ow au"
+5,"rrnmpce eaadeeap"odatt  rn rhniniieictlocs vnaa
+3,"t DwieaRAM"r EE
+3,"lsie"m!
+</pre></td></tr></table>
+<br/>
+
+**Your task:**
+
+- Consider the three automation approaches outlined in the lessons above: serial 
+loop, parallel batch, and launcher.
+- Choose one approach, and, using the patterns above as a template, create
+script(s) that will decrypt the codes in `code.txt`.
+- If you complete the exercise with a one approach, repeat the
+exercise with a different approach.
+
 
 ---
 
