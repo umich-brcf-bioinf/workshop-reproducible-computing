@@ -50,8 +50,13 @@ If you have extra time, there's a bonus exercise of indexing your BAMs as well
 
 <br>
 
-- Review what we've learned about running RSEM + STAR, to determine an appropriate command for aligning our samples.
-- Using what we've learned previously, create a script using this command to quickly and easily align the rest of our samples.
-- Run the script, view the output, and verify that we have the files we need.
+- Review our samtools command that we used earlier. Combine this with what we've learned about using conda environments and creating SBATCH files.
+- Create an SBATCH file that activates our `samtools_deeptools` conda environment. With the conda environment active, use `samtools` to filter sample_A.
+- Submit the SBATCH file, view the output, and verify once it's complete that we have created the filtered sample_A BAM file.
+- Once we are happy with the results, create additional SBATCH files for our other samples, and submit them as well.
+
+<br>
+
+>Bonus: If you have extra time, extend this exercise and use `samtools index` to index the filtered BAM file for sample_A.
 
 <br>

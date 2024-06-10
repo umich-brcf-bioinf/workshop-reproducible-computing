@@ -163,9 +163,11 @@ Following along with instructor, learners will install miniconda and create a `.
 
 <br>
 
-## Exercise - Conda Activate
+## Exercise - Conda Activate, Make BigWig Files
 
-Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and `which`?).
+Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and using `which`). Then, we'll create a visualization file for sample_A - A BigWig File.
+
+<!-- LIVE_NOTE: Now we'll go to https://igv.org/app/ and visualize what this looks like. -->
 
 <br>
 
@@ -200,6 +202,19 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 [Link to Independent Exercise](exercise-2.html)
 
 <br>
+
+## Exercise - `srun`, Conda, Sanity Check and Index BAMs
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to perform a sanity check on our filtered BAM files. We'll also index one of our BAM files - sample_A. This will set us up for the next step.
+
+
+## Exercise - `srun`, Conda, Creating Bigwigs
+
+Now we'll create files for visualization of our filtered BAMs, as another way to check our results.
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use `bamCoverage` to create a bigwig file for sample_A.
+
+<!-- LIVE_NOTE: Now we'll go to https://igv.org/app/ and visualize what this looks like. -->
 
 ## Review
 
