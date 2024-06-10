@@ -155,7 +155,7 @@ So far we've described many of the details of how conda works and how we can use
 
 <br>
 
-## Conda Install and Configure Exercise
+## Exercise - Conda Install and Configure
 
 Following along with instructor, learners will install miniconda and create a `.condarc` file.
 
@@ -163,13 +163,15 @@ Following along with instructor, learners will install miniconda and create a `.
 
 <br>
 
-## Conda Activate Exercise
+## Exercise - Conda Activate, Make BigWig Files
 
-Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and `which`?).
+Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and using `which`). Then, we'll create a visualization file for sample_A - A BigWig File.
+
+<!-- LIVE_NOTE: Now we'll go to https://igv.org/app/ and visualize what this looks like. -->
 
 <br>
 
-## Conda Create Demonstration
+## Demonstration - Conda Create
 
 Instructor will demonstrate creating a simple conda environment on the command line. 
 
@@ -177,13 +179,13 @@ We'll then ask about how to create a slightly more complicated conda environment
 
 <br>
 
-## `srun` with Conda Create Exercise
+## Exercise - `srun` and Conda Create
 
 Following along with instructor, we'll launch an srun job and then create a conda environment in it. After it's created, we'll test it by activating and deactivating it. While active, we'll check things like `$PATH` and use `which` to confirm that it's working as intended.
 
 <br>
 
-## Conda Export Exercise
+## Exercise - Conda Export
 
 Following along with the instructor, we'll use Conda's export functionality to create an export - a more complete recipe with all dependencies and their versions fully listed.
 
@@ -191,15 +193,28 @@ Following along with the instructor, we'll use Conda's export functionality to c
 
 <br>
 
-## `srun` with Conda Exercise
+## Exercise - `srun`, Conda, Filtering our BAMs
 
 Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to filter our BAM file just as we did in the `lmod` exercises.
 
-## SBATCH with Conda Exercise
+## Independent Exercise - SBATCH, Conda, Filtering out BAMs
 
-FIXME: Link to independent exercise
+[Link to Independent Exercise](exercise-2.html)
 
 <br>
+
+## Exercise - `srun`, Conda, Sanity Check and Index BAMs
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to perform a sanity check on our filtered BAM files. We'll also index one of our BAM files - sample_A. This will set us up for the next step.
+
+
+## Exercise - `srun`, Conda, Creating Bigwigs
+
+Now we'll create files for visualization of our filtered BAMs, as another way to check our results.
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use `bamCoverage` to create a bigwig file for sample_A.
+
+<!-- LIVE_NOTE: Now we'll go to https://igv.org/app/ and visualize what this looks like. -->
 
 ## Review
 
@@ -220,7 +235,6 @@ When given a set of software requirement specifications, Conda handles all of th
 - [Miniconda installation instructions](https://docs.anaconda.com/free/miniconda/miniconda-install/)
 - [Miniconda downloads page](https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh)
 - [Configuration with condarc](https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html)
-
 
 <br>
 

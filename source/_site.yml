@@ -32,7 +32,7 @@ navbar:
           href: Module04_software_management_conda.html
         - text: "Containerization with Docker/Singularity"
           href: Module05_containers_docker_singularity.html
-        - text: "Exercise 2"
+        - text: "Independent Exercise"
           href: exercise-2.html
           
     - text: "Workflow automation"
@@ -41,7 +41,7 @@ navbar:
           href: Module06-intro-to-workflow-automation.html
         - text: "Intro to Snakemake"
           href: Module-07-intro-to-snakemake.html
-        - text: "Advanced Snakemake"
-          href: Module-08-advanced-snakemake.html
+#        - text: "Advanced Snakemake"
+#          href: Module-08-advanced-snakemake.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html

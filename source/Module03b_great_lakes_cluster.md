@@ -56,6 +56,9 @@ Again, we'll provide the link to ARC's general overview page on Great Lakes here
 
 Let's not go there right now, but I'd just like to point out that there's a good deal of informational resources available on ARC's website.
 
+<br>
+<br>
+<br>
 
 ### A More Detailed Look at How Great Lakes Works
 ![](images/Module03_cluster_overview.png)
@@ -215,7 +218,9 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 Following along with the instructor, we'll create an SBATCH script that is similar to our previous `srun` exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with `sbatch` and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.
 
 
+
 ---
+
 
 | [Previous lesson](Module03a_sneak_peek_great_lakes.html) | [Top of this lesson](#top) | [Next lesson](Module04_software_management_conda.html) |
 | :--- | :----: | ---: |

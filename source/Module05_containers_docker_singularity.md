@@ -26,7 +26,7 @@ In this module, we will:
 * discuss the what and why of containerization
 * compare container solutions to other software management tools that we've discussed
 * learn how to utilize publically available Docker or Singularity containers
-* learn how to build our own singularity containers
+* see how to build a new singularity container
 
 ## Commonalities Between Software Management Tools
 
@@ -50,10 +50,6 @@ The simplest way to think of containers is as if there is a virtual computer sys
 
 <br>
 
-Imagine your typical hardware layout like shown above. Imagine that there is software that is able to respectfully request a portion of CPU and memory (RAM) from the system, and then create abstractions for all of the other portions that you see.
-
-If you imagined that this would enable you to create several running "virtual computers" each taking a portion of the physical CPU and RAM available to them and treating it as their own, then you've basically imagined what containers can offer us.
-
 You may have already heard the term "virtual machine" in the past, and this is a technology that is related to, but distinct from containers. We will be discussing containerization software specifically, and focusing on these because containers are more efficient, streamlined, and perfectly suited for reproducibility, when compared to virtual machines. When comparing between these, some things I'd like to highlight that work highly in favor of containerized software are:
 
 - The usage of standardized specification files
@@ -68,6 +64,8 @@ You may have already heard the term "virtual machine" in the past, and this is a
 
 ![](images/Module05_file_image_container_generalized.png)
 
+To cover some terminology and to give a broad overview of the flow of using containers, we'll briefly discuss this figure.
+
 <br>
 
 
@@ -77,44 +75,63 @@ You may have already heard the term "virtual machine" in the past, and this is a
 
 ![](images/Module05_sharing_analyses.png)
 
+
+Let's revisit the topic of sharing analyses once again. We've discussed how some of you may have experienced friction when trying to share some analysis code with a collaborator or with a colleague - when they try to run the analysis on their machine they are unsuccessful. Maybe they don't have the required software. Maybe they have some certain configuration details that are set incorrectly. Or maybe the software that you've given them is actually incompatible with some software that's running on their system. In the figure above, we've shown a very simplistic idea for getting around these issues, which is to just share your entire laptop with your colleague. However, you can imagine that there are many practical reasons why this is not a very good solution. 
+
+We've discussed some solutions that can aid in these sharing tasks, without having to resort to actually sharing your entire computer with your colleague. In many ways, these solutions allow us to get past this friction. Let's take a moment to think about our experiences with LMOD modules and conda, and describe their strengths and limitations.
+
+<!-- LIVE_NOTE: Highlight the limitation of conda - while we can share recipes, we can't really share the built environment. Relate to stale links on the internet - it's not guaranteed to stay intact forever! -->
+
 <br>
 
+Now we shift our focus back to containers, and how they can offer some solutions to the limitations of other options. An important aspect of containers that makes them unique is that after they're built according to specifications, the container is basically unchangeable. Once again, this is a simplification, but for the most common usages, in terms of shareability and reproducibility, we can consider it to be so.
 
-If we take the example of sharing an analysis with a colleague or a collaborator, we get to a point where we need to share not only the analysis code, but also the particulars of the compute environment that we ran the analysis within. Many of you may have an experience like this, where you tried to share some analysis code with a collaborator or with a colleague, and when they try to run it on their machine they are unsuccessful. Maybe they don't have the required software. Maybe they have some certain configuration details that are set incorrectly. Or maybe the software that you've given them is actually incompatible with some software that's running on their system. In the figure above, we've shown a very simplistic idea for getting around these issues, which is to just share your entire laptop with your colleague. However, you can imagine that there are many practical reasons why this is not a very good solution. 
-
-So far we've started to hint at the idea of shareability as being integral to reproducibility. When we've discussed conda, there have been some limitations or aspects that are not quite ideal for sharing, that are remedied By using a solution like containers.
-
-An important aspect of containers that makes them unique in this way is that after they're built according to specifications, the container is basically unchangeable. Once again, this is a simplification, but for the most common usages, in terms of shareability and reproducibility, we can consider it to be so.
+In addition to being stable once created, it is also shareable after creation. This benefit cannot be overstated. By being able to share the static environment after it has been created, and to know that it will remain stable and usable far into the future, we can ensure reproducibility far into the future as well.
 
 There are several ways that you can share containerized software:
 
 - Sharing the specification files (akin to sharing a conda recipe)
-- Sharing by hosting the images in an accessible repository (Docker Hub)
+- Sharing by hosting the images in an accessible repository (Docker Hub, Quay IO, Biocontainers)
 - Sharing the image directly (Singularity Image File)
+
+<br>
 
 ### Environment Isolation
 
-Another important aspect of containers is their relative isolation from the host system when compared to something like Conda. Remember that when we are running software within a container, the software interacts with a completely virtualized version of the hardware system. By nature of that, that means that there is additional separation between the software in the container and the software that is outside of the container. Conda makes no such distinction, but rather uses a couple of tricks to make it easy to switch between environments. 
-
-<br>
-
 ![](images/Module05_container_isolation.png)
 
-<br>
+Another important aspect of containers is their relative isolation from the host system when compared to something like Conda. Remember that when we are running software within a container, the software interacts with a completely virtualized version of the hardware system. By nature of that, that means that there is additional separation between the software in the container and the software that is outside of the container. Conda makes no such distinction, but rather uses a couple of tricks to make it easy to switch between environments. 
 
-The isolation capabilities go hand in hand with the traits of encapsulation that are inherent to containerized software. If you design and build a
+
+<br>
 
 ### Static Images are Stable Across Time
 
-![](images/Module05_dependency_complications_over_time.jpg)
+![](images/Module04_dependencies_incompatibility.png)
+![](images/Module05_dependencies_over_time.png)
+
+We'll briefly revisit this idea and relate it to the incompatibility scenario that we described in the previous module.
+
+<br>
+
+### Not Just Software
+
+<!-- FIXME: Elaborate that configuration files etc. can be included in a container, which can  -->
+
+<br>
 
 ## Docker
 
-We've discussed containerized software as a concept, and now it's time to dive into one containerization tool - in fact arguably the most widely used container software today.
+We've discussed containerized software as a concept, and now it's time to briefly discuss a specific containerization tool - in fact arguably the most widely used container software today - Docker.
 
 ![](images/Module05_file_image_container_docker.png)
 
-Example of a Dockerfile:
+<!-- FIXME: describe this figure, relate images shareable on DockerHub, and then executable. Also want to highlight that we can't directly use Docker on Great Lakes, but we can still use docker images with the next software we'll discuss, singularity -->
+
+<br>
+
+<details>
+<summary>Example of a Dockerfile</summary>
 
 ```
 FROM centos:centos7
@@ -129,6 +146,10 @@ RUN wget -P /tmp "https://download.example.com/example-installer-3.2.1.el7.x86_6
 
 ENV PATH ${PATH}:/opt/foo/bin
 ```
+
+</details>
+
+<br>
 
 ## Singularity
 
@@ -152,7 +173,7 @@ MirrorURL: http://ftp.us.debian.org/debian/
 %environment
     export PATH=$PATH:/usr/games
 ```
-
+<br>
 
 ## Review
 
