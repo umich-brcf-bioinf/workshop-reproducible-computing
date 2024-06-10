@@ -32,7 +32,7 @@ navbar:
           href: Module04_software_management_conda.html
         - text: "Containerization with Docker/Singularity"
           href: Module05_containers_docker_singularity.html
-        - text: "Exercise 2"
+        - text: "Independent Exercise"
           href: exercise-2.html
           
     - text: "Workflow automation"
