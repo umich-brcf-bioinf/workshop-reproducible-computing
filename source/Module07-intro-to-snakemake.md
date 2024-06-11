@@ -28,7 +28,7 @@ pre {
 </style>
 
 By the end of this module, we will:
-* List the advantages of a robust workflow automation solution like Snakemake.
+* List the some advantages of a robust workflow automation solution like Snakemake.
 * Describe the fundamental relationship between Snakemake, a Snakefile, and the file system.
 * Describe key parts of a Snakemake rule.
 * Build a Snakefile and use Snakemake to automate a simple workflow.
@@ -38,56 +38,25 @@ By the end of this module, we will:
 
 ## What is Snakemake?
 
+Snakemake is a python program that interprets a text file describing your
+workflow against the file system and uses rules in that workflow to transform
+inputs into outputs as necessary. Snakemake is essentially **declarative**
+meaning that you don't tell it what to do, you simply ask for the final output
+and Snakemake figures out what it needs to do. That declarative pattern supports
+several key attributes:
 
-### Consider a "traditional" data workflow
-
-TODO: Pic
-This is a single script with three steps to transform raw chicken into fried
-chicken. Note that there is one input and one output to this pipeline.
-
-### An equivalent Snakefile
-
-TODO: Pic
-By declaring the inputs and outputs for each of the rules, Snakemake now 
-understands the relationship of the individual rules.
-
-### Snakemake Interprets the Snakefile
-
-TODO: Pic
-Snakemake is a python program that interprets the Snakefile against the file
-system and uses rules to transform inputs into outputs as necessary. Snakemake
-is essentially **declarative** meaning that you don't tell it what to do, you
-simply ask for the final output and Snakemake figures out what it needs to do.
-That declarative pattern enables key functionality:
 - Snakemake workflows can gracefully extend to new inputs.
 - Snakemake is modular.
 - Snakemake is portable.
 - Snakemake is “durable” (i.e it crashes with poise).
 - Snakemake is efficient.
 
-### Snakemake is efficient
-TODO: Pic
-
-A. Consider a traditional workflow with four transformation steps. Each step has
-a expected run-time (height) and also requires a certain amount of resources
-(CPUs, memory, etc.) (width). To run these steps in a single script, I have to
-allocate the maximum amount of resources for the entire execution time. The
-resulting "whitespace" is wasted money or wasted resources.
-
-B. Multiplexing makes this worse.
-
-C. Snakemake rules declare their resource footprints individually. Snakemake can
-pack transformations tighter and automatically parallelize anything that fits
-into your resource allocation.
-
-### Snakemake lets you focus on your workflow
-TODO: Pic
-
-Snakemake neatly separates the general concerns of workflow automation from the
-specific steps of your workflow.
-
 
 ## Build a Snakefile
+
+A Snakefile is a text file that decribes your workflow. It is interpreted by the
+`snakemake` command. Building a good Snakefile is the key step in understanding
+Snakemake, so we'll begin there.
 
 ### Consider a sample bash script
 
