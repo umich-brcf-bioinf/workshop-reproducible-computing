@@ -25,7 +25,6 @@ pre {
 
 By the end of this module, we will:
 * List the advantages of a robust workflow automation solution like Snakemake.
-* Compare graph transformation in addition to wide and tall transformations.
 * Describe the fundamental relationship between Snakemake, a Snakefile, and the file system.
 * Describe key parts of a Snakemake rule.
 * Build a Snakefile and use Snakemake to automate a simple transform.
@@ -238,12 +237,12 @@ Visualize the directed acyclic graph and rules.
    can prototype the Snakefile on the login-nodes. (But be ready to hit control-C
    if you wander into a computationally intensive step.)
 7. Use spaces not tabs.
-8. Use config files to avoid hardcoding paths of "magic values".
+8. Use config files to avoid hardcoding paths or "magic values" in the Snakefile.
 
 ## Key ideas
 
 * A robust workflow automation solution is great because:
-  * it supports simple (e.g. wide or tall) and complex (e.g. graph)
+  * it supports simple (e.g. linear) and complex (e.g. graph)
     transformations equally well
   * only outstanding steps are run and individual steps are atomic
   * it's designed with software dependency management in mind
@@ -264,6 +263,8 @@ Visualize the directed acyclic graph and rules.
 
 References and links:
 - https://snakemake.readthedocs.io/en/stable/index.html
+  - https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options
+  - https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar
 
 Exercise 1A:
 cd to the project publication_snakemake_1
@@ -273,5 +274,7 @@ Given this DAG can you fill in the missing parts of this Snakefile?
 Exercise 1B:
 Use params and a config file to extract hardcoded inputs and "magic values".
 
-| [Previous lesson](Module06-intro-to-workflow-automation.html) | [Top of this lesson](#top) | [Next lesson](Module08-advanced-snakemake.html) |
+---
+
+| [Previous lesson](Module06-intro-to-workflow-automation.html) | [Top of this lesson](#top) | [Wrap up](Module99_Wrap_up.html) |
 | :--- | :----: | ---: |

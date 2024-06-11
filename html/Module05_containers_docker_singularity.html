@@ -14,7 +14,7 @@
 
 <title>Containers - Docker and Singularity</title>
 
-<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -322,9 +322,6 @@ $(document).ready(function () {
     <li>
       <a href="Module-07-intro-to-snakemake.html">Intro to Snakemake</a>
     </li>
-    <li>
-      <a href="Module-08-advanced-snakemake.html">Advanced Snakemake</a>
-    </li>
   </ul>
 </li>
 <li>
@@ -367,27 +364,49 @@ pre {
 <ul>
 <li>learn about container systems Docker and Singularity</li>
 <li>discuss the what and why of containerization</li>
-<li>compare container solutions to other software management tools that we’ve discussed</li>
-<li>learn how to utilize publically available Docker or Singularity containers</li>
+<li>compare container solutions to other software management tools that
+we’ve discussed</li>
+<li>learn how to utilize publically available Docker or Singularity
+containers</li>
 <li>see how to build a new singularity container</li>
 </ul>
-<div id="commonalities-between-software-management-tools" class="section level2">
+<div id="commonalities-between-software-management-tools"
+class="section level2">
 <h2>Commonalities Between Software Management Tools</h2>
-<p><img src="images/Module05_software_management_commonalities.png" /></p>
+<p><img
+src="images/Module05_software_management_commonalities.png" /></p>
 </div>
 <div id="overview-of-containerized-software" class="section level2">
 <h2>Overview of Containerized Software</h2>
-<p>The software management tools we’ve discussed so far are extremely helpful and important for reproducible research. However, they do have some limitations that we’ve mentioned, which we’ll bring into focus and elaborate in this module as we consider some additional options - containerized software. We’ll discuss in a moment what we mean by this term, but to start I’ll mention some of the additional things that containerized software can grant us:</p>
+<p>The software management tools we’ve discussed so far are extremely
+helpful and important for reproducible research. However, they do have
+some limitations that we’ve mentioned, which we’ll bring into focus and
+elaborate in this module as we consider some additional options -
+containerized software. We’ll discuss in a moment what we mean by this
+term, but to start I’ll mention some of the additional things that
+containerized software can grant us:</p>
 <ul>
 <li>Additional portability</li>
 <li>Additional isolation of compute environments</li>
 <li>Additional long-term reliability</li>
 </ul>
-<p>The simplest way to think of containers is as if there is a virtual computer system, running inside of your computer. You can imagine that the hardware layout of your typical computer can also be recreated through software, and that is kind of what is happening when we use software containers. This is of course a gross simplification, but for now we can think of it in this way.</p>
+<p>The simplest way to think of containers is as if there is a virtual
+computer system, running inside of your computer. You can imagine that
+the hardware layout of your typical computer can also be recreated
+through software, and that is kind of what is happening when we use
+software containers. This is of course a gross simplification, but for
+now we can think of it in this way.</p>
 <p><br> <br></p>
 <p><img src="images/Module05_computer_in_computer.png" /></p>
 <p><br></p>
-<p>You may have already heard the term “virtual machine” in the past, and this is a technology that is related to, but distinct from containers. We will be discussing containerization software specifically, and focusing on these because containers are more efficient, streamlined, and perfectly suited for reproducibility, when compared to virtual machines. When comparing between these, some things I’d like to highlight that work highly in favor of containerized software are:</p>
+<p>You may have already heard the term “virtual machine” in the past,
+and this is a technology that is related to, but distinct from
+containers. We will be discussing containerization software
+specifically, and focusing on these because containers are more
+efficient, streamlined, and perfectly suited for reproducibility, when
+compared to virtual machines. When comparing between these, some things
+I’d like to highlight that work highly in favor of containerized
+software are:</p>
 <ul>
 <li>The usage of standardized specification files
 <ul>
@@ -396,29 +415,51 @@ pre {
 </ul></li>
 <li>The layered nature of container architecture
 <ul>
-<li>During creation, the result of each task is formed into its own layer</li>
-<li>The separate layers are “stacked” one over another until the entire environment is built</li>
-<li>Allows for high transparency and portability, and streamlines the build process</li>
+<li>During creation, the result of each task is formed into its own
+layer</li>
+<li>The separate layers are “stacked” one over another until the entire
+environment is built</li>
+<li>Allows for high transparency and portability, and streamlines the
+build process</li>
 </ul></li>
 </ul>
 <p><br></p>
-<p><img src="images/Module05_file_image_container_generalized.png" /></p>
-<p>To cover some terminology and to give a broad overview of the flow of using containers, we’ll briefly discuss this figure.</p>
+<p><img
+src="images/Module05_file_image_container_generalized.png" /></p>
+<p>To cover some terminology and to give a broad overview of the flow of
+using containers, we’ll briefly discuss this figure.</p>
 <p><br></p>
 <div id="sharing-software-environments" class="section level3">
 <h3>Sharing Software Environments</h3>
 <p><br></p>
 <p><img src="images/Module05_sharing_analyses.png" /></p>
-<p>Let’s revisit the topic of sharing analyses once again. We’ve discussed how some of you may have experienced friction when trying to share some analysis code with a collaborator or with a colleague - when they try to run the analysis on their machine they are unsuccessful. Maybe they don’t have the required software. Maybe they have some certain configuration details that are set incorrectly. Or maybe the software that you’ve given them is actually incompatible with some software that’s running on their system. In the figure above, we’ve shown a very simplistic idea for getting around these issues, which is to just share your entire laptop with your colleague. However, you can imagine that there are many practical reasons why this is not a very good solution.</p>
-<p>We’ve discussed some solutions that can aid in these sharing tasks, without having to resort to actually sharing your entire computer with your colleague. In many ways, these solutions allow us to get past this friction. Let’s take a moment to think about our experiences with LMOD modules and conda, and describe their strengths and limitations.</p>
+<p>Let’s revisit the topic of sharing analyses once again. We’ve
+discussed how some of you may have experienced friction when trying to
+share some analysis code with a collaborator or with a colleague - when
+they try to run the analysis on their machine they are unsuccessful.
+Maybe they don’t have the required software. Maybe they have some
+certain configuration details that are set incorrectly. Or maybe the
+software that you’ve given them is actually incompatible with some
+software that’s running on their system. In the figure above, we’ve
+shown a very simplistic idea for getting around these issues, which is
+to just share your entire laptop with your colleague. However, you can
+imagine that there are many practical reasons why this is not a very
+good solution.</p>
+<p>We’ve discussed some solutions that can aid in these sharing tasks,
+without having to resort to actually sharing your entire computer with
+your colleague. In many ways, these solutions allow us to get past this
+friction. Let’s take a moment to think about our experiences with LMOD
+modules and conda, and describe their strengths and limitations.</p>
 <!-- LIVE_NOTE: Highlight the limitation of conda - while we can share recipes, we can't really share the built environment. Relate to stale links on the internet - it's not guaranteed to stay intact forever! -->
 <p><br></p>
 <p>Now we shift our focus back to containers, and how they can offer some solutions to the limitations of other options. An important aspect of containers that makes them powerful is that after they’re built according to specifications, the container is basically unchangeable. Once again, this is a simplification, but for the most common usages, in terms of shareability and reproducibility, we can consider it to be so.</p>
 <p>In addition to being stable once created, it is also shareable after creation. This benefit cannot be overstated. By being able to share the static environment after it has been created, and to know that it will remain stable and usable far into the future, we can ensure reproducibility far into the future as well.</p>
 <p>There are several ways that you can share containerized software:</p>
 <ul>
-<li>Sharing the specification files (akin to sharing a conda recipe)</li>
-<li>Sharing by hosting the images in an accessible repository (Docker Hub, Quay IO, Biocontainers)</li>
+<li>Sharing the specification files (akin to sharing a conda
+recipe)</li>
+<li>Sharing by hosting the images in an accessible repository (Docker
+Hub, Quay IO, Biocontainers)</li>
 <li>Sharing the image directly (Singularity Image File)</li>
 </ul>
 <p><br></p>
@@ -426,7 +467,14 @@ pre {
 <div id="environment-isolation" class="section level3">
 <h3>Environment Isolation</h3>
 <p><img src="images/Module05_container_isolation.png" /></p>
-<p>Another important aspect of containers is their relative isolation from the host system when compared to something like Conda. Remember that when we are running software within a container, the software interacts with a completely virtualized version of the hardware system. By nature of that, that means that there is additional separation between the software in the container and the software that is outside of the container. Conda makes no such distinction, but rather uses a couple of tricks to make it easy to switch between environments.</p>
+<p>Another important aspect of containers is their relative isolation
+from the host system when compared to something like Conda. Remember
+that when we are running software within a container, the software
+interacts with a completely virtualized version of the hardware system.
+By nature of that, that means that there is additional separation
+between the software in the container and the software that is outside
+of the container. Conda makes no such distinction, but rather uses a
+couple of tricks to make it easy to switch between environments.</p>
 <p><br></p>
 </div>
 <div id="static-images-are-stable-across-time" class="section level3">
@@ -445,7 +493,9 @@ pre {
 </div>
 <div id="docker" class="section level2">
 <h2>Docker</h2>
-<p>We’ve discussed containerized software as a concept, and now it’s time to briefly discuss a specific containerization tool - in fact arguably the most widely used container software today - Docker.</p>
+<p>We’ve discussed containerized software as a concept, and now it’s
+time to briefly discuss a specific containerization tool - in fact
+arguably the most widely used container software today - Docker.</p>
 <p><img src="images/Module05_file_image_container_docker.png" /></p>
 <!-- LIVE_NOTE: Emphasize that images are shareable on DockerHub, and then executable. Also want to highlight that we can't directly use Docker on Great Lakes, but we can still use docker images with the next software we'll discuss, singularity -->
 <!-- LIVE_NOTE: Emphasize that Docker assumes that you have full control over a system. On an HPC, this is not the case, there are systems in place that keep us from stepping on each-others toes. -->
@@ -470,7 +520,8 @@ ENV PATH ${PATH}:/opt/foo/bin</code></pre>
 </div>
 <div id="singularity" class="section level2">
 <h2>Singularity</h2>
-<p><img src="images/Module05_file_image_container_singularity.png" /></p>
+<p><img
+src="images/Module05_file_image_container_singularity.png" /></p>
 <p>Example of a Singularity definition file:</p>
 <pre><code>BootStrap: debootstrap
 OSVersion: stable
@@ -553,9 +604,11 @@ MirrorURL: http://ftp.us.debian.org/debian/
 <table>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module04_software_management_conda.html">Previous lesson</a></th>
+<th align="left"><a
+href="Module04_software_management_conda.html">Previous lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module06-intro-to-workflow-automation.html">Next lesson</a></th>
+<th align="right"><a
+href="Module06-intro-to-workflow-automation.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
