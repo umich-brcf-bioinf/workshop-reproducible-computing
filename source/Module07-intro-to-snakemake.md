@@ -28,6 +28,7 @@ pre {
 </style>
 
 By the end of this module, we will:
+
 * List the some advantages of a robust workflow automation solution like Snakemake.
 * Describe the fundamental relationship between Snakemake, a Snakefile, and the file system.
 * Describe key parts of a Snakemake rule.
@@ -67,8 +68,10 @@ counts for each of the four March sisters: Amy, Beth, Jo, and Laurie. (It
 also emits a few intermediate files).
 
 
-<table class='fig'><tr><th class='fig'>alcott_script/alcott_script.sh</th></tr>
-<tr><td class='fig'><pre>
+<table class='fig'><tr><th class='fig' colspan="2">alcott_script/alcott_script.sh</th></tr>
+<tr>
+<td class='fig'><img src="images/Module07_bash_dag.png"/></td>
+<td class='fig'><pre>
 #!/bin/bash
 # Which of the March sisters is referred to most often in
 # part 1 of the Little Women?
@@ -90,7 +93,6 @@ sort -k1,1nr 2.count_words.txt \
 # Select names with respective counts
 egrep '^(Jo|Amy|Laurie|Beth)\s' 3.sort_counts.txt > 4.select_words.txt
 </pre></td>
-<td class='fig'>TODO bash DAG</td>
 </tr></table>
 <br/>
 
@@ -599,8 +601,8 @@ F        result/little_women_part_1.sort_counts.txt
 
 Note:
 
-- B line number 
-- C Misisng input files for rule select_words
+- B line number (line 15) 
+- C Missing input files for rule select_words
 - E & F result/little_women_part_1.sort_counts.txt
 
 Can you see the error? You will likely need to consider the rule in context:
@@ -699,7 +701,7 @@ How does this work?
 - The **all** rule needs an input named "results/little_women_part_1.select_words.txt"
 - The **select_words** rule can produce "results/{base_name}.select_words.txt" which would match the **all** input if the wildcard *{base_name}*="little_women_part_1"
 - In **select_word** input, the rule substitutes the *{base_name}* value for it's wildcard, making "result/little_women_part_1.sort_counts.txt"
-- So the the value of the wildcard is determined by the file name in the all rule and that value propigates from output to input.
+- So the the value of the wildcard is determined by the file name in the all rule and that value propagates from output to input.
 
 What happens if we run snakemake?
 
@@ -841,16 +843,17 @@ little_women_part_1.split_words.txt   little_women_part_2.split_words.txt
 ### The expand function / config files / parameters
 
 Ideally, a workflow could be run on a new set of inputs without changing the
-Snakefile at all. For example, given the text of Shakespeare's [Romeo and
-Juliet](https://www.gutenberg.org/ebooks/1513) we could see whether Montague is
+Snakefile at all. For example, we should be able to use our unmodified Snakefile 
+with the input of of Shakespeare's [Romeo and
+Juliet](https://www.gutenberg.org/ebooks/1513) to see whether Montague is
 mentioned more than Capulet. Most of the rules in the workflow are already 
-general enough to work with two exceptions:
+general enough; but there are two exceptions:
 
 - The **all** rule mentions specific texts.
 - The **select_words** rule mentions specific names.
 
-We can extract these specifics from the Snakefile using a companion 
-configuration file. We'll start with the **select_words** rule.
+We can extract these specifics from the Snakefile using a 
+*configuration file*. We'll start with the **select_words** rule.
 
 
 ```
@@ -873,7 +876,7 @@ echo 'select_words_regex: ^(Jo|Amy|Laurie|Beth)\s' > config/config.yaml
 cat config/config.yaml
 ```
 
-Now add this line above the **all**:
+Now add this line above the **all** rule:
 
 ```
 configfile: "config/config.yaml"
@@ -1043,7 +1046,7 @@ options. We'll start with a simple profile built for Great Lakes:
 cp -r /nfs/turbo/umms-bioinf-wkshp/workshop/shared-data/profile/ config/
 ```
 <div class="wrapper">
-<table class='fig'><tr><th class='fig'>config/profile/config.yaml</th></tr>
+<table class='fig'><tr><th class='fig' style="text-align: left">config/profile/config.yaml</th></tr>
 <tr><td class='fig'><pre>
 printshellcmds: True
 keep-going: True
@@ -1056,6 +1059,7 @@ latency-wait: 300
 jobs: 5
 </pre></td></tr></table>
 </div>
+<br/>
 
 Invoking `snakemake` with this profile submits each rule a an sbatch job:
 
@@ -1078,6 +1082,7 @@ rule select_words:
     params: regex=config["select_words_regex"]
     shell: "egrep '{params.regex}' {input} > {output}"
 ```
+<br/>
 
 ### Using tmux
 
@@ -1148,18 +1153,22 @@ And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](h
   * --forceall
   * -p --printshellcmds
 
-References and links:
-- https://snakemake.readthedocs.io/en/stable/index.html
-  - https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options
-  - https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar
+### Exercise
 
-Exercise 1A:
+#### Exercise 1A:
 cd to the project publication_snakemake_1
 Given this DAG can you fill in the missing parts of this Snakefile?
 
 
-Exercise 1B:
+#### Exercise 1B:
 Use params and a config file to extract hardcoded inputs and "magic values".
+
+
+### References and links:
+- https://snakemake.readthedocs.io/en/stable/index.html
+  - https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options
+  - https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar
+
 
 ---
 
