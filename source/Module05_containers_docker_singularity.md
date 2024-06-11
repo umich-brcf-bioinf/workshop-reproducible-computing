@@ -84,7 +84,7 @@ We've discussed some solutions that can aid in these sharing tasks, without havi
 
 <br>
 
-Now we shift our focus back to containers, and how they can offer some solutions to the limitations of other options. An important aspect of containers that makes them unique is that after they're built according to specifications, the container is basically unchangeable. Once again, this is a simplification, but for the most common usages, in terms of shareability and reproducibility, we can consider it to be so.
+Now we shift our focus back to containers, and how they can offer some solutions to the limitations of other options. An important aspect of containers that makes them powerful is that after they're built according to specifications, the container is basically unchangeable. Once again, this is a simplification, but for the most common usages, in terms of shareability and reproducibility, we can consider it to be so.
 
 In addition to being stable once created, it is also shareable after creation. This benefit cannot be overstated. By being able to share the static environment after it has been created, and to know that it will remain stable and usable far into the future, we can ensure reproducibility far into the future as well.
 
@@ -108,6 +108,11 @@ Another important aspect of containers is their relative isolation from the host
 ### Static Images are Stable Across Time
 
 ![](images/Module04_dependencies_incompatibility.png)
+
+<br>
+<br>
+<br>
+
 ![](images/Module05_dependencies_over_time.png)
 
 We'll briefly revisit this idea and relate it to the incompatibility scenario that we described in the previous module.
@@ -116,7 +121,7 @@ We'll briefly revisit this idea and relate it to the incompatibility scenario th
 
 ### Not Just Software
 
-<!-- FIXME: Elaborate that configuration files etc. can be included in a container, which can  -->
+Containers can be bundled with more than software - things like environment variables, configuration files, etc. can be included. For some tools, this is a critical aspect of providing simple plug-and-play usability.
 
 <br>
 
@@ -126,7 +131,9 @@ We've discussed containerized software as a concept, and now it's time to briefl
 
 ![](images/Module05_file_image_container_docker.png)
 
-<!-- FIXME: describe this figure, relate images shareable on DockerHub, and then executable. Also want to highlight that we can't directly use Docker on Great Lakes, but we can still use docker images with the next software we'll discuss, singularity -->
+<!-- LIVE_NOTE: Emphasize that images are shareable on DockerHub, and then executable. Also want to highlight that we can't directly use Docker on Great Lakes, but we can still use docker images with the next software we'll discuss, singularity -->
+
+<!-- LIVE_NOTE: Emphasize that Docker assumes that you have full control over a system. On an HPC, this is not the case, there are systems in place that keep us from stepping on each-others toes. -->
 
 <br>
 
@@ -173,9 +180,90 @@ MirrorURL: http://ftp.us.debian.org/debian/
 %environment
     export PATH=$PATH:/usr/games
 ```
+
+### Some Quick Notes on Singularity
+
+- It is a purpose-built containerization software for an HPC system
+- Singularity can also run Docker containers
+- We have several repositories at our fingertips
+  - Docker Hub - https://hub.docker.com
+  - Biocontainers - https://biocontainers.pro
+  - Quay IO - https://quay.io
+  - Galaxy Project - https://depot.galaxyproject.org/singularity/
+
+
+<!-- LIVE_NOTE: Do a demonstration of going to Quay.io and getting samtools and deeptools images -->
+
+## Exercise - `srun`, `singularity shell`, Filter and Index a BAM
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we will use singularity with an existing samtools docker image and launch a 'singularity shell'. With the samtools software now available, we'll filter and index sample_A.
+
+After we complete this, we'll delete the filtered & indexed BAM file, to start fresh for our SBATCH exercises.
+
 <br>
 
-## Review
+## Exercise - SBATCH, `singularity exec`, Filter and Index a BAM
+
+Following along with the instructor, we'll use the nano editor to create an SBATCH file and use `singularity exec` to filter and index our sample_A BAM file. We'll submit the job with `sbatch` and review its log file and output.
+
+<br>
+
+## Exercise - SBATCH, `singularity exec`, Filter and Index all BAMs
+
+Following along with the instructor, we'll quickly create additional sbatch files that can use `singularity exec` to filter and index the rest our samples. We'll submit those jobs with `sbatch` and review once again.
+
+<br>
+
+## Exercise - `srun`, `singularity shell`, Sanity Check All Samples
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll use `singularity shell` and quickly perform a sanity check on all of our filtered BAM files, counting the entries in each file.
+
+<!-- LIVE_NOTE: write our sanity check command to a file to record it for future -->
+
+<br>
+
+## Exercise - `srun`, `singularity shell`, Create a Bigwig
+
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll use singularity with an existing deeptools docker image and launch a 'singularity shell'. With the `bamCoverage` command now available, we'll create a Bigwig for sample_A.
+
+After we complete this, we'll delete the newly created Bigwig file, so that we can start fresh on our SBATCH exercises.
+
+<br>
+
+## Exercise - SBATCH, Singularity, Create Bigwigs for All BAMs
+
+In the same pattern as we've established for our filtering task, we'll with a single sample, sample_A and craft an SBATCH file to create a Bigwig file for that one sample before moving on to others.
+
+<br>
+
+<!-- LIVE_NOTE: Take time to document and to tidy up -->
+
+
+## Demonstration - Remote Build of a Singularity Image
+
+So far we've only demonstrated uses where we use existing docker or singularity images. While we've shown that this is powerful and easy to use, we aren't taking full advantage of singularity's capabilities without building new images.
+
+This topic is outside the scope of this workshop, but we want to demonstrate that it is possible to build singularity containers. It's not quite straightforward to do so on Great Lakes, but with a little bit of extra setup it is possible to use a remote builder, which we'll demonstrate.
+
+For more information about the remote build process, see the documentation here:
+
+[Link to documentation on remote builds](https://docs.sylabs.io/guides/latest/user-guide/build_a_container.html#remote-builds)
+
+
+<br>
+<br>
+<br>
+<br>
+
+## Review of LMOD, Conda, Docker, and Singularity
+
+![](images/Module05_comparison_software_management.png)
+
+In choosing any tool, we must consider the inherent trade-offs between simplicity, portability, and durability.
+
+<br>
+
+---
 
 
 | [Previous lesson](Module04_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module06-intro-to-workflow-automation.html) |
