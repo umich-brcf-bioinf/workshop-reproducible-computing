@@ -1,5 +1,5 @@
 ---
-title: "Independent Exercise - SBATCH, Conda, Filtering out BAMs"
+title: "Independent Exercise - SBATCH, Conda, Filtering our BAMs"
 author: "UM Bioinformatics Core"
 output:
         html_document:
