@@ -184,6 +184,100 @@ Your workstation and logins are ready for the workshop; thank you for
    - You can close the terminal window by typing **exit** **<Return/Enter>** or 
      simply closing the browser tab.
 
+
+### **Launch a command window via SSH**
+
+   - If you are using Windows:
+
+     - Press **Windows Key + R** to launch a command window. Make sure the `Open` field says `cmd` and click OK.
+
+     - You will see a new command window containing something like this
+     (yours may have more text and the last line may look a bit different;
+     that's ok)
+
+        ```
+        Microsoft Windows [Version 10.0.17763.1935]
+       (c) 2018 Microsoft Corporation. All rights reserved.
+
+        H:\>
+        ```
+
+   - If you are using a Mac:
+
+     - Macintosh OSX has a built in command window called **Terminal**. Press
+       **Command + Space** to launch Spotlight. In the search field, type
+       "Terminal" and double-click on the top result.
+
+     - You will see a new Terminal window containing something like this
+       (your may have more text and the last line may look a bit different;
+       that's ok)
+
+       ```
+       Last login: Feb 10 12:44:03 on ttys003\
+       MacBook: \~ your_username\$
+       ```
+
+### **Login to Great Lakes**
+
+   1. In the command window, type the following
+      command, replacing the **YOUR_UNIQNAME** with the username supplied to you by
+      the workshop hosts; hit **Enter or Return** to execute the command.<br/>
+      *Note: you can copy the command below to the clipboard and then
+      right-click in the command window to paste.*
+
+        ssh YOUR_UNIQNAME@greatlakes.arc-ts.umich.edu
+
+   2. The first time you run this command, you may see a prompt like the
+   following; type **yes** and hit **Enter/Return** to continue.
+
+      The authenticity of host '...' can't be established.
+      ECDSA key fingerprint is SHA256:nz9lJaGEI5QFy7....
+      Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+
+   The command will print a warning (e.g. `Warning: Permanently added
+   ‘SERVER_ADDRESS’ (ECDSA) to the list of known hosts`). This is fine.
+
+
+
+  3. Your browser will update to show a terminal window with a banner showing 
+       brief terms of use followed by a password challenge (below). 
+       Type your level-1 password followed by the **Enter** or **Return**
+       key.<br/>
+       __**PLEASE NOTE: the password prompt does not change as you type your
+       password - while unsettling, this is ok and it is actually accepting
+       your password.**__
+       <img src= "images/ood-password-challenge.png" alt="OOD Password Challenge" style="border: 2px solid grey;"/>
+
+   4. If you typed your password correctly, you will see a prompt for Duo authentication; 
+       choose a method and accept the Duo challenge on your phone or tablet.
+       <img src= "images/ood-2fa-anon.png" alt="OOD 2FA Challenge" style="border: 2px solid grey;"/>
+
+   5. The terminal window will update to show welcome text and a command
+       prompt. Note that your prompt may look slightly different than below; that's ok.
+
+```
+*                      Advanced Research Computing                           *
+                         University of Michigan
+                         arc-support@umich.edu
+
+                         Welcome to Great Lakes
+
+User Guide: http://arc.umich.edu/greatlakes/user-guide/
+The login nodes are for interacting with the Slurm 
+scheduler or code and data management; they are not for running
+workloads.  Users are limited to 2 cores and 4G of memory of memory 
+for sessions on the login nodes. For more information, see the User Guide.
+
+The folders under /scratch are intended for data that is in active
+use only.  Please do not store data there for longer than 60 days.
+For usage information, policies, and updates, please see:
+https://arc.umich.edu/document/greatlakes-policies/
+------------------------------------------------------------------------
+
+
+$ 
+```
+
 ### A note on the shared compute environment
 
 Please note that this workshop environment is optimized for the exercises in this
