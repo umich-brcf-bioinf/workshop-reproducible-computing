@@ -1080,7 +1080,7 @@ rule select_words:
     output: "results/{base_name}.select_words.txt"
     resources: cpus=4, mem_mb=4000, time_min=5  
     params: regex=config["select_words_regex"]
-    shell: "egrep '{params.regex}' {input} > {output}"
+    shell: "egrep '{params.regex}' {input} > {output} #--fake-num-threads={resources.cpus}"
 ```
 <br/>
 
@@ -1099,6 +1099,39 @@ of tmux is captured in this simple vignette:
 - you will see your long-running task has been running all along, completely unaffected by your wanderings
 
 And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](https://opensource.com/sites/default/files/gated-content/osdc_cheatsheet-tmux-2021.6.25.pdf){target="_blank"}.
+
+If you start using tmux, keep in mind that when you login into
+`greatlakes.arc-ts.umich.edu` it's actually forwarding you on to one of *three*
+login nodes: gl-login1, gl-login2, or gl-login3. (Which one you get is basically
+random.) This means if you want to reconnect to a detached tmux session, you 
+have to get to the right login node.
+
+So, if you start a tmux session, note which login node you are using using the 
+`hostname` command:
+
+> ```
+$ hostname
+gl-login2.arc-ts.umich.edu
+  ```
+
+Then when you need to later reconnect to that session, instead of `ssh
+greatlakes.arc-ts.umich.edu` you connect to the specific hostname you got above:
+
+> ```
+ssh gl-login2.arc-ts.umich.edu
+# login + Duo
+# login banner (blah blah blah)
+[cgates@gl-login2 ~]$ tmux ls # list active tmux sessions
+0: 1 windows (created Tue Jun 11 20:31:03 2024) [133x25]
+[cgates@gl-login2 ~]$ tmux attach # attach to my session
+  ```
+
+Voila. You are back in your tmux session, right where you left it.
+
+Lastly, the scrollbar in the terminal/command window does not work in tmux. If
+you need to scroll in tmux, you can hit `ctrl`-``b` and then `[` to enter scroll
+mode. You can then use cursor or `page-up`, `page-down` to move around the tmux
+scroll-buffer. Hit `q` to quit scoll mode and return to the current prompt.
 
 ---
 
@@ -1123,6 +1156,8 @@ And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](h
    if you wander into a computationally intensive step.)
 7. Use spaces not tabs.
 8. Use config files to avoid hardcoding paths or "magic values" in the Snakefile.
+9. Checkout Snakemake's styleguide on [Distribution and Reproducibility](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#distribution-and-reproducibility). 
+   It has great recommendations on how to organize files and directories.
 
 ---
 
@@ -1153,18 +1188,82 @@ And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](h
   * --forceall
   * -p --printshellcmds
 
-### Exercise
+---
 
-#### Exercise 1A:
+## Exercises
+
+### Exercise 1A:
+
 cd to the project publication_snakemake_1
-Given this DAG can you fill in the missing parts of this Snakefile?
+
+Given this DAG can you fill in the missing parts of the Snakefile below and 
+regenerate a similar DAG figure?
+
+![](images/Module07_exercise1_dag.png)
+
+FYI:
+
+- All the rules you need are in place, but most of them have incomplete input
+and output directives.
+- The shell directives in this Snakefile reference "external" scripts
+in the workflow scripts directory. You will *not* need to change any shell 
+directives for this exercise. 
+- The actual results files for this workflow are merely stubs and not interesting. 
+Generating the right Snakefile / DAG is the focus.
+
+```
+rule all:
+    input: 'results/knit_paper.html'
+
+rule knit_paper:
+    input: 'inputs/intro.md', ??
+    output: ??
+    shell: 'workflow/scripts/knit_paper.sh {input} {output}'
+
+rule make_plot:
+    input: ??
+    output: ??
+    shell: 'workflow/scripts/make_plot.sh {input} {output}'
+
+rule make_table:
+    input: ??
+    output: ??
+    shell: 'workflow/scripts/make_table.sh {input} {output}'
+
+rule filter:
+    input: ??
+    output: ??
+    params: chromosome='6'
+    shell: 'workflow/scripts/filter.sh {input} {output} {params.chromosome}'
+
+rule download_data:
+    input: '/nfs/turbo/umms-bioinf-wkshp/workshop/shared-data/agc-endpoint/0042-WS/sample_A.genome.bam'
+    output:
+    shell: 'workflow/scripts/download_data.sh {input} {output}'
+
+```
+
+### Exercise 1B:
+
+Use params and a config file to extract hardcoded absolute paths and any other 
+"magic values".
 
 
-#### Exercise 1B:
-Use params and a config file to extract hardcoded inputs and "magic values".
+### Exercise 1C:
+
+Extend the workflow to cover more inputs as illustrated in the DAG below:
+
+![](images/Module07_exercise1C_dag.png)
 
 
-### References and links:
+### Exercise 1D:
+
+Copy the profile/config.yaml from project_alcott/alcott_snakemake and force 
+re-run the Snakefile using worker nodes instead of the login-node.
+
+---
+
+## References and links:
 - https://snakemake.readthedocs.io/en/stable/index.html
   - https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options
   - https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar
