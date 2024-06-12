@@ -28,6 +28,7 @@ pre {
 </style>
 
 By the end of this module, we will:
+
 * List the some advantages of a robust workflow automation solution like Snakemake.
 * Describe the fundamental relationship between Snakemake, a Snakefile, and the file system.
 * Describe key parts of a Snakemake rule.
@@ -67,8 +68,10 @@ counts for each of the four March sisters: Amy, Beth, Jo, and Laurie. (It
 also emits a few intermediate files).
 
 
-<table class='fig'><tr><th class='fig'>alcott_script/alcott_script.sh</th></tr>
-<tr><td class='fig'><pre>
+<table class='fig'><tr><th class='fig' colspan="2">alcott_script/alcott_script.sh</th></tr>
+<tr>
+<td class='fig'><img src="images/Module07_bash_dag.png"/></td>
+<td class='fig'><pre>
 #!/bin/bash
 # Which of the March sisters is referred to most often in
 # part 1 of the Little Women?
@@ -90,7 +93,6 @@ sort -k1,1nr 2.count_words.txt \
 # Select names with respective counts
 egrep '^(Jo|Amy|Laurie|Beth)\s' 3.sort_counts.txt > 4.select_words.txt
 </pre></td>
-<td class='fig'>TODO bash DAG</td>
 </tr></table>
 <br/>
 
@@ -599,8 +601,8 @@ F        result/little_women_part_1.sort_counts.txt
 
 Note:
 
-- B line number 
-- C Misisng input files for rule select_words
+- B line number (line 15) 
+- C Missing input files for rule select_words
 - E & F result/little_women_part_1.sort_counts.txt
 
 Can you see the error? You will likely need to consider the rule in context:
@@ -699,7 +701,7 @@ How does this work?
 - The **all** rule needs an input named "results/little_women_part_1.select_words.txt"
 - The **select_words** rule can produce "results/{base_name}.select_words.txt" which would match the **all** input if the wildcard *{base_name}*="little_women_part_1"
 - In **select_word** input, the rule substitutes the *{base_name}* value for it's wildcard, making "result/little_women_part_1.sort_counts.txt"
-- So the the value of the wildcard is determined by the file name in the all rule and that value propigates from output to input.
+- So the the value of the wildcard is determined by the file name in the all rule and that value propagates from output to input.
 
 What happens if we run snakemake?
 
@@ -841,16 +843,17 @@ little_women_part_1.split_words.txt   little_women_part_2.split_words.txt
 ### The expand function / config files / parameters
 
 Ideally, a workflow could be run on a new set of inputs without changing the
-Snakefile at all. For example, given the text of Shakespeare's [Romeo and
-Juliet](https://www.gutenberg.org/ebooks/1513) we could see whether Montague is
+Snakefile at all. For example, we should be able to use our unmodified Snakefile 
+with the input of of Shakespeare's [Romeo and
+Juliet](https://www.gutenberg.org/ebooks/1513) to see whether Montague is
 mentioned more than Capulet. Most of the rules in the workflow are already 
-general enough to work with two exceptions:
+general enough; but there are two exceptions:
 
 - The **all** rule mentions specific texts.
 - The **select_words** rule mentions specific names.
 
-We can extract these specifics from the Snakefile using a companion 
-configuration file. We'll start with the **select_words** rule.
+We can extract these specifics from the Snakefile using a 
+*configuration file*. We'll start with the **select_words** rule.
 
 
 ```
@@ -873,7 +876,7 @@ echo 'select_words_regex: ^(Jo|Amy|Laurie|Beth)\s' > config/config.yaml
 cat config/config.yaml
 ```
 
-Now add this line above the **all**:
+Now add this line above the **all** rule:
 
 ```
 configfile: "config/config.yaml"
@@ -1043,7 +1046,7 @@ options. We'll start with a simple profile built for Great Lakes:
 cp -r /nfs/turbo/umms-bioinf-wkshp/workshop/shared-data/profile/ config/
 ```
 <div class="wrapper">
-<table class='fig'><tr><th class='fig'>config/profile/config.yaml</th></tr>
+<table class='fig'><tr><th class='fig' style="text-align: left">config/profile/config.yaml</th></tr>
 <tr><td class='fig'><pre>
 printshellcmds: True
 keep-going: True
@@ -1056,6 +1059,7 @@ latency-wait: 300
 jobs: 5
 </pre></td></tr></table>
 </div>
+<br/>
 
 Invoking `snakemake` with this profile submits each rule a an sbatch job:
 
@@ -1076,8 +1080,9 @@ rule select_words:
     output: "results/{base_name}.select_words.txt"
     resources: cpus=4, mem_mb=4000, time_min=5  
     params: regex=config["select_words_regex"]
-    shell: "egrep '{params.regex}' {input} > {output}"
+    shell: "egrep '{params.regex}' {input} > {output} #--fake-num-threads={resources.cpus}"
 ```
+<br/>
 
 ### Using tmux
 
@@ -1094,6 +1099,39 @@ of tmux is captured in this simple vignette:
 - you will see your long-running task has been running all along, completely unaffected by your wanderings
 
 And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](https://opensource.com/sites/default/files/gated-content/osdc_cheatsheet-tmux-2021.6.25.pdf){target="_blank"}.
+
+If you start using tmux, keep in mind that when you login into
+`greatlakes.arc-ts.umich.edu` it's actually forwarding you on to one of *three*
+login nodes: gl-login1, gl-login2, or gl-login3. (Which one you get is basically
+random.) This means if you want to reconnect to a detached tmux session, you 
+have to get to the right login node.
+
+So, if you start a tmux session, note which login node you are using using the 
+`hostname` command:
+
+> ```
+$ hostname
+gl-login2.arc-ts.umich.edu
+  ```
+
+Then when you need to later reconnect to that session, instead of `ssh
+greatlakes.arc-ts.umich.edu` you connect to the specific hostname you got above:
+
+> ```
+ssh gl-login2.arc-ts.umich.edu
+# login + Duo
+# login banner (blah blah blah)
+[cgates@gl-login2 ~]$ tmux ls # list active tmux sessions
+0: 1 windows (created Tue Jun 11 20:31:03 2024) [133x25]
+[cgates@gl-login2 ~]$ tmux attach # attach to my session
+  ```
+
+Voila. You are back in your tmux session, right where you left it.
+
+Lastly, the scrollbar in the terminal/command window does not work in tmux. If
+you need to scroll in tmux, you can hit `ctrl`-``b` and then `[` to enter scroll
+mode. You can then use cursor or `page-up`, `page-down` to move around the tmux
+scroll-buffer. Hit `q` to quit scoll mode and return to the current prompt.
 
 ---
 
@@ -1118,6 +1156,8 @@ And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](h
    if you wander into a computationally intensive step.)
 7. Use spaces not tabs.
 8. Use config files to avoid hardcoding paths or "magic values" in the Snakefile.
+9. Checkout Snakemake's styleguide on [Distribution and Reproducibility](https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html#distribution-and-reproducibility). 
+   It has great recommendations on how to organize files and directories.
 
 ---
 
@@ -1148,18 +1188,86 @@ And in fact, tmux can actually do much, much more. Here's a nifty [cheatsheet](h
   * --forceall
   * -p --printshellcmds
 
-References and links:
+---
+
+## Exercises
+
+### Exercise 1A:
+
+cd to the project publication_snakemake_1
+
+Given this DAG can you fill in the missing parts of the Snakefile below and 
+regenerate a similar DAG figure?
+
+![](images/Module07_exercise1_dag.png)
+
+FYI:
+
+- All the rules you need are in place, but most of them have incomplete input
+and output directives.
+- The shell directives in this Snakefile reference "external" scripts
+in the workflow scripts directory. You will *not* need to change any shell 
+directives for this exercise. 
+- The actual results files for this workflow are merely stubs and not interesting. 
+Generating the right Snakefile / DAG is the focus.
+
+```
+rule all:
+    input: 'results/knit_paper.html'
+
+rule knit_paper:
+    input: 'inputs/intro.md', ??
+    output: ??
+    shell: 'workflow/scripts/knit_paper.sh {input} {output}'
+
+rule make_plot:
+    input: ??
+    output: ??
+    shell: 'workflow/scripts/make_plot.sh {input} {output}'
+
+rule make_table:
+    input: ??
+    output: ??
+    shell: 'workflow/scripts/make_table.sh {input} {output}'
+
+rule filter:
+    input: ??
+    output: ??
+    params: chromosome='6'
+    shell: 'workflow/scripts/filter.sh {input} {output} {params.chromosome}'
+
+rule download_data:
+    input: '/nfs/turbo/umms-bioinf-wkshp/workshop/shared-data/agc-endpoint/0042-WS/sample_A.genome.bam'
+    output:
+    shell: 'workflow/scripts/download_data.sh {input} {output}'
+
+```
+
+### Exercise 1B:
+
+Use params and a config file to extract hardcoded absolute paths and any other 
+"magic values".
+
+
+### Exercise 1C:
+
+Extend the workflow to cover more inputs as illustrated in the DAG below:
+
+![](images/Module07_exercise1C_dag.png)
+
+
+### Exercise 1D:
+
+Copy the profile/config.yaml from project_alcott/alcott_snakemake and force 
+re-run the Snakefile using worker nodes instead of the login-node.
+
+---
+
+## References and links:
 - https://snakemake.readthedocs.io/en/stable/index.html
   - https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options
   - https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar
 
-Exercise 1A:
-cd to the project publication_snakemake_1
-Given this DAG can you fill in the missing parts of this Snakefile?
-
-
-Exercise 1B:
-Use params and a config file to extract hardcoded inputs and "magic values".
 
 ---
 
