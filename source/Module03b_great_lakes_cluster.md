@@ -97,6 +97,8 @@ Remember, this infrastructure must support the entire university. This means tha
 
 By having formal mechanisms for requesting resources, and utilizing a job queue and a scheduler to allocate resources and assign them to jobs, we can achieve these goals.
 
+<!-- LIVE_NOTE: Relate the efficiency of the scheduled jobs in the figure. Idle time is minimized, while many differently-sized jobs can run simultaneously -->
+
 <br>
 
 ### Interactive and Scripted Jobs
@@ -137,7 +139,7 @@ srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --pa
 
 When we talk about scripted jobs, generally we mean that inside of a file we place commands that we want to run in order - a script - along with the resource requirements.
 
-In this case, when the resources become available, the contents of the script are executed on a worker node. There is no interaction with the running job<!-- LIVE_NOTE: Except maybe to observe it -->. Any feedback that we'd normally receive in the terminal, can go to a log file. We'll see an example of this.
+In this case, when the resources become available, the contents of the script are executed on a worker node. There is no interaction with the running job<!--**LIVE_NOTE: Except maybe to observe it** -->. Any feedback that we'd normally receive in the terminal, can go to a log file. We'll see an example of this.
 
 When would we want to run scripted jobs?
 
@@ -199,11 +201,41 @@ We'll have a chance to try this in a moment, after we get warmed up with some in
 
 Following along with the instructor, we will inspect the `hello_SBATCH.sh` shell script that each of us have in our `$WORKSHOP_HOME` directory, review the preamble and body of it, and then submit it with `sbatch`. Once it is running, we will use `squeue` to view the status of the job. After it completes, we'll view its log.
 
+<details>
+<summary>SBATCH Hello World - Solution</summary>
+
+`source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.txt`
+
+`cd ${WORKSHOP_HOME}/project_analysis`
+
+`sbatch ../intro_scripts/hello_SBATCH.sh`
+
+While the job is running, check the job queue with:
+`squeue -u $USER`
+
+</details>
+
 <br>
 
 ## Exercise `srun` with LMOD - Indexing our BAM Files
 
-Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to index our BAM files. This is a required step for some of our later processes, so we'll take care of it now.
+Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to index our BAM files. This is a required step for some of our later processes, so we'll take care of it now. Additionally, we should do a baseline sanity check of the number of entries in each sample.
+
+<details>
+<summary>`srun` with LMOD Indexing BAMs - Solution</summary>
+
+`srun --pty --job-name=${USER}_index_bams --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`module load Bioinformatics; module load samtools`
+
+`for f in *.bam ; do echo $f ; samtools index $f ; done`
+
+<!-- LIVE_NOTE: Need to do a baseline sanity check here: -->
+`for f in *.bam ; do echo -n "${f}: " ; samtools view $f | wc -l ; done`
+
+>Note: Type the command `exit` to exit from a running interactive job. This will put you back onto the log in node and free up remaining resources.
+
+</details>
 
 <br>
 
@@ -211,13 +243,82 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 
 Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to filter our sample_A BAM file to select only alignments from chromosome 19.
 
+<details>
+<summary>`srun` with LMOD Filtering BAM - Solution</summary>
+
+`srun --pty --job-name=${USER}_filter_sample_A --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`module load Bioinformatics; module load samtools`
+
+`mkdir filter_lmod`
+
+`samtools view -o filter_lmod/sample_A.chr19.bam input_bams/sample_A.genome.bam 19`
+
+>Note: We re-create this same filtered BAM file in the additional SBATCH exercises below
+
+</details>
+
 <br>
 
 ## Exercise SBATCH with LMOD - Filtering our BAM Files Cont'd
 
 Following along with the instructor, we'll create an SBATCH script that is similar to our previous `srun` exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with `sbatch` and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.
 
+<details>
+<summary>SBATCH with LMOD Filtering BAMs Cont'd - Solution</summary>
 
+`cp ../intro_scripts/hello_SBATCH.sh scripts/filter_lmod_sample_A_sbatch.sh`
+
+`nano scripts/filter_lmod_sample_A_sbatch.sh # Edit the file appropriately`
+
+`sbatch scripts/filter_lmod_sample_A_sbatch.sh`
+
+When we're happy with how sample_A turned out, we'll copy our sbatch file and set it up for sample_B etc.
+
+`cp scripts/filter_lmod_sample_A_sbatch.sh scripts/filter_lmod_sample_B_sbatch.sh`
+
+`nano scripts/filter_lmod_sample_B_sbatch.sh`
+
+`sbatch scripts/filter_lmod_sample_B_sbatch.sh`
+
+<br>
+
+Contents of `filter_lmod_sample_A_sbatch.sh`
+```
+#!/bin/bash
+# The interpreter used to execute the script
+
+#“#SBATCH” directives that convey submission options:
+
+#SBATCH --job-name=Filter_sample_A
+#SBATCH --cpus-per-task=2
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=2000m
+#SBATCH --time=00:20:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/project_analysis/logs/%x-%j.log
+
+# The application(s) to execute along with its input arguments and options:
+
+hostname
+pwd
+
+module load Bioinformatics
+module load samtools
+samtools view -o filter_lmod/sample_A.chr19.bam input_bams/sample_A.genome.bam 19
+```
+
+</details>
+
+<br>
+
+<!-- LIVE_NOTE: We would like to also visualize our samples, we know that we can use `bamCoverage` from the `deeptools package, however it's not available as an LMOD module. -->
+
+<!-- LIVE_NOTE: Make sure we unload samtools module! -->
+
+>Note: Make sure to unload the samtools module, so that it does not interfere with the conda exercises in the next section!
 
 ---
 
