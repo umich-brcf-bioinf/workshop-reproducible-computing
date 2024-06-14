@@ -40,7 +40,7 @@ navbar:
         - text: "Intro to workflow automation"
           href: Module06-intro-to-workflow-automation.html
         - text: "Intro to Snakemake"
-          href: Module-07-intro-to-snakemake.html
+          href: Module07-intro-to-snakemake.html
 #        - text: "Advanced Snakemake"
 #          href: Module-08-advanced-snakemake.html
     - text: "Wrap up"

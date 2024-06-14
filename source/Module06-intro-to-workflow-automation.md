@@ -78,7 +78,7 @@ The workflow accepts a text file containing list of letter sequences separated
 by lines; for each letter sequence it produces a file containing one or more 
 pangrams.
 
-[TODO workflow image](Module06_pangram_workflow.png)
+<img src="images/Module06_pangram_workflow.png" width="60%" height="60%"/>
 
 <br/>
 
@@ -262,9 +262,10 @@ This approach is correct, clear, and reproducible; however it's not ideal.
 Consider how the tasks are contained within a job:
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometry of the serial loop approach</th></tr>
-<tr><td class='fig'>![TODO geometry_serial_loop](Module06_geometry_serial_loop.png)</td></tr>
+<tr><td class='fig'>![](images/Module06_geometry_serial_loop.png)</td></tr>
 <tr><td class='fig'>Each sbatch request is a job script; a job script may be
-composed of multiple tasks. Key attributes of a job script are 
+composed of multiple tasks. Key attributes of a **job script** are 
+
 - what sub-tasks will I run?
 - how many resources do I need?
 - how long will I need to run?
@@ -431,17 +432,19 @@ because the tasks are working in parallel, it's **much** faster. Contrast this
 job/task geometry with the serial loop approach from above:
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometries: serial loop vs parallel sbatch</th></tr>
-<tr><td class='fig'>![TODO geometry_serial_vs_parallel](Module06_geometry_serial_vs_parallel.png)</td></tr></table>
+<tr><td class='fig'><img src="images/Module06_geometry_serial_loop_small.png"/></td></tr>
+<tr><td class='fig'><img src="images/Module06_geometry_parallel.png" height="40%" width="40%"/></td></tr>
+</table>
 
 This is great. But there's two to three minor drawbacks to this approach:
 
 - Between the the sbat files, the result files, and the slum log files, it's
-created quite a lot more files. There's smallish files, but it's more output to
-deal with to keep track of.
-- For very quick jobs (<=60 seconds), when the scheduler is under a heavy load,
+created quite a lot more files. They are smallish files, but it's more output to
+keep track of.
+- When the scheduler is under a heavy load, for very quick jobs (<=60 seconds)
 it can take longer to schedule a job than it takes to run the job. In these
 circumstances the serial approach might be faster. (If we scaled up from 10 jobs
-to 1000 jobs, we might see this kind of slowdown.)
+to 1000 jobs in parallel, we might see this kind of slowdown.)
 - Each ARC account has an upper limit on the number of jobs that can be 
 submitted and the number actively running. If your account exceeds this limit 
 the jobs will start to queue up, awaiting a turn at scheduling and execution. 
@@ -602,24 +605,36 @@ each tasks has a modest compute request (e.g. each task needs a single CPU).
 ## Geometries and dependencies
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometries compared</th></tr>
-<tr><td class='fig'>![TODO geometry_serial_vs_parallel_vs_launcher](Module06_geometry_serial_vs_parallel_launcher.png)
-</td></tr></table>
+<tr><td class='fig'><img src="images/Module06_geometry_serial_loop_small.png"/></td></tr>
+<tr><td class='fig'><img src="images/Module06_geometry_parallel.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/Module06_geometry_launcher.png" height="40%" width="40%"/></td></tr>
+</table>
 
-The three job geometries diagrammed above reveal that we quietly made a
+The three job geometries diagrammed above hint that we quietly made a
 a few simplifying assumptions along the way:
 
 - We assumed that all the tasks were independent (and thus pleasingly parallel).
-- We assumed that all the tasks in a workflow were the same transformation applied many different inputs.
+- We assumed that all the tasks in a workflow were the same transformation 
+applied many different inputs.
 
 Commonly workflows contain several different steps which where the input of one 
-step often depends on the output of the previous. A simple approach is to combine
-related steps into a single job, depicted graphically like so:
+step often depends on the output of the previous.
+<div style="text-align: center;">
+<img src="images/Module06_geometry_of_multistep_job.png" height="20%" width="20%"/>
+</div>
 
-![TODO: Geometry of a multi-step job](images/Module06_geometry_of_multistep_job.png)
+Also steps in a workflow often have variable resrouce needs and run times:
+
+<div style="text-align: center;">
+<img src="images/Module06_heterogeneity_of_multistep_job.png" height="30%" width="30%"/>
+</div>
 
 Moreover, workflows are not always linear; the logical flow of steps may join the outputs of two steps as an input to a third:
+<div style="text-align: center;">
+<img src="images/Module06_nonlinear_workflow.png" height="50%" width="50%"/>
+</div>
 
-![TODO: nonlinear workflow](images/Module06_nonlinear_workflow.png)
+
 
 The techniques we reviewed above are execllent for smaller, simpler workflows, a
 more complex, more resource intensive workflow will require either a much more
@@ -657,18 +672,85 @@ the way:
    when you need to.
 
 5. **Instead of developing the whole workflow end to end, consider an iterative and incremental approach.** <br/>
-   ![](images/Module06_iterative_and_incremental.jpg)<br/>
-   From [Henrik Kniberg](https://blog.crisp.se/2016/01/25/henrikkniberg/making-sense-of-mvp){target=""}
-   TODO: incremental geometry
-   Break workflow development into __at least__ three steps:
-   a) do one sample and verify correctness of outputs. (For a large dataset
-  consider subsetting/downsampling your inputs so you can iterate quicker.)
-   b) scale to a few samples and check those outputs; tune resource allocations
-   c) run the whole batch
+
+<div style="text-align: center;">
+<img src="images/Module06_iterative_development.png" height="80%" width="80%"/>
+</div>
+
+   Break workflow development into steps:
+   
+  1) do part of the workflow for one sample and verify correctness as you add
+  steps. (For a large dataset consider subsetting/downsampling your inputs so
+  you can iterate quicker.)
+  2) run a single sample end to end
+  3) scale to a few samples and check those outputs; tune resource allocations 
+  4) run the whole batch
 
 ---
 
-## TODO Exercise 1
+## Exercise: Project Railfence
+
+This project is focused around a transformation that can encode or decode a 
+specific kind of encryption called a [rail fence cipher](https://en.wikipedia.org/wiki/Rail_fence_cipher){target="_blank"}. The
+details of this encryption are interesting and I encourage you to check out the
+link, but for the purposes of this exercise it's ok to treat it as 
+magic/black-box transformation.
+
+Review the project directory here:
+```sh
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_railfence
+ls -1
+```
+
+> ```
+codes.txt
+railfence_decode.py
+railfence_encode.py
+README.md
+  ```
+
+
+The `railfence_decode.py` script accepts two arguments separated by a comma:
+
+  - a number (a positive integer)
+  - a quoted string (the cipher text)
+
+It returns the decoded clear text. You can run the railfence_decode.py script
+like so:
+
+```sh
+# need to load python once in the session
+module load python
+
+./railfence_decode.py 3,"wrivdetceaedsoee-lea ne  crf o!"
+```
+
+> ```
+we are discovered-flee at once!
+  ```
+
+There is a list of encrypted codes in the `codes.txt` file:
+<table class='fig'><tr><th class='fig'>codes.txt</th></tr>
+<tr><td class='fig'><pre>
+2,"onttyt uoaesmtigta o antd yhn"d o r oatmt oehn htyucno ob ad
+3,"e hM craifi.nar.mk trgt aei la.Mk tefcet I htodr)aii.kte e in(t e"
+4,"aefie aamth klwth ayhvuoetwro htdto et ow au"
+5,"rrnmpce eaadeeap"odatt  rn rhniniieictlocs vnaa
+3,"t DwieaRAM"r EE
+3,"lsie"m!
+</pre></td></tr></table>
+<br/>
+
+**Your task:**
+
+- Consider the three automation approaches outlined in the lessons above: serial 
+loop, parallel batch, and launcher.
+- Choose one approach, and, using the patterns above as a template, create
+script(s) that will decrypt the codes in `code.txt`.
+- If you complete the exercise with a one approach, repeat the
+exercise with a different approach.
+
 
 ---
 
