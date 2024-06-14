@@ -14,7 +14,7 @@
 
 <title>Containers - Docker and Singularity</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -364,49 +364,27 @@ pre {
 <ul>
 <li>learn about container systems Docker and Singularity</li>
 <li>discuss the what and why of containerization</li>
-<li>compare container solutions to other software management tools that
-we’ve discussed</li>
-<li>learn how to utilize publically available Docker or Singularity
-containers</li>
+<li>compare container solutions to other software management tools that we’ve discussed</li>
+<li>learn how to utilize publically available Docker or Singularity containers</li>
 <li>see how to build a new singularity container</li>
 </ul>
-<div id="commonalities-between-software-management-tools"
-class="section level2">
+<div id="commonalities-between-software-management-tools" class="section level2">
 <h2>Commonalities Between Software Management Tools</h2>
-<p><img
-src="images/Module05_software_management_commonalities.png" /></p>
+<p><img src="images/Module05_software_management_commonalities.png" /></p>
 </div>
 <div id="overview-of-containerized-software" class="section level2">
 <h2>Overview of Containerized Software</h2>
-<p>The software management tools we’ve discussed so far are extremely
-helpful and important for reproducible research. However, they do have
-some limitations that we’ve mentioned, which we’ll bring into focus and
-elaborate in this module as we consider some additional options -
-containerized software. We’ll discuss in a moment what we mean by this
-term, but to start I’ll mention some of the additional things that
-containerized software can grant us:</p>
+<p>The software management tools we’ve discussed so far are extremely helpful and important for reproducible research. However, they do have some limitations that we’ve mentioned, which we’ll bring into focus and elaborate in this module as we consider some additional options - containerized software. We’ll discuss in a moment what we mean by this term, but to start I’ll mention some of the additional things that containerized software can grant us:</p>
 <ul>
 <li>Additional portability</li>
 <li>Additional isolation of compute environments</li>
 <li>Additional long-term reliability</li>
 </ul>
-<p>The simplest way to think of containers is as if there is a virtual
-computer system, running inside of your computer. You can imagine that
-the hardware layout of your typical computer can also be recreated
-through software, and that is kind of what is happening when we use
-software containers. This is of course a gross simplification, but for
-now we can think of it in this way.</p>
+<p>The simplest way to think of containers is as if there is a virtual computer system, running inside of your computer. You can imagine that the hardware layout of your typical computer can also be recreated through software, and that is kind of what is happening when we use software containers. This is of course a gross simplification, but for now we can think of it in this way.</p>
 <p><br> <br></p>
 <p><img src="images/Module05_computer_in_computer.png" /></p>
 <p><br></p>
-<p>You may have already heard the term “virtual machine” in the past,
-and this is a technology that is related to, but distinct from
-containers. We will be discussing containerization software
-specifically, and focusing on these because containers are more
-efficient, streamlined, and perfectly suited for reproducibility, when
-compared to virtual machines. When comparing between these, some things
-I’d like to highlight that work highly in favor of containerized
-software are:</p>
+<p>You may have already heard the term “virtual machine” in the past, and this is a technology that is related to, but distinct from containers. We will be discussing containerization software specifically, and focusing on these because containers are more efficient, streamlined, and perfectly suited for reproducibility, when compared to virtual machines. When comparing between these, some things I’d like to highlight that work highly in favor of containerized software are:</p>
 <ul>
 <li>The usage of standardized specification files
 <ul>
@@ -415,41 +393,21 @@ software are:</p>
 </ul></li>
 <li>The layered nature of container architecture
 <ul>
-<li>During creation, the result of each task is formed into its own
-layer</li>
-<li>The separate layers are “stacked” one over another until the entire
-environment is built</li>
-<li>Allows for high transparency and portability, and streamlines the
-build process</li>
+<li>During creation, the result of each task is formed into its own layer</li>
+<li>The separate layers are “stacked” one over another until the entire environment is built</li>
+<li>Allows for high transparency and portability, and streamlines the build process</li>
 </ul></li>
 </ul>
 <p><br></p>
-<p><img
-src="images/Module05_file_image_container_generalized.png" /></p>
-<p>To cover some terminology and to give a broad overview of the flow of
-using containers, we’ll briefly discuss this figure.</p>
+<p><img src="images/Module05_file_image_container_generalized.png" /></p>
+<p>To cover some terminology and to give a broad overview of the flow of using containers, we’ll briefly discuss this figure.</p>
 <p><br></p>
 <div id="sharing-software-environments" class="section level3">
 <h3>Sharing Software Environments</h3>
 <p><br></p>
 <p><img src="images/Module05_sharing_analyses.png" /></p>
-<p>Let’s revisit the topic of sharing analyses once again. We’ve
-discussed how some of you may have experienced friction when trying to
-share some analysis code with a collaborator or with a colleague - when
-they try to run the analysis on their machine they are unsuccessful.
-Maybe they don’t have the required software. Maybe they have some
-certain configuration details that are set incorrectly. Or maybe the
-software that you’ve given them is actually incompatible with some
-software that’s running on their system. In the figure above, we’ve
-shown a very simplistic idea for getting around these issues, which is
-to just share your entire laptop with your colleague. However, you can
-imagine that there are many practical reasons why this is not a very
-good solution.</p>
-<p>We’ve discussed some solutions that can aid in these sharing tasks,
-without having to resort to actually sharing your entire computer with
-your colleague. In many ways, these solutions allow us to get past this
-friction. Let’s take a moment to think about our experiences with LMOD
-modules and conda, and describe their strengths and limitations.</p>
+<p>Let’s revisit the topic of sharing analyses once again. We’ve discussed how some of you may have experienced friction when trying to share some analysis code with a collaborator or with a colleague - when they try to run the analysis on their machine they are unsuccessful. Maybe they don’t have the required software. Maybe they have some certain configuration details that are set incorrectly. Or maybe the software that you’ve given them is actually incompatible with some software that’s running on their system. In the figure above, we’ve shown a very simplistic idea for getting around these issues, which is to just share your entire laptop with your colleague. However, you can imagine that there are many practical reasons why this is not a very good solution.</p>
+<p>We’ve discussed some solutions that can aid in these sharing tasks, without having to resort to actually sharing your entire computer with your colleague. In many ways, these solutions allow us to get past this friction. Let’s take a moment to think about our experiences with LMOD modules and conda, and describe their strengths and limitations.</p>
 <!-- LIVE_NOTE: Highlight the limitation of conda - while we can share recipes, we can't really share the built environment. Relate to stale links on the internet - it's not guaranteed to stay intact forever! -->
 <p><br></p>
 <p>Now we shift our focus back to containers, and how they can offer
@@ -466,10 +424,8 @@ remain stable and usable far into the future, we can ensure
 reproducibility far into the future as well.</p>
 <p>There are several ways that you can share containerized software:</p>
 <ul>
-<li>Sharing the specification files (akin to sharing a conda
-recipe)</li>
-<li>Sharing by hosting the images in an accessible repository (Docker
-Hub, Quay IO, Biocontainers)</li>
+<li>Sharing the specification files (akin to sharing a conda recipe)</li>
+<li>Sharing by hosting the images in an accessible repository (Docker Hub, Quay IO, Biocontainers)</li>
 <li>Sharing the image directly (Singularity Image File)</li>
 </ul>
 <p><br></p>
@@ -477,14 +433,7 @@ Hub, Quay IO, Biocontainers)</li>
 <div id="environment-isolation" class="section level3">
 <h3>Environment Isolation</h3>
 <p><img src="images/Module05_container_isolation.png" /></p>
-<p>Another important aspect of containers is their relative isolation
-from the host system when compared to something like Conda. Remember
-that when we are running software within a container, the software
-interacts with a completely virtualized version of the hardware system.
-By nature of that, that means that there is additional separation
-between the software in the container and the software that is outside
-of the container. Conda makes no such distinction, but rather uses a
-couple of tricks to make it easy to switch between environments.</p>
+<p>Another important aspect of containers is their relative isolation from the host system when compared to something like Conda. Remember that when we are running software within a container, the software interacts with a completely virtualized version of the hardware system. By nature of that, that means that there is additional separation between the software in the container and the software that is outside of the container. Conda makes no such distinction, but rather uses a couple of tricks to make it easy to switch between environments.</p>
 <p><br></p>
 </div>
 <div id="static-images-are-stable-across-time" class="section level3">
@@ -507,9 +456,7 @@ usability.</p>
 </div>
 <div id="docker" class="section level2">
 <h2>Docker</h2>
-<p>We’ve discussed containerized software as a concept, and now it’s
-time to briefly discuss a specific containerization tool - in fact
-arguably the most widely used container software today - Docker.</p>
+<p>We’ve discussed containerized software as a concept, and now it’s time to briefly discuss a specific containerization tool - in fact arguably the most widely used container software today - Docker.</p>
 <p><img src="images/Module05_file_image_container_docker.png" /></p>
 <!-- LIVE_NOTE: Emphasize that images are shareable on DockerHub, and then executable. Also want to highlight that we can't directly use Docker on Great Lakes, but we can still use docker images with the next software we'll discuss, singularity -->
 <!-- LIVE_NOTE: Emphasize that Docker assumes that you have full control over a system. On an HPC, this is not the case, there are systems in place that keep us from stepping on each-others toes. -->
@@ -534,8 +481,7 @@ ENV PATH ${PATH}:/opt/foo/bin</code></pre>
 </div>
 <div id="singularity" class="section level2">
 <h2>Singularity</h2>
-<p><img
-src="images/Module05_file_image_container_singularity.png" /></p>
+<p><img src="images/Module05_file_image_container_singularity.png" /></p>
 <p>Example of a Singularity definition file:</p>
 <pre><code>BootStrap: debootstrap
 OSVersion: stable
@@ -573,18 +519,27 @@ class="uri">https://depot.galaxyproject.org/singularity/</a></li>
 <!-- LIVE_NOTE: Do a demonstration of going to Quay.io and getting samtools and deeptools images -->
 </div>
 </div>
-<div id="exercise---srun-singularity-shell-filter-and-index-a-bam"
-class="section level2">
-<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Filter
-and Index a BAM</h2>
-<p>Following along with the instructor, we’ll launch an interactive job
-with <code>srun</code>. Once we’ve entered the running job, we will use
-singularity with an existing samtools docker image and launch a
-‘singularity shell’. With the samtools software now available, we’ll
-filter and index sample_A.</p>
-<p>After we complete this, we’ll delete the filtered &amp; indexed BAM
-file, to start fresh for our SBATCH exercises.</p>
+<div id="exercise---srun-singularity-shell-filter-and-index-a-bam" class="section level2">
+<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Filter and Index a BAM</h2>
+<!-- LIVE_NOTE: Also do sanity check -->
+<p>Following along with the instructor, we’ll launch an interactive job with <code>srun</code>. Once we’ve entered the running job, we will use singularity with an existing samtools docker image and launch a ‘singularity shell’. With the samtools software now available, we’ll filter and index sample_A.</p>
+<p>After we complete this, we’ll delete the filtered &amp; indexed BAM file, to start fresh for our SBATCH exercises.</p>
+<details>
+<summary>
+<code>srun</code>, <code>singularity shell</code>, Filter and Index BAM - Solution
+</summary>
+<p><code>srun --pty --job-name=${USER}_singularity_filter_and_index --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:20:00 /bin/bash</code></p>
+<p><code>mkdir filter_viz_singularity</code></p>
+<p><code>module load singularity</code></p>
+<p><code>singularity shell docker://quay.io/biocontainers/samtools:1.20--h50ea8bc_0</code></p>
+<p><code>samtools view -o filter_viz_singularity/sample_A.chr19.bam input_bams/sample_A.genome.bam 19</code></p>
+<p>We’ll also do a sanity check here:</p>
+<p><code>samtools view filter_viz_singularity/sample_A.chr19.bam | wc -l</code></p>
+<p>As well as index the BAM (bamCoverage will need the index in the next step)</p>
+<p><code>samtools index filter_viz_singularity/sample_A.chr19.bam</code></p>
+</details>
 <p><br></p>
+<!-- LIVE_NOTE: Skip several exercises -->
 </div>
 <div id="exercise---sbatch-singularity-exec-filter-and-index-a-bam"
 class="section level2">
@@ -617,18 +572,22 @@ of our filtered BAM files, counting the entries in each file.</p>
 <!-- LIVE_NOTE: write our sanity check command to a file to record it for future -->
 <p><br></p>
 </div>
-<div id="exercise---srun-singularity-shell-create-a-bigwig"
-class="section level2">
-<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Create
-a Bigwig</h2>
-<p>Following along with the instructor, we’ll launch an interactive job
-with <code>srun</code>. Once we’ve entered the running job, we’ll use
-singularity with an existing deeptools docker image and launch a
-‘singularity shell’. With the <code>bamCoverage</code> command now
-available, we’ll create a Bigwig for sample_A.</p>
-<p>After we complete this, we’ll delete the newly created Bigwig file,
-so that we can start fresh on our SBATCH exercises.</p>
+<div id="exercise---srun-singularity-exec-create-a-bigwig" class="section level2">
+<h2>Exercise - <code>srun</code>, <code>singularity exec</code>, Create a Bigwig</h2>
+<!-- LIVE_NOTE: We'll demonstrate singularity exec in this exercise -->
+<p>Following along with the instructor, we’ll launch an interactive job with <code>srun</code>. Once we’ve entered the running job, we’ll use singularity with an existing deeptools docker image and launch a ‘singularity shell’. With the <code>bamCoverage</code> command now available, we’ll create a Bigwig for sample_A.</p>
+<p>After we complete this, we’ll delete the newly created Bigwig file, so that we can start fresh on our SBATCH exercises.</p>
+<details>
+<summary>
+<code>srun</code>, <code>singularity exec</code>, Create a Bigwig - Solution
+</summary>
+<p><code>srun --pty --job-name=${USER}_singularity_create_bigwig --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
+<p><code>module list</code></p>
+<p><code>module load singularity</code></p>
+<p><code>singularity exec docker://quay.io/biocontainers/deeptools:3.5.5--pyhdfd78af_0 bamCoverage -b filter_viz_singularity/sample_A.chr19.bam -o filter_viz_singularity/sample_A.chr19.bigwig</code></p>
+</details>
 <p><br></p>
+<!-- LIVE_NOTE: Skip create all bigwigs exercise -->
 </div>
 <div id="exercise---sbatch-singularity-create-bigwigs-for-all-bams"
 class="section level2">
@@ -637,25 +596,27 @@ class="section level2">
 we’ll with a single sample, sample_A and craft an SBATCH file to create
 a Bigwig file for that one sample before moving on to others.</p>
 <p><br></p>
+<!-- LIVE_NOTE: Remember to have users move their conda env -->
 <!-- LIVE_NOTE: Take time to document and to tidy up -->
 </div>
 <div id="demonstration---remote-build-of-a-singularity-image"
 class="section level2">
 <h2>Demonstration - Remote Build of a Singularity Image</h2>
-<p>So far we’ve only demonstrated uses where we use existing docker or
-singularity images. While we’ve shown that this is powerful and easy to
-use, we aren’t taking full advantage of singularity’s capabilities
-without building new images.</p>
-<p>This topic is outside the scope of this workshop, but we want to
-demonstrate that it is possible to build singularity containers. It’s
-not quite straightforward to do so on Great Lakes, but with a little bit
-of extra setup it is possible to use a remote builder, which we’ll
-demonstrate.</p>
-<p>For more information about the remote build process, see the
-documentation here:</p>
-<p><a
-href="https://docs.sylabs.io/guides/latest/user-guide/build_a_container.html#remote-builds">Link
-to documentation on remote builds</a></p>
+<p>So far we’ve only demonstrated uses where we use existing docker or singularity images. While we’ve shown that this is powerful and easy to use, we aren’t taking full advantage of singularity’s capabilities without building new images.</p>
+<p>This topic is outside the scope of this workshop, but we want to demonstrate that it is possible to build singularity containers. It’s not quite straightforward to do so on Great Lakes, but with a little bit of extra setup it is possible to use a remote builder, which we’ll demonstrate.</p>
+<p>For more information about the remote build process, see the documentation here:</p>
+<p><a href="https://docs.sylabs.io/guides/latest/user-guide/build_a_container.html#remote-builds">Link to documentation on remote builds</a></p>
+<details>
+<summary>
+Demo Remote Build - Solution
+</summary>
+<p>We’ll create a singularity definition file called <code>cowsay.def</code></p>
+<p><code>nano cowsay.def</code></p>
+<p>Contents of <code>cowsay.def</code> are shown in the singularity definition file shown in the above lesson.</p>
+<p>Note, to use the remote builder with the <code>--remote</code> flag, you must follow the instructions on remote builds above - create an account and generate a token online, then use <code>singularity remote login</code>.</p>
+<p><code>singularity build --remote cowsay.sif cowsay.def</code></p>
+<p>After this, we have a singularity image file, <code>cowsay.sif</code> that we can use with <code>singularity shell cowsay.sif</code> or <code>singularity exec cowsay.sif cowsay Mooo</code></p>
+</details>
 <p><br> <br> <br> <br></p>
 </div>
 <div id="review-of-lmod-conda-docker-and-singularity"
@@ -674,11 +635,9 @@ between simplicity, portability, and durability.</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a
-href="Module04_software_management_conda.html">Previous lesson</a></th>
+<th align="left"><a href="Module04_software_management_conda.html">Previous lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a
-href="Module06-intro-to-workflow-automation.html">Next lesson</a></th>
+<th align="right"><a href="Module06-intro-to-workflow-automation.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
@@ -686,7 +645,7 @@ href="Module06-intro-to-workflow-automation.html">Next lesson</a></th>
 </table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udGFpbmVycyAtIERvY2tlciBhbmQgU2luZ3VsYXJpdHkiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBjb250YWluZXIgc3lzdGVtcyBEb2NrZXIgYW5kIFNpbmd1bGFyaXR5CiogZGlzY3VzcyB0aGUgd2hhdCBhbmQgd2h5IG9mIGNvbnRhaW5lcml6YXRpb24KKiBjb21wYXJlIGNvbnRhaW5lciBzb2x1dGlvbnMgdG8gb3RoZXIgc29mdHdhcmUgbWFuYWdlbWVudCB0b29scyB0aGF0IHdlJ3ZlIGRpc2N1c3NlZAoqIGxlYXJuIGhvdyB0byB1dGlsaXplIHB1YmxpY2FsbHkgYXZhaWxhYmxlIERvY2tlciBvciBTaW5ndWxhcml0eSBjb250YWluZXJzCiogc2VlIGhvdyB0byBidWlsZCBhIG5ldyBzaW5ndWxhcml0eSBjb250YWluZXIKCiMjIENvbW1vbmFsaXRpZXMgQmV0d2VlbiBTb2Z0d2FyZSBNYW5hZ2VtZW50IFRvb2xzCgohW10oaW1hZ2VzL01vZHVsZTA1X3NvZnR3YXJlX21hbmFnZW1lbnRfY29tbW9uYWxpdGllcy5wbmcpCgojIyBPdmVydmlldyBvZiBDb250YWluZXJpemVkIFNvZnR3YXJlCgpUaGUgc29mdHdhcmUgbWFuYWdlbWVudCB0b29scyB3ZSd2ZSBkaXNjdXNzZWQgc28gZmFyIGFyZSBleHRyZW1lbHkgaGVscGZ1bCBhbmQgaW1wb3J0YW50IGZvciByZXByb2R1Y2libGUgcmVzZWFyY2guIEhvd2V2ZXIsIHRoZXkgZG8gaGF2ZSBzb21lIGxpbWl0YXRpb25zIHRoYXQgd2UndmUgbWVudGlvbmVkLCB3aGljaCB3ZSdsbCBicmluZyBpbnRvIGZvY3VzIGFuZCBlbGFib3JhdGUgaW4gdGhpcyBtb2R1bGUgYXMgd2UgY29uc2lkZXIgc29tZSBhZGRpdGlvbmFsIG9wdGlvbnMgLSBjb250YWluZXJpemVkIHNvZnR3YXJlLiBXZSdsbCBkaXNjdXNzIGluIGEgbW9tZW50IHdoYXQgd2UgbWVhbiBieSB0aGlzIHRlcm0sIGJ1dCB0byBzdGFydCBJJ2xsIG1lbnRpb24gc29tZSBvZiB0aGUgYWRkaXRpb25hbCB0aGluZ3MgdGhhdCBjb250YWluZXJpemVkIHNvZnR3YXJlIGNhbiBncmFudCB1czoKCi0gQWRkaXRpb25hbCBwb3J0YWJpbGl0eQotIEFkZGl0aW9uYWwgaXNvbGF0aW9uIG9mIGNvbXB1dGUgZW52aXJvbm1lbnRzCi0gQWRkaXRpb25hbCBsb25nLXRlcm0gcmVsaWFiaWxpdHkKCgpUaGUgc2ltcGxlc3Qgd2F5IHRvIHRoaW5rIG9mIGNvbnRhaW5lcnMgaXMgYXMgaWYgdGhlcmUgaXMgYSB2aXJ0dWFsIGNvbXB1dGVyIHN5c3RlbSwgcnVubmluZyBpbnNpZGUgb2YgeW91ciBjb21wdXRlci4gWW91IGNhbiBpbWFnaW5lIHRoYXQgdGhlIGhhcmR3YXJlIGxheW91dCBvZiB5b3VyIHR5cGljYWwgY29tcHV0ZXIgY2FuIGFsc28gYmUgcmVjcmVhdGVkIHRocm91Z2ggc29mdHdhcmUsIGFuZCB0aGF0IGlzIGtpbmQgb2Ygd2hhdCBpcyBoYXBwZW5pbmcgd2hlbiB3ZSB1c2Ugc29mdHdhcmUgY29udGFpbmVycy4gVGhpcyBpcyBvZiBjb3Vyc2UgYSBncm9zcyBzaW1wbGlmaWNhdGlvbiwgYnV0IGZvciBub3cgd2UgY2FuIHRoaW5rIG9mIGl0IGluIHRoaXMgd2F5LgoKPGJyPgo8YnI+CgohW10oaW1hZ2VzL01vZHVsZTA1X2NvbXB1dGVyX2luX2NvbXB1dGVyLnBuZykKCjxicj4KCllvdSBtYXkgaGF2ZSBhbHJlYWR5IGhlYXJkIHRoZSB0ZXJtICJ2aXJ0dWFsIG1hY2hpbmUiIGluIHRoZSBwYXN0LCBhbmQgdGhpcyBpcyBhIHRlY2hub2xvZ3kgdGhhdCBpcyByZWxhdGVkIHRvLCBidXQgZGlzdGluY3QgZnJvbSBjb250YWluZXJzLiBXZSB3aWxsIGJlIGRpc2N1c3NpbmcgY29udGFpbmVyaXphdGlvbiBzb2Z0d2FyZSBzcGVjaWZpY2FsbHksIGFuZCBmb2N1c2luZyBvbiB0aGVzZSBiZWNhdXNlIGNvbnRhaW5lcnMgYXJlIG1vcmUgZWZmaWNpZW50LCBzdHJlYW1saW5lZCwgYW5kIHBlcmZlY3RseSBzdWl0ZWQgZm9yIHJlcHJvZHVjaWJpbGl0eSwgd2hlbiBjb21wYXJlZCB0byB2aXJ0dWFsIG1hY2hpbmVzLiBXaGVuIGNvbXBhcmluZyBiZXR3ZWVuIHRoZXNlLCBzb21lIHRoaW5ncyBJJ2QgbGlrZSB0byBoaWdobGlnaHQgdGhhdCB3b3JrIGhpZ2hseSBpbiBmYXZvciBvZiBjb250YWluZXJpemVkIHNvZnR3YXJlIGFyZToKCi0gVGhlIHVzYWdlIG9mIHN0YW5kYXJkaXplZCBzcGVjaWZpY2F0aW9uIGZpbGVzCiAgLSBlLmcuIERvY2tlcmZpbGVzLCBTaW5ndWxhcml0eSBkZWZpbml0aW9uIGZpbGVzCiAgLSBhbGxvdyBmb3Igc3VwZXJpb3IgdHJhbnNwYXJlbmN5IGFuZCByZXByb2R1Y2liaWxpdHkuCi0gVGhlIGxheWVyZWQgbmF0dXJlIG9mIGNvbnRhaW5lciBhcmNoaXRlY3R1cmUKICAtIER1cmluZyBjcmVhdGlvbiwgdGhlIHJlc3VsdCBvZiBlYWNoIHRhc2sgaXMgZm9ybWVkIGludG8gaXRzIG93biBsYXllcgogIC0gVGhlIHNlcGFyYXRlIGxheWVycyBhcmUgInN0YWNrZWQiIG9uZSBvdmVyIGFub3RoZXIgdW50aWwgdGhlIGVudGlyZSBlbnZpcm9ubWVudCBpcyBidWlsdAogIC0gQWxsb3dzIGZvciBoaWdoIHRyYW5zcGFyZW5jeSBhbmQgcG9ydGFiaWxpdHksIGFuZCBzdHJlYW1saW5lcyB0aGUgYnVpbGQgcHJvY2VzcwoKPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9nZW5lcmFsaXplZC5wbmcpCgpUbyBjb3ZlciBzb21lIHRlcm1pbm9sb2d5IGFuZCB0byBnaXZlIGEgYnJvYWQgb3ZlcnZpZXcgb2YgdGhlIGZsb3cgb2YgdXNpbmcgY29udGFpbmVycywgd2UnbGwgYnJpZWZseSBkaXNjdXNzIHRoaXMgZmlndXJlLgoKPGJyPgoKCiMjIyBTaGFyaW5nIFNvZnR3YXJlIEVudmlyb25tZW50cwoKPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9zaGFyaW5nX2FuYWx5c2VzLnBuZykKCgpMZXQncyByZXZpc2l0IHRoZSB0b3BpYyBvZiBzaGFyaW5nIGFuYWx5c2VzIG9uY2UgYWdhaW4uIFdlJ3ZlIGRpc2N1c3NlZCBob3cgc29tZSBvZiB5b3UgbWF5IGhhdmUgZXhwZXJpZW5jZWQgZnJpY3Rpb24gd2hlbiB0cnlpbmcgdG8gc2hhcmUgc29tZSBhbmFseXNpcyBjb2RlIHdpdGggYSBjb2xsYWJvcmF0b3Igb3Igd2l0aCBhIGNvbGxlYWd1ZSAtIHdoZW4gdGhleSB0cnkgdG8gcnVuIHRoZSBhbmFseXNpcyBvbiB0aGVpciBtYWNoaW5lIHRoZXkgYXJlIHVuc3VjY2Vzc2Z1bC4gTWF5YmUgdGhleSBkb24ndCBoYXZlIHRoZSByZXF1aXJlZCBzb2Z0d2FyZS4gTWF5YmUgdGhleSBoYXZlIHNvbWUgY2VydGFpbiBjb25maWd1cmF0aW9uIGRldGFpbHMgdGhhdCBhcmUgc2V0IGluY29ycmVjdGx5LiBPciBtYXliZSB0aGUgc29mdHdhcmUgdGhhdCB5b3UndmUgZ2l2ZW4gdGhlbSBpcyBhY3R1YWxseSBpbmNvbXBhdGlibGUgd2l0aCBzb21lIHNvZnR3YXJlIHRoYXQncyBydW5uaW5nIG9uIHRoZWlyIHN5c3RlbS4gSW4gdGhlIGZpZ3VyZSBhYm92ZSwgd2UndmUgc2hvd24gYSB2ZXJ5IHNpbXBsaXN0aWMgaWRlYSBmb3IgZ2V0dGluZyBhcm91bmQgdGhlc2UgaXNzdWVzLCB3aGljaCBpcyB0byBqdXN0IHNoYXJlIHlvdXIgZW50aXJlIGxhcHRvcCB3aXRoIHlvdXIgY29sbGVhZ3VlLiBIb3dldmVyLCB5b3UgY2FuIGltYWdpbmUgdGhhdCB0aGVyZSBhcmUgbWFueSBwcmFjdGljYWwgcmVhc29ucyB3aHkgdGhpcyBpcyBub3QgYSB2ZXJ5IGdvb2Qgc29sdXRpb24uIAoKV2UndmUgZGlzY3Vzc2VkIHNvbWUgc29sdXRpb25zIHRoYXQgY2FuIGFpZCBpbiB0aGVzZSBzaGFyaW5nIHRhc2tzLCB3aXRob3V0IGhhdmluZyB0byByZXNvcnQgdG8gYWN0dWFsbHkgc2hhcmluZyB5b3VyIGVudGlyZSBjb21wdXRlciB3aXRoIHlvdXIgY29sbGVhZ3VlLiBJbiBtYW55IHdheXMsIHRoZXNlIHNvbHV0aW9ucyBhbGxvdyB1cyB0byBnZXQgcGFzdCB0aGlzIGZyaWN0aW9uLiBMZXQncyB0YWtlIGEgbW9tZW50IHRvIHRoaW5rIGFib3V0IG91ciBleHBlcmllbmNlcyB3aXRoIExNT0QgbW9kdWxlcyBhbmQgY29uZGEsIGFuZCBkZXNjcmliZSB0aGVpciBzdHJlbmd0aHMgYW5kIGxpbWl0YXRpb25zLgoKPCEtLSBMSVZFX05PVEU6IEhpZ2hsaWdodCB0aGUgbGltaXRhdGlvbiBvZiBjb25kYSAtIHdoaWxlIHdlIGNhbiBzaGFyZSByZWNpcGVzLCB3ZSBjYW4ndCByZWFsbHkgc2hhcmUgdGhlIGJ1aWx0IGVudmlyb25tZW50LiBSZWxhdGUgdG8gc3RhbGUgbGlua3Mgb24gdGhlIGludGVybmV0IC0gaXQncyBub3QgZ3VhcmFudGVlZCB0byBzdGF5IGludGFjdCBmb3JldmVyISAtLT4KCjxicj4KCk5vdyB3ZSBzaGlmdCBvdXIgZm9jdXMgYmFjayB0byBjb250YWluZXJzLCBhbmQgaG93IHRoZXkgY2FuIG9mZmVyIHNvbWUgc29sdXRpb25zIHRvIHRoZSBsaW1pdGF0aW9ucyBvZiBvdGhlciBvcHRpb25zLiBBbiBpbXBvcnRhbnQgYXNwZWN0IG9mIGNvbnRhaW5lcnMgdGhhdCBtYWtlcyB0aGVtIHBvd2VyZnVsIGlzIHRoYXQgYWZ0ZXIgdGhleSdyZSBidWlsdCBhY2NvcmRpbmcgdG8gc3BlY2lmaWNhdGlvbnMsIHRoZSBjb250YWluZXIgaXMgYmFzaWNhbGx5IHVuY2hhbmdlYWJsZS4gT25jZSBhZ2FpbiwgdGhpcyBpcyBhIHNpbXBsaWZpY2F0aW9uLCBidXQgZm9yIHRoZSBtb3N0IGNvbW1vbiB1c2FnZXMsIGluIHRlcm1zIG9mIHNoYXJlYWJpbGl0eSBhbmQgcmVwcm9kdWNpYmlsaXR5LCB3ZSBjYW4gY29uc2lkZXIgaXQgdG8gYmUgc28uCgpJbiBhZGRpdGlvbiB0byBiZWluZyBzdGFibGUgb25jZSBjcmVhdGVkLCBpdCBpcyBhbHNvIHNoYXJlYWJsZSBhZnRlciBjcmVhdGlvbi4gVGhpcyBiZW5lZml0IGNhbm5vdCBiZSBvdmVyc3RhdGVkLiBCeSBiZWluZyBhYmxlIHRvIHNoYXJlIHRoZSBzdGF0aWMgZW52aXJvbm1lbnQgYWZ0ZXIgaXQgaGFzIGJlZW4gY3JlYXRlZCwgYW5kIHRvIGtub3cgdGhhdCBpdCB3aWxsIHJlbWFpbiBzdGFibGUgYW5kIHVzYWJsZSBmYXIgaW50byB0aGUgZnV0dXJlLCB3ZSBjYW4gZW5zdXJlIHJlcHJvZHVjaWJpbGl0eSBmYXIgaW50byB0aGUgZnV0dXJlIGFzIHdlbGwuCgpUaGVyZSBhcmUgc2V2ZXJhbCB3YXlzIHRoYXQgeW91IGNhbiBzaGFyZSBjb250YWluZXJpemVkIHNvZnR3YXJlOgoKLSBTaGFyaW5nIHRoZSBzcGVjaWZpY2F0aW9uIGZpbGVzIChha2luIHRvIHNoYXJpbmcgYSBjb25kYSByZWNpcGUpCi0gU2hhcmluZyBieSBob3N0aW5nIHRoZSBpbWFnZXMgaW4gYW4gYWNjZXNzaWJsZSByZXBvc2l0b3J5IChEb2NrZXIgSHViLCBRdWF5IElPLCBCaW9jb250YWluZXJzKQotIFNoYXJpbmcgdGhlIGltYWdlIGRpcmVjdGx5IChTaW5ndWxhcml0eSBJbWFnZSBGaWxlKQoKPGJyPgoKIyMjIEVudmlyb25tZW50IElzb2xhdGlvbgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9jb250YWluZXJfaXNvbGF0aW9uLnBuZykKCkFub3RoZXIgaW1wb3J0YW50IGFzcGVjdCBvZiBjb250YWluZXJzIGlzIHRoZWlyIHJlbGF0aXZlIGlzb2xhdGlvbiBmcm9tIHRoZSBob3N0IHN5c3RlbSB3aGVuIGNvbXBhcmVkIHRvIHNvbWV0aGluZyBsaWtlIENvbmRhLiBSZW1lbWJlciB0aGF0IHdoZW4gd2UgYXJlIHJ1bm5pbmcgc29mdHdhcmUgd2l0aGluIGEgY29udGFpbmVyLCB0aGUgc29mdHdhcmUgaW50ZXJhY3RzIHdpdGggYSBjb21wbGV0ZWx5IHZpcnR1YWxpemVkIHZlcnNpb24gb2YgdGhlIGhhcmR3YXJlIHN5c3RlbS4gQnkgbmF0dXJlIG9mIHRoYXQsIHRoYXQgbWVhbnMgdGhhdCB0aGVyZSBpcyBhZGRpdGlvbmFsIHNlcGFyYXRpb24gYmV0d2VlbiB0aGUgc29mdHdhcmUgaW4gdGhlIGNvbnRhaW5lciBhbmQgdGhlIHNvZnR3YXJlIHRoYXQgaXMgb3V0c2lkZSBvZiB0aGUgY29udGFpbmVyLiBDb25kYSBtYWtlcyBubyBzdWNoIGRpc3RpbmN0aW9uLCBidXQgcmF0aGVyIHVzZXMgYSBjb3VwbGUgb2YgdHJpY2tzIHRvIG1ha2UgaXQgZWFzeSB0byBzd2l0Y2ggYmV0d2VlbiBlbnZpcm9ubWVudHMuIAoKCjxicj4KCiMjIyBTdGF0aWMgSW1hZ2VzIGFyZSBTdGFibGUgQWNyb3NzIFRpbWUKCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2luY29tcGF0aWJpbGl0eS5wbmcpCgo8YnI+Cjxicj4KPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9kZXBlbmRlbmNpZXNfb3Zlcl90aW1lLnBuZykKCldlJ2xsIGJyaWVmbHkgcmV2aXNpdCB0aGlzIGlkZWEgYW5kIHJlbGF0ZSBpdCB0byB0aGUgaW5jb21wYXRpYmlsaXR5IHNjZW5hcmlvIHRoYXQgd2UgZGVzY3JpYmVkIGluIHRoZSBwcmV2aW91cyBtb2R1bGUuCgo8YnI+CgojIyMgTm90IEp1c3QgU29mdHdhcmUKCkNvbnRhaW5lcnMgY2FuIGJlIGJ1bmRsZWQgd2l0aCBtb3JlIHRoYW4gc29mdHdhcmUgLSB0aGluZ3MgbGlrZSBlbnZpcm9ubWVudCB2YXJpYWJsZXMsIGNvbmZpZ3VyYXRpb24gZmlsZXMsIGV0Yy4gY2FuIGJlIGluY2x1ZGVkLiBGb3Igc29tZSB0b29scywgdGhpcyBpcyBhIGNyaXRpY2FsIGFzcGVjdCBvZiBwcm92aWRpbmcgc2ltcGxlIHBsdWctYW5kLXBsYXkgdXNhYmlsaXR5LgoKPGJyPgoKIyMgRG9ja2VyCgpXZSd2ZSBkaXNjdXNzZWQgY29udGFpbmVyaXplZCBzb2Z0d2FyZSBhcyBhIGNvbmNlcHQsIGFuZCBub3cgaXQncyB0aW1lIHRvIGJyaWVmbHkgZGlzY3VzcyBhIHNwZWNpZmljIGNvbnRhaW5lcml6YXRpb24gdG9vbCAtIGluIGZhY3QgYXJndWFibHkgdGhlIG1vc3Qgd2lkZWx5IHVzZWQgY29udGFpbmVyIHNvZnR3YXJlIHRvZGF5IC0gRG9ja2VyLgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9kb2NrZXIucG5nKQoKPCEtLSBMSVZFX05PVEU6IEVtcGhhc2l6ZSB0aGF0IGltYWdlcyBhcmUgc2hhcmVhYmxlIG9uIERvY2tlckh1YiwgYW5kIHRoZW4gZXhlY3V0YWJsZS4gQWxzbyB3YW50IHRvIGhpZ2hsaWdodCB0aGF0IHdlIGNhbid0IGRpcmVjdGx5IHVzZSBEb2NrZXIgb24gR3JlYXQgTGFrZXMsIGJ1dCB3ZSBjYW4gc3RpbGwgdXNlIGRvY2tlciBpbWFnZXMgd2l0aCB0aGUgbmV4dCBzb2Z0d2FyZSB3ZSdsbCBkaXNjdXNzLCBzaW5ndWxhcml0eSAtLT4KCjwhLS0gTElWRV9OT1RFOiBFbXBoYXNpemUgdGhhdCBEb2NrZXIgYXNzdW1lcyB0aGF0IHlvdSBoYXZlIGZ1bGwgY29udHJvbCBvdmVyIGEgc3lzdGVtLiBPbiBhbiBIUEMsIHRoaXMgaXMgbm90IHRoZSBjYXNlLCB0aGVyZSBhcmUgc3lzdGVtcyBpbiBwbGFjZSB0aGF0IGtlZXAgdXMgZnJvbSBzdGVwcGluZyBvbiBlYWNoLW90aGVycyB0b2VzLiAtLT4KCjxicj4KCjxkZXRhaWxzPgo8c3VtbWFyeT5FeGFtcGxlIG9mIGEgRG9ja2VyZmlsZTwvc3VtbWFyeT4KCmBgYApGUk9NIGNlbnRvczpjZW50b3M3CgpSVU4geXVtIC15IGluc3RhbGwgd2dldCBnZGIKCkNPUFkgZm9vLnlhbWwgL3RtcAoKUlVOIHdnZXQgLVAgL3RtcCAiaHR0cHM6Ly9kb3dubG9hZC5leGFtcGxlLmNvbS9leGFtcGxlLWluc3RhbGxlci0zLjIuMS5lbDcueDg2XzY0LnJwbSIgJiYgXAogICAgcnBtIC1pIC90bXAvZXhhbXBsZS1pbnN0YWxsZXItMy4yLjEuZWw3Lng4Nl82NC5ycG0gJiYgXAogICAgcm0gL3RtcC9leGFtcGxlLWluc3RhbGxlci0zLjIuMS5lbDcueDg2XzY0LnJwbQoKRU5WIFBBVEggJHtQQVRIfTovb3B0L2Zvby9iaW4KYGBgCgo8L2RldGFpbHM+Cgo8YnI+CgojIyBTaW5ndWxhcml0eQoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9zaW5ndWxhcml0eS5wbmcpCgpFeGFtcGxlIG9mIGEgU2luZ3VsYXJpdHkgZGVmaW5pdGlvbiBmaWxlOgoKYGBgCkJvb3RTdHJhcDogZGVib290c3RyYXAKT1NWZXJzaW9uOiBzdGFibGUKTWlycm9yVVJMOiBodHRwOi8vZnRwLnVzLmRlYmlhbi5vcmcvZGViaWFuLwoKJXJ1bnNjcmlwdAogICAgZWNobyAiVGhpcyBpcyB3aGF0IGhhcHBlbnMgd2hlbiB5b3UgcnVuIHRoZSBjb250YWluZXIuLi4iCgolcG9zdAogICAgZWNobyAiSGVsbG8gZnJvbSBpbnNpZGUgdGhlIGNvbnRhaW5lciIKICAgIGFwdC1nZXQgdXBkYXRlCiAgICBhcHQtZ2V0IC15IGluc3RhbGwgZm9ydHVuZSBjb3dzYXkgbG9sY2F0CgolZW52aXJvbm1lbnQKICAgIGV4cG9ydCBQQVRIPSRQQVRIOi91c3IvZ2FtZXMKYGBgCgojIyMgU29tZSBRdWljayBOb3RlcyBvbiBTaW5ndWxhcml0eQoKLSBJdCBpcyBhIHB1cnBvc2UtYnVpbHQgY29udGFpbmVyaXphdGlvbiBzb2Z0d2FyZSBmb3IgYW4gSFBDIHN5c3RlbQotIFNpbmd1bGFyaXR5IGNhbiBhbHNvIHJ1biBEb2NrZXIgY29udGFpbmVycwotIFdlIGhhdmUgc2V2ZXJhbCByZXBvc2l0b3JpZXMgYXQgb3VyIGZpbmdlcnRpcHMKICAtIERvY2tlciBIdWIgLSBodHRwczovL2h1Yi5kb2NrZXIuY29tCiAgLSBCaW9jb250YWluZXJzIC0gaHR0cHM6Ly9iaW9jb250YWluZXJzLnBybwogIC0gUXVheSBJTyAtIGh0dHBzOi8vcXVheS5pbwogIC0gR2FsYXh5IFByb2plY3QgLSBodHRwczovL2RlcG90LmdhbGF4eXByb2plY3Qub3JnL3Npbmd1bGFyaXR5LwoKCjwhLS0gTElWRV9OT1RFOiBEbyBhIGRlbW9uc3RyYXRpb24gb2YgZ29pbmcgdG8gUXVheS5pbyBhbmQgZ2V0dGluZyBzYW10b29scyBhbmQgZGVlcHRvb2xzIGltYWdlcyAtLT4KCiMjIEV4ZXJjaXNlIC0gYHNydW5gLCBgc2luZ3VsYXJpdHkgc2hlbGxgLCBGaWx0ZXIgYW5kIEluZGV4IGEgQkFNCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgbGF1bmNoIGFuIGludGVyYWN0aXZlIGpvYiB3aXRoIGBzcnVuYC4gT25jZSB3ZSd2ZSBlbnRlcmVkIHRoZSBydW5uaW5nIGpvYiwgd2Ugd2lsbCB1c2Ugc2luZ3VsYXJpdHkgd2l0aCBhbiBleGlzdGluZyBzYW10b29scyBkb2NrZXIgaW1hZ2UgYW5kIGxhdW5jaCBhICdzaW5ndWxhcml0eSBzaGVsbCcuIFdpdGggdGhlIHNhbXRvb2xzIHNvZnR3YXJlIG5vdyBhdmFpbGFibGUsIHdlJ2xsIGZpbHRlciBhbmQgaW5kZXggc2FtcGxlX0EuCgpBZnRlciB3ZSBjb21wbGV0ZSB0aGlzLCB3ZSdsbCBkZWxldGUgdGhlIGZpbHRlcmVkICYgaW5kZXhlZCBCQU0gZmlsZSwgdG8gc3RhcnQgZnJlc2ggZm9yIG91ciBTQkFUQ0ggZXhlcmNpc2VzLgoKPGJyPgoKIyMgRXhlcmNpc2UgLSBTQkFUQ0gsIGBzaW5ndWxhcml0eSBleGVjYCwgRmlsdGVyIGFuZCBJbmRleCBhIEJBTQoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIHVzZSB0aGUgbmFubyBlZGl0b3IgdG8gY3JlYXRlIGFuIFNCQVRDSCBmaWxlIGFuZCB1c2UgYHNpbmd1bGFyaXR5IGV4ZWNgIHRvIGZpbHRlciBhbmQgaW5kZXggb3VyIHNhbXBsZV9BIEJBTSBmaWxlLiBXZSdsbCBzdWJtaXQgdGhlIGpvYiB3aXRoIGBzYmF0Y2hgIGFuZCByZXZpZXcgaXRzIGxvZyBmaWxlIGFuZCBvdXRwdXQuCgo8YnI+CgojIyBFeGVyY2lzZSAtIFNCQVRDSCwgYHNpbmd1bGFyaXR5IGV4ZWNgLCBGaWx0ZXIgYW5kIEluZGV4IGFsbCBCQU1zCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgcXVpY2tseSBjcmVhdGUgYWRkaXRpb25hbCBzYmF0Y2ggZmlsZXMgdGhhdCBjYW4gdXNlIGBzaW5ndWxhcml0eSBleGVjYCB0byBmaWx0ZXIgYW5kIGluZGV4IHRoZSByZXN0IG91ciBzYW1wbGVzLiBXZSdsbCBzdWJtaXQgdGhvc2Ugam9icyB3aXRoIGBzYmF0Y2hgIGFuZCByZXZpZXcgb25jZSBhZ2Fpbi4KCjxicj4KCiMjIEV4ZXJjaXNlIC0gYHNydW5gLCBgc2luZ3VsYXJpdHkgc2hlbGxgLCBTYW5pdHkgQ2hlY2sgQWxsIFNhbXBsZXMKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gaW50ZXJhY3RpdmUgam9iIHdpdGggYHNydW5gLiBPbmNlIHdlJ3ZlIGVudGVyZWQgdGhlIHJ1bm5pbmcgam9iLCB3ZSdsbCB1c2UgYHNpbmd1bGFyaXR5IHNoZWxsYCBhbmQgcXVpY2tseSBwZXJmb3JtIGEgc2FuaXR5IGNoZWNrIG9uIGFsbCBvZiBvdXIgZmlsdGVyZWQgQkFNIGZpbGVzLCBjb3VudGluZyB0aGUgZW50cmllcyBpbiBlYWNoIGZpbGUuCgo8IS0tIExJVkVfTk9URTogd3JpdGUgb3VyIHNhbml0eSBjaGVjayBjb21tYW5kIHRvIGEgZmlsZSB0byByZWNvcmQgaXQgZm9yIGZ1dHVyZSAtLT4KCjxicj4KCiMjIEV4ZXJjaXNlIC0gYHNydW5gLCBgc2luZ3VsYXJpdHkgc2hlbGxgLCBDcmVhdGUgYSBCaWd3aWcKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gaW50ZXJhY3RpdmUgam9iIHdpdGggYHNydW5gLiBPbmNlIHdlJ3ZlIGVudGVyZWQgdGhlIHJ1bm5pbmcgam9iLCB3ZSdsbCB1c2Ugc2luZ3VsYXJpdHkgd2l0aCBhbiBleGlzdGluZyBkZWVwdG9vbHMgZG9ja2VyIGltYWdlIGFuZCBsYXVuY2ggYSAnc2luZ3VsYXJpdHkgc2hlbGwnLiBXaXRoIHRoZSBgYmFtQ292ZXJhZ2VgIGNvbW1hbmQgbm93IGF2YWlsYWJsZSwgd2UnbGwgY3JlYXRlIGEgQmlnd2lnIGZvciBzYW1wbGVfQS4KCkFmdGVyIHdlIGNvbXBsZXRlIHRoaXMsIHdlJ2xsIGRlbGV0ZSB0aGUgbmV3bHkgY3JlYXRlZCBCaWd3aWcgZmlsZSwgc28gdGhhdCB3ZSBjYW4gc3RhcnQgZnJlc2ggb24gb3VyIFNCQVRDSCBleGVyY2lzZXMuCgo8YnI+CgojIyBFeGVyY2lzZSAtIFNCQVRDSCwgU2luZ3VsYXJpdHksIENyZWF0ZSBCaWd3aWdzIGZvciBBbGwgQkFNcwoKSW4gdGhlIHNhbWUgcGF0dGVybiBhcyB3ZSd2ZSBlc3RhYmxpc2hlZCBmb3Igb3VyIGZpbHRlcmluZyB0YXNrLCB3ZSdsbCB3aXRoIGEgc2luZ2xlIHNhbXBsZSwgc2FtcGxlX0EgYW5kIGNyYWZ0IGFuIFNCQVRDSCBmaWxlIHRvIGNyZWF0ZSBhIEJpZ3dpZyBmaWxlIGZvciB0aGF0IG9uZSBzYW1wbGUgYmVmb3JlIG1vdmluZyBvbiB0byBvdGhlcnMuCgo8YnI+Cgo8IS0tIExJVkVfTk9URTogVGFrZSB0aW1lIHRvIGRvY3VtZW50IGFuZCB0byB0aWR5IHVwIC0tPgoKCiMjIERlbW9uc3RyYXRpb24gLSBSZW1vdGUgQnVpbGQgb2YgYSBTaW5ndWxhcml0eSBJbWFnZQoKU28gZmFyIHdlJ3ZlIG9ubHkgZGVtb25zdHJhdGVkIHVzZXMgd2hlcmUgd2UgdXNlIGV4aXN0aW5nIGRvY2tlciBvciBzaW5ndWxhcml0eSBpbWFnZXMuIFdoaWxlIHdlJ3ZlIHNob3duIHRoYXQgdGhpcyBpcyBwb3dlcmZ1bCBhbmQgZWFzeSB0byB1c2UsIHdlIGFyZW4ndCB0YWtpbmcgZnVsbCBhZHZhbnRhZ2Ugb2Ygc2luZ3VsYXJpdHkncyBjYXBhYmlsaXRpZXMgd2l0aG91dCBidWlsZGluZyBuZXcgaW1hZ2VzLgoKVGhpcyB0b3BpYyBpcyBvdXRzaWRlIHRoZSBzY29wZSBvZiB0aGlzIHdvcmtzaG9wLCBidXQgd2Ugd2FudCB0byBkZW1vbnN0cmF0ZSB0aGF0IGl0IGlzIHBvc3NpYmxlIHRvIGJ1aWxkIHNpbmd1bGFyaXR5IGNvbnRhaW5lcnMuIEl0J3Mgbm90IHF1aXRlIHN0cmFpZ2h0Zm9yd2FyZCB0byBkbyBzbyBvbiBHcmVhdCBMYWtlcywgYnV0IHdpdGggYSBsaXR0bGUgYml0IG9mIGV4dHJhIHNldHVwIGl0IGlzIHBvc3NpYmxlIHRvIHVzZSBhIHJlbW90ZSBidWlsZGVyLCB3aGljaCB3ZSdsbCBkZW1vbnN0cmF0ZS4KCkZvciBtb3JlIGluZm9ybWF0aW9uIGFib3V0IHRoZSByZW1vdGUgYnVpbGQgcHJvY2Vzcywgc2VlIHRoZSBkb2N1bWVudGF0aW9uIGhlcmU6CgpbTGluayB0byBkb2N1bWVudGF0aW9uIG9uIHJlbW90ZSBidWlsZHNdKGh0dHBzOi8vZG9jcy5zeWxhYnMuaW8vZ3VpZGVzL2xhdGVzdC91c2VyLWd1aWRlL2J1aWxkX2FfY29udGFpbmVyLmh0bWwjcmVtb3RlLWJ1aWxkcykKCgo8YnI+Cjxicj4KPGJyPgo8YnI+CgojIyBSZXZpZXcgb2YgTE1PRCwgQ29uZGEsIERvY2tlciwgYW5kIFNpbmd1bGFyaXR5CgohW10oaW1hZ2VzL01vZHVsZTA1X2NvbXBhcmlzb25fc29mdHdhcmVfbWFuYWdlbWVudC5wbmcpCgpJbiBjaG9vc2luZyBhbnkgdG9vbCwgd2UgbXVzdCBjb25zaWRlciB0aGUgaW5oZXJlbnQgdHJhZGUtb2ZmcyBiZXR3ZWVuIHNpbXBsaWNpdHksIHBvcnRhYmlsaXR5LCBhbmQgZHVyYWJpbGl0eS4KCjxicj4KCi0tLQoKCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlMDRfc29mdHdhcmVfbWFuYWdlbWVudF9jb25kYS5odG1sKSB8IFtUb3Agb2YgdGhpcyBsZXNzb25dKCN0b3ApIHwgW05leHQgbGVzc29uXShNb2R1bGUwNi1pbnRyby10by13b3JrZmxvdy1hdXRvbWF0aW9uLmh0bWwpIHwKfCA6LS0tIHwgOi0tLS06IHwgLS0tOiB8Cg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiQ29udGFpbmVycyAtIERvY2tlciBhbmQgU2luZ3VsYXJpdHkiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBjb250YWluZXIgc3lzdGVtcyBEb2NrZXIgYW5kIFNpbmd1bGFyaXR5CiogZGlzY3VzcyB0aGUgd2hhdCBhbmQgd2h5IG9mIGNvbnRhaW5lcml6YXRpb24KKiBjb21wYXJlIGNvbnRhaW5lciBzb2x1dGlvbnMgdG8gb3RoZXIgc29mdHdhcmUgbWFuYWdlbWVudCB0b29scyB0aGF0IHdlJ3ZlIGRpc2N1c3NlZAoqIGxlYXJuIGhvdyB0byB1dGlsaXplIHB1YmxpY2FsbHkgYXZhaWxhYmxlIERvY2tlciBvciBTaW5ndWxhcml0eSBjb250YWluZXJzCiogc2VlIGhvdyB0byBidWlsZCBhIG5ldyBzaW5ndWxhcml0eSBjb250YWluZXIKCiMjIENvbW1vbmFsaXRpZXMgQmV0d2VlbiBTb2Z0d2FyZSBNYW5hZ2VtZW50IFRvb2xzCgohW10oaW1hZ2VzL01vZHVsZTA1X3NvZnR3YXJlX21hbmFnZW1lbnRfY29tbW9uYWxpdGllcy5wbmcpCgojIyBPdmVydmlldyBvZiBDb250YWluZXJpemVkIFNvZnR3YXJlCgpUaGUgc29mdHdhcmUgbWFuYWdlbWVudCB0b29scyB3ZSd2ZSBkaXNjdXNzZWQgc28gZmFyIGFyZSBleHRyZW1lbHkgaGVscGZ1bCBhbmQgaW1wb3J0YW50IGZvciByZXByb2R1Y2libGUgcmVzZWFyY2guIEhvd2V2ZXIsIHRoZXkgZG8gaGF2ZSBzb21lIGxpbWl0YXRpb25zIHRoYXQgd2UndmUgbWVudGlvbmVkLCB3aGljaCB3ZSdsbCBicmluZyBpbnRvIGZvY3VzIGFuZCBlbGFib3JhdGUgaW4gdGhpcyBtb2R1bGUgYXMgd2UgY29uc2lkZXIgc29tZSBhZGRpdGlvbmFsIG9wdGlvbnMgLSBjb250YWluZXJpemVkIHNvZnR3YXJlLiBXZSdsbCBkaXNjdXNzIGluIGEgbW9tZW50IHdoYXQgd2UgbWVhbiBieSB0aGlzIHRlcm0sIGJ1dCB0byBzdGFydCBJJ2xsIG1lbnRpb24gc29tZSBvZiB0aGUgYWRkaXRpb25hbCB0aGluZ3MgdGhhdCBjb250YWluZXJpemVkIHNvZnR3YXJlIGNhbiBncmFudCB1czoKCi0gQWRkaXRpb25hbCBwb3J0YWJpbGl0eQotIEFkZGl0aW9uYWwgaXNvbGF0aW9uIG9mIGNvbXB1dGUgZW52aXJvbm1lbnRzCi0gQWRkaXRpb25hbCBsb25nLXRlcm0gcmVsaWFiaWxpdHkKCgpUaGUgc2ltcGxlc3Qgd2F5IHRvIHRoaW5rIG9mIGNvbnRhaW5lcnMgaXMgYXMgaWYgdGhlcmUgaXMgYSB2aXJ0dWFsIGNvbXB1dGVyIHN5c3RlbSwgcnVubmluZyBpbnNpZGUgb2YgeW91ciBjb21wdXRlci4gWW91IGNhbiBpbWFnaW5lIHRoYXQgdGhlIGhhcmR3YXJlIGxheW91dCBvZiB5b3VyIHR5cGljYWwgY29tcHV0ZXIgY2FuIGFsc28gYmUgcmVjcmVhdGVkIHRocm91Z2ggc29mdHdhcmUsIGFuZCB0aGF0IGlzIGtpbmQgb2Ygd2hhdCBpcyBoYXBwZW5pbmcgd2hlbiB3ZSB1c2Ugc29mdHdhcmUgY29udGFpbmVycy4gVGhpcyBpcyBvZiBjb3Vyc2UgYSBncm9zcyBzaW1wbGlmaWNhdGlvbiwgYnV0IGZvciBub3cgd2UgY2FuIHRoaW5rIG9mIGl0IGluIHRoaXMgd2F5LgoKPGJyPgo8YnI+CgohW10oaW1hZ2VzL01vZHVsZTA1X2NvbXB1dGVyX2luX2NvbXB1dGVyLnBuZykKCjxicj4KCllvdSBtYXkgaGF2ZSBhbHJlYWR5IGhlYXJkIHRoZSB0ZXJtICJ2aXJ0dWFsIG1hY2hpbmUiIGluIHRoZSBwYXN0LCBhbmQgdGhpcyBpcyBhIHRlY2hub2xvZ3kgdGhhdCBpcyByZWxhdGVkIHRvLCBidXQgZGlzdGluY3QgZnJvbSBjb250YWluZXJzLiBXZSB3aWxsIGJlIGRpc2N1c3NpbmcgY29udGFpbmVyaXphdGlvbiBzb2Z0d2FyZSBzcGVjaWZpY2FsbHksIGFuZCBmb2N1c2luZyBvbiB0aGVzZSBiZWNhdXNlIGNvbnRhaW5lcnMgYXJlIG1vcmUgZWZmaWNpZW50LCBzdHJlYW1saW5lZCwgYW5kIHBlcmZlY3RseSBzdWl0ZWQgZm9yIHJlcHJvZHVjaWJpbGl0eSwgd2hlbiBjb21wYXJlZCB0byB2aXJ0dWFsIG1hY2hpbmVzLiBXaGVuIGNvbXBhcmluZyBiZXR3ZWVuIHRoZXNlLCBzb21lIHRoaW5ncyBJJ2QgbGlrZSB0byBoaWdobGlnaHQgdGhhdCB3b3JrIGhpZ2hseSBpbiBmYXZvciBvZiBjb250YWluZXJpemVkIHNvZnR3YXJlIGFyZToKCi0gVGhlIHVzYWdlIG9mIHN0YW5kYXJkaXplZCBzcGVjaWZpY2F0aW9uIGZpbGVzCiAgLSBlLmcuIERvY2tlcmZpbGVzLCBTaW5ndWxhcml0eSBkZWZpbml0aW9uIGZpbGVzCiAgLSBhbGxvdyBmb3Igc3VwZXJpb3IgdHJhbnNwYXJlbmN5IGFuZCByZXByb2R1Y2liaWxpdHkuCi0gVGhlIGxheWVyZWQgbmF0dXJlIG9mIGNvbnRhaW5lciBhcmNoaXRlY3R1cmUKICAtIER1cmluZyBjcmVhdGlvbiwgdGhlIHJlc3VsdCBvZiBlYWNoIHRhc2sgaXMgZm9ybWVkIGludG8gaXRzIG93biBsYXllcgogIC0gVGhlIHNlcGFyYXRlIGxheWVycyBhcmUgInN0YWNrZWQiIG9uZSBvdmVyIGFub3RoZXIgdW50aWwgdGhlIGVudGlyZSBlbnZpcm9ubWVudCBpcyBidWlsdAogIC0gQWxsb3dzIGZvciBoaWdoIHRyYW5zcGFyZW5jeSBhbmQgcG9ydGFiaWxpdHksIGFuZCBzdHJlYW1saW5lcyB0aGUgYnVpbGQgcHJvY2VzcwoKPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9nZW5lcmFsaXplZC5wbmcpCgpUbyBjb3ZlciBzb21lIHRlcm1pbm9sb2d5IGFuZCB0byBnaXZlIGEgYnJvYWQgb3ZlcnZpZXcgb2YgdGhlIGZsb3cgb2YgdXNpbmcgY29udGFpbmVycywgd2UnbGwgYnJpZWZseSBkaXNjdXNzIHRoaXMgZmlndXJlLgoKPGJyPgoKCiMjIyBTaGFyaW5nIFNvZnR3YXJlIEVudmlyb25tZW50cwoKPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9zaGFyaW5nX2FuYWx5c2VzLnBuZykKCgpMZXQncyByZXZpc2l0IHRoZSB0b3BpYyBvZiBzaGFyaW5nIGFuYWx5c2VzIG9uY2UgYWdhaW4uIFdlJ3ZlIGRpc2N1c3NlZCBob3cgc29tZSBvZiB5b3UgbWF5IGhhdmUgZXhwZXJpZW5jZWQgZnJpY3Rpb24gd2hlbiB0cnlpbmcgdG8gc2hhcmUgc29tZSBhbmFseXNpcyBjb2RlIHdpdGggYSBjb2xsYWJvcmF0b3Igb3Igd2l0aCBhIGNvbGxlYWd1ZSAtIHdoZW4gdGhleSB0cnkgdG8gcnVuIHRoZSBhbmFseXNpcyBvbiB0aGVpciBtYWNoaW5lIHRoZXkgYXJlIHVuc3VjY2Vzc2Z1bC4gTWF5YmUgdGhleSBkb24ndCBoYXZlIHRoZSByZXF1aXJlZCBzb2Z0d2FyZS4gTWF5YmUgdGhleSBoYXZlIHNvbWUgY2VydGFpbiBjb25maWd1cmF0aW9uIGRldGFpbHMgdGhhdCBhcmUgc2V0IGluY29ycmVjdGx5LiBPciBtYXliZSB0aGUgc29mdHdhcmUgdGhhdCB5b3UndmUgZ2l2ZW4gdGhlbSBpcyBhY3R1YWxseSBpbmNvbXBhdGlibGUgd2l0aCBzb21lIHNvZnR3YXJlIHRoYXQncyBydW5uaW5nIG9uIHRoZWlyIHN5c3RlbS4gSW4gdGhlIGZpZ3VyZSBhYm92ZSwgd2UndmUgc2hvd24gYSB2ZXJ5IHNpbXBsaXN0aWMgaWRlYSBmb3IgZ2V0dGluZyBhcm91bmQgdGhlc2UgaXNzdWVzLCB3aGljaCBpcyB0byBqdXN0IHNoYXJlIHlvdXIgZW50aXJlIGxhcHRvcCB3aXRoIHlvdXIgY29sbGVhZ3VlLiBIb3dldmVyLCB5b3UgY2FuIGltYWdpbmUgdGhhdCB0aGVyZSBhcmUgbWFueSBwcmFjdGljYWwgcmVhc29ucyB3aHkgdGhpcyBpcyBub3QgYSB2ZXJ5IGdvb2Qgc29sdXRpb24uIAoKV2UndmUgZGlzY3Vzc2VkIHNvbWUgc29sdXRpb25zIHRoYXQgY2FuIGFpZCBpbiB0aGVzZSBzaGFyaW5nIHRhc2tzLCB3aXRob3V0IGhhdmluZyB0byByZXNvcnQgdG8gYWN0dWFsbHkgc2hhcmluZyB5b3VyIGVudGlyZSBjb21wdXRlciB3aXRoIHlvdXIgY29sbGVhZ3VlLiBJbiBtYW55IHdheXMsIHRoZXNlIHNvbHV0aW9ucyBhbGxvdyB1cyB0byBnZXQgcGFzdCB0aGlzIGZyaWN0aW9uLiBMZXQncyB0YWtlIGEgbW9tZW50IHRvIHRoaW5rIGFib3V0IG91ciBleHBlcmllbmNlcyB3aXRoIExNT0QgbW9kdWxlcyBhbmQgY29uZGEsIGFuZCBkZXNjcmliZSB0aGVpciBzdHJlbmd0aHMgYW5kIGxpbWl0YXRpb25zLgoKPCEtLSBMSVZFX05PVEU6IEhpZ2hsaWdodCB0aGUgbGltaXRhdGlvbiBvZiBjb25kYSAtIHdoaWxlIHdlIGNhbiBzaGFyZSByZWNpcGVzLCB3ZSBjYW4ndCByZWFsbHkgc2hhcmUgdGhlIGJ1aWx0IGVudmlyb25tZW50LiBSZWxhdGUgdG8gc3RhbGUgbGlua3Mgb24gdGhlIGludGVybmV0IC0gaXQncyBub3QgZ3VhcmFudGVlZCB0byBzdGF5IGludGFjdCBmb3JldmVyISAtLT4KCjxicj4KCk5vdyB3ZSBzaGlmdCBvdXIgZm9jdXMgYmFjayB0byBjb250YWluZXJzLCBhbmQgaG93IHRoZXkgY2FuIG9mZmVyIHNvbWUgc29sdXRpb25zIHRvIHRoZSBsaW1pdGF0aW9ucyBvZiBvdGhlciBvcHRpb25zLiBBbiBpbXBvcnRhbnQgYXNwZWN0IG9mIGNvbnRhaW5lcnMgdGhhdCBtYWtlcyB0aGVtIHBvd2VyZnVsIGlzIHRoYXQgYWZ0ZXIgdGhleSdyZSBidWlsdCBhY2NvcmRpbmcgdG8gc3BlY2lmaWNhdGlvbnMsIHRoZSBjb250YWluZXIgaXMgYmFzaWNhbGx5IHVuY2hhbmdlYWJsZS4gT25jZSBhZ2FpbiwgdGhpcyBpcyBhIHNpbXBsaWZpY2F0aW9uLCBidXQgZm9yIHRoZSBtb3N0IGNvbW1vbiB1c2FnZXMsIGluIHRlcm1zIG9mIHNoYXJlYWJpbGl0eSBhbmQgcmVwcm9kdWNpYmlsaXR5LCB3ZSBjYW4gY29uc2lkZXIgaXQgdG8gYmUgc28uCgpJbiBhZGRpdGlvbiB0byBiZWluZyBzdGFibGUgb25jZSBjcmVhdGVkLCBpdCBpcyBhbHNvIHNoYXJlYWJsZSBhZnRlciBjcmVhdGlvbi4gVGhpcyBiZW5lZml0IGNhbm5vdCBiZSBvdmVyc3RhdGVkLiBCeSBiZWluZyBhYmxlIHRvIHNoYXJlIHRoZSBzdGF0aWMgZW52aXJvbm1lbnQgYWZ0ZXIgaXQgaGFzIGJlZW4gY3JlYXRlZCwgYW5kIHRvIGtub3cgdGhhdCBpdCB3aWxsIHJlbWFpbiBzdGFibGUgYW5kIHVzYWJsZSBmYXIgaW50byB0aGUgZnV0dXJlLCB3ZSBjYW4gZW5zdXJlIHJlcHJvZHVjaWJpbGl0eSBmYXIgaW50byB0aGUgZnV0dXJlIGFzIHdlbGwuCgpUaGVyZSBhcmUgc2V2ZXJhbCB3YXlzIHRoYXQgeW91IGNhbiBzaGFyZSBjb250YWluZXJpemVkIHNvZnR3YXJlOgoKLSBTaGFyaW5nIHRoZSBzcGVjaWZpY2F0aW9uIGZpbGVzIChha2luIHRvIHNoYXJpbmcgYSBjb25kYSByZWNpcGUpCi0gU2hhcmluZyBieSBob3N0aW5nIHRoZSBpbWFnZXMgaW4gYW4gYWNjZXNzaWJsZSByZXBvc2l0b3J5IChEb2NrZXIgSHViLCBRdWF5IElPLCBCaW9jb250YWluZXJzKQotIFNoYXJpbmcgdGhlIGltYWdlIGRpcmVjdGx5IChTaW5ndWxhcml0eSBJbWFnZSBGaWxlKQoKPGJyPgoKIyMjIEVudmlyb25tZW50IElzb2xhdGlvbgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9jb250YWluZXJfaXNvbGF0aW9uLnBuZykKCkFub3RoZXIgaW1wb3J0YW50IGFzcGVjdCBvZiBjb250YWluZXJzIGlzIHRoZWlyIHJlbGF0aXZlIGlzb2xhdGlvbiBmcm9tIHRoZSBob3N0IHN5c3RlbSB3aGVuIGNvbXBhcmVkIHRvIHNvbWV0aGluZyBsaWtlIENvbmRhLiBSZW1lbWJlciB0aGF0IHdoZW4gd2UgYXJlIHJ1bm5pbmcgc29mdHdhcmUgd2l0aGluIGEgY29udGFpbmVyLCB0aGUgc29mdHdhcmUgaW50ZXJhY3RzIHdpdGggYSBjb21wbGV0ZWx5IHZpcnR1YWxpemVkIHZlcnNpb24gb2YgdGhlIGhhcmR3YXJlIHN5c3RlbS4gQnkgbmF0dXJlIG9mIHRoYXQsIHRoYXQgbWVhbnMgdGhhdCB0aGVyZSBpcyBhZGRpdGlvbmFsIHNlcGFyYXRpb24gYmV0d2VlbiB0aGUgc29mdHdhcmUgaW4gdGhlIGNvbnRhaW5lciBhbmQgdGhlIHNvZnR3YXJlIHRoYXQgaXMgb3V0c2lkZSBvZiB0aGUgY29udGFpbmVyLiBDb25kYSBtYWtlcyBubyBzdWNoIGRpc3RpbmN0aW9uLCBidXQgcmF0aGVyIHVzZXMgYSBjb3VwbGUgb2YgdHJpY2tzIHRvIG1ha2UgaXQgZWFzeSB0byBzd2l0Y2ggYmV0d2VlbiBlbnZpcm9ubWVudHMuIAoKCjxicj4KCiMjIyBTdGF0aWMgSW1hZ2VzIGFyZSBTdGFibGUgQWNyb3NzIFRpbWUKCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2luY29tcGF0aWJpbGl0eS5wbmcpCgo8YnI+Cjxicj4KPGJyPgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9kZXBlbmRlbmNpZXNfb3Zlcl90aW1lLnBuZykKCldlJ2xsIGJyaWVmbHkgcmV2aXNpdCB0aGlzIGlkZWEgYW5kIHJlbGF0ZSBpdCB0byB0aGUgaW5jb21wYXRpYmlsaXR5IHNjZW5hcmlvIHRoYXQgd2UgZGVzY3JpYmVkIGluIHRoZSBwcmV2aW91cyBtb2R1bGUuCgo8YnI+CgojIyMgTm90IEp1c3QgU29mdHdhcmUKCkNvbnRhaW5lcnMgY2FuIGJlIGJ1bmRsZWQgd2l0aCBtb3JlIHRoYW4gc29mdHdhcmUgLSB0aGluZ3MgbGlrZSBlbnZpcm9ubWVudCB2YXJpYWJsZXMsIGNvbmZpZ3VyYXRpb24gZmlsZXMsIGV0Yy4gY2FuIGJlIGluY2x1ZGVkLiBGb3Igc29tZSB0b29scywgdGhpcyBpcyBhIGNyaXRpY2FsIGFzcGVjdCBvZiBwcm92aWRpbmcgc2ltcGxlIHBsdWctYW5kLXBsYXkgdXNhYmlsaXR5LgoKPGJyPgoKIyMgRG9ja2VyCgpXZSd2ZSBkaXNjdXNzZWQgY29udGFpbmVyaXplZCBzb2Z0d2FyZSBhcyBhIGNvbmNlcHQsIGFuZCBub3cgaXQncyB0aW1lIHRvIGJyaWVmbHkgZGlzY3VzcyBhIHNwZWNpZmljIGNvbnRhaW5lcml6YXRpb24gdG9vbCAtIGluIGZhY3QgYXJndWFibHkgdGhlIG1vc3Qgd2lkZWx5IHVzZWQgY29udGFpbmVyIHNvZnR3YXJlIHRvZGF5IC0gRG9ja2VyLgoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9kb2NrZXIucG5nKQoKPCEtLSBMSVZFX05PVEU6IEVtcGhhc2l6ZSB0aGF0IGltYWdlcyBhcmUgc2hhcmVhYmxlIG9uIERvY2tlckh1YiwgYW5kIHRoZW4gZXhlY3V0YWJsZS4gQWxzbyB3YW50IHRvIGhpZ2hsaWdodCB0aGF0IHdlIGNhbid0IGRpcmVjdGx5IHVzZSBEb2NrZXIgb24gR3JlYXQgTGFrZXMsIGJ1dCB3ZSBjYW4gc3RpbGwgdXNlIGRvY2tlciBpbWFnZXMgd2l0aCB0aGUgbmV4dCBzb2Z0d2FyZSB3ZSdsbCBkaXNjdXNzLCBzaW5ndWxhcml0eSAtLT4KCjwhLS0gTElWRV9OT1RFOiBFbXBoYXNpemUgdGhhdCBEb2NrZXIgYXNzdW1lcyB0aGF0IHlvdSBoYXZlIGZ1bGwgY29udHJvbCBvdmVyIGEgc3lzdGVtLiBPbiBhbiBIUEMsIHRoaXMgaXMgbm90IHRoZSBjYXNlLCB0aGVyZSBhcmUgc3lzdGVtcyBpbiBwbGFjZSB0aGF0IGtlZXAgdXMgZnJvbSBzdGVwcGluZyBvbiBlYWNoLW90aGVycyB0b2VzLiAtLT4KCjxicj4KCjxkZXRhaWxzPgo8c3VtbWFyeT5FeGFtcGxlIG9mIGEgRG9ja2VyZmlsZTwvc3VtbWFyeT4KCmBgYApGUk9NIGNlbnRvczpjZW50b3M3CgpSVU4geXVtIC15IGluc3RhbGwgd2dldCBnZGIKCkNPUFkgZm9vLnlhbWwgL3RtcAoKUlVOIHdnZXQgLVAgL3RtcCAiaHR0cHM6Ly9kb3dubG9hZC5leGFtcGxlLmNvbS9leGFtcGxlLWluc3RhbGxlci0zLjIuMS5lbDcueDg2XzY0LnJwbSIgJiYgXAogICAgcnBtIC1pIC90bXAvZXhhbXBsZS1pbnN0YWxsZXItMy4yLjEuZWw3Lng4Nl82NC5ycG0gJiYgXAogICAgcm0gL3RtcC9leGFtcGxlLWluc3RhbGxlci0zLjIuMS5lbDcueDg2XzY0LnJwbQoKRU5WIFBBVEggJHtQQVRIfTovb3B0L2Zvby9iaW4KYGBgCgo8L2RldGFpbHM+Cgo8YnI+CgojIyBTaW5ndWxhcml0eQoKIVtdKGltYWdlcy9Nb2R1bGUwNV9maWxlX2ltYWdlX2NvbnRhaW5lcl9zaW5ndWxhcml0eS5wbmcpCgpFeGFtcGxlIG9mIGEgU2luZ3VsYXJpdHkgZGVmaW5pdGlvbiBmaWxlOgoKYGBgCkJvb3RTdHJhcDogZGVib290c3RyYXAKT1NWZXJzaW9uOiBzdGFibGUKTWlycm9yVVJMOiBodHRwOi8vZnRwLnVzLmRlYmlhbi5vcmcvZGViaWFuLwoKJXJ1bnNjcmlwdAogICAgZWNobyAiVGhpcyBpcyB3aGF0IGhhcHBlbnMgd2hlbiB5b3UgcnVuIHRoZSBjb250YWluZXIuLi4iCgolcG9zdAogICAgZWNobyAiSGVsbG8gZnJvbSBpbnNpZGUgdGhlIGNvbnRhaW5lciIKICAgIGFwdC1nZXQgdXBkYXRlCiAgICBhcHQtZ2V0IC15IGluc3RhbGwgZm9ydHVuZSBjb3dzYXkgbG9sY2F0CgolZW52aXJvbm1lbnQKICAgIGV4cG9ydCBQQVRIPSRQQVRIOi91c3IvZ2FtZXMKYGBgCgojIyMgU29tZSBRdWljayBOb3RlcyBvbiBTaW5ndWxhcml0eQoKLSBJdCBpcyBhIHB1cnBvc2UtYnVpbHQgY29udGFpbmVyaXphdGlvbiBzb2Z0d2FyZSBmb3IgYW4gSFBDIHN5c3RlbQotIFNpbmd1bGFyaXR5IGNhbiBhbHNvIHJ1biBEb2NrZXIgY29udGFpbmVycwotIFdlIGhhdmUgc2V2ZXJhbCByZXBvc2l0b3JpZXMgYXQgb3VyIGZpbmdlcnRpcHMKICAtIERvY2tlciBIdWIgLSBodHRwczovL2h1Yi5kb2NrZXIuY29tCiAgLSBCaW9jb250YWluZXJzIC0gaHR0cHM6Ly9iaW9jb250YWluZXJzLnBybwogIC0gUXVheSBJTyAtIGh0dHBzOi8vcXVheS5pbwogIC0gR2FsYXh5IFByb2plY3QgLSBodHRwczovL2RlcG90LmdhbGF4eXByb2plY3Qub3JnL3Npbmd1bGFyaXR5LwoKCjwhLS0gTElWRV9OT1RFOiBEbyBhIGRlbW9uc3RyYXRpb24gb2YgZ29pbmcgdG8gUXVheS5pbyBhbmQgZ2V0dGluZyBzYW10b29scyBhbmQgZGVlcHRvb2xzIGltYWdlcyAtLT4KCiMjIEV4ZXJjaXNlIC0gYHNydW5gLCBgc2luZ3VsYXJpdHkgc2hlbGxgLCBGaWx0ZXIgYW5kIEluZGV4IGEgQkFNCgo8IS0tIExJVkVfTk9URTogQWxzbyBkbyBzYW5pdHkgY2hlY2sgLS0+CgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgbGF1bmNoIGFuIGludGVyYWN0aXZlIGpvYiB3aXRoIGBzcnVuYC4gT25jZSB3ZSd2ZSBlbnRlcmVkIHRoZSBydW5uaW5nIGpvYiwgd2Ugd2lsbCB1c2Ugc2luZ3VsYXJpdHkgd2l0aCBhbiBleGlzdGluZyBzYW10b29scyBkb2NrZXIgaW1hZ2UgYW5kIGxhdW5jaCBhICdzaW5ndWxhcml0eSBzaGVsbCcuIFdpdGggdGhlIHNhbXRvb2xzIHNvZnR3YXJlIG5vdyBhdmFpbGFibGUsIHdlJ2xsIGZpbHRlciBhbmQgaW5kZXggc2FtcGxlX0EuCgpBZnRlciB3ZSBjb21wbGV0ZSB0aGlzLCB3ZSdsbCBkZWxldGUgdGhlIGZpbHRlcmVkICYgaW5kZXhlZCBCQU0gZmlsZSwgdG8gc3RhcnQgZnJlc2ggZm9yIG91ciBTQkFUQ0ggZXhlcmNpc2VzLgoKPGRldGFpbHM+CjxzdW1tYXJ5PmBzcnVuYCwgYHNpbmd1bGFyaXR5IHNoZWxsYCwgRmlsdGVyIGFuZCBJbmRleCBCQU0gLSBTb2x1dGlvbjwvc3VtbWFyeT4KCmBzcnVuIC0tcHR5IC0tam9iLW5hbWU9JHtVU0VSfV9zaW5ndWxhcml0eV9maWx0ZXJfYW5kX2luZGV4IC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MgLS1wYXJ0aXRpb24gc3RhbmRhcmQgLS1tZW09MjAwMCAtLWNwdXMtcGVyLXRhc2s9MiAtLXRpbWU9MDA6MjA6MDAgL2Jpbi9iYXNoYAoKYG1rZGlyIGZpbHRlcl92aXpfc2luZ3VsYXJpdHlgCgpgbW9kdWxlIGxvYWQgc2luZ3VsYXJpdHlgCgpgc2luZ3VsYXJpdHkgc2hlbGwgZG9ja2VyOi8vcXVheS5pby9iaW9jb250YWluZXJzL3NhbXRvb2xzOjEuMjAtLWg1MGVhOGJjXzBgCgpgc2FtdG9vbHMgdmlldyAtbyBmaWx0ZXJfdml6X3Npbmd1bGFyaXR5L3NhbXBsZV9BLmNocjE5LmJhbSBpbnB1dF9iYW1zL3NhbXBsZV9BLmdlbm9tZS5iYW0gMTlgCgpXZSdsbCBhbHNvIGRvIGEgc2FuaXR5IGNoZWNrIGhlcmU6Cgpgc2FtdG9vbHMgdmlldyBmaWx0ZXJfdml6X3Npbmd1bGFyaXR5L3NhbXBsZV9BLmNocjE5LmJhbSB8IHdjIC1sYAoKQXMgd2VsbCBhcyBpbmRleCB0aGUgQkFNIChiYW1Db3ZlcmFnZSB3aWxsIG5lZWQgdGhlIGluZGV4IGluIHRoZSBuZXh0IHN0ZXApCgpgc2FtdG9vbHMgaW5kZXggZmlsdGVyX3Zpel9zaW5ndWxhcml0eS9zYW1wbGVfQS5jaHIxOS5iYW1gCgo8L2RldGFpbHM+Cgo8YnI+Cgo8IS0tIExJVkVfTk9URTogU2tpcCBzZXZlcmFsIGV4ZXJjaXNlcyAtLT4KCiMjIEV4ZXJjaXNlIC0gU0JBVENILCBgc2luZ3VsYXJpdHkgZXhlY2AsIEZpbHRlciBhbmQgSW5kZXggYSBCQU0KCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgdGhlIG5hbm8gZWRpdG9yIHRvIGNyZWF0ZSBhbiBTQkFUQ0ggZmlsZSBhbmQgdXNlIGBzaW5ndWxhcml0eSBleGVjYCB0byBmaWx0ZXIgYW5kIGluZGV4IG91ciBzYW1wbGVfQSBCQU0gZmlsZS4gV2UnbGwgc3VibWl0IHRoZSBqb2Igd2l0aCBgc2JhdGNoYCBhbmQgcmV2aWV3IGl0cyBsb2cgZmlsZSBhbmQgb3V0cHV0LgoKPGJyPgoKIyMgRXhlcmNpc2UgLSBTQkFUQ0gsIGBzaW5ndWxhcml0eSBleGVjYCwgRmlsdGVyIGFuZCBJbmRleCBhbGwgQkFNcwoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIHF1aWNrbHkgY3JlYXRlIGFkZGl0aW9uYWwgc2JhdGNoIGZpbGVzIHRoYXQgY2FuIHVzZSBgc2luZ3VsYXJpdHkgZXhlY2AgdG8gZmlsdGVyIGFuZCBpbmRleCB0aGUgcmVzdCBvdXIgc2FtcGxlcy4gV2UnbGwgc3VibWl0IHRob3NlIGpvYnMgd2l0aCBgc2JhdGNoYCBhbmQgcmV2aWV3IG9uY2UgYWdhaW4uCgo8YnI+CgojIyBFeGVyY2lzZSAtIGBzcnVuYCwgYHNpbmd1bGFyaXR5IHNoZWxsYCwgU2FuaXR5IENoZWNrIEFsbCBTYW1wbGVzCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgbGF1bmNoIGFuIGludGVyYWN0aXZlIGpvYiB3aXRoIGBzcnVuYC4gT25jZSB3ZSd2ZSBlbnRlcmVkIHRoZSBydW5uaW5nIGpvYiwgd2UnbGwgdXNlIGBzaW5ndWxhcml0eSBzaGVsbGAgYW5kIHF1aWNrbHkgcGVyZm9ybSBhIHNhbml0eSBjaGVjayBvbiBhbGwgb2Ygb3VyIGZpbHRlcmVkIEJBTSBmaWxlcywgY291bnRpbmcgdGhlIGVudHJpZXMgaW4gZWFjaCBmaWxlLgoKPCEtLSBMSVZFX05PVEU6IHdyaXRlIG91ciBzYW5pdHkgY2hlY2sgY29tbWFuZCB0byBhIGZpbGUgdG8gcmVjb3JkIGl0IGZvciBmdXR1cmUgLS0+Cgo8YnI+CgojIyBFeGVyY2lzZSAtIGBzcnVuYCwgYHNpbmd1bGFyaXR5IGV4ZWNgLCBDcmVhdGUgYSBCaWd3aWcKCjwhLS0gTElWRV9OT1RFOiBXZSdsbCBkZW1vbnN0cmF0ZSBzaW5ndWxhcml0eSBleGVjIGluIHRoaXMgZXhlcmNpc2UgLS0+CgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2UnbGwgbGF1bmNoIGFuIGludGVyYWN0aXZlIGpvYiB3aXRoIGBzcnVuYC4gT25jZSB3ZSd2ZSBlbnRlcmVkIHRoZSBydW5uaW5nIGpvYiwgd2UnbGwgdXNlIHNpbmd1bGFyaXR5IHdpdGggYW4gZXhpc3RpbmcgZGVlcHRvb2xzIGRvY2tlciBpbWFnZSBhbmQgbGF1bmNoIGEgJ3Npbmd1bGFyaXR5IHNoZWxsJy4gV2l0aCB0aGUgYGJhbUNvdmVyYWdlYCBjb21tYW5kIG5vdyBhdmFpbGFibGUsIHdlJ2xsIGNyZWF0ZSBhIEJpZ3dpZyBmb3Igc2FtcGxlX0EuCgpBZnRlciB3ZSBjb21wbGV0ZSB0aGlzLCB3ZSdsbCBkZWxldGUgdGhlIG5ld2x5IGNyZWF0ZWQgQmlnd2lnIGZpbGUsIHNvIHRoYXQgd2UgY2FuIHN0YXJ0IGZyZXNoIG9uIG91ciBTQkFUQ0ggZXhlcmNpc2VzLgoKPGRldGFpbHM+CjxzdW1tYXJ5PmBzcnVuYCwgYHNpbmd1bGFyaXR5IGV4ZWNgLCBDcmVhdGUgYSBCaWd3aWcgLSBTb2x1dGlvbjwvc3VtbWFyeT4KCmBzcnVuIC0tcHR5IC0tam9iLW5hbWU9JHtVU0VSfV9zaW5ndWxhcml0eV9jcmVhdGVfYmlnd2lnIC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MgLS1wYXJ0aXRpb24gc3RhbmRhcmQgLS1tZW09MjAwMCAtLWNwdXMtcGVyLXRhc2s9MiAtLXRpbWU9MDA6MzA6MDAgL2Jpbi9iYXNoYAoKYG1vZHVsZSBsaXN0YAoKYG1vZHVsZSBsb2FkIHNpbmd1bGFyaXR5YAoKYHNpbmd1bGFyaXR5IGV4ZWMgZG9ja2VyOi8vcXVheS5pby9iaW9jb250YWluZXJzL2RlZXB0b29sczozLjUuNS0tcHloZGZkNzhhZl8wIGJhbUNvdmVyYWdlIC1iIGZpbHRlcl92aXpfc2luZ3VsYXJpdHkvc2FtcGxlX0EuY2hyMTkuYmFtIC1vIGZpbHRlcl92aXpfc2luZ3VsYXJpdHkvc2FtcGxlX0EuY2hyMTkuYmlnd2lnYAoKPC9kZXRhaWxzPgoKPGJyPgoKPCEtLSBMSVZFX05PVEU6IFNraXAgY3JlYXRlIGFsbCBiaWd3aWdzIGV4ZXJjaXNlIC0tPgoKIyMgRXhlcmNpc2UgLSBTQkFUQ0gsIFNpbmd1bGFyaXR5LCBDcmVhdGUgQmlnd2lncyBmb3IgQWxsIEJBTXMKCkluIHRoZSBzYW1lIHBhdHRlcm4gYXMgd2UndmUgZXN0YWJsaXNoZWQgZm9yIG91ciBmaWx0ZXJpbmcgdGFzaywgd2UnbGwgd2l0aCBhIHNpbmdsZSBzYW1wbGUsIHNhbXBsZV9BIGFuZCBjcmFmdCBhbiBTQkFUQ0ggZmlsZSB0byBjcmVhdGUgYSBCaWd3aWcgZmlsZSBmb3IgdGhhdCBvbmUgc2FtcGxlIGJlZm9yZSBtb3Zpbmcgb24gdG8gb3RoZXJzLgoKPGJyPgoKPCEtLSBMSVZFX05PVEU6IFJlbWVtYmVyIHRvIGhhdmUgdXNlcnMgbW92ZSB0aGVpciBjb25kYSBlbnYgLS0+Cgo8IS0tIExJVkVfTk9URTogVGFrZSB0aW1lIHRvIGRvY3VtZW50IGFuZCB0byB0aWR5IHVwIC0tPgoKCiMjIERlbW9uc3RyYXRpb24gLSBSZW1vdGUgQnVpbGQgb2YgYSBTaW5ndWxhcml0eSBJbWFnZQoKU28gZmFyIHdlJ3ZlIG9ubHkgZGVtb25zdHJhdGVkIHVzZXMgd2hlcmUgd2UgdXNlIGV4aXN0aW5nIGRvY2tlciBvciBzaW5ndWxhcml0eSBpbWFnZXMuIFdoaWxlIHdlJ3ZlIHNob3duIHRoYXQgdGhpcyBpcyBwb3dlcmZ1bCBhbmQgZWFzeSB0byB1c2UsIHdlIGFyZW4ndCB0YWtpbmcgZnVsbCBhZHZhbnRhZ2Ugb2Ygc2luZ3VsYXJpdHkncyBjYXBhYmlsaXRpZXMgd2l0aG91dCBidWlsZGluZyBuZXcgaW1hZ2VzLgoKVGhpcyB0b3BpYyBpcyBvdXRzaWRlIHRoZSBzY29wZSBvZiB0aGlzIHdvcmtzaG9wLCBidXQgd2Ugd2FudCB0byBkZW1vbnN0cmF0ZSB0aGF0IGl0IGlzIHBvc3NpYmxlIHRvIGJ1aWxkIHNpbmd1bGFyaXR5IGNvbnRhaW5lcnMuIEl0J3Mgbm90IHF1aXRlIHN0cmFpZ2h0Zm9yd2FyZCB0byBkbyBzbyBvbiBHcmVhdCBMYWtlcywgYnV0IHdpdGggYSBsaXR0bGUgYml0IG9mIGV4dHJhIHNldHVwIGl0IGlzIHBvc3NpYmxlIHRvIHVzZSBhIHJlbW90ZSBidWlsZGVyLCB3aGljaCB3ZSdsbCBkZW1vbnN0cmF0ZS4KCkZvciBtb3JlIGluZm9ybWF0aW9uIGFib3V0IHRoZSByZW1vdGUgYnVpbGQgcHJvY2Vzcywgc2VlIHRoZSBkb2N1bWVudGF0aW9uIGhlcmU6CgpbTGluayB0byBkb2N1bWVudGF0aW9uIG9uIHJlbW90ZSBidWlsZHNdKGh0dHBzOi8vZG9jcy5zeWxhYnMuaW8vZ3VpZGVzL2xhdGVzdC91c2VyLWd1aWRlL2J1aWxkX2FfY29udGFpbmVyLmh0bWwjcmVtb3RlLWJ1aWxkcykKCjxkZXRhaWxzPgo8c3VtbWFyeT5EZW1vIFJlbW90ZSBCdWlsZCAtIFNvbHV0aW9uPC9zdW1tYXJ5PgoKV2UnbGwgY3JlYXRlIGEgc2luZ3VsYXJpdHkgZGVmaW5pdGlvbiBmaWxlIGNhbGxlZCBgY293c2F5LmRlZmAKCmBuYW5vIGNvd3NheS5kZWZgCgpDb250ZW50cyBvZiBgY293c2F5LmRlZmAgYXJlIHNob3duIGluIHRoZSBzaW5ndWxhcml0eSBkZWZpbml0aW9uIGZpbGUgc2hvd24gaW4gdGhlIGFib3ZlIGxlc3Nvbi4KCk5vdGUsIHRvIHVzZSB0aGUgcmVtb3RlIGJ1aWxkZXIgd2l0aCB0aGUgYC0tcmVtb3RlYCBmbGFnLCB5b3UgbXVzdCBmb2xsb3cgdGhlIGluc3RydWN0aW9ucyBvbiByZW1vdGUgYnVpbGRzIGFib3ZlIC0gY3JlYXRlIGFuIGFjY291bnQgYW5kIGdlbmVyYXRlIGEgdG9rZW4gb25saW5lLCB0aGVuIHVzZSBgc2luZ3VsYXJpdHkgcmVtb3RlIGxvZ2luYC4KCmBzaW5ndWxhcml0eSBidWlsZCAtLXJlbW90ZSBjb3dzYXkuc2lmIGNvd3NheS5kZWZgCgpBZnRlciB0aGlzLCB3ZSBoYXZlIGEgc2luZ3VsYXJpdHkgaW1hZ2UgZmlsZSwgYGNvd3NheS5zaWZgIHRoYXQgd2UgY2FuIHVzZSB3aXRoIGBzaW5ndWxhcml0eSBzaGVsbCBjb3dzYXkuc2lmYCBvciBgc2luZ3VsYXJpdHkgZXhlYyBjb3dzYXkuc2lmIGNvd3NheSBNb29vYAoKPC9kZXRhaWxzPgoKPGJyPgo8YnI+Cjxicj4KPGJyPgoKIyMgUmV2aWV3IG9mIExNT0QsIENvbmRhLCBEb2NrZXIsIGFuZCBTaW5ndWxhcml0eQoKIVtdKGltYWdlcy9Nb2R1bGUwNV9jb21wYXJpc29uX3NvZnR3YXJlX21hbmFnZW1lbnQucG5nKQoKSW4gY2hvb3NpbmcgYW55IHRvb2wsIHdlIG11c3QgY29uc2lkZXIgdGhlIGluaGVyZW50IHRyYWRlLW9mZnMgYmV0d2VlbiBzaW1wbGljaXR5LCBwb3J0YWJpbGl0eSwgYW5kIGR1cmFiaWxpdHkuCgo8YnI+CgotLS0KCgp8IFtQcmV2aW91cyBsZXNzb25dKE1vZHVsZTA0X3NvZnR3YXJlX21hbmFnZW1lbnRfY29uZGEuaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlMDYtaW50cm8tdG8td29ya2Zsb3ctYXV0b21hdGlvbi5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
 
 
 
