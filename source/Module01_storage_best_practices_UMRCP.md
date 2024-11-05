@@ -124,6 +124,8 @@ Some ideas for project identification systems:
 
 <br>
 
+<!-- LIVE_NOTE: Ask if anyone has any preferences, or what might work best for their group and why -->
+
 ## Storage Options for UMich Researchers
 
 We've discussed best practices for data, analysis intermediates and scripts, etc. in general terms, but now we'll have the opportunity to revisit these ideas while highlighting specific options and recommendations for UMich researchers. By the end of this module, we will understand our numerous storage options available to us. Looking forward to future modules, we'll also run exercises that interact with some of these storage allocations as we proceed, including Data Den and its unique characteristics and usage patterns.
@@ -173,6 +175,8 @@ We discussed above that Data Den is slow, unsuited for analysis, yet cost-effect
 Notice that Turbo storage is about 8x more costly than Data Den for the same amount of replicated storage.
 
 >Note: Data Den is only available in the replicated format.
+
+<!-- LIVE_NOTE: We'll mention how researchers can get a portion of Turbo and Data Den at no cost to them -->
 
 
 ### Home, Scratch, tmp, and others
@@ -248,6 +252,8 @@ Armis2 is similar in feel to the Great Lakes cluster, except it is configured wi
 
 Lighthouse is also similar in feel to the Great Lakes cluster, except it is a cluster comprised entirely of researcher-owned hardware. Contrasting this with Great Lakes where we are only responsible for the cost of the resources we use, on Lighthouse, a researcher will fund the entirety of the hardware and receive 100% of its availability. This can be a good choice for researchers who are expected to have near-constant compute usage needs, or who require instant availability of HPC resources.
 
+<!-- LIVE_NOTE: Link to the ITS sensitive data guide, is also available at the "UMRCP Requesting Resources Guide": https://safecomputing.umich.edu/dataguide/?q=home -->
+
 <br>
 
 Main ideas:
@@ -292,6 +298,8 @@ Let's not go there just yet, but discuss what we see in this screenshot, and the
 In this exercise we will determine the needs for UMRCP enrollment by audience & their PIs.
 
 There are two video links below. There's a decent amount of overlap in the content, and the main ideas are pretty similar. In either case, we will be filling out the UMRCP web forms as shown in the videos. Depending on our current status though, we may have different optimal starting points and different things to consider.
+
+<!-- LIVE_NOTE: The main difference is that the web-form for requesting resources can automatically detect some existing resources. In the videos it demonstrates navigating to that form in different ways - that's one thing to pay attention to. There are many possibilities of existing setups, and not everything will be automatically detected -->
 
 <br>
 

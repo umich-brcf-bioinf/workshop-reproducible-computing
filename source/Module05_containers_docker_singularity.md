@@ -196,11 +196,38 @@ MirrorURL: http://ftp.us.debian.org/debian/
 
 ## Exercise - `srun`, `singularity shell`, Filter and Index a BAM
 
+<!-- LIVE_NOTE: Also do sanity check -->
+
 Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we will use singularity with an existing samtools docker image and launch a 'singularity shell'. With the samtools software now available, we'll filter and index sample_A.
 
 After we complete this, we'll delete the filtered & indexed BAM file, to start fresh for our SBATCH exercises.
 
+<details>
+<summary>`srun`, `singularity shell`, Filter and Index BAM - Solution</summary>
+
+`srun --pty --job-name=${USER}_singularity_filter_and_index --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:20:00 /bin/bash`
+
+`mkdir filter_viz_singularity`
+
+`module load singularity`
+
+`singularity shell docker://quay.io/biocontainers/samtools:1.20--h50ea8bc_0`
+
+`samtools view -o filter_viz_singularity/sample_A.chr19.bam input_bams/sample_A.genome.bam 19`
+
+We'll also do a sanity check here:
+
+`samtools view filter_viz_singularity/sample_A.chr19.bam | wc -l`
+
+As well as index the BAM (bamCoverage will need the index in the next step)
+
+`samtools index filter_viz_singularity/sample_A.chr19.bam`
+
+</details>
+
 <br>
+
+<!-- LIVE_NOTE: Skip several exercises -->
 
 ## Exercise - SBATCH, `singularity exec`, Filter and Index a BAM
 
@@ -222,19 +249,38 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 
 <br>
 
-## Exercise - `srun`, `singularity shell`, Create a Bigwig
+## Exercise - `srun`, `singularity exec`, Create a Bigwig
+
+<!-- LIVE_NOTE: We'll demonstrate singularity exec in this exercise -->
 
 Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll use singularity with an existing deeptools docker image and launch a 'singularity shell'. With the `bamCoverage` command now available, we'll create a Bigwig for sample_A.
 
 After we complete this, we'll delete the newly created Bigwig file, so that we can start fresh on our SBATCH exercises.
 
+<details>
+<summary>`srun`, `singularity exec`, Create a Bigwig - Solution</summary>
+
+`srun --pty --job-name=${USER}_singularity_create_bigwig --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`module list`
+
+`module load singularity`
+
+`singularity exec docker://quay.io/biocontainers/deeptools:3.5.5--pyhdfd78af_0 bamCoverage -b filter_viz_singularity/sample_A.chr19.bam -o filter_viz_singularity/sample_A.chr19.bigwig`
+
+</details>
+
 <br>
+
+<!-- LIVE_NOTE: Skip create all bigwigs exercise -->
 
 ## Exercise - SBATCH, Singularity, Create Bigwigs for All BAMs
 
 In the same pattern as we've established for our filtering task, we'll with a single sample, sample_A and craft an SBATCH file to create a Bigwig file for that one sample before moving on to others.
 
 <br>
+
+<!-- LIVE_NOTE: Remember to have users move their conda env -->
 
 <!-- LIVE_NOTE: Take time to document and to tidy up -->
 
@@ -249,6 +295,22 @@ For more information about the remote build process, see the documentation here:
 
 [Link to documentation on remote builds](https://docs.sylabs.io/guides/latest/user-guide/build_a_container.html#remote-builds)
 
+<details>
+<summary>Demo Remote Build - Solution</summary>
+
+We'll create a singularity definition file called `cowsay.def`
+
+`nano cowsay.def`
+
+Contents of `cowsay.def` are shown in the singularity definition file shown in the above lesson.
+
+Note, to use the remote builder with the `--remote` flag, you must follow the instructions on remote builds above - create an account and generate a token online, then use `singularity remote login`.
+
+`singularity build --remote cowsay.sif cowsay.def`
+
+After this, we have a singularity image file, `cowsay.sif` that we can use with `singularity shell cowsay.sif` or `singularity exec cowsay.sif cowsay Mooo`
+
+</details>
 
 <br>
 <br>

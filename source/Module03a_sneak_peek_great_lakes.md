@@ -123,11 +123,33 @@ Following along with the instructor, we'll use OpenOnDemand to launch a Basic De
 
 Following along with the instructor, we will use the `nano` utility to write the beginnings of a README for our project as it exists so far.
 
+<details>
+<summary>Write a README - Solution</summary>
+
+`source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.txt`
+
+`cd ${WORKSHOP_HOME}/project_analysis`
+
+`nano README.txt`
+
+</details>
+
 ## Exercise - Organize your project
 
 Following along with the instructor, we'll organize the files that are in our `$WORKSHOP_HOME` directory.
 
-<!-- FIXME: More project org description here -->
+<details>
+<summary>Organize Your Project - Solution</summary>
+
+`cd ${WORKSHOP_HOME}/project_analysis`
+
+`mv 0042-WS input_bams`
+
+`mkdir logs`
+
+`mkdir scripts`
+
+</details>
 
 <br>
 

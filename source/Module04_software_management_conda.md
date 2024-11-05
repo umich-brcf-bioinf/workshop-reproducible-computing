@@ -39,6 +39,7 @@ When performing research computing tasks, however, you may run into situations w
 We likely all have some experience with software management. I'd like to examine our experience with software management, and promote appreciation for the work that often happens behind the scenes.
 
 <!-- LIVE_NOTE: Slack polling for who uses Windows, who uses MacOS, Linux -->
+
 <!-- LIVE_NOTE: After polling, relate to automatic updates, App Store, Windows Updates, etc. -->
 
 <br>
@@ -143,9 +144,11 @@ So far we've described many of the details of how conda works and how we can use
 
 ### Miniconda Installation Overview
 
-- We will use the Miniconda installer and each of us will install miniconda to our home directory on Great Lakes.
+- We will use the Miniconda installer and each of us will install miniconda to our `$WORKSHOP_HOME` directory on Great Lakes.
 - [Link to Miniconda installation instructions](https://docs.anaconda.com/free/miniconda/miniconda-install/)
 - Together, we'll verify the file integrity of the installer and then use it to guide us through the installation process.
+
+<br>
 
 ### Conda Configuration with .condarc Overview
 
@@ -159,7 +162,37 @@ So far we've described many of the details of how conda works and how we can use
 
 Following along with instructor, learners will install miniconda and create a `.condarc` file.
 
-<!-- LIVE_NOTE: Zoom poll to verify miniconda installation location with `ls` and verify condarc file with `cat` --> 
+<details>
+<summary>Miniconda Install and Configure - Solution</summary>
+
+`sha256sum Miniconda3-latest-Linux-x86_64.sh  # Check result against the miniconda installer page`
+
+`./Miniconda3-latest-Linux-x86_64.sh -p ${WORKSHOP_HOME}/miniconda3`
+
+>Note: At the end, when asked about setting up conda initialization, we chose 'no', and instead opted to create a separate conda_initialization file that we can `source` when we want to use conda.
+
+`nano ${WORKSHOP_HOME}/initialize_conda_workshop.sh`
+
+Content of `initialize_conda_workshop.sh`:
+
+`eval "$(/nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/miniconda3/bin/conda shell.bash hook)"`
+
+Then we can `source ${WORKSHOP_HOME}/initialize_conda_workshop.sh` and notice `(base)` appears in our prompt, an indicator that the `base` environment of our conda installation is activated.
+
+`mkdir project_analysis/conda_envs`
+
+`nano ~/.condarc  # Add an entry for 'envs_dirs' in our condarc`
+
+As an alternative to nano, we can use this one-liner (! Only do this if you are sure you don't have an existing `~/.condarc`, it would be overwritten!):
+
+`echo -e "envs_dirs:\n  - ${WORKSHOP_HOME}/project_analysis/conda_envs" > ~/.condarc`
+
+</details>
+
+<!-- LIVE_NOTE: One-liner with libmamba solver
+`echo -e "envs_dirs:\n  - ${WORKSHOP_HOME}/project_analysis/conda_envs\nsolver: libmamba" > ~/.condarc` -->
+
+<!-- LIVE_NOTE: Zoom poll to verify miniconda installation location with `ls` and verify condarc file with `cat` -->
 
 <br>
 
@@ -167,7 +200,25 @@ Following along with instructor, learners will install miniconda and create a `.
 
 Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and using `which`). Then, we'll create a visualization file for sample_A - A BigWig File.
 
-<!-- LIVE_NOTE: Now we'll go to https://igv.org/app/ and visualize what this looks like. -->
+<details>
+<summary>Conda Activate, Make Bigwig - Solution</summary>
+
+`mkdir filter_viz_conda`
+
+`srun --pty --job-name=${USER}_bamcoverage_sample_A --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:30:00 /bin/bash`
+
+`conda activate /nfs/turbo/umms-bioinf-wkshp/workshop/shared-envs/samtools_deeptools/`
+
+`echo $PATH`
+
+`which bamCoverage`
+
+`bamCoverage -b input_bams/sample_A.genome.bam -o filter_viz_conda/sample_A.genome.bigwig`
+
+>Note: Now we'll go to https://igv.org/app/ and visualize what this looks like. Select mm10 as genome.
+>Track URL: https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.genome.bigwig
+
+</details>
 
 <br>
 
@@ -177,11 +228,31 @@ Instructor will demonstrate creating a simple conda environment on the command l
 
 We'll then ask about how to create a slightly more complicated conda environment. We'll start a thread and learners will respond and/or vote on the command that they would use.
 
+<details>
+<summary>Conda Create Demo - Solution</summary>
+
+`conda search -c bioconda samtools`
+
+`srun --pty --job-name=conda_create_demo --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`conda create -n samtools -c bioconda -c conda-forge samtools=1.20`
+
+</details>
+
 <br>
 
 ## Exercise - `srun` and Conda Create
 
 Following along with instructor, we'll launch an srun job and then create a conda environment in it. After it's created, we'll test it by activating and deactivating it. While active, we'll check things like `$PATH` and use `which` to confirm that it's working as intended.
+
+<details>
+<summary>Conda Create - Solution</summary>
+
+`srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`conda create -n samtools_deeptools -c bioconda -c conda-forge samtools=1.20 deeptools=3.5`
+
+</details>
 
 <br>
 
@@ -189,7 +260,16 @@ Following along with instructor, we'll launch an srun job and then create a cond
 
 Following along with the instructor, we'll use Conda's export functionality to create an export - a more complete recipe with all dependencies and their versions fully listed.
 
+<details>
+<summary>Conda Export - Solution</summary>
+
+`conda activate samtools_deeptools`
+
+`conda export > ${WORKSHOP_HOME}/project_analysis/conda_envs/export_samtools_deeptools.yaml`
+
 <!-- LIVE_NOTE: Allude to the idea of time-based durability -->
+
+</details>
 
 <br>
 
@@ -197,15 +277,47 @@ Following along with the instructor, we'll use Conda's export functionality to c
 
 Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to filter our BAM file just as we did in the `lmod` exercises.
 
+<!-- LIVE_NOTE: We'll just do sample_A -->
+
+<!-- LIVE_NOTE: Make sure to `module list` and confirm we're not using `samtools` -->
+
+<details>
+<summary>`srun`, Conda, Filtering BAM - Solution</summary>
+
+`srun --pty --job-name=${USER}_conda_filterbams --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`samtools view -o filter_viz_conda/sample_A.chr19.bam input_bams/sample_A.genome.bam 19`
+
+>Note: Make sure to `module list` and confirm we're not using the samtools module - the LMOD module and conda environment would interfere with one another!
+
+</details>
+
+<br>
+
 ## Independent Exercise - SBATCH, Conda, Filtering out BAMs
 
 [Link to Independent Exercise](exercise-2.html)
 
 <br>
 
-## Exercise - `srun`, Conda, Sanity Check and Index BAMs
+## Exercise - `srun`, Conda, Sanity Check and Index BAM
+
+<!-- LIVE_NOTE: Just doing sample_A -->
 
 Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to perform a sanity check on our filtered BAM files. We'll also index one of our BAM files - sample_A. This will set us up for the next step.
+
+<details>
+<summary>`srun`, Conda, Sanity Check, Index BAM - Solution</summary>
+
+`srun --pty --job-name=${USER}_conda_check_and_index --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`conda activate samtools_deeptools`
+
+`samtools view filter_viz_conda/sample_A.chr19.bam | wc -l`
+
+`samtools index filter_viz_conda/sample_A.chr19.bam`
+
+</details>
 
 
 ## Exercise - `srun`, Conda, Creating Bigwigs
@@ -214,7 +326,17 @@ Now we'll create files for visualization of our filtered BAMs, as another way to
 
 Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use `bamCoverage` to create a bigwig file for sample_A.
 
-<!-- LIVE_NOTE: Now we'll go to https://igv.org/app/ and visualize what this looks like. -->
+<details>
+<summary>`srun`, Conda, Create Bigwig - Solution</summary>
+
+`srun --pty --job-name=${USER}_conda_bigwigs --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+
+`bamCoverage -b filter_viz_conda/sample_A.chr19.bam -o filter_viz_conda/sample_A.chr19.bigwig`
+
+>Note: Now we'll go to https://igv.org/app/ and visualize what this looks like. Select mm10 as genome.
+>Track URL: https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.filtered.bigwig
+
+</details>
 
 ## Review
 
