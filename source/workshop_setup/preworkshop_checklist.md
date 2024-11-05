@@ -27,7 +27,7 @@ body{ /* Normal  */
    workspaces and so this requires a few more steps to setup.**
 
 3. (optional) If you have not already, we invite you to take the 
-   [Pre-workshop survey](https://forms.gle/gy2qVsPiknpTrvx49){target="_blank"}<br/>
+   [Pre-workshop survey](https://forms.gle/1c5PbJtfDMhbRY6DA){target="_blank"}<br/>
 
 4. (optional) Brush up your [command line/Bash skills](https://umich-brcf-bioinf.github.io/workshop-computational-foundations/main/html/){target="_blank"}. 
    (Notes from a recent Bioinformatics Core workshop.)

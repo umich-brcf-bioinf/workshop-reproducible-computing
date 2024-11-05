@@ -113,7 +113,7 @@ be happy to lend a hand to get things working.
    diligent to submit this request ASAP.
 
    4.1 In your browser, go to: <br/>
-       [https://arc-ts.umich.edu/login-request](https://arc-ts.umich.edu/login-request){target="_blank"} <br/>
+       [ITS-ARC Login](https://teamdynamix.umich.edu/TDClient/30/Portal/Requests/TicketRequests/NewForm?ID=iT-mreMQ984_&RequestorType=Service){target="_blank"} <br/>
        You may be prompted to login using your uniqname, level-1 password, and 
        Duo 2FA.
    
