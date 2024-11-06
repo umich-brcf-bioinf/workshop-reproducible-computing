@@ -50,7 +50,7 @@ Today we're going to discuss more in depth about additional, powerful methods fo
 
 ## Great Lakes HPC
 
-Again, we'll provide the link to ARC's general overview page on Great Lakes here: https://arc.umich.edu/greatlakes/
+Again, we'll provide the link to ARC's general overview page on Great Lakes here: https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes
 
 ![](images/Module03b_arc_site_navbar.png)
 
@@ -79,7 +79,7 @@ The usage is very simple:
 - `module keyword <keyword>` to search the modules for a particular keyword
 - `module spider <name-of-module>` to view all versions of a particular software - many different versions may be available
 
-We'll use these command-line methods for exploring and using LMOD modules in our exercises shortly, but it may also be helpful to later review this [link to all software modules available on various ARC HPC clusters](https://arc.umich.edu/software/).
+We'll use these command-line methods for exploring and using LMOD modules in our exercises shortly, but it may also be helpful to later review this [link to all software modules available on various ARC HPC clusters](https://websites.umich.edu/~greatlakes/catalog/).
 
 ### Exercise - Log in to Great Lakes using ssh
 
@@ -193,7 +193,7 @@ Briefly, we place our resource requirements at the top of our file - the preambl
 
 We'll have a chance to try this in a moment, after we get warmed up with some interactive jobs.
 
->Note: We're just going to demonstrate some of the most salient bits of requesting resources. There are a lot more informational resources available at [ARC's SLURM user guide](https://arc.umich.edu/greatlakes/slurm-user-guide/).
+>Note: We're just going to demonstrate some of the most salient bits of requesting resources. There are a lot more informational resources available at [ARC's SLURM user guide](https://documentation.its.umich.edu/arc-hpc/slurm-user-guide).
 
 <br>
 
@@ -323,5 +323,5 @@ samtools view -o filter_lmod/sample_A.chr19.bam input_bams/sample_A.genome.bam 1
 ---
 
 
-| [Previous lesson](Module03a_sneak_peek_great_lakes.html) | [Top of this lesson](#top) | [Next lesson](Module04_software_management_conda.html) |
+| [Previous lesson](Module_storage_best_practices_UMRCP.html) | [Top of this lesson](#top) | [Next lesson](Module_software_management_conda.html) |
 | :--- | :----: | ---: |

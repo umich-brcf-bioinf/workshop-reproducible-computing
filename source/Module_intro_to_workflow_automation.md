@@ -791,5 +791,5 @@ pack everyones jobs as neatly as possible.
 
 ---
 
-| [Previous lesson](Module05_containers_docker_singularity.html) | [Top of this lesson](#top) | [Next lesson](Module07-intro-to-snakemake.html) |
+| [Previous lesson](Module_containers_docker_singularity.html) | [Top of this lesson](#top) | [Next lesson](Module_intro_to_snakemake.html) |
 | :--- | :----: | ---: |

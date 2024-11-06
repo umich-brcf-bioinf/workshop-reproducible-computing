@@ -1,5 +1,5 @@
 ---
-title: "Sneak peek: Great Lakes"
+title: "Sneak Peek of Great Lakes"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -22,18 +22,18 @@ pre {
 
 In this module, we will:
 
-* take an introductory look at the Great Lakes HPC cluster
-* discuss the need for requesting compute resources
-* learn about several ways to access Great Lakes
+* discuss why we must request compute resources for most analysis tasks
+* introduce several additional ways of interacting with the Great Lakes HPC cluster
 * use the web-based file browser for Great Lakes
-* introduce or review the nano text editor
 * use the OpenOnDemand service to launch a web-based interactive job
+
+<br>
 
 ## Great Lakes - Sneak Peek
 
 So far, we've briefly described Great Lakes as a general-purpose High-Performance Compute (HPC) cluster. 
 
-In this module we'll start to get a feel for what it's like to use an HPC cluster. It's not intended to be a deep dive, but rather to use some of the quickest ways to get started in order to start getting some experience with this system.
+In this module we'll start to get a feel for what it's like to use an HPC cluster. It's not intended to be a deep dive, but rather to demonstrate/preview some of the quickest ways to get started in order to start gaining experience with this system.
 
 ### Using an HPC Cluster - Must Request Resources
 
@@ -84,92 +84,35 @@ Sneak preview of a web-based Basic Desktop session
 
 <br>
 
-## Quick Review or Crash Course on the Nano Editor
-
-Before we dive into some of the exercises in this module, we should do a quick review or crash course on the nano text editor, which is a command-line-based text editor. In some of the upcoming exercises, we will be connected to Great Lakes via the web-based shell, which means that we will be limited to using command-line tools. During that time, we'll use nano to edit READMEs and script files. Nano, along with other command-line-based text editor tools, use the keyboard as the main way of interfacing with the software. This means we will use various keystrokes to carry out tasks like saving the file and exiting the tool, which may take some practice to get comfortable with. Thankfully, nano is relatively intuitive and easy to use, which is one reason why we've chosen to use it for this workshop.
-
-The basic layout of the nano editor is shown below. A helpful list of common tasks and their keyboard shortcuts is found at the bottom. The title bar and the status bar provide some additional context about the file we're interacting with and feedback messages from nano, respectively.
-
-![](images/Module03a_nano_editor_layout.png)
-
-<br>
-
 ## Handy links for Great Lakes
 
-- [Link to ARC's Great Lakes overview page](https://arc.umich.edu/greatlakes/)
+- [Link to ARC's Great Lakes overview page](https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes)
 - [Link to Great Lakes Dashboard](https://greatlakes.arc-ts.umich.edu)
 
 <br>
 
 ## Exercise - View Transferred Files
 
-Following along with the instructor, we'll use the web-based file browser to confirm that we've transferred the data files to our turbo space
-
-## Exercise - Connect with the Web-Based Shell
-
-Following along with the instructor, we'll use the web-based shell to connect to Great Lakes. Once there, we'll run an introductory script, and take another look at our transferred files.
+Following along with the instructor, we'll use the web-based file browser to review the files from the hello_alcott.sh warmup exercise
 
 ## Exercise - Launch an RStudio Instance on OpenOnDemand
 
 Following along with the instructor, we'll use OpenOnDemand to launch an RStudio instance. Once there, we'll run a basic R script as a quick demonstration of these capabilities.
 
-## Exercise - Launch a Basic Desktop Instance and Verify File Integrity
-
-Following along with the instructor, we'll use OpenOnDemand to launch a Basic Desktop instance. Once there, we'll open a terminal and use the `md5sum` utility to verify file integrity of the data that we recently transferred to our Turbo location.
-
->Note: Using an OpenOnDemand Basic Desktop instance in order to run a command line application can be a bit of an odd pattern. We do this here primarily as a means for requesting and receiving the proper computational resources for this task. In the next module, we'll learn about some other patterns for requesting resources and running command-line utilities which may be better choices going forward.
-
-## Exercise - Write a README File
-
-Following along with the instructor, we will use the `nano` utility to write the beginnings of a README for our project as it exists so far.
-
-<details>
-<summary>Write a README - Solution</summary>
-
-`source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.txt`
-
-`cd ${WORKSHOP_HOME}/project_analysis`
-
-`nano README.txt`
-
-</details>
-
-## Exercise - Organize your project
-
-Following along with the instructor, we'll organize the files that are in our `$WORKSHOP_HOME` directory.
-
-<details>
-<summary>Organize Your Project - Solution</summary>
-
-`cd ${WORKSHOP_HOME}/project_analysis`
-
-`mv 0042-WS input_bams`
-
-`mkdir logs`
-
-`mkdir scripts`
-
-</details>
-
-<br>
-
 ## Review
 
-- Learned about different ways of accessing the Great Lakes HPC cluster
-- Experienced using the web-based access methods
-  - With web-based file browser, examined the data that we previously transferred
-  - With web-based shell access, we ran an introductory script and used CLI commands to examine the data that we previously transferred
-  - With OpenOnDemand RStudio, we ran an introductory R script
-  - With OpenOnDemand Basic Desktop, we verified file integrity of data the we previously transferred, and used `nano` to write a README file
+- Discussed the importance of requesting resources
+- Learned about additional ways of accessing the Great Lakes HPC cluster
+- Gained familiarity and experience with some of the the web-based access methods
 
 <br>
 
 ### Handy Links
 
-- [Link to ARC's Great Lakes overview page (same as above)](https://arc.umich.edu/greatlakes/)
+- [Link to ARC's Great Lakes overview page (same as above)](https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes)
 - [Link to Great Lakes Dashboard (same as above)](https://greatlakes.arc-ts.umich.edu)
 - [link from AGC on validating file integrity using md5sum](http://michmed.org/agc-md5sum)
 
 
-| [Previous lesson](Module02_transferring_data_globus.html) | [Top of this lesson](#top) | [Next lesson](Module03b_great_lakes_cluster.html) |
+| [Previous lesson](Module_overview_and_warmup.html) | [Top of this lesson](#top) | [Next lesson](Module_data_priorities_analysis_setup.html) |
 | :--- | :----: | ---: |

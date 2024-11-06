@@ -15,33 +15,48 @@ navbar:
   left:
     - text: "Intro"
       href: Module00_Introduction.html
-    - text: "Working with Data"
+    - text: "Overview & Quick-Start"
       menu:
-        - text: "Storage best practices"
-          href: Module01_storage_best_practices_UMRCP.html
-        - text: "Transferring data with Globus"
-          href: Module02_transferring_data_globus.html
-        - text: "Intro to Great Lakes"
-          href: Module03a_sneak_peek_great_lakes.html
+        - text: "Overview and Warmup"
+          href: Module_overview_and_warmup.html
+        - text: "Sneak Peek of Great Lakes"
+          href: Module_sneak_peek_great_lakes.html
+        - text: "Data Priorities and Analysis Setup"
+          href: Module_data_priorities_analysis_setup.html
+        - text: "Terminology - Compute Environment"
+          href: Module_compute_environment_definition.html
 
-    - text: "Using the GreatLakes HPC"
+    - text: "UMich Resources"
       menu:
-        - text: "GreatLakes: sbatch and lmod"
-          href: Module03b_great_lakes_cluster.html
+        - text: "Storage"
+          href: Module_storage_best_practices_UMRCP.html
+        - text: "Compute Hardware"
+          href: Module_great_lakes_cluster.html
+
+
+    - text: "Software Management"
+      menu:
         - text: "Software management with Conda"
-          href: Module04_software_management_conda.html
+          href: Module_software_management_conda.html
         - text: "Containerization with Docker/Singularity"
-          href: Module05_containers_docker_singularity.html
+          href: Module_containers_docker_singularity.html
         - text: "Independent Exercise"
           href: exercise-2.html
           
     - text: "Workflow automation"
       menu:
         - text: "Intro to workflow automation"
-          href: Module06-intro-to-workflow-automation.html
+          href: Module_intro_to_workflow_automation.html
         - text: "Intro to Snakemake"
-          href: Module07-intro-to-snakemake.html
+          href: Module_intro_to_snakemake.html
 #        - text: "Advanced Snakemake"
 #          href: Module-08-advanced-snakemake.html
+
+    - text: "Data Management"
+      menu:
+        - text: "Raw Data Management"
+          href: Module_raw_data_management.html
+        - text: "Transferring data with Globus"
+          href: Module_transferring_data_globus.html
     - text: "Wrap up"
-      href: Module99_Wrap_up.html
+      href: Module_wrap_up.html

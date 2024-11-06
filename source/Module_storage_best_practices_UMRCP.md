@@ -1,5 +1,5 @@
 ---
-title: "Storage Best Practices and the UMRCP"
+title: "Storage"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -22,29 +22,9 @@ pre {
 
 In this module, we will:
 
-* discuss reproducible computing in general
-* discuss storage best practices for raw data, anlaysis files, scripts, etc.
 * learn about several institutional storage options (and associated compute resources)
 * learn about the UMRCP and how to request it
 * make a plan for enrolling PIs in UMRCP and enabling access to all researchers
-
-<br>
-
-## Reproducible Computing
-
-Reproducible computing has become increasingly important in recent years. As experimental data volumes have increased exponentially, and as research endeavors have employed more complicated analyses over time, computation has become a fundamental aspect of virtually every type of research.
-
-Reproducibility itself is an integral part of the scientific process. We describe our experiments with sufficient detail so that they can be replicated and our findings can be confirmed by others, and so that eventually others may build upon them.
-
-So taking these two things together, the increasing use of computing in research and the inherent need for reproducibility in the scientific process, we can start to understand the importance of reproducible computing.
-
-There are some challenges we must overcome in this realm. When we try to employ our typical methodologies for general scientific reproducibility, they may not be sufficient to truly enable others to recreate our work. In many cases, in order to credibly validate an analysis, we must be able to not only see and understand the steps of an analysis, but also to use the same software with the same input data and perform these same data manipulations ourselves. Trying to achieve this task with only a descriptive summary of our analysis methods, particularly when using cutting-edge academic software, may often produce little more than frustration.
-
-Let's take a moment to think about our own experiences with this topic. Can we think of experiences where we encountered challenges while trying to reproduce the analysis of others? Or while trying to share our own analyses with colleagues?
-
-There are a number of tools and techniques that have emerged to address some of these challenges, and to really lower the barrier to sharing and reproducing our results.
-
-In this workshop we'll discuss these tools and techniques, we'll provide specific guidance for University of Michigan researchers to address reproducibility concerns, and we'll use practical examples along the way to gain experience and emphasize the concepts that we learn.
 
 <br>
 
@@ -84,47 +64,6 @@ Recommended:
 
 Another thing to mention for raw data best practices is the procedure of checking file integrity. Whenever transferring data from one storage location to another, and especially while doing so over a network connection, it is good practice to follow up with a file integrity check. Briefly, we use software to inspect our files and determine if any of the contents have changed. In a later module we'll have a chance to try this ourselves, using the `md5sum` utility. This is a relatively efficient way of verifying file integrity after a file transfer.
 
-
-### Analysis Projects
-
-We can begin thinking of our next task - handling data and organizing files and artifacts for our analysis - by starting with the idea of the data flow described above. One of the first tasks in this area is to set up a new location for your analysis and make a copy of your raw data there.
-
-Some considerations:
-
- - Fast storage, well suited for computation
- - Project organization that facilitates reproducibility
- - In-progress analyses, cleanup procedures, and end-to-end repeatable analyses
-
-When we think about fast storage that is well suited for computation, we mostly contrast that with our long-term archival storage. A storage option is well suited for computation if it is accessible via high-throughput connection to sufficiently powerful processing hardware. The speed of reading and writing from this location can greatly affect processing times of your analysis, depending on the steps involved.
-
-In terms of project organization, generally we want to have distinct locations for specific purposes, and preferably organizing things in a consistent manner for all of our projects.
-
-In a particular project, you may want:
-
-- `input_data` directory for copy of raw data
-- `scripts` directory for analysis scripts
-- Directories for intermediates, log files, and final outputs
-- `README.txt` for the project
-  - Optional `docs` directory for extensive documentation, supporting works, etc.
-
-A useful idea for our project directory layouts is to think about the project life cycle and work towards an end-goal of a reproducible analysis. While at the beginning of an analysis many things may be flexible, at the end we will want to be able to re-execute the analysis starting from the raw input data and running all the way until it produces the final outputs.
-
-Taking time to segregate specific efforts within a project, documenting our steps as we perform in-progress analyses, performing cleanups where needed, and similar efforts will aid us as we work towards that goal.
-
-Think ahead when designing the layout of your projects. If you will be trying several related analysis approaches using the same input data, but intend on using results from only one of the evaluated methods, it may make sense to intentionally subdivide the contents of your project directory accordingly. If you have several distinct analyses that may use the same input data, then perhaps creating separate projects for each of them will make the most sense. It's hard to be totally prescriptive when making recommendations here, but through our example we hope to spark the kinds of conversations and the types of thinking that are required here.
-
-![](images/Module01_projects_layout.png)
-
-One last note on handling and organizing analysis projects - use some form of identification system for projects in your lab. This simplifies communication and record keeping, in addition to the organizational benefits.
-
-Some ideas for project identification systems:
-
-- Codenames
-- Alphanumeric IDs
-
-<br>
-
-<!-- LIVE_NOTE: Ask if anyone has any preferences, or what might work best for their group and why -->
 
 ## Storage Options for UMich Researchers
 
@@ -207,11 +146,11 @@ Notice that Turbo storage is about 8x more costly than Data Den for the same amo
 
 ![](images/Module01_UMRCP_provides.png)
 
-The figure above highlights the most important and impressive details of the UMRCP, but you can find full details of the resources offered through this program on [the UMRCP page of ARC's website](https://arc.umich.edu/umrcp/).
+The figure above highlights the most important and impressive details of the UMRCP, but you can find full details of the resources offered through this program on [the UMRCP page of ARC's website](https://its.umich.edu/advanced-research-computing/research-computing-package).
 
 ### Signing up for the UMRCP
 
-Within that site, there is another page that I highly recommend as a great place to start - the [UMRCP Requesting Resources Guide](https://arc.umich.edu/umrcp-requesting-resources-guide/). There you'll find details about the signup process. After signing up, you'll be able to use some of the numerous compute nodes available through ARC, as well as the various storage tiers described above.
+Within that site, there is another page that I highly recommend as a great place to start - the [UMRCP Getting Started Guide](https://its.umich.edu/advanced-research-computing/research-computing-package/getting-started). There you'll find details about the signup process. After signing up, you'll be able to use some of the numerous compute nodes available through ARC, as well as the various storage tiers described above.
 
 <br>
 
@@ -312,5 +251,5 @@ There are two video links below. There's a decent amount of overlap in the conte
 <br>
 <br>
 
-| [Previous lesson](Module01_Warming_Up.html) | [Top of this lesson](#top) | [Next lesson](Module02_transferring_data_globus.html) |
+| [Previous lesson](Module_compute_environment_definition.html) | [Top of this lesson](#top) | [Next lesson](Module_great_lakes_cluster.html) |
 | :--- | :----: | ---: |
