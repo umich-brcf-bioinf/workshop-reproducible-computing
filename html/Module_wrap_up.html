@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="UM Bioinformatics Core Workshop Team" />
+<meta name="author" content="UM Bioinformatics Core" />
 
 
 <title>Reproducible Computing Workshop</title>
@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -234,6 +237,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -241,6 +307,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -360,7 +436,7 @@ $(document).ready(function () {
 
 
 <h1 class="title toc-ignore">Reproducible Computing Workshop</h1>
-<h4 class="author">UM Bioinformatics Core Workshop Team</h4>
+<h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
 
@@ -370,189 +446,165 @@ $(document).ready(function () {
 body, td {
    font-size: 18px;
 }
+code.r{
+  font-size: 12px;
+}
+pre {
+  font-size: 12px
+}
+
+a.external {
+    background: url(images/external-link.png) center right no-repeat;
+    padding-right: 13px;
+}
 </style>
-<div id="setup-instructions" class="section level4">
-<h4><a href="workshop_setup/setup_instructions.html"
-target="_blank">Setup instructions</a></h4>
+<div id="wrapping-up" class="section level2">
+<h2>Wrapping up</h2>
+<p>We hope you now have more familiarity with key patterns, approaches,
+and tools that can enable more computational reproducibility in your
+research. Please remember that reproducibility exists on a
+continuum:</p>
+<p><img src="images/Module99_continuum.png" target="_blank"
+alt="Advanced Reproducibility in Cancer Informatics / The Johns Hopkins Data Science Lab" />
+Sourced from <a
+href="https://jhudatascience.org/Adv_Reproducibility_in_Cancer_Informatics/index.html"
+target="_blank">Advanced Reproducibility in Cancer Informatics</a> / The
+Johns Hopkins Data Science Lab —</p>
 </div>
-<div id="slack-workspace" class="section level4">
-<h4><a href="https://umbioinfcoreworkshops.slack.com"
-target="_blank">Slack workspace</a></h4>
+<div id="housekeeping" class="section level2">
+<h2>Housekeeping</h2>
+<ul>
+<li><p>Please take our optional <a
+href="https://forms.gle/spsxWoyceGG2VxBG9" target="_blank">post-workshop
+survey</a>. (5-10 minutes)</p></li>
+<li><p>We will email you a link to the final session recordings by end
+of next week.</p></li>
+<li><p>The website/notes for this workshop will be available.</p></li>
+<li><p>The
+<a class="external" href="https://umbioinfcoreworkshops.slack.com" target="_blank">UM
+Bioinformatics Core Workshop Slack channel</a> will be available for 90
+days.</p></li>
+</ul>
 <hr />
 </div>
-<div id="schedule" class="section level2">
-<h2>Schedule</h2>
-<div id="day-1" class="section level4">
-<h4>Day 1</h4>
+<div id="looking-ahead" class="section level2">
+<h2>Looking ahead</h2>
+<div id="workshop-environment" class="section level4">
+<h4>Workshop environment</h4>
+<ul>
+<li><p>This Great Lakes account will will be available to you until
+6/30/24. Following that, you will be removed this account and any
+content inside the workshop Turbo or DataDen will be removed.</p></li>
+<li><p>You can download files from your workshop home dir using your
+terminal/command line window as below. (You will need to substitute your
+actual uniqname and type your password when prompted.)</p>
+<pre><code>mkdir computational-reproducibility-workshop
+cd computational-reproducibility-workshop
+scp -r greatlakes-xfer.arc-ts.umich.edu:/nfs/turbo/umms-bioinf-wkshp/workshop/home/YOUR_USERNAME .</code></pre>
+<p>Please keep in mind that this workshop environment is optimized for
+the exercises in this particular workshop but is likely unsuitable for
+analyzing your own datasets. In particular:</p></li>
+<li><p>It is not sized for compute intensive operations or large
+storage.</p></li>
+<li><p>It is not secured for sensitive data of any kind.</p></li>
+</ul>
+</div>
+</div>
+<div id="university-of-michigan-resources" class="section level2">
+<h2>University of Michigan Resources</h2>
+<div id="continued-learning-and-support" class="section level4">
+<h4>Continued learning and support</h4>
+<p>Making research reproducibile is a learning process. Resources to
+consider:</p>
+<ul>
+<li><a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM
+CoderSpaces “office hours”</a> and UM CoderSpaces Slack workspace.
+<em>(See “Useful Resources” section in above page for instructions on
+how to join and access the CoderSpaces Slack workspace.)</em></li>
+<li>Upcoming
+<a class="external" href="https://arc.umich.edu/events/" target="_blank">UM
+Advanced Research Computing workshops</a>.</li>
+<li>Videos on
+<a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting
+started with Great Lakes</a>.</li>
+<li>For more intro lessons and workshops in Bash / Git / R / Python :
+<a href="https://software-carpentry.org/lessons/" target="_blank">Software
+Carpentry</a> and the
+<a href="https://umcarpentries.org/" target="_blank">UM Software
+Carpentry Group</a>.</li>
+<li><a
+href="https://jhudatascience.org/Adv_Reproducibility_in_Cancer_Informatics/index.html"
+target="_blank">Advanced Reproducibility in Cancer Informatics</a> from
+The Johns Hopkins Data Science Lab</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="thank-you" class="section level2">
+<h2>Thank you</h2>
+<div class="float">
+<img src="images/Module00_sponsor_logos.png" alt="Sponsors" />
+<div class="figcaption">Sponsors</div>
+</div>
+</div>
+<div id="thank-you-tofrom-the-workshop-team" class="section level2">
+<h2>Thank you to/from the workshop team</h2>
 <table>
 <colgroup>
-<col width="44%" />
-<col width="55%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Time</th>
-<th align="left">Topic : Details</th>
+<th align="center"><img
+src="images/Module00_headshots/headshot_cgates.jpg" /></th>
+<th align="center"><img
+src="images/Module00_headshots/headshot_mbradenb.jpg" /></th>
+<th align="center"><img
+src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
+<th align="center"></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left">9:00</td>
-<td align="left"><a href="Module00_Introduction.html">Introductions and
-Startup</a></td>
+<td align="center"><strong>Chris</strong></td>
+<td align="center"><strong>Marci</strong></td>
+<td align="center"><strong>Travis</strong></td>
+<td align="center"></td>
 </tr>
 <tr class="even">
-<td align="left">9:30</td>
-<td align="left"><strong>Overview and Quick-Start</strong></td>
+<td align="center"><img
+src="images/Module00_headshots/headshot_damki.jpg" /></td>
+<td align="center"><img
+src="images/Module00_headshots/headshot_rcavalca.jpg" /></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="Module_overview_and_warmup.html">Overview
-and Warmup</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="Module_sneak_peek_great_lakes.html">Sneak
-Peek of Great Lakes</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_data_priorities_analysis_setup.html">Data Priorities and
-Analysis Setup</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_compute_environment_definition.html">Terminology - Compute
-Environment</a></td>
-</tr>
-<tr class="odd">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="even">
-<td align="left">11:15</td>
-<td align="left"><strong>UMich Resources</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_storage_best_practices_UMRCP.html">Storage and
-UMRCP</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="Module_great_lakes_cluster.html">Compute
-Hardware</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_software_management_conda.html">Software Management with
-Conda</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 1 concludes</td>
+<td align="center"><strong>Dana</strong></td>
+<td align="center"><strong>Raymond</strong></td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 </tbody>
 </table>
-</div>
-<div id="day-2" class="section level4">
-<h4>Day 2</h4>
-<table>
-<colgroup>
-<col width="44%" />
-<col width="55%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review and questions</td>
-</tr>
-<tr class="even">
-<td align="left">9:20</td>
-<td align="left"><strong>Software Management</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="Module04_">Software management and
-Conda</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
-</tr>
-<tr class="odd">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="even">
-<td align="left">11:15</td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="exercise-2.html">Exercise 2</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 2 concludes</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="day-3" class="section level4">
-<h4>Day 3</h4>
-<table>
-<colgroup>
-<col width="44%" />
-<col width="55%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review</td>
-</tr>
-<tr class="even">
-<td align="left">9:10</td>
-<td align="left"><strong>Workflow automation</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a
-href="Module06-intro-to-workflow-automation.html">Intro to workflow
-automation</a></td>
-</tr>
-<tr class="even">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="Module07-intro-to-snakemake.html">Intro to
-Snakemake</a></td>
-</tr>
-<tr class="even">
-<td align="left">12:45</td>
-<td align="left"><a href="Module99_Wrap_up.html">Wrap-up</a></td>
-</tr>
-<tr class="odd">
-<td align="left">1:00</td>
-<td align="left">Day 3 concludes</td>
-</tr>
-</tbody>
-</table>
-</div>
+<p><br/></p>
+<p>Thank you for participating in our workshop. We welcome your
+questions and feedback now and in the future.</p>
+<p>Bioinformatics Workshop Team</p>
+<p><a
+href="mailto:bioinformatics-workshops@umich.edu">bioinformatics-workshops@umich.edu</a>
+<br/> <a
+href="https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core"
+target="_blank">https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core</a></p>
 </div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -585,6 +637,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

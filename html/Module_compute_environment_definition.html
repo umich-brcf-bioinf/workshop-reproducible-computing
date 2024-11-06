@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="UM Bioinformatics Core Workshop Team" />
+<meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Reproducible Computing Workshop</title>
+<title>Terminology - Compute Environment</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,6 +31,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -71,6 +73,11 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
 
 
 
@@ -231,6 +238,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -357,200 +367,63 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Reproducible Computing Workshop</h1>
-<h4 class="author">UM Bioinformatics Core Workshop Team</h4>
+
+<h1 class="title toc-ignore">Terminology - Compute Environment</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
 
 
 <style type="text/css">
-
-body, td {
-   font-size: 18px;
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
 }
 </style>
-<div id="setup-instructions" class="section level4">
-<h4><a href="workshop_setup/setup_instructions.html"
-target="_blank">Setup instructions</a></h4>
-</div>
-<div id="slack-workspace" class="section level4">
-<h4><a href="https://umbioinfcoreworkshops.slack.com"
-target="_blank">Slack workspace</a></h4>
-<hr />
-</div>
-<div id="schedule" class="section level2">
-<h2>Schedule</h2>
-<div id="day-1" class="section level4">
-<h4>Day 1</h4>
-<table>
+<p>In this module, we will:</p>
+<ul>
+<li>discuss the idea of the “compute environment” and disambiguate some
+related terms</li>
+</ul>
+<p><br></p>
+<div id="components-of-the-compute-environment" class="section level2">
+<h2>Components of the Compute Environment</h2>
+<div id="related-terminology-and-concepts" class="section level3">
+<h3>Related Terminology and Concepts</h3>
+<p><br></p>
+<table style="width:100%;">
 <colgroup>
-<col width="44%" />
-<col width="55%" />
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Time</th>
-<th align="left">Topic : Details</th>
+<th align="left"><a
+href="Module_data_priorities_analysis_setup.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a
+href="Module_storage_best_practices_UMRCP.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left"><a href="Module00_Introduction.html">Introductions and
-Startup</a></td>
-</tr>
-<tr class="even">
-<td align="left">9:30</td>
-<td align="left"><strong>Overview and Quick-Start</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="Module_overview_and_warmup.html">Overview
-and Warmup</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="Module_sneak_peek_great_lakes.html">Sneak
-Peek of Great Lakes</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_data_priorities_analysis_setup.html">Data Priorities and
-Analysis Setup</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_compute_environment_definition.html">Terminology - Compute
-Environment</a></td>
-</tr>
-<tr class="odd">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="even">
-<td align="left">11:15</td>
-<td align="left"><strong>UMich Resources</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_storage_best_practices_UMRCP.html">Storage and
-UMRCP</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="Module_great_lakes_cluster.html">Compute
-Hardware</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_software_management_conda.html">Software Management with
-Conda</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 1 concludes</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="day-2" class="section level4">
-<h4>Day 2</h4>
-<table>
-<colgroup>
-<col width="44%" />
-<col width="55%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review and questions</td>
-</tr>
-<tr class="even">
-<td align="left">9:20</td>
-<td align="left"><strong>Software Management</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="Module04_">Software management and
-Conda</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
-</tr>
-<tr class="odd">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="even">
-<td align="left">11:15</td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="exercise-2.html">Exercise 2</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 2 concludes</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="day-3" class="section level4">
-<h4>Day 3</h4>
-<table>
-<colgroup>
-<col width="44%" />
-<col width="55%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review</td>
-</tr>
-<tr class="even">
-<td align="left">9:10</td>
-<td align="left"><strong>Workflow automation</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a
-href="Module06-intro-to-workflow-automation.html">Intro to workflow
-automation</a></td>
-</tr>
-<tr class="even">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="Module07-intro-to-snakemake.html">Intro to
-Snakemake</a></td>
-</tr>
-<tr class="even">
-<td align="left">12:45</td>
-<td align="left"><a href="Module99_Wrap_up.html">Wrap-up</a></td>
-</tr>
-<tr class="odd">
-<td align="left">1:00</td>
-<td align="left">Day 3 concludes</td>
-</tr>
 </tbody>
 </table>
 </div>
 </div>
 
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGVybWlub2xvZ3kgLSBDb21wdXRlIEVudmlyb25tZW50IgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpJbiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKCiogZGlzY3VzcyB0aGUgaWRlYSBvZiB0aGUgImNvbXB1dGUgZW52aXJvbm1lbnQiIGFuZCBkaXNhbWJpZ3VhdGUgc29tZSByZWxhdGVkIHRlcm1zCgo8YnI+CgojIyBDb21wb25lbnRzIG9mIHRoZSBDb21wdXRlIEVudmlyb25tZW50CgojIyMgUmVsYXRlZCBUZXJtaW5vbG9neSBhbmQgQ29uY2VwdHMKCjxicj4KCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlX2RhdGFfcHJpb3JpdGllc19hbmFseXNpc19zZXR1cC5odG1sKSB8IFtUb3Agb2YgdGhpcyBsZXNzb25dKCN0b3ApIHwgW05leHQgbGVzc29uXShNb2R1bGVfc3RvcmFnZV9iZXN0X3ByYWN0aWNlc19VTVJDUC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfA==</div>
 
 
 
@@ -584,6 +457,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module_compute_environment_definition.md");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

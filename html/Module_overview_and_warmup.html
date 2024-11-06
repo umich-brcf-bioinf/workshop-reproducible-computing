@@ -9,10 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="UM Bioinformatics Core Workshop Team" />
+<meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Reproducible Computing Workshop</title>
+<title>Overview and Warmup</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,6 +31,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -71,6 +73,11 @@ if (window.hljs) {
 
 
 
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
 
 
 
@@ -231,6 +238,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -357,200 +367,127 @@ $(document).ready(function () {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Reproducible Computing Workshop</h1>
-<h4 class="author">UM Bioinformatics Core Workshop Team</h4>
+
+<h1 class="title toc-ignore">Overview and Warmup</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
 
 
 <style type="text/css">
-
-body, td {
-   font-size: 18px;
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
 }
 </style>
-<div id="setup-instructions" class="section level4">
-<h4><a href="workshop_setup/setup_instructions.html"
-target="_blank">Setup instructions</a></h4>
+<p>In this module, we will:</p>
+<ul>
+<li>discuss reproducible computing in general</li>
+<li>use a simple warm-up exercise to introduce example data and example
+tasks that we’ll use to demonstrate tools and techniques for
+reproducible computing</li>
+<li>quickly get started using UMich’s Great Lakes High-Performance
+Computing (HPC) cluster</li>
+<li>start to get acquainted with project organization</li>
+</ul>
+<p><br></p>
+<div id="reproducible-computing" class="section level2">
+<h2>Reproducible Computing</h2>
+<p>Reproducible computing has become increasingly important in recent
+years. As experimental data volumes have increased exponentially, and as
+research endeavors have employed more complicated analyses over time,
+computation has become a fundamental aspect of virtually every type of
+research.</p>
+<p>Reproducibility itself is an integral part of the scientific process.
+We describe our experiments with sufficient detail so that they can be
+replicated and our findings can be confirmed by others, and so that
+eventually others may build upon them.</p>
+<p>So taking these two things together, the increasing use of computing
+in research and the inherent need for reproducibility in the scientific
+process, we can start to understand the importance of reproducible
+computing.</p>
+<p>There are some challenges we must overcome in this realm. When we try
+to employ our typical methodologies for general scientific
+reproducibility, they may not be sufficient to truly enable others to
+recreate our work. In many cases, in order to credibly validate an
+analysis, we must be able to not only see and understand the steps of an
+analysis, but also to use the same software with the same input data and
+perform these same data manipulations ourselves. Trying to achieve this
+task with only a descriptive summary of our analysis methods,
+particularly when using cutting-edge academic software, may often
+produce little more than frustration.</p>
+<p>Let’s take a moment to think about our own experiences with this
+topic. Can we think of experiences where we encountered challenges while
+trying to reproduce the analysis of others? Or while trying to share our
+own analyses with colleagues?</p>
+<p>There are a number of tools and techniques that have emerged to
+address some of these challenges, and to really lower the barrier to
+sharing and reproducing our results.</p>
+<p>In this workshop we’ll discuss these tools and techniques, we’ll
+provide specific guidance for University of Michigan researchers to
+address reproducibility concerns, and we’ll use practical examples along
+the way to gain experience and emphasize the concepts that we learn.</p>
+<p><br></p>
 </div>
-<div id="slack-workspace" class="section level4">
-<h4><a href="https://umbioinfcoreworkshops.slack.com"
-target="_blank">Slack workspace</a></h4>
-<hr />
+<div id="warmup-example---hello-alcott" class="section level2">
+<h2>Warmup Example - “Hello Alcott”</h2>
+<p><img src="images/ModuleOAW_hello_alcott.png" /></p>
+<p><br></p>
+<div id="purpose-of-examples" class="section level3">
+<h3>Purpose of Examples</h3>
+<p><br></p>
 </div>
-<div id="schedule" class="section level2">
-<h2>Schedule</h2>
-<div id="day-1" class="section level4">
-<h4>Day 1</h4>
-<table>
+<div id="quick-start-great-lakes" class="section level3">
+<h3>Quick-Start Great Lakes</h3>
+<p><br></p>
+<p>Sneak preview of the web-based shell <img
+src="images/Module03a_accessing_web_based_shell.png" /> <img
+src="images/Module03a_preview_web_based_shell.png" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="exercise---connect-with-the-web-based-shell"
+class="section level2">
+<h2>Exercise - Connect with the Web-Based Shell</h2>
+<p>Following along with the instructor, we’ll use the web-based shell to
+connect to Great Lakes. Once there, we’ll run an introductory script,
+and take another look at our transferred files.</p>
+<p><br></p>
+<div id="review" class="section level3">
+<h3>Review</h3>
+<p><br> <br></p>
+<table style="width:100%;">
 <colgroup>
-<col width="44%" />
-<col width="55%" />
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left">Time</th>
-<th align="left">Topic : Details</th>
+<th align="left"><a href="Module00_Introduction.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module_sneak_peek_great_lakes.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left"><a href="Module00_Introduction.html">Introductions and
-Startup</a></td>
-</tr>
-<tr class="even">
-<td align="left">9:30</td>
-<td align="left"><strong>Overview and Quick-Start</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="Module_overview_and_warmup.html">Overview
-and Warmup</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="Module_sneak_peek_great_lakes.html">Sneak
-Peek of Great Lakes</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_data_priorities_analysis_setup.html">Data Priorities and
-Analysis Setup</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_compute_environment_definition.html">Terminology - Compute
-Environment</a></td>
-</tr>
-<tr class="odd">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="even">
-<td align="left">11:15</td>
-<td align="left"><strong>UMich Resources</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_storage_best_practices_UMRCP.html">Storage and
-UMRCP</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a href="Module_great_lakes_cluster.html">Compute
-Hardware</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a
-href="Module_software_management_conda.html">Software Management with
-Conda</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 1 concludes</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="day-2" class="section level4">
-<h4>Day 2</h4>
-<table>
-<colgroup>
-<col width="44%" />
-<col width="55%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review and questions</td>
-</tr>
-<tr class="even">
-<td align="left">9:20</td>
-<td align="left"><strong>Software Management</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="Module04_">Software management and
-Conda</a></td>
-</tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
-</tr>
-<tr class="odd">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="even">
-<td align="left">11:15</td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="exercise-2.html">Exercise 2</a></td>
-</tr>
-<tr class="even">
-<td align="left">1:00</td>
-<td align="left">Day 2 concludes</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="day-3" class="section level4">
-<h4>Day 3</h4>
-<table>
-<colgroup>
-<col width="44%" />
-<col width="55%" />
-</colgroup>
-<tbody>
-<tr class="odd">
-<td align="left">9:00</td>
-<td align="left">Review</td>
-</tr>
-<tr class="even">
-<td align="left">9:10</td>
-<td align="left"><strong>Workflow automation</strong></td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a
-href="Module06-intro-to-workflow-automation.html">Intro to workflow
-automation</a></td>
-</tr>
-<tr class="even">
-<td align="left">11:00</td>
-<td align="left">Break</td>
-</tr>
-<tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="Module07-intro-to-snakemake.html">Intro to
-Snakemake</a></td>
-</tr>
-<tr class="even">
-<td align="left">12:45</td>
-<td align="left"><a href="Module99_Wrap_up.html">Wrap-up</a></td>
-</tr>
-<tr class="odd">
-<td align="left">1:00</td>
-<td align="left">Day 3 concludes</td>
-</tr>
 </tbody>
 </table>
 </div>
 </div>
 
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiT3ZlcnZpZXcgYW5kIFdhcm11cCIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgoqIGRpc2N1c3MgcmVwcm9kdWNpYmxlIGNvbXB1dGluZyBpbiBnZW5lcmFsCiogdXNlIGEgc2ltcGxlIHdhcm0tdXAgZXhlcmNpc2UgdG8gaW50cm9kdWNlIGV4YW1wbGUgZGF0YSBhbmQgZXhhbXBsZSB0YXNrcyB0aGF0IHdlJ2xsIHVzZSB0byBkZW1vbnN0cmF0ZSB0b29scyBhbmQgdGVjaG5pcXVlcyBmb3IgcmVwcm9kdWNpYmxlIGNvbXB1dGluZwoqIHF1aWNrbHkgZ2V0IHN0YXJ0ZWQgdXNpbmcgVU1pY2gncyBHcmVhdCBMYWtlcyBIaWdoLVBlcmZvcm1hbmNlIENvbXB1dGluZyAoSFBDKSBjbHVzdGVyCiogc3RhcnQgdG8gZ2V0IGFjcXVhaW50ZWQgd2l0aCBwcm9qZWN0IG9yZ2FuaXphdGlvbgoKPGJyPgoKIyMgUmVwcm9kdWNpYmxlIENvbXB1dGluZwoKUmVwcm9kdWNpYmxlIGNvbXB1dGluZyBoYXMgYmVjb21lIGluY3JlYXNpbmdseSBpbXBvcnRhbnQgaW4gcmVjZW50IHllYXJzLiBBcyBleHBlcmltZW50YWwgZGF0YSB2b2x1bWVzIGhhdmUgaW5jcmVhc2VkIGV4cG9uZW50aWFsbHksIGFuZCBhcyByZXNlYXJjaCBlbmRlYXZvcnMgaGF2ZSBlbXBsb3llZCBtb3JlIGNvbXBsaWNhdGVkIGFuYWx5c2VzIG92ZXIgdGltZSwgY29tcHV0YXRpb24gaGFzIGJlY29tZSBhIGZ1bmRhbWVudGFsIGFzcGVjdCBvZiB2aXJ0dWFsbHkgZXZlcnkgdHlwZSBvZiByZXNlYXJjaC4KClJlcHJvZHVjaWJpbGl0eSBpdHNlbGYgaXMgYW4gaW50ZWdyYWwgcGFydCBvZiB0aGUgc2NpZW50aWZpYyBwcm9jZXNzLiBXZSBkZXNjcmliZSBvdXIgZXhwZXJpbWVudHMgd2l0aCBzdWZmaWNpZW50IGRldGFpbCBzbyB0aGF0IHRoZXkgY2FuIGJlIHJlcGxpY2F0ZWQgYW5kIG91ciBmaW5kaW5ncyBjYW4gYmUgY29uZmlybWVkIGJ5IG90aGVycywgYW5kIHNvIHRoYXQgZXZlbnR1YWxseSBvdGhlcnMgbWF5IGJ1aWxkIHVwb24gdGhlbS4KClNvIHRha2luZyB0aGVzZSB0d28gdGhpbmdzIHRvZ2V0aGVyLCB0aGUgaW5jcmVhc2luZyB1c2Ugb2YgY29tcHV0aW5nIGluIHJlc2VhcmNoIGFuZCB0aGUgaW5oZXJlbnQgbmVlZCBmb3IgcmVwcm9kdWNpYmlsaXR5IGluIHRoZSBzY2llbnRpZmljIHByb2Nlc3MsIHdlIGNhbiBzdGFydCB0byB1bmRlcnN0YW5kIHRoZSBpbXBvcnRhbmNlIG9mIHJlcHJvZHVjaWJsZSBjb21wdXRpbmcuCgpUaGVyZSBhcmUgc29tZSBjaGFsbGVuZ2VzIHdlIG11c3Qgb3ZlcmNvbWUgaW4gdGhpcyByZWFsbS4gV2hlbiB3ZSB0cnkgdG8gZW1wbG95IG91ciB0eXBpY2FsIG1ldGhvZG9sb2dpZXMgZm9yIGdlbmVyYWwgc2NpZW50aWZpYyByZXByb2R1Y2liaWxpdHksIHRoZXkgbWF5IG5vdCBiZSBzdWZmaWNpZW50IHRvIHRydWx5IGVuYWJsZSBvdGhlcnMgdG8gcmVjcmVhdGUgb3VyIHdvcmsuIEluIG1hbnkgY2FzZXMsIGluIG9yZGVyIHRvIGNyZWRpYmx5IHZhbGlkYXRlIGFuIGFuYWx5c2lzLCB3ZSBtdXN0IGJlIGFibGUgdG8gbm90IG9ubHkgc2VlIGFuZCB1bmRlcnN0YW5kIHRoZSBzdGVwcyBvZiBhbiBhbmFseXNpcywgYnV0IGFsc28gdG8gdXNlIHRoZSBzYW1lIHNvZnR3YXJlIHdpdGggdGhlIHNhbWUgaW5wdXQgZGF0YSBhbmQgcGVyZm9ybSB0aGVzZSBzYW1lIGRhdGEgbWFuaXB1bGF0aW9ucyBvdXJzZWx2ZXMuIFRyeWluZyB0byBhY2hpZXZlIHRoaXMgdGFzayB3aXRoIG9ubHkgYSBkZXNjcmlwdGl2ZSBzdW1tYXJ5IG9mIG91ciBhbmFseXNpcyBtZXRob2RzLCBwYXJ0aWN1bGFybHkgd2hlbiB1c2luZyBjdXR0aW5nLWVkZ2UgYWNhZGVtaWMgc29mdHdhcmUsIG1heSBvZnRlbiBwcm9kdWNlIGxpdHRsZSBtb3JlIHRoYW4gZnJ1c3RyYXRpb24uCgpMZXQncyB0YWtlIGEgbW9tZW50IHRvIHRoaW5rIGFib3V0IG91ciBvd24gZXhwZXJpZW5jZXMgd2l0aCB0aGlzIHRvcGljLiBDYW4gd2UgdGhpbmsgb2YgZXhwZXJpZW5jZXMgd2hlcmUgd2UgZW5jb3VudGVyZWQgY2hhbGxlbmdlcyB3aGlsZSB0cnlpbmcgdG8gcmVwcm9kdWNlIHRoZSBhbmFseXNpcyBvZiBvdGhlcnM/IE9yIHdoaWxlIHRyeWluZyB0byBzaGFyZSBvdXIgb3duIGFuYWx5c2VzIHdpdGggY29sbGVhZ3Vlcz8KClRoZXJlIGFyZSBhIG51bWJlciBvZiB0b29scyBhbmQgdGVjaG5pcXVlcyB0aGF0IGhhdmUgZW1lcmdlZCB0byBhZGRyZXNzIHNvbWUgb2YgdGhlc2UgY2hhbGxlbmdlcywgYW5kIHRvIHJlYWxseSBsb3dlciB0aGUgYmFycmllciB0byBzaGFyaW5nIGFuZCByZXByb2R1Y2luZyBvdXIgcmVzdWx0cy4KCkluIHRoaXMgd29ya3Nob3Agd2UnbGwgZGlzY3VzcyB0aGVzZSB0b29scyBhbmQgdGVjaG5pcXVlcywgd2UnbGwgcHJvdmlkZSBzcGVjaWZpYyBndWlkYW5jZSBmb3IgVW5pdmVyc2l0eSBvZiBNaWNoaWdhbiByZXNlYXJjaGVycyB0byBhZGRyZXNzIHJlcHJvZHVjaWJpbGl0eSBjb25jZXJucywgYW5kIHdlJ2xsIHVzZSBwcmFjdGljYWwgZXhhbXBsZXMgYWxvbmcgdGhlIHdheSB0byBnYWluIGV4cGVyaWVuY2UgYW5kIGVtcGhhc2l6ZSB0aGUgY29uY2VwdHMgdGhhdCB3ZSBsZWFybi4KCjxicj4KCiMjIFdhcm11cCBFeGFtcGxlIC0gIkhlbGxvIEFsY290dCIKCiFbXShpbWFnZXMvTW9kdWxlT0FXX2hlbGxvX2FsY290dC5wbmcpCgo8YnI+CgojIyMgUHVycG9zZSBvZiBFeGFtcGxlcwoKPGJyPgoKIyMjIFF1aWNrLVN0YXJ0IEdyZWF0IExha2VzCgo8YnI+CgpTbmVhayBwcmV2aWV3IG9mIHRoZSB3ZWItYmFzZWQgc2hlbGwKIVtdKGltYWdlcy9Nb2R1bGUwM2FfYWNjZXNzaW5nX3dlYl9iYXNlZF9zaGVsbC5wbmcpCiFbXShpbWFnZXMvTW9kdWxlMDNhX3ByZXZpZXdfd2ViX2Jhc2VkX3NoZWxsLnBuZykKCjxicj4KCiMjIEV4ZXJjaXNlIC0gQ29ubmVjdCB3aXRoIHRoZSBXZWItQmFzZWQgU2hlbGwKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgdGhlIHdlYi1iYXNlZCBzaGVsbCB0byBjb25uZWN0IHRvIEdyZWF0IExha2VzLiBPbmNlIHRoZXJlLCB3ZSdsbCBydW4gYW4gaW50cm9kdWN0b3J5IHNjcmlwdCwgYW5kIHRha2UgYW5vdGhlciBsb29rIGF0IG91ciB0cmFuc2ZlcnJlZCBmaWxlcy4KCjxicj4KCiMjIyBSZXZpZXcKCjxicj4KPGJyPgoKfCBbUHJldmlvdXMgbGVzc29uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlX3NuZWFrX3BlZWtfZ3JlYXRfbGFrZXMuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
 
 
 
@@ -584,6 +521,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module_overview_and_warmup.md");
+});
+</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
