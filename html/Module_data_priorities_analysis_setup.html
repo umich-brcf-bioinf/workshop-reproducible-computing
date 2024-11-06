@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Independent Exercise - SBATCH, Conda, Filtering our BAMs</title>
+<title>Data Priorities and Analysis Setup</title>
 
 <script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -376,8 +376,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda,
-Filtering our BAMs</h1>
+<h1 class="title toc-ignore">Data Priorities and Analysis Setup</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -391,59 +390,129 @@ pre {
   font-size: 12pt
 }
 </style>
-<p><br></p>
-<div id="filtering-all-samples" class="section level2">
-<h2>Filtering All Samples</h2>
-<p><br></p>
-<p><strong>15 Minutes</strong></p>
-<p><br></p>
-<p>We just learned how to activate an existing conda environment and use
-it to provide software that we want - <code>samtools</code> - and use
-samtools to filter our BAM files. We also recently learned how to create
-SBATCH script files and submit them using <code>sbatch</code>.</p>
-<p>Let’s combine these ideas and filter the rest of our BAM files.</p>
-<p>If you have extra time, there’s a bonus exercise of indexing your
-BAMs as well</p>
-<p><br></p>
-<div id="instructions" class="section level3">
-<h3>Instructions:</h3>
-<p><br></p>
+<p>In this module, we will:</p>
 <ul>
-<li>Work independently in the main room, posting any questions that
-arise to slack.</li>
-<li>Recommendations for writing your own code:
+<li>suggest priorities and overall treatment of experimental data and
+active analysis projects</li>
+<li>discuss organization practices and recommendations for anlaysis
+files, intermediate outputs, scripts, etc.</li>
+<li>utilize some of the access methods mentioned in the previous
+module</li>
+<li>use the web-based text editor for Great Lakes</li>
+</ul>
+<p><br></p>
+<div id="analysis-projects" class="section level3">
+<h3>Analysis Projects</h3>
+<p>We can begin thinking of our next task - handling data and organizing
+files and artifacts for our analysis - by starting with the idea of the
+data flow described above. One of the first tasks in this area is to set
+up a new location for your analysis and make a copy of your raw data
+there.</p>
+<p>Some considerations:</p>
 <ul>
-<li>Read function documentation</li>
-<li>Test out ideas - it’s okay to make mistakes and generate errors</li>
-<li>Use a search engine to look up errors or recommended solutions using
-keywords</li>
+<li>Fast storage, well suited for computation</li>
+<li>Project organization that facilitates reproducibility</li>
+<li>In-progress analyses, cleanup procedures, and end-to-end repeatable
+analyses</li>
+</ul>
+<p>When we think about fast storage that is well suited for computation,
+we mostly contrast that with our long-term archival storage. A storage
+option is well suited for computation if it is accessible via
+high-throughput connection to sufficiently powerful processing hardware.
+The speed of reading and writing from this location can greatly affect
+processing times of your analysis, depending on the steps involved.</p>
+<p>In terms of project organization, generally we want to have distinct
+locations for specific purposes, and preferably organizing things in a
+consistent manner for all of our projects.</p>
+<p>In a particular project, you may want:</p>
+<ul>
+<li><code>input_data</code> directory for copy of raw data</li>
+<li><code>scripts</code> directory for analysis scripts</li>
+<li>Directories for intermediates, log files, and final outputs</li>
+<li><code>README.txt</code> for the project
+<ul>
+<li>Optional <code>docs</code> directory for extensive documentation,
+supporting works, etc.</li>
 </ul></li>
-<li>We’ll review possible solutions after time is up as a group.</li>
 </ul>
-<p><br></p>
+<p>A useful idea for our project directory layouts is to think about the
+project life cycle and work towards an end-goal of a reproducible
+analysis. While at the beginning of an analysis many things may be
+flexible, at the end we will want to be able to re-execute the analysis
+starting from the raw input data and running all the way until it
+produces the final outputs.</p>
+<p>Taking time to segregate specific efforts within a project,
+documenting our steps as we perform in-progress analyses, performing
+cleanups where needed, and similar efforts will aid us as we work
+towards that goal.</p>
+<p>Think ahead when designing the layout of your projects. If you will
+be trying several related analysis approaches using the same input data,
+but intend on using results from only one of the evaluated methods, it
+may make sense to intentionally subdivide the contents of your project
+directory accordingly. If you have several distinct analyses that may
+use the same input data, then perhaps creating separate projects for
+each of them will make the most sense. It’s hard to be totally
+prescriptive when making recommendations here, but through our example
+we hope to spark the kinds of conversations and the types of thinking
+that are required here.</p>
+<p><img src="images/Module01_projects_layout.png" /></p>
+<p>One last note on handling and organizing analysis projects - use some
+form of identification system for projects in your lab. This simplifies
+communication and record keeping, in addition to the organizational
+benefits.</p>
+<p>Some ideas for project identification systems:</p>
 <ul>
-<li>Review our samtools command that we used earlier. Combine this with
-what we’ve learned about using conda environments and creating SBATCH
-files.</li>
-<li>Create an SBATCH file that activates our
-<code>samtools_deeptools</code> conda environment. With the conda
-environment active, use <code>samtools</code> to filter sample_A.</li>
-<li>Submit the SBATCH file, view the output, and verify once it’s
-complete that we have created the filtered sample_A BAM file.</li>
-<li>Once we are happy with the results, create additional SBATCH files
-for our other samples, and submit them as well.</li>
+<li>Codenames</li>
+<li>Alphanumeric IDs</li>
 </ul>
 <p><br></p>
-<blockquote>
-<p>Bonus: If you have extra time, extend this exercise and use
-<code>samtools index</code> to index the filtered BAM file for
-sample_A.</p>
-</blockquote>
+<!-- LIVE_NOTE: Ask if anyone has any preferences, or what might work best for their group and why -->
+</div>
+<div id="exercise---organize-your-project" class="section level2">
+<h2>Exercise - Organize your project</h2>
+<p>Following along with the instructor, we’ll organize the files that
+are in our <code>$WORKSHOP_HOME</code> directory.</p>
 <p><br></p>
+</div>
+<div id="exercise---write-a-readme-file" class="section level2">
+<h2>Exercise - Write a README File</h2>
+<p>Following along with the instructor, we will write the beginnings of
+a README for our project as it exists so far.</p>
+<p><br></p>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<p><br></p>
+<div id="handy-links" class="section level3">
+<h3>Handy Links</h3>
+<ul>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard (same as above)</a></li>
+<li><a href="http://michmed.org/agc-md5sum">link from AGC on validating
+file integrity using md5sum</a></li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module_overview_and_warmup.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a
+href="Module_compute_environment_definition.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW5kZXBlbmRlbnQgRXhlcmNpc2UgLSBTQkFUQ0gsIENvbmRhLCBGaWx0ZXJpbmcgb3VyIEJBTXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBGaWx0ZXJpbmcgQWxsIFNhbXBsZXMKCjxicj4KCioqMTUgTWludXRlcyoqCgo8YnI+CgpXZSBqdXN0IGxlYXJuZWQgaG93IHRvIGFjdGl2YXRlIGFuIGV4aXN0aW5nIGNvbmRhIGVudmlyb25tZW50IGFuZCB1c2UgaXQgdG8gcHJvdmlkZSBzb2Z0d2FyZSB0aGF0IHdlIHdhbnQgLSBgc2FtdG9vbHNgIC0gYW5kIHVzZSBzYW10b29scyB0byBmaWx0ZXIgb3VyIEJBTSBmaWxlcy4gV2UgYWxzbyByZWNlbnRseSBsZWFybmVkIGhvdyB0byBjcmVhdGUgU0JBVENIIHNjcmlwdCBmaWxlcyBhbmQgc3VibWl0IHRoZW0gdXNpbmcgYHNiYXRjaGAuCgpMZXQncyBjb21iaW5lIHRoZXNlIGlkZWFzIGFuZCBmaWx0ZXIgdGhlIHJlc3Qgb2Ygb3VyIEJBTSBmaWxlcy4gCgpJZiB5b3UgaGF2ZSBleHRyYSB0aW1lLCB0aGVyZSdzIGEgYm9udXMgZXhlcmNpc2Ugb2YgaW5kZXhpbmcgeW91ciBCQU1zIGFzIHdlbGwKCjxicj4KCiMjIyBJbnN0cnVjdGlvbnM6Cgo8YnI+CgotIFdvcmsgaW5kZXBlbmRlbnRseSBpbiB0aGUgbWFpbiByb29tLCBwb3N0aW5nIGFueSBxdWVzdGlvbnMgdGhhdCBhcmlzZSB0byBzbGFjay4KLSBSZWNvbW1lbmRhdGlvbnMgZm9yIHdyaXRpbmcgeW91ciBvd24gY29kZToKICAtIFJlYWQgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogIC0gVGVzdCBvdXQgaWRlYXMgLSBpdCdzIG9rYXkgdG8gbWFrZSBtaXN0YWtlcyBhbmQgZ2VuZXJhdGUgZXJyb3JzCiAgLSBVc2UgYSBzZWFyY2ggZW5naW5lIHRvIGxvb2sgdXAgZXJyb3JzIG9yIHJlY29tbWVuZGVkIHNvbHV0aW9ucyB1c2luZyBrZXl3b3JkcwotIFdlJ2xsIHJldmlldyBwb3NzaWJsZSBzb2x1dGlvbnMgYWZ0ZXIgdGltZSBpcyB1cCBhcyBhIGdyb3VwLgoKPGJyPgoKLSBSZXZpZXcgb3VyIHNhbXRvb2xzIGNvbW1hbmQgdGhhdCB3ZSB1c2VkIGVhcmxpZXIuIENvbWJpbmUgdGhpcyB3aXRoIHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCB1c2luZyBjb25kYSBlbnZpcm9ubWVudHMgYW5kIGNyZWF0aW5nIFNCQVRDSCBmaWxlcy4KLSBDcmVhdGUgYW4gU0JBVENIIGZpbGUgdGhhdCBhY3RpdmF0ZXMgb3VyIGBzYW10b29sc19kZWVwdG9vbHNgIGNvbmRhIGVudmlyb25tZW50LiBXaXRoIHRoZSBjb25kYSBlbnZpcm9ubWVudCBhY3RpdmUsIHVzZSBgc2FtdG9vbHNgIHRvIGZpbHRlciBzYW1wbGVfQS4KLSBTdWJtaXQgdGhlIFNCQVRDSCBmaWxlLCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgb25jZSBpdCdzIGNvbXBsZXRlIHRoYXQgd2UgaGF2ZSBjcmVhdGVkIHRoZSBmaWx0ZXJlZCBzYW1wbGVfQSBCQU0gZmlsZS4KLSBPbmNlIHdlIGFyZSBoYXBweSB3aXRoIHRoZSByZXN1bHRzLCBjcmVhdGUgYWRkaXRpb25hbCBTQkFUQ0ggZmlsZXMgZm9yIG91ciBvdGhlciBzYW1wbGVzLCBhbmQgc3VibWl0IHRoZW0gYXMgd2VsbC4KCjxicj4KCj5Cb251czogSWYgeW91IGhhdmUgZXh0cmEgdGltZSwgZXh0ZW5kIHRoaXMgZXhlcmNpc2UgYW5kIHVzZSBgc2FtdG9vbHMgaW5kZXhgIHRvIGluZGV4IHRoZSBmaWx0ZXJlZCBCQU0gZmlsZSBmb3Igc2FtcGxlX0EuCgo8YnI+Cg==</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSBQcmlvcml0aWVzIGFuZCBBbmFseXNpcyBTZXR1cCIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgoqIHN1Z2dlc3QgcHJpb3JpdGllcyBhbmQgb3ZlcmFsbCB0cmVhdG1lbnQgb2YgZXhwZXJpbWVudGFsIGRhdGEgYW5kIGFjdGl2ZSBhbmFseXNpcyBwcm9qZWN0cwoqIGRpc2N1c3Mgb3JnYW5pemF0aW9uIHByYWN0aWNlcyBhbmQgcmVjb21tZW5kYXRpb25zIGZvciBhbmxheXNpcyBmaWxlcywgaW50ZXJtZWRpYXRlIG91dHB1dHMsIHNjcmlwdHMsIGV0Yy4KKiB1dGlsaXplIHNvbWUgb2YgdGhlIGFjY2VzcyBtZXRob2RzIG1lbnRpb25lZCBpbiB0aGUgcHJldmlvdXMgbW9kdWxlCiogdXNlIHRoZSB3ZWItYmFzZWQgdGV4dCBlZGl0b3IgZm9yIEdyZWF0IExha2VzCgo8YnI+CgojIyMgQW5hbHlzaXMgUHJvamVjdHMKCldlIGNhbiBiZWdpbiB0aGlua2luZyBvZiBvdXIgbmV4dCB0YXNrIC0gaGFuZGxpbmcgZGF0YSBhbmQgb3JnYW5pemluZyBmaWxlcyBhbmQgYXJ0aWZhY3RzIGZvciBvdXIgYW5hbHlzaXMgLSBieSBzdGFydGluZyB3aXRoIHRoZSBpZGVhIG9mIHRoZSBkYXRhIGZsb3cgZGVzY3JpYmVkIGFib3ZlLiBPbmUgb2YgdGhlIGZpcnN0IHRhc2tzIGluIHRoaXMgYXJlYSBpcyB0byBzZXQgdXAgYSBuZXcgbG9jYXRpb24gZm9yIHlvdXIgYW5hbHlzaXMgYW5kIG1ha2UgYSBjb3B5IG9mIHlvdXIgcmF3IGRhdGEgdGhlcmUuCgpTb21lIGNvbnNpZGVyYXRpb25zOgoKIC0gRmFzdCBzdG9yYWdlLCB3ZWxsIHN1aXRlZCBmb3IgY29tcHV0YXRpb24KIC0gUHJvamVjdCBvcmdhbml6YXRpb24gdGhhdCBmYWNpbGl0YXRlcyByZXByb2R1Y2liaWxpdHkKIC0gSW4tcHJvZ3Jlc3MgYW5hbHlzZXMsIGNsZWFudXAgcHJvY2VkdXJlcywgYW5kIGVuZC10by1lbmQgcmVwZWF0YWJsZSBhbmFseXNlcwoKV2hlbiB3ZSB0aGluayBhYm91dCBmYXN0IHN0b3JhZ2UgdGhhdCBpcyB3ZWxsIHN1aXRlZCBmb3IgY29tcHV0YXRpb24sIHdlIG1vc3RseSBjb250cmFzdCB0aGF0IHdpdGggb3VyIGxvbmctdGVybSBhcmNoaXZhbCBzdG9yYWdlLiBBIHN0b3JhZ2Ugb3B0aW9uIGlzIHdlbGwgc3VpdGVkIGZvciBjb21wdXRhdGlvbiBpZiBpdCBpcyBhY2Nlc3NpYmxlIHZpYSBoaWdoLXRocm91Z2hwdXQgY29ubmVjdGlvbiB0byBzdWZmaWNpZW50bHkgcG93ZXJmdWwgcHJvY2Vzc2luZyBoYXJkd2FyZS4gVGhlIHNwZWVkIG9mIHJlYWRpbmcgYW5kIHdyaXRpbmcgZnJvbSB0aGlzIGxvY2F0aW9uIGNhbiBncmVhdGx5IGFmZmVjdCBwcm9jZXNzaW5nIHRpbWVzIG9mIHlvdXIgYW5hbHlzaXMsIGRlcGVuZGluZyBvbiB0aGUgc3RlcHMgaW52b2x2ZWQuCgpJbiB0ZXJtcyBvZiBwcm9qZWN0IG9yZ2FuaXphdGlvbiwgZ2VuZXJhbGx5IHdlIHdhbnQgdG8gaGF2ZSBkaXN0aW5jdCBsb2NhdGlvbnMgZm9yIHNwZWNpZmljIHB1cnBvc2VzLCBhbmQgcHJlZmVyYWJseSBvcmdhbml6aW5nIHRoaW5ncyBpbiBhIGNvbnNpc3RlbnQgbWFubmVyIGZvciBhbGwgb2Ygb3VyIHByb2plY3RzLgoKSW4gYSBwYXJ0aWN1bGFyIHByb2plY3QsIHlvdSBtYXkgd2FudDoKCi0gYGlucHV0X2RhdGFgIGRpcmVjdG9yeSBmb3IgY29weSBvZiByYXcgZGF0YQotIGBzY3JpcHRzYCBkaXJlY3RvcnkgZm9yIGFuYWx5c2lzIHNjcmlwdHMKLSBEaXJlY3RvcmllcyBmb3IgaW50ZXJtZWRpYXRlcywgbG9nIGZpbGVzLCBhbmQgZmluYWwgb3V0cHV0cwotIGBSRUFETUUudHh0YCBmb3IgdGhlIHByb2plY3QKICAtIE9wdGlvbmFsIGBkb2NzYCBkaXJlY3RvcnkgZm9yIGV4dGVuc2l2ZSBkb2N1bWVudGF0aW9uLCBzdXBwb3J0aW5nIHdvcmtzLCBldGMuCgpBIHVzZWZ1bCBpZGVhIGZvciBvdXIgcHJvamVjdCBkaXJlY3RvcnkgbGF5b3V0cyBpcyB0byB0aGluayBhYm91dCB0aGUgcHJvamVjdCBsaWZlIGN5Y2xlIGFuZCB3b3JrIHRvd2FyZHMgYW4gZW5kLWdvYWwgb2YgYSByZXByb2R1Y2libGUgYW5hbHlzaXMuIFdoaWxlIGF0IHRoZSBiZWdpbm5pbmcgb2YgYW4gYW5hbHlzaXMgbWFueSB0aGluZ3MgbWF5IGJlIGZsZXhpYmxlLCBhdCB0aGUgZW5kIHdlIHdpbGwgd2FudCB0byBiZSBhYmxlIHRvIHJlLWV4ZWN1dGUgdGhlIGFuYWx5c2lzIHN0YXJ0aW5nIGZyb20gdGhlIHJhdyBpbnB1dCBkYXRhIGFuZCBydW5uaW5nIGFsbCB0aGUgd2F5IHVudGlsIGl0IHByb2R1Y2VzIHRoZSBmaW5hbCBvdXRwdXRzLgoKVGFraW5nIHRpbWUgdG8gc2VncmVnYXRlIHNwZWNpZmljIGVmZm9ydHMgd2l0aGluIGEgcHJvamVjdCwgZG9jdW1lbnRpbmcgb3VyIHN0ZXBzIGFzIHdlIHBlcmZvcm0gaW4tcHJvZ3Jlc3MgYW5hbHlzZXMsIHBlcmZvcm1pbmcgY2xlYW51cHMgd2hlcmUgbmVlZGVkLCBhbmQgc2ltaWxhciBlZmZvcnRzIHdpbGwgYWlkIHVzIGFzIHdlIHdvcmsgdG93YXJkcyB0aGF0IGdvYWwuCgpUaGluayBhaGVhZCB3aGVuIGRlc2lnbmluZyB0aGUgbGF5b3V0IG9mIHlvdXIgcHJvamVjdHMuIElmIHlvdSB3aWxsIGJlIHRyeWluZyBzZXZlcmFsIHJlbGF0ZWQgYW5hbHlzaXMgYXBwcm9hY2hlcyB1c2luZyB0aGUgc2FtZSBpbnB1dCBkYXRhLCBidXQgaW50ZW5kIG9uIHVzaW5nIHJlc3VsdHMgZnJvbSBvbmx5IG9uZSBvZiB0aGUgZXZhbHVhdGVkIG1ldGhvZHMsIGl0IG1heSBtYWtlIHNlbnNlIHRvIGludGVudGlvbmFsbHkgc3ViZGl2aWRlIHRoZSBjb250ZW50cyBvZiB5b3VyIHByb2plY3QgZGlyZWN0b3J5IGFjY29yZGluZ2x5LiBJZiB5b3UgaGF2ZSBzZXZlcmFsIGRpc3RpbmN0IGFuYWx5c2VzIHRoYXQgbWF5IHVzZSB0aGUgc2FtZSBpbnB1dCBkYXRhLCB0aGVuIHBlcmhhcHMgY3JlYXRpbmcgc2VwYXJhdGUgcHJvamVjdHMgZm9yIGVhY2ggb2YgdGhlbSB3aWxsIG1ha2UgdGhlIG1vc3Qgc2Vuc2UuIEl0J3MgaGFyZCB0byBiZSB0b3RhbGx5IHByZXNjcmlwdGl2ZSB3aGVuIG1ha2luZyByZWNvbW1lbmRhdGlvbnMgaGVyZSwgYnV0IHRocm91Z2ggb3VyIGV4YW1wbGUgd2UgaG9wZSB0byBzcGFyayB0aGUga2luZHMgb2YgY29udmVyc2F0aW9ucyBhbmQgdGhlIHR5cGVzIG9mIHRoaW5raW5nIHRoYXQgYXJlIHJlcXVpcmVkIGhlcmUuCgohW10oaW1hZ2VzL01vZHVsZTAxX3Byb2plY3RzX2xheW91dC5wbmcpCgpPbmUgbGFzdCBub3RlIG9uIGhhbmRsaW5nIGFuZCBvcmdhbml6aW5nIGFuYWx5c2lzIHByb2plY3RzIC0gdXNlIHNvbWUgZm9ybSBvZiBpZGVudGlmaWNhdGlvbiBzeXN0ZW0gZm9yIHByb2plY3RzIGluIHlvdXIgbGFiLiBUaGlzIHNpbXBsaWZpZXMgY29tbXVuaWNhdGlvbiBhbmQgcmVjb3JkIGtlZXBpbmcsIGluIGFkZGl0aW9uIHRvIHRoZSBvcmdhbml6YXRpb25hbCBiZW5lZml0cy4KClNvbWUgaWRlYXMgZm9yIHByb2plY3QgaWRlbnRpZmljYXRpb24gc3lzdGVtczoKCi0gQ29kZW5hbWVzCi0gQWxwaGFudW1lcmljIElEcwoKPGJyPgoKPCEtLSBMSVZFX05PVEU6IEFzayBpZiBhbnlvbmUgaGFzIGFueSBwcmVmZXJlbmNlcywgb3Igd2hhdCBtaWdodCB3b3JrIGJlc3QgZm9yIHRoZWlyIGdyb3VwIGFuZCB3aHkgLS0+CgojIyBFeGVyY2lzZSAtIE9yZ2FuaXplIHlvdXIgcHJvamVjdAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIG9yZ2FuaXplIHRoZSBmaWxlcyB0aGF0IGFyZSBpbiBvdXIgYCRXT1JLU0hPUF9IT01FYCBkaXJlY3RvcnkuCgoKPGJyPgoKIyMgRXhlcmNpc2UgLSBXcml0ZSBhIFJFQURNRSBGaWxlCgpGb2xsb3dpbmcgYWxvbmcgd2l0aCB0aGUgaW5zdHJ1Y3Rvciwgd2Ugd2lsbCB3cml0ZSB0aGUgYmVnaW5uaW5ncyBvZiBhIFJFQURNRSBmb3Igb3VyIHByb2plY3QgYXMgaXQgZXhpc3RzIHNvIGZhci4KCjxicj4KCiMjIFJldmlldwoKPGJyPgoKIyMjIEhhbmR5IExpbmtzCgotIFtMaW5rIHRvIEdyZWF0IExha2VzIERhc2hib2FyZCAoc2FtZSBhcyBhYm92ZSldKGh0dHBzOi8vZ3JlYXRsYWtlcy5hcmMtdHMudW1pY2guZWR1KQotIFtsaW5rIGZyb20gQUdDIG9uIHZhbGlkYXRpbmcgZmlsZSBpbnRlZ3JpdHkgdXNpbmcgbWQ1c3VtXShodHRwOi8vbWljaG1lZC5vcmcvYWdjLW1kNXN1bSkKCgp8IFtQcmV2aW91cyBsZXNzb25dKE1vZHVsZV9vdmVydmlld19hbmRfd2FybXVwLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZV9jb21wdXRlX2Vudmlyb25tZW50X2RlZmluaXRpb24uaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
 
 
 
@@ -479,7 +548,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("exercise-2.md");
+  window.initializeSourceEmbed("Module_data_priorities_analysis_setup.md");
 });
 </script>
 

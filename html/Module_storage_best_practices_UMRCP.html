@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Storage</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Overview &amp; Quick-Start
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+    </li>
+    <li>
+      <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+    </li>
+    <li>
+      <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+    </li>
+    <li>
+      <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    UMich Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
+    </li>
+    <li>
+      <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software Management
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Independent Exercise</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Data Management
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_raw_data_management.html">Raw Data Management</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module_wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Storage</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>learn about several institutional storage options (and associated
+compute resources)</li>
+<li>learn about the UMRCP and how to request it</li>
+<li>make a plan for enrolling PIs in UMRCP and enabling access to all
+researchers</li>
+</ul>
+<p><br></p>
+<div id="storage-best-practices" class="section level2">
+<h2>Storage Best Practices</h2>
+<p>One simple way to organize our thinking about storage best practices
+is to divide the topic into raw data considerations, and considerations
+for analysis projects. By separating and focusing on those two aspects,
+we can effectively address many of the challenges associated with
+each.</p>
+<blockquote>
+<p>Note: The importance of documentation is universal to all aspects of
+reproducible research. In considering best practices both for our raw
+data and for our analysis projects, we will emphasize the importance of
+documentation!</p>
+</blockquote>
+<div id="a-generalized-data-flow" class="section level3">
+<h3>A Generalized Data Flow</h3>
+<p><img src="images/Module01_general_best_practice_data_flow.png" /></p>
+</div>
+<div id="raw-data" class="section level3">
+<h3>Raw Data</h3>
+<p>When considering best practices for raw data storage, we can
+generally orient ourselves around one task - ensure that the data are
+safe.</p>
+<p>Safe from:</p>
+<ul>
+<li>Accidental deletion</li>
+<li>Hardware failure</li>
+<li>Loss of access</li>
+</ul>
+<p>With this in mind, we recommend placing your raw experimental data
+into a specific designated location which is <strong>solely</strong>
+dedicated to storing your raw data.</p>
+<p>Soon we’ll talk about specific options for UMich researchers, but for
+now we’ll just speak of the general process. Data that cannot easily be
+re-obtained should be treated with great care. By following the
+recommendations here, we can achieve this and have peace of mind that we
+are preserving our raw data and our capabilities for reproducible
+research well into the future.</p>
+<p>Recommended:</p>
+<ul>
+<li>Designated location for storing raw data</li>
+<li>Limit write access of stored data files</li>
+<li>Use institutional storage
+<ul>
+<li>Large file sizes and large total allocations</li>
+<li>Long-term support</li>
+<li>Hardware redundancy</li>
+<li>Location redundancy</li>
+</ul></li>
+</ul>
+<p>Another thing to mention for raw data best practices is the procedure
+of checking file integrity. Whenever transferring data from one storage
+location to another, and especially while doing so over a network
+connection, it is good practice to follow up with a file integrity
+check. Briefly, we use software to inspect our files and determine if
+any of the contents have changed. In a later module we’ll have a chance
+to try this ourselves, using the <code>md5sum</code> utility. This is a
+relatively efficient way of verifying file integrity after a file
+transfer.</p>
+</div>
+</div>
+<div id="storage-options-for-umich-researchers" class="section level2">
+<h2>Storage Options for UMich Researchers</h2>
+<p>We’ve discussed best practices for data, analysis intermediates and
+scripts, etc. in general terms, but now we’ll have the opportunity to
+revisit these ideas while highlighting specific options and
+recommendations for UMich researchers. By the end of this module, we
+will understand our numerous storage options available to us. Looking
+forward to future modules, we’ll also run exercises that interact with
+some of these storage allocations as we proceed, including Data Den and
+its unique characteristics and usage patterns.</p>
+<div id="what-is-arc" class="section level3">
+<h3>What is ARC?</h3>
+<p>The vast majority of computing resources we’ll be discussing in the
+workshop are provided and managed by ARC - Advanced Research Computing
+at University of Michigan. The shared computing cluster that we’ll be
+using in the workshop is run by ARC, and the storage allocations
+likewise are provided by ARC. Their mission is to provide university
+researchers with the advanced computing resources that they need, and
+they’ve been working with research groups in various compute intensive
+fields to achieve this.</p>
+<p>Later in this module we’ll discuss in detail how to request resources
+through ARC, but for now we’ll focus on the storage topic and cover some
+important storage options that ARC provides.</p>
+</div>
+<div id="data-den" class="section level3">
+<h3>Data Den</h3>
+<p>Data Den is a low-cost, highly durable storage system operated by
+ARC.</p>
+<ul>
+<li>Tape-based archival storage</li>
+<li>The largest and most affordable storage available through ARC.</li>
+<li>Can only access this indirectly
+<ul>
+<li>i.e. use Globus to interface with this storage.</li>
+</ul></li>
+</ul>
+<!-- Due to its architecture, slow speeds, and need to eliminate unnecessary read/write operations -->
+<blockquote>
+<p>Note: Data Den has a file size limitation - it does not handle large
+amounts of small files. Optimal file size is in the multi-gigabyte
+range. The limitation 10,000 files per TB of storage.</p>
+</blockquote>
+</div>
+<div id="turbo" class="section level3">
+<h3>Turbo</h3>
+<p>Turbo is a high-capacity, reliable, and fast storage system operated
+by ARC. It is more costly than Data Den.</p>
+<ul>
+<li>More costly than Data Den</li>
+<li>Tuned for files moderate to large in size, but can also easily
+accomodate small files</li>
+<li>Can be accessed through the High-Performance Computing (HPC)
+cluster</li>
+</ul>
+<p>Fast storage like Turbo is well-equipped for computing direcly from
+it. Turbo supports fast read/write times, and is an excellent place to
+perform analyses.</p>
+</div>
+<div id="turbo-and-data-den---cost-difference" class="section level3">
+<h3>Turbo and Data Den - Cost Difference</h3>
+<p>We discussed above that Data Den is slow, unsuited for analysis, yet
+cost-effective, while Turbo is fast, well-tuned for analysis, and more
+costly. To put some numbers to this price discussion, see the following
+table of cost per TB per year:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="right">Unreplicated</th>
+<th align="right">Replicated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">Turbo</td>
+<td align="right">$77.88</td>
+<td align="right">$156.22</td>
+</tr>
+<tr class="even">
+<td align="right">Data Den</td>
+<td align="right">NA</td>
+<td align="right">$20.04</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that Turbo storage is about 8x more costly than Data Den for
+the same amount of replicated storage.</p>
+<blockquote>
+<p>Note: Data Den is only available in the replicated format.</p>
+</blockquote>
+<!-- LIVE_NOTE: We'll mention how researchers can get a portion of Turbo and Data Den at no cost to them -->
+</div>
+<div id="home-scratch-tmp-and-others" class="section level3">
+<h3>Home, Scratch, tmp, and others</h3>
+<ul>
+<li>Home directory (80 GB quota)
+<ul>
+<li>/home/uniqname</li>
+</ul></li>
+<li>Scratch directory (10 TB and 1,000,000 file quota)
+<ul>
+<li>/scratch/account_root/account/uniqname</li>
+<li>Not persistent over time
+<ul>
+<li>Automatically deleted if not accessed in 60 days</li>
+</ul></li>
+</ul></li>
+<li>Local disk (4 TB shared)
+<ul>
+<li>/tmp</li>
+<li>Not persistent across machines</li>
+</ul></li>
+</ul>
+</div>
+<div id="institutional-storage-vs-other-storage" class="section level3">
+<h3>Institutional Storage vs Other Storage</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Institutional</th>
+<th align="left">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Turbo</td>
+<td align="left">Laptop Storage</td>
+</tr>
+<tr class="even">
+<td align="left">Data Den</td>
+<td align="left">Storage on a Shared Lab Computer</td>
+</tr>
+<tr class="odd">
+<td align="left">Home / Scratch*</td>
+<td align="left">Portable Hard Drive / Flash Drive</td>
+</tr>
+<tr class="even">
+<td align="left">MiStorage</td>
+<td align="left">Cloud Storage</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div id="umrcp" class="section level2">
+<h2>UMRCP</h2>
+<p><img src="images/Module01_umrcp_provides.png" /></p>
+<p>The figure above highlights the most important and impressive details
+of the UMRCP, but you can find full details of the resources offered
+through this program on <a
+href="https://its.umich.edu/advanced-research-computing/research-computing-package">the
+UMRCP page of ARC’s website</a>.</p>
+<div id="signing-up-for-the-umrcp" class="section level3">
+<h3>Signing up for the UMRCP</h3>
+<p>Within that site, there is another page that I highly recommend as a
+great place to start - the <a
+href="https://its.umich.edu/advanced-research-computing/research-computing-package/getting-started">UMRCP
+Getting Started Guide</a>. There you’ll find details about the signup
+process. After signing up, you’ll be able to use some of the numerous
+compute nodes available through ARC, as well as the various storage
+tiers described above.</p>
+<p><br></p>
+<p><img src="images/Module01_steps_getting_UMRCP.png" /></p>
+<p><br></p>
+<details>
+<summary>
+Additional Resources Available Through HITS RCI
+</summary>
+<p><img src="images/Module01_umrcp_plus_umrci_provides.png" /></p>
+<p>In addition to the resources provided through the UMRCP, some
+researchers within the medical system will have additonal resources
+available through UM Health Information Technology &amp; Services
+(HITS). Through strategic investments in High Performance Computing by
+Michigan Medicine, eligible researchers can enjoy additional allocations
+for the described resources - most notably unlimited Data Den
+storage.</p>
+<p>In the documentation for the UMRCP and the UMRCI, you’ll see that
+they recommend first using the UMRCP resources (available to all
+university researchers) and then transitioning to these additional HITS
+UMRCI resources (available to Michigan Medicine researchers) when
+possible. In any case, since these allocations are managed by ARC for
+all univerisity researchers - Michigan Medicne or otherwise - you’ll be
+using the same forms and procedures to request resources and use them.
+However, the billing details may change depending on this
+eligibility.</p>
+<p><a
+href="https://hits.medicine.umich.edu/research-education/research-computing-data-storage/research-computing-package">Link
+to HITS page on UMRCI</a></p>
+</details>
+<p><br></p>
+</div>
+<div id="great-lakes-armis2-and-lighthouse-clusters"
+class="section level3">
+<h3>Great Lakes, Armis2, and Lighthouse Clusters</h3>
+<p>This module overall is primarily focused on storage-related topics.
+We’ve briefly mentioned that in addition to storage resources, ARC also
+provides access to high-performance computing (HPC) hardware as well.
+While in this workshop we’ll just be focusing on one of them, in fact
+there are several HPC clusters that are available to UMich researchers,
+in order to meet various needs.</p>
+<p>When discussing research needs, especially in anticipation of
+requesting UMRCP resources and filling out the required form, we should
+discuss a little bit about three HPC options provided through ARC:</p>
+<ul>
+<li>Great Lakes</li>
+<li>Armis2 (HIPAA-aligned)</li>
+<li>Lighthouse (Researcher-owned hardware)</li>
+</ul>
+<p>We’ll be discussing Great Lakes at length throughout this workshop
+and using it for our example analyses. We can think of it as a
+general-purpose HPC cluster, which is suitable for many different kinds
+of research.</p>
+<p>Armis2 is similar in feel to the Great Lakes cluster, except it is
+configured with specific security measures in place to enable analysis
+of sensitive data, such as export-controlled or HIPAA protected data.
+When filling out the UMRCP form, you can make selections for sensitive
+data needs, which will provide CPU hours on Armis2 and associated
+storage. We’ll see later, that we have flexibility in how we allocate
+resources between e.g. Great Lakes and Armis2.</p>
+<blockquote>
+<p>Note: There is a separate, security-enhanced Turbo allocation that is
+also HIPAA aligned that should be used with Armis2.</p>
+</blockquote>
+<p>Lighthouse is also similar in feel to the Great Lakes cluster, except
+it is a cluster comprised entirely of researcher-owned hardware.
+Contrasting this with Great Lakes where we are only responsible for the
+cost of the resources we use, on Lighthouse, a researcher will fund the
+entirety of the hardware and receive 100% of its availability. This can
+be a good choice for researchers who are expected to have near-constant
+compute usage needs, or who require instant availability of HPC
+resources.</p>
+<!-- LIVE_NOTE: Link to the ITS sensitive data guide, is also available at the "UMRCP Requesting Resources Guide": https://safecomputing.umich.edu/dataguide/?q=home -->
+<p><br></p>
+<p>Main ideas:</p>
+<ul>
+<li>PI must be the one to fill out form</li>
+<li>PI will automatically become an administrator</li>
+<li>Others can become administrators (lab manager) or members</li>
+</ul>
+<p><br></p>
+</div>
+<div id="administrators-vs-users" class="section level3">
+<h3>Administrators vs Users</h3>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="17%" />
+<col width="15%" />
+<col width="18%" />
+<col width="24%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Change Allocations</th>
+<th align="left">Add/Remove Users</th>
+<th align="left">Use GL compute time</th>
+<th align="left">Read/Write access to Turbo</th>
+<th align="left">Globus Admin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PI</td>
+<td align="left">✅</td>
+<td align="left">✅</td>
+<td align="left">⏳</td>
+<td align="left">⏳</td>
+<td align="left">✅</td>
+</tr>
+<tr class="even">
+<td>Lab Manager</td>
+<td align="left">✅</td>
+<td align="left">✅</td>
+<td align="left">⏳</td>
+<td align="left">⏳</td>
+<td align="left">✅</td>
+</tr>
+<tr class="odd">
+<td>Grad Student</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">✅</td>
+<td align="left">✅</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Legend:</p>
+<p>✅ = Frequent</p>
+<p>⏳ = Occasional</p>
+</blockquote>
+<p><br></p>
+</div>
+<div id="resource-management-portal" class="section level3">
+<h3>Resource Management Portal</h3>
+<p><img src="images/Module01_resource_management_portal.png" /></p>
+<p>A key part of how we will manage our ARC resources is through their
+Resource Management Portal, shown here.</p>
+<p>This portal can be found at <a
+href="https://portal.arc.umich.edu">https://portal.arc.umich.edu</a>.</p>
+<p>Let’s not go there just yet, but discuss what we see in this
+screenshot, and then move on to the exercise. We’ll learn about some of
+the differences that we may see depending on our current status and
+existing resources, and we’ll learn that there are some differences in
+the best way to request UMRCP resources depending on these details.</p>
+<p><br></p>
+</div>
+</div>
+<div id="exercise-make-a-game-plan-for-umrcp" class="section level2">
+<h2>Exercise: Make a Game Plan for UMRCP</h2>
+<p>In this exercise we will determine the needs for UMRCP enrollment by
+audience &amp; their PIs.</p>
+<p>There are two video links below. There’s a decent amount of overlap
+in the content, and the main ideas are pretty similar. In either case,
+we will be filling out the UMRCP web forms as shown in the videos.
+Depending on our current status though, we may have different optimal
+starting points and different things to consider.</p>
+<!-- LIVE_NOTE: The main difference is that the web-form for requesting resources can automatically detect some existing resources. In the videos it demonstrates navigating to that form in different ways - that's one thing to pay attention to. There are many possibilities of existing setups, and not everything will be automatically detected -->
+<p><br></p>
+<p><a
+href="https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561">UMRCP
+How to Enroll - New to ARC Services</a></p>
+<p><br></p>
+<p><a
+href="https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561">UMRCP
+How to Enroll - Existing Owner of ARC Services</a></p>
+<p><br> <br></p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module_compute_environment_definition.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module_great_lakes_cluster.html">Next
+lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU3RvcmFnZSIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgoqIGxlYXJuIGFib3V0IHNldmVyYWwgaW5zdGl0dXRpb25hbCBzdG9yYWdlIG9wdGlvbnMgKGFuZCBhc3NvY2lhdGVkIGNvbXB1dGUgcmVzb3VyY2VzKQoqIGxlYXJuIGFib3V0IHRoZSBVTVJDUCBhbmQgaG93IHRvIHJlcXVlc3QgaXQKKiBtYWtlIGEgcGxhbiBmb3IgZW5yb2xsaW5nIFBJcyBpbiBVTVJDUCBhbmQgZW5hYmxpbmcgYWNjZXNzIHRvIGFsbCByZXNlYXJjaGVycwoKPGJyPgoKIyMgU3RvcmFnZSBCZXN0IFByYWN0aWNlcwoKT25lIHNpbXBsZSB3YXkgdG8gb3JnYW5pemUgb3VyIHRoaW5raW5nIGFib3V0IHN0b3JhZ2UgYmVzdCBwcmFjdGljZXMgaXMgdG8gZGl2aWRlIHRoZSB0b3BpYyBpbnRvIHJhdyBkYXRhIGNvbnNpZGVyYXRpb25zLCBhbmQgY29uc2lkZXJhdGlvbnMgZm9yIGFuYWx5c2lzIHByb2plY3RzLiBCeSBzZXBhcmF0aW5nIGFuZCBmb2N1c2luZyBvbiB0aG9zZSB0d28gYXNwZWN0cywgd2UgY2FuIGVmZmVjdGl2ZWx5IGFkZHJlc3MgbWFueSBvZiB0aGUgY2hhbGxlbmdlcyBhc3NvY2lhdGVkIHdpdGggZWFjaC4KCj5Ob3RlOiBUaGUgaW1wb3J0YW5jZSBvZiBkb2N1bWVudGF0aW9uIGlzIHVuaXZlcnNhbCB0byBhbGwgYXNwZWN0cyBvZiByZXByb2R1Y2libGUgcmVzZWFyY2guIEluIGNvbnNpZGVyaW5nIGJlc3QgcHJhY3RpY2VzIGJvdGggZm9yIG91ciByYXcgZGF0YSBhbmQgZm9yIG91ciBhbmFseXNpcyBwcm9qZWN0cywgd2Ugd2lsbCBlbXBoYXNpemUgdGhlIGltcG9ydGFuY2Ugb2YgZG9jdW1lbnRhdGlvbiEKCiMjIyBBIEdlbmVyYWxpemVkIERhdGEgRmxvdwoKIVtdKGltYWdlcy9Nb2R1bGUwMV9nZW5lcmFsX2Jlc3RfcHJhY3RpY2VfZGF0YV9mbG93LnBuZykKCiMjIyBSYXcgRGF0YQoKV2hlbiBjb25zaWRlcmluZyBiZXN0IHByYWN0aWNlcyBmb3IgcmF3IGRhdGEgc3RvcmFnZSwgd2UgY2FuIGdlbmVyYWxseSBvcmllbnQgb3Vyc2VsdmVzIGFyb3VuZCBvbmUgdGFzayAtIGVuc3VyZSB0aGF0IHRoZSBkYXRhIGFyZSBzYWZlLgoKU2FmZSBmcm9tOgoKLSBBY2NpZGVudGFsIGRlbGV0aW9uCi0gSGFyZHdhcmUgZmFpbHVyZQotIExvc3Mgb2YgYWNjZXNzCgpXaXRoIHRoaXMgaW4gbWluZCwgd2UgcmVjb21tZW5kIHBsYWNpbmcgeW91ciByYXcgZXhwZXJpbWVudGFsIGRhdGEgaW50byBhIHNwZWNpZmljIGRlc2lnbmF0ZWQgbG9jYXRpb24gd2hpY2ggaXMgKipzb2xlbHkqKiBkZWRpY2F0ZWQgdG8gc3RvcmluZyB5b3VyIHJhdyBkYXRhLgoKU29vbiB3ZSdsbCB0YWxrIGFib3V0IHNwZWNpZmljIG9wdGlvbnMgZm9yIFVNaWNoIHJlc2VhcmNoZXJzLCBidXQgZm9yIG5vdyB3ZSdsbCBqdXN0IHNwZWFrIG9mIHRoZSBnZW5lcmFsIHByb2Nlc3MuIERhdGEgdGhhdCBjYW5ub3QgZWFzaWx5IGJlIHJlLW9idGFpbmVkIHNob3VsZCBiZSB0cmVhdGVkIHdpdGggZ3JlYXQgY2FyZS4gQnkgZm9sbG93aW5nIHRoZSByZWNvbW1lbmRhdGlvbnMgaGVyZSwgd2UgY2FuIGFjaGlldmUgdGhpcyBhbmQgaGF2ZSBwZWFjZSBvZiBtaW5kIHRoYXQgd2UgYXJlIHByZXNlcnZpbmcgb3VyIHJhdyBkYXRhIGFuZCBvdXIgY2FwYWJpbGl0aWVzIGZvciByZXByb2R1Y2libGUgcmVzZWFyY2ggd2VsbCBpbnRvIHRoZSBmdXR1cmUuCgpSZWNvbW1lbmRlZDoKCi0gRGVzaWduYXRlZCBsb2NhdGlvbiBmb3Igc3RvcmluZyByYXcgZGF0YQotIExpbWl0IHdyaXRlIGFjY2VzcyBvZiBzdG9yZWQgZGF0YSBmaWxlcwotIFVzZSBpbnN0aXR1dGlvbmFsIHN0b3JhZ2UKICAtIExhcmdlIGZpbGUgc2l6ZXMgYW5kIGxhcmdlIHRvdGFsIGFsbG9jYXRpb25zCiAgLSBMb25nLXRlcm0gc3VwcG9ydAogIC0gSGFyZHdhcmUgcmVkdW5kYW5jeQogIC0gTG9jYXRpb24gcmVkdW5kYW5jeQoKQW5vdGhlciB0aGluZyB0byBtZW50aW9uIGZvciByYXcgZGF0YSBiZXN0IHByYWN0aWNlcyBpcyB0aGUgcHJvY2VkdXJlIG9mIGNoZWNraW5nIGZpbGUgaW50ZWdyaXR5LiBXaGVuZXZlciB0cmFuc2ZlcnJpbmcgZGF0YSBmcm9tIG9uZSBzdG9yYWdlIGxvY2F0aW9uIHRvIGFub3RoZXIsIGFuZCBlc3BlY2lhbGx5IHdoaWxlIGRvaW5nIHNvIG92ZXIgYSBuZXR3b3JrIGNvbm5lY3Rpb24sIGl0IGlzIGdvb2QgcHJhY3RpY2UgdG8gZm9sbG93IHVwIHdpdGggYSBmaWxlIGludGVncml0eSBjaGVjay4gQnJpZWZseSwgd2UgdXNlIHNvZnR3YXJlIHRvIGluc3BlY3Qgb3VyIGZpbGVzIGFuZCBkZXRlcm1pbmUgaWYgYW55IG9mIHRoZSBjb250ZW50cyBoYXZlIGNoYW5nZWQuIEluIGEgbGF0ZXIgbW9kdWxlIHdlJ2xsIGhhdmUgYSBjaGFuY2UgdG8gdHJ5IHRoaXMgb3Vyc2VsdmVzLCB1c2luZyB0aGUgYG1kNXN1bWAgdXRpbGl0eS4gVGhpcyBpcyBhIHJlbGF0aXZlbHkgZWZmaWNpZW50IHdheSBvZiB2ZXJpZnlpbmcgZmlsZSBpbnRlZ3JpdHkgYWZ0ZXIgYSBmaWxlIHRyYW5zZmVyLgoKCiMjIFN0b3JhZ2UgT3B0aW9ucyBmb3IgVU1pY2ggUmVzZWFyY2hlcnMKCldlJ3ZlIGRpc2N1c3NlZCBiZXN0IHByYWN0aWNlcyBmb3IgZGF0YSwgYW5hbHlzaXMgaW50ZXJtZWRpYXRlcyBhbmQgc2NyaXB0cywgZXRjLiBpbiBnZW5lcmFsIHRlcm1zLCBidXQgbm93IHdlJ2xsIGhhdmUgdGhlIG9wcG9ydHVuaXR5IHRvIHJldmlzaXQgdGhlc2UgaWRlYXMgd2hpbGUgaGlnaGxpZ2h0aW5nIHNwZWNpZmljIG9wdGlvbnMgYW5kIHJlY29tbWVuZGF0aW9ucyBmb3IgVU1pY2ggcmVzZWFyY2hlcnMuIEJ5IHRoZSBlbmQgb2YgdGhpcyBtb2R1bGUsIHdlIHdpbGwgdW5kZXJzdGFuZCBvdXIgbnVtZXJvdXMgc3RvcmFnZSBvcHRpb25zIGF2YWlsYWJsZSB0byB1cy4gTG9va2luZyBmb3J3YXJkIHRvIGZ1dHVyZSBtb2R1bGVzLCB3ZSdsbCBhbHNvIHJ1biBleGVyY2lzZXMgdGhhdCBpbnRlcmFjdCB3aXRoIHNvbWUgb2YgdGhlc2Ugc3RvcmFnZSBhbGxvY2F0aW9ucyBhcyB3ZSBwcm9jZWVkLCBpbmNsdWRpbmcgRGF0YSBEZW4gYW5kIGl0cyB1bmlxdWUgY2hhcmFjdGVyaXN0aWNzIGFuZCB1c2FnZSBwYXR0ZXJucy4KCgojIyMgV2hhdCBpcyBBUkM/CgpUaGUgdmFzdCBtYWpvcml0eSBvZiBjb21wdXRpbmcgcmVzb3VyY2VzIHdlJ2xsIGJlIGRpc2N1c3NpbmcgaW4gdGhlIHdvcmtzaG9wIGFyZSBwcm92aWRlZCBhbmQgbWFuYWdlZCBieSBBUkMgLSBBZHZhbmNlZCBSZXNlYXJjaCBDb21wdXRpbmcgYXQgVW5pdmVyc2l0eSBvZiBNaWNoaWdhbi4gVGhlIHNoYXJlZCBjb21wdXRpbmcgY2x1c3RlciB0aGF0IHdlJ2xsIGJlIHVzaW5nIGluIHRoZSB3b3Jrc2hvcCBpcyBydW4gYnkgQVJDLCBhbmQgdGhlIHN0b3JhZ2UgYWxsb2NhdGlvbnMgbGlrZXdpc2UgYXJlIHByb3ZpZGVkIGJ5IEFSQy4gVGhlaXIgbWlzc2lvbiBpcyB0byBwcm92aWRlIHVuaXZlcnNpdHkgcmVzZWFyY2hlcnMgd2l0aCB0aGUgYWR2YW5jZWQgY29tcHV0aW5nIHJlc291cmNlcyB0aGF0IHRoZXkgbmVlZCwgYW5kIHRoZXkndmUgYmVlbiB3b3JraW5nIHdpdGggcmVzZWFyY2ggZ3JvdXBzIGluIHZhcmlvdXMgY29tcHV0ZSBpbnRlbnNpdmUgZmllbGRzIHRvIGFjaGlldmUgdGhpcy4gCgpMYXRlciBpbiB0aGlzIG1vZHVsZSB3ZSdsbCBkaXNjdXNzIGluIGRldGFpbCBob3cgdG8gcmVxdWVzdCByZXNvdXJjZXMgdGhyb3VnaCBBUkMsIGJ1dCBmb3Igbm93IHdlJ2xsIGZvY3VzIG9uIHRoZSBzdG9yYWdlIHRvcGljIGFuZCBjb3ZlciBzb21lIGltcG9ydGFudCBzdG9yYWdlIG9wdGlvbnMgdGhhdCBBUkMgcHJvdmlkZXMuCgojIyMgRGF0YSBEZW4KCkRhdGEgRGVuIGlzIGEgbG93LWNvc3QsIGhpZ2hseSBkdXJhYmxlIHN0b3JhZ2Ugc3lzdGVtIG9wZXJhdGVkIGJ5IEFSQy4KCi0gVGFwZS1iYXNlZCBhcmNoaXZhbCBzdG9yYWdlCi0gVGhlIGxhcmdlc3QgYW5kIG1vc3QgYWZmb3JkYWJsZSBzdG9yYWdlIGF2YWlsYWJsZSB0aHJvdWdoIEFSQy4KLSBDYW4gb25seSBhY2Nlc3MgdGhpcyBpbmRpcmVjdGx5CiAgLSBpLmUuIHVzZSBHbG9idXMgdG8gaW50ZXJmYWNlIHdpdGggdGhpcyBzdG9yYWdlLiAKICAKPCEtLSBEdWUgdG8gaXRzIGFyY2hpdGVjdHVyZSwgc2xvdyBzcGVlZHMsIGFuZCBuZWVkIHRvIGVsaW1pbmF0ZSB1bm5lY2Vzc2FyeSByZWFkL3dyaXRlIG9wZXJhdGlvbnMgLS0+Cgo+IE5vdGU6IERhdGEgRGVuIGhhcyBhIGZpbGUgc2l6ZSBsaW1pdGF0aW9uIC0gaXQgZG9lcyBub3QgaGFuZGxlIGxhcmdlIGFtb3VudHMgb2Ygc21hbGwgZmlsZXMuIE9wdGltYWwgZmlsZSBzaXplIGlzIGluIHRoZSBtdWx0aS1naWdhYnl0ZSByYW5nZS4KPiBUaGUgbGltaXRhdGlvbiAxMCwwMDAgZmlsZXMgcGVyIFRCIG9mIHN0b3JhZ2UuCgoKIyMjIFR1cmJvCgpUdXJibyBpcyBhIGhpZ2gtY2FwYWNpdHksIHJlbGlhYmxlLCBhbmQgZmFzdCBzdG9yYWdlIHN5c3RlbSBvcGVyYXRlZCBieSBBUkMuIEl0IGlzIG1vcmUgY29zdGx5IHRoYW4gRGF0YSBEZW4uCgotIE1vcmUgY29zdGx5IHRoYW4gRGF0YSBEZW4KLSBUdW5lZCBmb3IgZmlsZXMgbW9kZXJhdGUgdG8gbGFyZ2UgaW4gc2l6ZSwgYnV0IGNhbiBhbHNvIGVhc2lseSBhY2NvbW9kYXRlIHNtYWxsIGZpbGVzCi0gQ2FuIGJlIGFjY2Vzc2VkIHRocm91Z2ggdGhlIEhpZ2gtUGVyZm9ybWFuY2UgQ29tcHV0aW5nIChIUEMpIGNsdXN0ZXIKCkZhc3Qgc3RvcmFnZSBsaWtlIFR1cmJvIGlzIHdlbGwtZXF1aXBwZWQgZm9yIGNvbXB1dGluZyBkaXJlY2x5IGZyb20gaXQuIFR1cmJvIHN1cHBvcnRzIGZhc3QgcmVhZC93cml0ZSB0aW1lcywgYW5kIGlzIGFuIGV4Y2VsbGVudCBwbGFjZSB0byBwZXJmb3JtIGFuYWx5c2VzLgoKCiMjIyBUdXJibyBhbmQgRGF0YSBEZW4gLSBDb3N0IERpZmZlcmVuY2UKCldlIGRpc2N1c3NlZCBhYm92ZSB0aGF0IERhdGEgRGVuIGlzIHNsb3csIHVuc3VpdGVkIGZvciBhbmFseXNpcywgeWV0IGNvc3QtZWZmZWN0aXZlLCB3aGlsZSBUdXJibyBpcyBmYXN0LCB3ZWxsLXR1bmVkIGZvciBhbmFseXNpcywgYW5kIG1vcmUgY29zdGx5LiBUbyBwdXQgc29tZSBudW1iZXJzIHRvIHRoaXMgcHJpY2UgZGlzY3Vzc2lvbiwgc2VlIHRoZSBmb2xsb3dpbmcgdGFibGUgb2YgY29zdCBwZXIgVEIgcGVyIHllYXI6Cgp8ICAgICAgICAgIHwgVW5yZXBsaWNhdGVkIHwgUmVwbGljYXRlZCB8CnwgLS0tLS0tLS06fCAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTp8IC0tLS0tLS0tLS06fAp8IFR1cmJvICAgIHwgJDc3Ljg4ICAgICAgICAgICAgICAgICAgfCAkMTU2LjIyICAgIHwKfCBEYXRhIERlbiB8IE5BICAgICAgICAgICAgICAgICAgICAgIHwgJDIwLjA0ICAgICB8CgpOb3RpY2UgdGhhdCBUdXJibyBzdG9yYWdlIGlzIGFib3V0IDh4IG1vcmUgY29zdGx5IHRoYW4gRGF0YSBEZW4gZm9yIHRoZSBzYW1lIGFtb3VudCBvZiByZXBsaWNhdGVkIHN0b3JhZ2UuCgo+Tm90ZTogRGF0YSBEZW4gaXMgb25seSBhdmFpbGFibGUgaW4gdGhlIHJlcGxpY2F0ZWQgZm9ybWF0LgoKPCEtLSBMSVZFX05PVEU6IFdlJ2xsIG1lbnRpb24gaG93IHJlc2VhcmNoZXJzIGNhbiBnZXQgYSBwb3J0aW9uIG9mIFR1cmJvIGFuZCBEYXRhIERlbiBhdCBubyBjb3N0IHRvIHRoZW0gLS0+CgoKIyMjIEhvbWUsIFNjcmF0Y2gsIHRtcCwgYW5kIG90aGVycwoKLSBIb21lIGRpcmVjdG9yeSAoODAgR0IgcXVvdGEpCiAgLSAvaG9tZS91bmlxbmFtZQotIFNjcmF0Y2ggZGlyZWN0b3J5ICgxMCBUQiBhbmQgMSwwMDAsMDAwIGZpbGUgcXVvdGEpCiAgLSAvc2NyYXRjaC9hY2NvdW50X3Jvb3QvYWNjb3VudC91bmlxbmFtZQogIC0gTm90IHBlcnNpc3RlbnQgb3ZlciB0aW1lCiAgICAtIEF1dG9tYXRpY2FsbHkgZGVsZXRlZCBpZiBub3QgYWNjZXNzZWQgaW4gNjAgZGF5cwotIExvY2FsIGRpc2sgKDQgVEIgc2hhcmVkKQogIC0gL3RtcAogIC0gTm90IHBlcnNpc3RlbnQgYWNyb3NzIG1hY2hpbmVzCgoKIyMjIEluc3RpdHV0aW9uYWwgU3RvcmFnZSB2cyBPdGhlciBTdG9yYWdlCgp8IEluc3RpdHV0aW9uYWwgfCBPdGhlciB8Cnw6LS0tLS0tLS0tLS0tLS0tIHw6LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHwKfCBUdXJibyAgICAgICAgICAgfCBMYXB0b3AgU3RvcmFnZSAgICAgICAgICAgICAgICAgICAgfAp8IERhdGEgRGVuICAgICAgICB8IFN0b3JhZ2Ugb24gYSBTaGFyZWQgTGFiIENvbXB1dGVyICB8CnwgSG9tZSAvIFNjcmF0Y2gqIHwgUG9ydGFibGUgSGFyZCBEcml2ZSAvIEZsYXNoIERyaXZlIHwKfCBNaVN0b3JhZ2UgICAgICAgfCBDbG91ZCBTdG9yYWdlICAgICAgICAgICAgICAgICAgICAgfAoKPGJyPgoKIyMgVU1SQ1AKCiFbXShpbWFnZXMvTW9kdWxlMDFfVU1SQ1BfcHJvdmlkZXMucG5nKQoKVGhlIGZpZ3VyZSBhYm92ZSBoaWdobGlnaHRzIHRoZSBtb3N0IGltcG9ydGFudCBhbmQgaW1wcmVzc2l2ZSBkZXRhaWxzIG9mIHRoZSBVTVJDUCwgYnV0IHlvdSBjYW4gZmluZCBmdWxsIGRldGFpbHMgb2YgdGhlIHJlc291cmNlcyBvZmZlcmVkIHRocm91Z2ggdGhpcyBwcm9ncmFtIG9uIFt0aGUgVU1SQ1AgcGFnZSBvZiBBUkMncyB3ZWJzaXRlXShodHRwczovL2l0cy51bWljaC5lZHUvYWR2YW5jZWQtcmVzZWFyY2gtY29tcHV0aW5nL3Jlc2VhcmNoLWNvbXB1dGluZy1wYWNrYWdlKS4KCiMjIyBTaWduaW5nIHVwIGZvciB0aGUgVU1SQ1AKCldpdGhpbiB0aGF0IHNpdGUsIHRoZXJlIGlzIGFub3RoZXIgcGFnZSB0aGF0IEkgaGlnaGx5IHJlY29tbWVuZCBhcyBhIGdyZWF0IHBsYWNlIHRvIHN0YXJ0IC0gdGhlIFtVTVJDUCBHZXR0aW5nIFN0YXJ0ZWQgR3VpZGVdKGh0dHBzOi8vaXRzLnVtaWNoLmVkdS9hZHZhbmNlZC1yZXNlYXJjaC1jb21wdXRpbmcvcmVzZWFyY2gtY29tcHV0aW5nLXBhY2thZ2UvZ2V0dGluZy1zdGFydGVkKS4gVGhlcmUgeW91J2xsIGZpbmQgZGV0YWlscyBhYm91dCB0aGUgc2lnbnVwIHByb2Nlc3MuIEFmdGVyIHNpZ25pbmcgdXAsIHlvdSdsbCBiZSBhYmxlIHRvIHVzZSBzb21lIG9mIHRoZSBudW1lcm91cyBjb21wdXRlIG5vZGVzIGF2YWlsYWJsZSB0aHJvdWdoIEFSQywgYXMgd2VsbCBhcyB0aGUgdmFyaW91cyBzdG9yYWdlIHRpZXJzIGRlc2NyaWJlZCBhYm92ZS4KCjxicj4KCiFbXShpbWFnZXMvTW9kdWxlMDFfc3RlcHNfZ2V0dGluZ19VTVJDUC5wbmcpCgo8YnI+Cgo8ZGV0YWlscz4KPHN1bW1hcnk+QWRkaXRpb25hbCBSZXNvdXJjZXMgQXZhaWxhYmxlIFRocm91Z2ggSElUUyBSQ0k8L3N1bW1hcnk+CgohW10oaW1hZ2VzL01vZHVsZTAxX3VtcmNwX3BsdXNfdW1yY2lfcHJvdmlkZXMucG5nKQoKSW4gYWRkaXRpb24gdG8gdGhlIHJlc291cmNlcyBwcm92aWRlZCB0aHJvdWdoIHRoZSBVTVJDUCwgc29tZSByZXNlYXJjaGVycyB3aXRoaW4gdGhlIG1lZGljYWwgc3lzdGVtIHdpbGwgaGF2ZSBhZGRpdG9uYWwgcmVzb3VyY2VzIGF2YWlsYWJsZSB0aHJvdWdoIFVNIEhlYWx0aCBJbmZvcm1hdGlvbiBUZWNobm9sb2d5ICYgU2VydmljZXMgKEhJVFMpLiBUaHJvdWdoIHN0cmF0ZWdpYyBpbnZlc3RtZW50cyBpbiBIaWdoIFBlcmZvcm1hbmNlIENvbXB1dGluZyBieSBNaWNoaWdhbiBNZWRpY2luZSwgZWxpZ2libGUgcmVzZWFyY2hlcnMgY2FuIGVuam95IGFkZGl0aW9uYWwgYWxsb2NhdGlvbnMgZm9yIHRoZSBkZXNjcmliZWQgcmVzb3VyY2VzIC0gbW9zdCBub3RhYmx5IHVubGltaXRlZCBEYXRhIERlbiBzdG9yYWdlLgoKSW4gdGhlIGRvY3VtZW50YXRpb24gZm9yIHRoZSBVTVJDUCBhbmQgdGhlIFVNUkNJLCB5b3UnbGwgc2VlIHRoYXQgdGhleSByZWNvbW1lbmQgZmlyc3QgdXNpbmcgdGhlIFVNUkNQIHJlc291cmNlcyAoYXZhaWxhYmxlIHRvIGFsbCB1bml2ZXJzaXR5IHJlc2VhcmNoZXJzKSBhbmQgdGhlbiB0cmFuc2l0aW9uaW5nIHRvIHRoZXNlIGFkZGl0aW9uYWwgSElUUyBVTVJDSSByZXNvdXJjZXMgKGF2YWlsYWJsZSB0byBNaWNoaWdhbiBNZWRpY2luZSByZXNlYXJjaGVycykgd2hlbiBwb3NzaWJsZS4gSW4gYW55IGNhc2UsIHNpbmNlIHRoZXNlIGFsbG9jYXRpb25zIGFyZSBtYW5hZ2VkIGJ5IEFSQyBmb3IgYWxsIHVuaXZlcmlzaXR5IHJlc2VhcmNoZXJzIC0gTWljaGlnYW4gTWVkaWNuZSBvciBvdGhlcndpc2UgLSB5b3UnbGwgYmUgdXNpbmcgdGhlIHNhbWUgZm9ybXMgYW5kIHByb2NlZHVyZXMgdG8gcmVxdWVzdCByZXNvdXJjZXMgYW5kIHVzZSB0aGVtLiBIb3dldmVyLCB0aGUgYmlsbGluZyBkZXRhaWxzIG1heSBjaGFuZ2UgZGVwZW5kaW5nIG9uIHRoaXMgZWxpZ2liaWxpdHkuCgpbTGluayB0byBISVRTIHBhZ2Ugb24gVU1SQ0ldKGh0dHBzOi8vaGl0cy5tZWRpY2luZS51bWljaC5lZHUvcmVzZWFyY2gtZWR1Y2F0aW9uL3Jlc2VhcmNoLWNvbXB1dGluZy1kYXRhLXN0b3JhZ2UvcmVzZWFyY2gtY29tcHV0aW5nLXBhY2thZ2UpCgo8L2RldGFpbHM+Cgo8YnI+CgojIyMgR3JlYXQgTGFrZXMsIEFybWlzMiwgYW5kIExpZ2h0aG91c2UgQ2x1c3RlcnMKClRoaXMgbW9kdWxlIG92ZXJhbGwgaXMgcHJpbWFyaWx5IGZvY3VzZWQgb24gc3RvcmFnZS1yZWxhdGVkIHRvcGljcy4gV2UndmUgYnJpZWZseSBtZW50aW9uZWQgdGhhdCBpbiBhZGRpdGlvbiB0byBzdG9yYWdlIHJlc291cmNlcywgQVJDIGFsc28gcHJvdmlkZXMgYWNjZXNzIHRvIGhpZ2gtcGVyZm9ybWFuY2UgY29tcHV0aW5nIChIUEMpIGhhcmR3YXJlIGFzIHdlbGwuIFdoaWxlIGluIHRoaXMgd29ya3Nob3Agd2UnbGwganVzdCBiZSBmb2N1c2luZyBvbiBvbmUgb2YgdGhlbSwgaW4gZmFjdCB0aGVyZSBhcmUgc2V2ZXJhbCBIUEMgY2x1c3RlcnMgdGhhdCBhcmUgYXZhaWxhYmxlIHRvIFVNaWNoIHJlc2VhcmNoZXJzLCBpbiBvcmRlciB0byBtZWV0IHZhcmlvdXMgbmVlZHMuCgpXaGVuIGRpc2N1c3NpbmcgcmVzZWFyY2ggbmVlZHMsIGVzcGVjaWFsbHkgaW4gYW50aWNpcGF0aW9uIG9mIHJlcXVlc3RpbmcgVU1SQ1AgcmVzb3VyY2VzIGFuZCBmaWxsaW5nIG91dCB0aGUgcmVxdWlyZWQgZm9ybSwgd2Ugc2hvdWxkIGRpc2N1c3MgYSBsaXR0bGUgYml0IGFib3V0IHRocmVlIEhQQyBvcHRpb25zIHByb3ZpZGVkIHRocm91Z2ggQVJDOgoKLSBHcmVhdCBMYWtlcwotIEFybWlzMiAoSElQQUEtYWxpZ25lZCkKLSBMaWdodGhvdXNlIChSZXNlYXJjaGVyLW93bmVkIGhhcmR3YXJlKQoKV2UnbGwgYmUgZGlzY3Vzc2luZyBHcmVhdCBMYWtlcyBhdCBsZW5ndGggdGhyb3VnaG91dCB0aGlzIHdvcmtzaG9wIGFuZCB1c2luZyBpdCBmb3Igb3VyIGV4YW1wbGUgYW5hbHlzZXMuIFdlIGNhbiB0aGluayBvZiBpdCBhcyBhIGdlbmVyYWwtcHVycG9zZSBIUEMgY2x1c3Rlciwgd2hpY2ggaXMgc3VpdGFibGUgZm9yIG1hbnkgZGlmZmVyZW50IGtpbmRzIG9mIHJlc2VhcmNoLgoKQXJtaXMyIGlzIHNpbWlsYXIgaW4gZmVlbCB0byB0aGUgR3JlYXQgTGFrZXMgY2x1c3RlciwgZXhjZXB0IGl0IGlzIGNvbmZpZ3VyZWQgd2l0aCBzcGVjaWZpYyBzZWN1cml0eSBtZWFzdXJlcyBpbiBwbGFjZSB0byBlbmFibGUgYW5hbHlzaXMgb2Ygc2Vuc2l0aXZlIGRhdGEsIHN1Y2ggYXMgZXhwb3J0LWNvbnRyb2xsZWQgb3IgSElQQUEgcHJvdGVjdGVkIGRhdGEuICBXaGVuIGZpbGxpbmcgb3V0IHRoZSBVTVJDUCBmb3JtLCB5b3UgY2FuIG1ha2Ugc2VsZWN0aW9ucyBmb3Igc2Vuc2l0aXZlIGRhdGEgbmVlZHMsIHdoaWNoIHdpbGwgcHJvdmlkZSBDUFUgaG91cnMgb24gQXJtaXMyIGFuZCBhc3NvY2lhdGVkIHN0b3JhZ2UuIFdlJ2xsIHNlZSBsYXRlciwgdGhhdCB3ZSBoYXZlIGZsZXhpYmlsaXR5IGluIGhvdyB3ZSBhbGxvY2F0ZSByZXNvdXJjZXMgYmV0d2VlbiBlLmcuIEdyZWF0IExha2VzIGFuZCBBcm1pczIuCgo+Tm90ZTogVGhlcmUgaXMgYSBzZXBhcmF0ZSwgc2VjdXJpdHktZW5oYW5jZWQgVHVyYm8gYWxsb2NhdGlvbiB0aGF0IGlzIGFsc28gSElQQUEgYWxpZ25lZCB0aGF0IHNob3VsZCBiZSB1c2VkIHdpdGggQXJtaXMyLgoKTGlnaHRob3VzZSBpcyBhbHNvIHNpbWlsYXIgaW4gZmVlbCB0byB0aGUgR3JlYXQgTGFrZXMgY2x1c3RlciwgZXhjZXB0IGl0IGlzIGEgY2x1c3RlciBjb21wcmlzZWQgZW50aXJlbHkgb2YgcmVzZWFyY2hlci1vd25lZCBoYXJkd2FyZS4gQ29udHJhc3RpbmcgdGhpcyB3aXRoIEdyZWF0IExha2VzIHdoZXJlIHdlIGFyZSBvbmx5IHJlc3BvbnNpYmxlIGZvciB0aGUgY29zdCBvZiB0aGUgcmVzb3VyY2VzIHdlIHVzZSwgb24gTGlnaHRob3VzZSwgYSByZXNlYXJjaGVyIHdpbGwgZnVuZCB0aGUgZW50aXJldHkgb2YgdGhlIGhhcmR3YXJlIGFuZCByZWNlaXZlIDEwMCUgb2YgaXRzIGF2YWlsYWJpbGl0eS4gVGhpcyBjYW4gYmUgYSBnb29kIGNob2ljZSBmb3IgcmVzZWFyY2hlcnMgd2hvIGFyZSBleHBlY3RlZCB0byBoYXZlIG5lYXItY29uc3RhbnQgY29tcHV0ZSB1c2FnZSBuZWVkcywgb3Igd2hvIHJlcXVpcmUgaW5zdGFudCBhdmFpbGFiaWxpdHkgb2YgSFBDIHJlc291cmNlcy4KCjwhLS0gTElWRV9OT1RFOiBMaW5rIHRvIHRoZSBJVFMgc2Vuc2l0aXZlIGRhdGEgZ3VpZGUsIGlzIGFsc28gYXZhaWxhYmxlIGF0IHRoZSAiVU1SQ1AgUmVxdWVzdGluZyBSZXNvdXJjZXMgR3VpZGUiOiBodHRwczovL3NhZmVjb21wdXRpbmcudW1pY2guZWR1L2RhdGFndWlkZS8/cT1ob21lIC0tPgoKPGJyPgoKTWFpbiBpZGVhczoKCiAtIFBJIG11c3QgYmUgdGhlIG9uZSB0byBmaWxsIG91dCBmb3JtCiAtIFBJIHdpbGwgYXV0b21hdGljYWxseSBiZWNvbWUgYW4gYWRtaW5pc3RyYXRvcgogLSBPdGhlcnMgY2FuIGJlY29tZSBhZG1pbmlzdHJhdG9ycyAobGFiIG1hbmFnZXIpIG9yIG1lbWJlcnMKCjxicj4KCiMjIyBBZG1pbmlzdHJhdG9ycyB2cyBVc2VycwoKfCAgICAgICAgICAgICAgfCBDaGFuZ2UgQWxsb2NhdGlvbnMgfCBBZGQvUmVtb3ZlIFVzZXJzIHwgVXNlIEdMIGNvbXB1dGUgdGltZSB8IFJlYWQvV3JpdGUgYWNjZXNzIHRvIFR1cmJvIHwgR2xvYnVzIEFkbWluIHwKfCAtLS0tLS0tLS0tLS0gfDotLS0tLS0tLS0tLS0tLS0tLS0gfDotLS0tLS0tLS0tLS0tLS0tIHw6LS0tLS0tLS0tLS0tLS0tLS0tLSB8Oi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIHw6LS0tLS0tLS0tLS0tLSB8CnwgUEkgICAgICAgICAgIHwg4pyFICAgICAgICAgICAgICAgICAgfCDinIUgICAgICAgICAgICAgICAgfCDij7MgICAgICAgICAgICAgICAgICAgfCDij7MgICAgICAgICAgICAgICAgICAgICAgICAgIHwg4pyFICAgICAgICAgICAgIHwKfCBMYWIgTWFuYWdlciAgfCDinIUgICAgICAgICAgICAgICAgICB8IOKchSAgICAgICAgICAgICAgICB8IOKPsyAgICAgICAgICAgICAgICAgICB8IOKPsyAgICAgICAgICAgICAgICAgICAgICAgICAgfCDinIUgICAgICAgICAgICAgfAp8IEdyYWQgU3R1ZGVudCB8ICAgICAgICAgICAgICAgICAgICB8ICAgICAgICAgICAgICAgICAgfCDinIUgICAgICAgICAgICAgICAgICAgfCDinIUgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAgICAgICAgICAgICB8Cgo+IExlZ2VuZDoKPgo+IOKchSA9IEZyZXF1ZW50Cj4KPiDij7MgPSBPY2Nhc2lvbmFsCgo8YnI+CgojIyMgUmVzb3VyY2UgTWFuYWdlbWVudCBQb3J0YWwKCiFbXShpbWFnZXMvTW9kdWxlMDFfcmVzb3VyY2VfbWFuYWdlbWVudF9wb3J0YWwucG5nKQoKQSBrZXkgcGFydCBvZiBob3cgd2Ugd2lsbCBtYW5hZ2Ugb3VyIEFSQyByZXNvdXJjZXMgaXMgdGhyb3VnaCB0aGVpciBSZXNvdXJjZSBNYW5hZ2VtZW50IFBvcnRhbCwgc2hvd24gaGVyZS4gCgpUaGlzIHBvcnRhbCBjYW4gYmUgZm91bmQgYXQgW2h0dHBzOi8vcG9ydGFsLmFyYy51bWljaC5lZHVdKGh0dHBzOi8vcG9ydGFsLmFyYy51bWljaC5lZHUpLgoKTGV0J3Mgbm90IGdvIHRoZXJlIGp1c3QgeWV0LCBidXQgZGlzY3VzcyB3aGF0IHdlIHNlZSBpbiB0aGlzIHNjcmVlbnNob3QsIGFuZCB0aGVuIG1vdmUgb24gdG8gdGhlIGV4ZXJjaXNlLiBXZSdsbCBsZWFybiBhYm91dCBzb21lIG9mIHRoZSBkaWZmZXJlbmNlcyB0aGF0IHdlIG1heSBzZWUgZGVwZW5kaW5nIG9uIG91ciBjdXJyZW50IHN0YXR1cyBhbmQgZXhpc3RpbmcgcmVzb3VyY2VzLCBhbmQgd2UnbGwgbGVhcm4gdGhhdCB0aGVyZSBhcmUgc29tZSBkaWZmZXJlbmNlcyBpbiB0aGUgYmVzdCB3YXkgdG8gcmVxdWVzdCBVTVJDUCByZXNvdXJjZXMgZGVwZW5kaW5nIG9uIHRoZXNlIGRldGFpbHMuCgo8YnI+CgoKIyMgRXhlcmNpc2U6IE1ha2UgYSBHYW1lIFBsYW4gZm9yIFVNUkNQCgpJbiB0aGlzIGV4ZXJjaXNlIHdlIHdpbGwgZGV0ZXJtaW5lIHRoZSBuZWVkcyBmb3IgVU1SQ1AgZW5yb2xsbWVudCBieSBhdWRpZW5jZSAmIHRoZWlyIFBJcy4KClRoZXJlIGFyZSB0d28gdmlkZW8gbGlua3MgYmVsb3cuIFRoZXJlJ3MgYSBkZWNlbnQgYW1vdW50IG9mIG92ZXJsYXAgaW4gdGhlIGNvbnRlbnQsIGFuZCB0aGUgbWFpbiBpZGVhcyBhcmUgcHJldHR5IHNpbWlsYXIuIEluIGVpdGhlciBjYXNlLCB3ZSB3aWxsIGJlIGZpbGxpbmcgb3V0IHRoZSBVTVJDUCB3ZWIgZm9ybXMgYXMgc2hvd24gaW4gdGhlIHZpZGVvcy4gRGVwZW5kaW5nIG9uIG91ciBjdXJyZW50IHN0YXR1cyB0aG91Z2gsIHdlIG1heSBoYXZlIGRpZmZlcmVudCBvcHRpbWFsIHN0YXJ0aW5nIHBvaW50cyBhbmQgZGlmZmVyZW50IHRoaW5ncyB0byBjb25zaWRlci4KCjwhLS0gTElWRV9OT1RFOiBUaGUgbWFpbiBkaWZmZXJlbmNlIGlzIHRoYXQgdGhlIHdlYi1mb3JtIGZvciByZXF1ZXN0aW5nIHJlc291cmNlcyBjYW4gYXV0b21hdGljYWxseSBkZXRlY3Qgc29tZSBleGlzdGluZyByZXNvdXJjZXMuIEluIHRoZSB2aWRlb3MgaXQgZGVtb25zdHJhdGVzIG5hdmlnYXRpbmcgdG8gdGhhdCBmb3JtIGluIGRpZmZlcmVudCB3YXlzIC0gdGhhdCdzIG9uZSB0aGluZyB0byBwYXkgYXR0ZW50aW9uIHRvLiBUaGVyZSBhcmUgbWFueSBwb3NzaWJpbGl0aWVzIG9mIGV4aXN0aW5nIHNldHVwcywgYW5kIG5vdCBldmVyeXRoaW5nIHdpbGwgYmUgYXV0b21hdGljYWxseSBkZXRlY3RlZCAtLT4KCjxicj4KCltVTVJDUCBIb3cgdG8gRW5yb2xsIC0gTmV3IHRvIEFSQyBTZXJ2aWNlc10oaHR0cHM6Ly93d3cubWl2aWRlby5pdC51bWljaC5lZHUvbWVkaWEvdC8xX2k4ajVwdWp6LzE4MTg2MDU2MSkKCjxicj4KCltVTVJDUCBIb3cgdG8gRW5yb2xsIC0gRXhpc3RpbmcgT3duZXIgb2YgQVJDIFNlcnZpY2VzXShodHRwczovL3d3dy5taXZpZGVvLml0LnVtaWNoLmVkdS9tZWRpYS90LzFfem5mNnlnazAvMTgxODYwNTYxKQoKPGJyPgo8YnI+Cgp8IFtQcmV2aW91cyBsZXNzb25dKE1vZHVsZV9jb21wdXRlX2Vudmlyb25tZW50X2RlZmluaXRpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlX2dyZWF0X2xha2VzX2NsdXN0ZXIuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module_storage_best_practices_UMRCP.md");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

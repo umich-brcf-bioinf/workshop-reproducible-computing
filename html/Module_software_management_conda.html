@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Software Management and Conda</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Overview &amp; Quick-Start
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+    </li>
+    <li>
+      <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+    </li>
+    <li>
+      <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+    </li>
+    <li>
+      <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    UMich Resources
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
+    </li>
+    <li>
+      <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Software Management
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_software_management_conda.html">Software management with Conda</a>
+    </li>
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="exercise-2.html">Independent Exercise</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Workflow automation
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Data Management
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_raw_data_management.html">Raw Data Management</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module_wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Software Management and Conda</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>learn about software management</li>
+<li>discuss package managers</li>
+<li>discuss conda as a software management solution</li>
+<li>learn how to set up conda</li>
+<li>learn how to create and use our own conda environments</li>
+</ul>
+<div id="software-management" class="section level2">
+<h2>Software Management</h2>
+<p>Software management is something that is not typically appreciated
+until it is missing. In your typical day-to-day computing tasks,
+software management is an automatic background process, and generally
+this is how we want things to be.</p>
+<p>When performing research computing tasks, however, you may run into
+situations when this automatic background handling of software
+requirements is not sufficient. You may have very specific version
+requirements, or you may have disparate (or incompatible!) software
+needs for different tasks.</p>
+<div id="package-managers" class="section level3">
+<h3>Package Managers</h3>
+<p>We likely all have some experience with software management. I’d like
+to examine our experience with software management, and promote
+appreciation for the work that often happens behind the scenes.</p>
+<!-- LIVE_NOTE: Slack polling for who uses Windows, who uses MacOS, Linux -->
+<!-- LIVE_NOTE: After polling, relate to automatic updates, App Store, Windows Updates, etc. -->
+<p><br> <br> <br></p>
+<p>A fictional, simple example of a dependency tree</p>
+<p><img src="images/Module04_dependencies_long_list.png" /></p>
+<p><br></p>
+<details>
+<summary>
+A tangled mess of a dependency tree, for a real academic software
+package
+</summary>
+<p><img src="images/Module04_dependencies_xsdk_tangled_mess.png" /></p>
+</details>
+<p><br></p>
+</div>
+<div id="the-need-for-modular-solutions" class="section level3">
+<h3>The Need for Modular Solutions</h3>
+<p><img src="images/Module04_dependencies_incompatibility.png" /></p>
+<p>Here we demonstrate another scenario that we might encounter when
+trying to manage our software, especially as our list of software
+requirements becomes increasingly lengthy or increasingly bespoke.</p>
+<p>In the figure above, we show what could happen when we try to use a
+cutting-edge version of our fictional software package ‘Applesauce2’
+alongside another package ‘Orange-tools’</p>
+<!-- LIVE_NOTE: Ask about software incompatibility experiences when using research software -->
+<!-- LIVE_NOTE: Relate our typical experience of only having a single compute environment to work with. Once we install something, generally it stays there forever unless we uninstall it manually. Even after uninstalling it, some artifacts may remain and cause interference -->
+<p><br></p>
+</div>
+</div>
+<div id="conda" class="section level2">
+<h2>Conda</h2>
+<!-- FIXME: Conda icon or website banner here -->
+<ul>
+<li>Broad support for many types of software packages
+<ul>
+<li>Across languages and platforms</li>
+</ul></li>
+<li>Pluggable - Ability to switch between software environments at
+will</li>
+<li>Automatically handles software requirements</li>
+<li>A ‘Conda recipe’ is used to list specifications
+<ul>
+<li>Used during environment creation</li>
+<li>Can communicate requirements to others when shared</li>
+</ul></li>
+</ul>
+<div id="allows-us-to-manage-our-own-software" class="section level3">
+<h3>Allows Us to Manage Our Own Software</h3>
+<p>For us as users of research software, we’re primarily interested in
+conda because it grants us the ability to manage our own software. In
+addition, it provides the immense benefit of providing pluggability to
+our software management capabilities.</p>
+<!-- LIVE_NOTE: Relate to not being able to use deeptools, no module available in prev module -->
+</div>
+<div id="simplifies-distribution-of-new-software"
+class="section level3">
+<h3>Simplifies Distribution of New Software</h3>
+<p>When we’re dealing with academic software, a lot of times we’re
+dealing with software is ‘cutting-edge’ - the developers may be pushing
+the limits of existing software solutions and run into problems. Often,
+the develompent of cutting-edge software will find these problems in
+established libraries, and they will be addressed in tandem with the
+development of the new cutting-edge software that has flushed out these
+new edge-cases. This means that we’re often relying on very recent
+versions, or as we alluded to above, very specific versions of various
+software dependencies.</p>
+<p>The platform allows developers to record a project’s environment in a
+shareable ‘recipe,’ simplifying the replication of software setups. This
+streamlines collaboration and ensures that software runs consistently
+across different machines.</p>
+<p>For developers, Conda breaks down software distribution into a few
+straightforward steps. By defining and packaging an application’s
+environment, they make it effortlessly accessible, thereby encouraging
+broader use and facilitating user adoption.</p>
+</div>
+<div id="environments" class="section level3">
+<h3>Environments</h3>
+<p>The environment is what is created by Conda, it is the culmination of
+the dependency solving and installation completion that conda takes care
+of during the creation stage. After it is created, it will remain
+available and can be enabled/disabled at will.</p>
+<p>To enable and disable an existing conda environment, we will use the
+command terms <code>conda activate &lt;environment name&gt;</code> and
+<code>conda deactivate</code>.</p>
+<p>With the environment activated, software is made available, relevant
+commands become callable, etc., and when it’s deactivated, the software
+becomes unavailable again.</p>
+<p>Quick aside about <code>$PATH</code> - it is one of the tricks that
+conda uses in order to achieve this pluggable capability that we’ve been
+talking about. the <code>$PATH</code> environment variable is used to
+specify and prioritize software locations. We’ll see this in action
+during our exercises below.</p>
+</div>
+<div id="a-couple-of-quick-notes" class="section level3">
+<h3>A Couple of Quick Notes</h3>
+<ul>
+<li>Conda provides pluggable capability, but it does not offer a high
+degree of isolation from other software on your system.</li>
+<li>We use ‘Conda’ as a generalized term. There are several variations
+including ‘Anaconda’ and ‘Miniconda’.
+<ul>
+<li>Anaconda comes pre-bundled with a plethora of common python and data
+science packages.</li>
+<li>Miniconda starts out as more of a blank slate.</li>
+<li>We will be installing Miniconda and using it in our exercises.</li>
+</ul></li>
+</ul>
+<p><br></p>
+<details>
+<summary>
+Packages and Channels
+</summary>
+<p>We want to get started using Conda fairly quickly and give practical
+tips for using it in our HPC ecosystem, so we’re not going to cover some
+of the finer details about how conda creates environments.</p>
+<p>We really start to care about these details when we are creating our
+own conda environments.</p>
+<p>There is an excellent online resource <a
+href="https://edcarp.github.io/introduction-to-conda-for-data-scientists/03-using-packages-and-channels/index.html">here,
+covering the detailed structure of conda packages and how it works under
+the hood</a></p>
+<p>Basically, conda packages are bundled up software, system-level
+libraries, dependency libraries, metadata, etc. into a particular
+structure. This organized structure allows conda to achieve its package
+management duties while retaining the beneficial characteristics and
+capabilities that we enjoy.</p>
+</details>
+<p><br></p>
+</div>
+</div>
+<div id="miniconda-installation-and-configuration-details"
+class="section level2">
+<h2>Miniconda Installation and Configuration Details</h2>
+<p>So far we’ve described many of the details of how conda works and how
+we can use it, both to create new environments and to
+activate/deactivate them at will. Since we’ll be installing and
+configuring it during this workshop, we have some notes here that we’ll
+quickly cover before jumping in.</p>
+<div id="miniconda-installation-overview" class="section level3">
+<h3>Miniconda Installation Overview</h3>
+<ul>
+<li>We will use the Miniconda installer and each of us will install
+miniconda to our <code>$WORKSHOP_HOME</code> directory on Great
+Lakes.</li>
+<li><a
+href="https://docs.anaconda.com/free/miniconda/miniconda-install/">Link
+to Miniconda installation instructions</a></li>
+<li>Together, we’ll verify the file integrity of the installer and then
+use it to guide us through the installation process.</li>
+</ul>
+<p><br></p>
+</div>
+<div id="conda-configuration-with-.condarc-overview"
+class="section level3">
+<h3>Conda Configuration with .condarc Overview</h3>
+<ul>
+<li>Condarc file contains configuration details for your conda
+installation.</li>
+<li><a
+href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html">Link
+to documentation on using condarc</a></li>
+<li>In our configuration exercise we will set <code>envs_dirs</code>
+within our condarc file to a location within our turbo storage.</li>
+</ul>
+<p><br></p>
+</div>
+</div>
+<div id="exercise---conda-install-and-configure" class="section level2">
+<h2>Exercise - Conda Install and Configure</h2>
+<p>Following along with instructor, learners will install miniconda and
+create a <code>.condarc</code> file.</p>
+<details>
+<summary>
+Miniconda Install and Configure - Solution
+</summary>
+<p><code>sha256sum Miniconda3-latest-Linux-x86_64.sh  # Check result against the miniconda installer page</code></p>
+<p><code>./Miniconda3-latest-Linux-x86_64.sh -p ${WORKSHOP_HOME}/miniconda3</code></p>
+<blockquote>
+<p>Note: At the end, when asked about setting up conda initialization,
+we chose ‘no’, and instead opted to create a separate
+conda_initialization file that we can <code>source</code> when we want
+to use conda.</p>
+</blockquote>
+<p><code>nano ${WORKSHOP_HOME}/initialize_conda_workshop.sh</code></p>
+<p>Content of <code>initialize_conda_workshop.sh</code>:</p>
+<p><code>eval "$(/nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/miniconda3/bin/conda shell.bash hook)"</code></p>
+<p>Then we can
+<code>source ${WORKSHOP_HOME}/initialize_conda_workshop.sh</code> and
+notice <code>(base)</code> appears in our prompt, an indicator that the
+<code>base</code> environment of our conda installation is
+activated.</p>
+<p><code>mkdir project_analysis/conda_envs</code></p>
+<p><code>nano ~/.condarc  # Add an entry for 'envs_dirs' in our condarc</code></p>
+<p>As an alternative to nano, we can use this one-liner (! Only do this
+if you are sure you don’t have an existing <code>~/.condarc</code>, it
+would be overwritten!):</p>
+<p><code>echo -e "envs_dirs:\n  - ${WORKSHOP_HOME}/project_analysis/conda_envs" &gt; ~/.condarc</code></p>
+</details>
+<!-- LIVE_NOTE: One-liner with libmamba solver
+`echo -e "envs_dirs:\n  - ${WORKSHOP_HOME}/project_analysis/conda_envs\nsolver: libmamba" > ~/.condarc` -->
+<!-- LIVE_NOTE: Zoom poll to verify miniconda installation location with `ls` and verify condarc file with `cat` -->
+<p><br></p>
+</div>
+<div id="exercise---conda-activate-make-bigwig-files"
+class="section level2">
+<h2>Exercise - Conda Activate, Make BigWig Files</h2>
+<p>Following along with instructor, learners will activate an existing
+environment. We’ll demonstrate addition to the $PATH (and using
+<code>which</code>). Then, we’ll create a visualization file for
+sample_A - A BigWig File.</p>
+<details>
+<summary>
+Conda Activate, Make Bigwig - Solution
+</summary>
+<p><code>mkdir filter_viz_conda</code></p>
+<p><code>srun --pty --job-name=${USER}_bamcoverage_sample_A --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:30:00 /bin/bash</code></p>
+<p><code>conda activate /nfs/turbo/umms-bioinf-wkshp/workshop/shared-envs/samtools_deeptools/</code></p>
+<p><code>echo $PATH</code></p>
+<p><code>which bamCoverage</code></p>
+<p><code>bamCoverage -b input_bams/sample_A.genome.bam -o filter_viz_conda/sample_A.genome.bigwig</code></p>
+<blockquote>
+<p>Note: Now we’ll go to <a href="https://igv.org/app/"
+class="uri">https://igv.org/app/</a> and visualize what this looks like.
+Select mm10 as genome. Track URL: <a
+href="https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.genome.bigwig"
+class="uri">https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.genome.bigwig</a></p>
+</blockquote>
+</details>
+<p><br></p>
+</div>
+<div id="demonstration---conda-create" class="section level2">
+<h2>Demonstration - Conda Create</h2>
+<p>Instructor will demonstrate creating a simple conda environment on
+the command line.</p>
+<p>We’ll then ask about how to create a slightly more complicated conda
+environment. We’ll start a thread and learners will respond and/or vote
+on the command that they would use.</p>
+<details>
+<summary>
+Conda Create Demo - Solution
+</summary>
+<p><code>conda search -c bioconda samtools</code></p>
+<p><code>srun --pty --job-name=conda_create_demo --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
+<p><code>conda create -n samtools -c bioconda -c conda-forge samtools=1.20</code></p>
+</details>
+<p><br></p>
+</div>
+<div id="exercise---srun-and-conda-create" class="section level2">
+<h2>Exercise - <code>srun</code> and Conda Create</h2>
+<p>Following along with instructor, we’ll launch an srun job and then
+create a conda environment in it. After it’s created, we’ll test it by
+activating and deactivating it. While active, we’ll check things like
+<code>$PATH</code> and use <code>which</code> to confirm that it’s
+working as intended.</p>
+<details>
+<summary>
+Conda Create - Solution
+</summary>
+<p><code>srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
+<p><code>conda create -n samtools_deeptools -c bioconda -c conda-forge samtools=1.20 deeptools=3.5</code></p>
+</details>
+<p><br></p>
+</div>
+<div id="exercise---conda-export" class="section level2">
+<h2>Exercise - Conda Export</h2>
+<p>Following along with the instructor, we’ll use Conda’s export
+functionality to create an export - a more complete recipe with all
+dependencies and their versions fully listed.</p>
+<details>
+<summary>
+Conda Export - Solution
+</summary>
+<p><code>conda activate samtools_deeptools</code></p>
+<p><code>conda export &gt; ${WORKSHOP_HOME}/project_analysis/conda_envs/export_samtools_deeptools.yaml</code></p>
+<!-- LIVE_NOTE: Allude to the idea of time-based durability -->
+</details>
+<p><br></p>
+</div>
+<div id="exercise---srun-conda-filtering-our-bams"
+class="section level2">
+<h2>Exercise - <code>srun</code>, Conda, Filtering our BAMs</h2>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>. Once we’ve entered the running job, we’ll
+activate our conda environment and use samtools to filter our BAM file
+just as we did in the <code>lmod</code> exercises.</p>
+<!-- LIVE_NOTE: We'll just do sample_A -->
+<!-- LIVE_NOTE: Make sure to `module list` and confirm we're not using `samtools` -->
+<details>
+<summary>
+<code>srun</code>, Conda, Filtering BAM - Solution
+</summary>
+<p><code>srun --pty --job-name=${USER}_conda_filterbams --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
+<p><code>samtools view -o filter_viz_conda/sample_A.chr19.bam input_bams/sample_A.genome.bam 19</code></p>
+<blockquote>
+<p>Note: Make sure to <code>module list</code> and confirm we’re not
+using the samtools module - the LMOD module and conda environment would
+interfere with one another!</p>
+</blockquote>
+</details>
+<p><br></p>
+</div>
+<div id="independent-exercise---sbatch-conda-filtering-out-bams"
+class="section level2">
+<h2>Independent Exercise - SBATCH, Conda, Filtering out BAMs</h2>
+<p><a href="exercise-2.html">Link to Independent Exercise</a></p>
+<p><br></p>
+</div>
+<div id="exercise---srun-conda-sanity-check-and-index-bam"
+class="section level2">
+<h2>Exercise - <code>srun</code>, Conda, Sanity Check and Index BAM</h2>
+<!-- LIVE_NOTE: Just doing sample_A -->
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>. Once we’ve entered the running job, we’ll
+activate our conda environment and use samtools to perform a sanity
+check on our filtered BAM files. We’ll also index one of our BAM files -
+sample_A. This will set us up for the next step.</p>
+<details>
+<summary>
+<code>srun</code>, Conda, Sanity Check, Index BAM - Solution
+</summary>
+<p><code>srun --pty --job-name=${USER}_conda_check_and_index --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
+<p><code>conda activate samtools_deeptools</code></p>
+<p><code>samtools view filter_viz_conda/sample_A.chr19.bam | wc -l</code></p>
+<p><code>samtools index filter_viz_conda/sample_A.chr19.bam</code></p>
+</details>
+</div>
+<div id="exercise---srun-conda-creating-bigwigs" class="section level2">
+<h2>Exercise - <code>srun</code>, Conda, Creating Bigwigs</h2>
+<p>Now we’ll create files for visualization of our filtered BAMs, as
+another way to check our results.</p>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>. Once we’ve entered the running job, we’ll
+activate our conda environment and use <code>bamCoverage</code> to
+create a bigwig file for sample_A.</p>
+<details>
+<summary>
+<code>srun</code>, Conda, Create Bigwig - Solution
+</summary>
+<p><code>srun --pty --job-name=${USER}_conda_bigwigs --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
+<p><code>bamCoverage -b filter_viz_conda/sample_A.chr19.bam -o filter_viz_conda/sample_A.chr19.bigwig</code></p>
+<blockquote>
+<p>Note: Now we’ll go to <a href="https://igv.org/app/"
+class="uri">https://igv.org/app/</a> and visualize what this looks like.
+Select mm10 as genome. Track URL: <a
+href="https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.filtered.bigwig"
+class="uri">https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.filtered.bigwig</a></p>
+</blockquote>
+</details>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<p>Conda allows us to install and manage our own software. On a
+multi-user system like Great Lakes, this is very powerful.</p>
+<p>Conda is basically a package manager - it is software that manages
+bundles of other software - but it has additional capabilities that make
+it great for reproducibility.</p>
+<!-- LIVE_NOTE: Remind about conda recipes that we can share, allowing them to be built on other systems or by other people -->
+<p>It provides pluggability to our software needs. When we need a wide
+variety of tools at different times, with some being incompatible with
+one another, this becomes critical.</p>
+<p>When given a set of software requirement specifications, Conda
+handles all of the dependencies and creates a somewhat contained
+environment that we can <code>activate</code> and
+<code>deactivate</code> as needed.</p>
+<p><br></p>
+<div id="handy-links" class="section level3">
+<h3>Handy Links</h3>
+<ul>
+<li><a
+href="https://docs.anaconda.com/free/miniconda/miniconda-install/">Miniconda
+installation instructions</a></li>
+<li><a
+href="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh">Miniconda
+downloads page</a></li>
+<li><a
+href="https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html">Configuration
+with condarc</a></li>
+</ul>
+<p><br></p>
+<hr />
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module03b_great_lakes_cluster.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a
+href="Module05_containers_docker_singularity.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiU29mdHdhcmUgTWFuYWdlbWVudCBhbmQgQ29uZGEiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogZmFsc2UKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBsZWFybiBhYm91dCBzb2Z0d2FyZSBtYW5hZ2VtZW50CiogZGlzY3VzcyBwYWNrYWdlIG1hbmFnZXJzCiogZGlzY3VzcyBjb25kYSBhcyBhIHNvZnR3YXJlIG1hbmFnZW1lbnQgc29sdXRpb24KKiBsZWFybiBob3cgdG8gc2V0IHVwIGNvbmRhCiogbGVhcm4gaG93IHRvIGNyZWF0ZSBhbmQgdXNlIG91ciBvd24gY29uZGEgZW52aXJvbm1lbnRzCgojIyBTb2Z0d2FyZSBNYW5hZ2VtZW50CgpTb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIHNvbWV0aGluZyB0aGF0IGlzIG5vdCB0eXBpY2FsbHkgYXBwcmVjaWF0ZWQgdW50aWwgaXQgaXMgbWlzc2luZy4gSW4geW91ciB0eXBpY2FsIGRheS10by1kYXkgY29tcHV0aW5nIHRhc2tzLCBzb2Z0d2FyZSBtYW5hZ2VtZW50IGlzIGFuIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIHByb2Nlc3MsIGFuZCBnZW5lcmFsbHkgdGhpcyBpcyBob3cgd2Ugd2FudCB0aGluZ3MgdG8gYmUuCgpXaGVuIHBlcmZvcm1pbmcgcmVzZWFyY2ggY29tcHV0aW5nIHRhc2tzLCBob3dldmVyLCB5b3UgbWF5IHJ1biBpbnRvIHNpdHVhdGlvbnMgd2hlbiB0aGlzIGF1dG9tYXRpYyBiYWNrZ3JvdW5kIGhhbmRsaW5nIG9mIHNvZnR3YXJlIHJlcXVpcmVtZW50cyBpcyBub3Qgc3VmZmljaWVudC4gWW91IG1heSBoYXZlIHZlcnkgc3BlY2lmaWMgdmVyc2lvbiByZXF1aXJlbWVudHMsIG9yIHlvdSBtYXkgaGF2ZSBkaXNwYXJhdGUgKG9yIGluY29tcGF0aWJsZSEpIHNvZnR3YXJlIG5lZWRzIGZvciBkaWZmZXJlbnQgdGFza3MuCgojIyMgUGFja2FnZSBNYW5hZ2VycwoKV2UgbGlrZWx5IGFsbCBoYXZlIHNvbWUgZXhwZXJpZW5jZSB3aXRoIHNvZnR3YXJlIG1hbmFnZW1lbnQuIEknZCBsaWtlIHRvIGV4YW1pbmUgb3VyIGV4cGVyaWVuY2Ugd2l0aCBzb2Z0d2FyZSBtYW5hZ2VtZW50LCBhbmQgcHJvbW90ZSBhcHByZWNpYXRpb24gZm9yIHRoZSB3b3JrIHRoYXQgb2Z0ZW4gaGFwcGVucyBiZWhpbmQgdGhlIHNjZW5lcy4KCjwhLS0gTElWRV9OT1RFOiBTbGFjayBwb2xsaW5nIGZvciB3aG8gdXNlcyBXaW5kb3dzLCB3aG8gdXNlcyBNYWNPUywgTGludXggLS0+Cgo8IS0tIExJVkVfTk9URTogQWZ0ZXIgcG9sbGluZywgcmVsYXRlIHRvIGF1dG9tYXRpYyB1cGRhdGVzLCBBcHAgU3RvcmUsIFdpbmRvd3MgVXBkYXRlcywgZXRjLiAtLT4KCjxicj4KPGJyPgo8YnI+CgpBIGZpY3Rpb25hbCwgc2ltcGxlIGV4YW1wbGUgb2YgYSBkZXBlbmRlbmN5IHRyZWUKCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2xvbmdfbGlzdC5wbmcpCgo8YnI+Cgo8ZGV0YWlscz4KPHN1bW1hcnk+QSB0YW5nbGVkIG1lc3Mgb2YgYSBkZXBlbmRlbmN5IHRyZWUsIGZvciBhIHJlYWwgYWNhZGVtaWMgc29mdHdhcmUgcGFja2FnZTwvc3VtbWFyeT4KCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX3hzZGtfdGFuZ2xlZF9tZXNzLnBuZykKCjwvZGV0YWlscz4KCjxicj4KCiMjIyBUaGUgTmVlZCBmb3IgTW9kdWxhciBTb2x1dGlvbnMKCiFbXShpbWFnZXMvTW9kdWxlMDRfZGVwZW5kZW5jaWVzX2luY29tcGF0aWJpbGl0eS5wbmcpCgpIZXJlIHdlIGRlbW9uc3RyYXRlIGFub3RoZXIgc2NlbmFyaW8gdGhhdCB3ZSBtaWdodCBlbmNvdW50ZXIgd2hlbiB0cnlpbmcgdG8gbWFuYWdlIG91ciBzb2Z0d2FyZSwgZXNwZWNpYWxseSBhcyBvdXIgbGlzdCBvZiBzb2Z0d2FyZSByZXF1aXJlbWVudHMgYmVjb21lcyBpbmNyZWFzaW5nbHkgbGVuZ3RoeSBvciBpbmNyZWFzaW5nbHkgYmVzcG9rZS4KCkluIHRoZSBmaWd1cmUgYWJvdmUsIHdlIHNob3cgd2hhdCBjb3VsZCBoYXBwZW4gd2hlbiB3ZSB0cnkgdG8gdXNlIGEgY3V0dGluZy1lZGdlIHZlcnNpb24gb2Ygb3VyIGZpY3Rpb25hbCBzb2Z0d2FyZSBwYWNrYWdlICdBcHBsZXNhdWNlMicgYWxvbmdzaWRlIGFub3RoZXIgcGFja2FnZSAnT3JhbmdlLXRvb2xzJwoKPCEtLSBMSVZFX05PVEU6IEFzayBhYm91dCBzb2Z0d2FyZSBpbmNvbXBhdGliaWxpdHkgZXhwZXJpZW5jZXMgd2hlbiB1c2luZyByZXNlYXJjaCBzb2Z0d2FyZSAtLT4KCjwhLS0gTElWRV9OT1RFOiBSZWxhdGUgb3VyIHR5cGljYWwgZXhwZXJpZW5jZSBvZiBvbmx5IGhhdmluZyBhIHNpbmdsZSBjb21wdXRlIGVudmlyb25tZW50IHRvIHdvcmsgd2l0aC4gT25jZSB3ZSBpbnN0YWxsIHNvbWV0aGluZywgZ2VuZXJhbGx5IGl0IHN0YXlzIHRoZXJlIGZvcmV2ZXIgdW5sZXNzIHdlIHVuaW5zdGFsbCBpdCBtYW51YWxseS4gRXZlbiBhZnRlciB1bmluc3RhbGxpbmcgaXQsIHNvbWUgYXJ0aWZhY3RzIG1heSByZW1haW4gYW5kIGNhdXNlIGludGVyZmVyZW5jZSAtLT4KCjxicj4KCiMjIENvbmRhCgo8IS0tIEZJWE1FOiBDb25kYSBpY29uIG9yIHdlYnNpdGUgYmFubmVyIGhlcmUgLS0+CgotIEJyb2FkIHN1cHBvcnQgZm9yIG1hbnkgdHlwZXMgb2Ygc29mdHdhcmUgcGFja2FnZXMKICAtIEFjcm9zcyBsYW5ndWFnZXMgYW5kIHBsYXRmb3JtcwotIFBsdWdnYWJsZSAtIEFiaWxpdHkgdG8gc3dpdGNoIGJldHdlZW4gc29mdHdhcmUgZW52aXJvbm1lbnRzIGF0IHdpbGwKLSBBdXRvbWF0aWNhbGx5IGhhbmRsZXMgc29mdHdhcmUgcmVxdWlyZW1lbnRzCi0gQSAnQ29uZGEgcmVjaXBlJyBpcyB1c2VkIHRvIGxpc3Qgc3BlY2lmaWNhdGlvbnMKICAtIFVzZWQgZHVyaW5nIGVudmlyb25tZW50IGNyZWF0aW9uCiAgLSBDYW4gY29tbXVuaWNhdGUgcmVxdWlyZW1lbnRzIHRvIG90aGVycyB3aGVuIHNoYXJlZAoKIyMjIEFsbG93cyBVcyB0byBNYW5hZ2UgT3VyIE93biBTb2Z0d2FyZQoKRm9yIHVzIGFzIHVzZXJzIG9mIHJlc2VhcmNoIHNvZnR3YXJlLCB3ZSdyZSBwcmltYXJpbHkgaW50ZXJlc3RlZCBpbiBjb25kYSBiZWNhdXNlIGl0IGdyYW50cyB1cyB0aGUgYWJpbGl0eSB0byBtYW5hZ2Ugb3VyIG93biBzb2Z0d2FyZS4gSW4gYWRkaXRpb24sIGl0IHByb3ZpZGVzIHRoZSBpbW1lbnNlIGJlbmVmaXQgb2YgcHJvdmlkaW5nIHBsdWdnYWJpbGl0eSB0byBvdXIgc29mdHdhcmUgbWFuYWdlbWVudCBjYXBhYmlsaXRpZXMuCgo8IS0tIExJVkVfTk9URTogUmVsYXRlIHRvIG5vdCBiZWluZyBhYmxlIHRvIHVzZSBkZWVwdG9vbHMsIG5vIG1vZHVsZSBhdmFpbGFibGUgaW4gcHJldiBtb2R1bGUgLS0+CgojIyMgU2ltcGxpZmllcyBEaXN0cmlidXRpb24gb2YgTmV3IFNvZnR3YXJlCgpXaGVuIHdlJ3JlIGRlYWxpbmcgd2l0aCBhY2FkZW1pYyBzb2Z0d2FyZSwgYSBsb3Qgb2YgdGltZXMgd2UncmUgZGVhbGluZyB3aXRoIHNvZnR3YXJlIGlzICdjdXR0aW5nLWVkZ2UnIC0gdGhlIGRldmVsb3BlcnMgbWF5IGJlIHB1c2hpbmcgdGhlIGxpbWl0cyBvZiBleGlzdGluZyBzb2Z0d2FyZSBzb2x1dGlvbnMgYW5kIHJ1biBpbnRvIHByb2JsZW1zLiBPZnRlbiwgdGhlIGRldmVsb21wZW50IG9mIGN1dHRpbmctZWRnZSBzb2Z0d2FyZSB3aWxsIGZpbmQgdGhlc2UgcHJvYmxlbXMgaW4gZXN0YWJsaXNoZWQgbGlicmFyaWVzLCBhbmQgdGhleSB3aWxsIGJlIGFkZHJlc3NlZCBpbiB0YW5kZW0gd2l0aCB0aGUgZGV2ZWxvcG1lbnQgb2YgdGhlIG5ldyBjdXR0aW5nLWVkZ2Ugc29mdHdhcmUgdGhhdCBoYXMgZmx1c2hlZCBvdXQgdGhlc2UgbmV3IGVkZ2UtY2FzZXMuIFRoaXMgbWVhbnMgdGhhdCB3ZSdyZSBvZnRlbiByZWx5aW5nIG9uIHZlcnkgcmVjZW50IHZlcnNpb25zLCBvciBhcyB3ZSBhbGx1ZGVkIHRvIGFib3ZlLCB2ZXJ5IHNwZWNpZmljIHZlcnNpb25zIG9mIHZhcmlvdXMgc29mdHdhcmUgZGVwZW5kZW5jaWVzLiAKClRoZSBwbGF0Zm9ybSBhbGxvd3MgZGV2ZWxvcGVycyB0byByZWNvcmQgYSBwcm9qZWN0J3MgZW52aXJvbm1lbnQgaW4gYSBzaGFyZWFibGUgJ3JlY2lwZSwnIHNpbXBsaWZ5aW5nIHRoZSByZXBsaWNhdGlvbiBvZiBzb2Z0d2FyZSBzZXR1cHMuIFRoaXMgc3RyZWFtbGluZXMgY29sbGFib3JhdGlvbiBhbmQgZW5zdXJlcyB0aGF0IHNvZnR3YXJlIHJ1bnMgY29uc2lzdGVudGx5IGFjcm9zcyBkaWZmZXJlbnQgbWFjaGluZXMuCgpGb3IgZGV2ZWxvcGVycywgQ29uZGEgYnJlYWtzIGRvd24gc29mdHdhcmUgZGlzdHJpYnV0aW9uIGludG8gYSBmZXcgc3RyYWlnaHRmb3J3YXJkIHN0ZXBzLiBCeSBkZWZpbmluZyBhbmQgcGFja2FnaW5nIGFuIGFwcGxpY2F0aW9uJ3MgZW52aXJvbm1lbnQsIHRoZXkgbWFrZSBpdCBlZmZvcnRsZXNzbHkgYWNjZXNzaWJsZSwgdGhlcmVieSBlbmNvdXJhZ2luZyBicm9hZGVyIHVzZSBhbmQgZmFjaWxpdGF0aW5nIHVzZXIgYWRvcHRpb24uCgoKIyMjIEVudmlyb25tZW50cwoKVGhlIGVudmlyb25tZW50IGlzIHdoYXQgaXMgY3JlYXRlZCBieSBDb25kYSwgaXQgaXMgdGhlIGN1bG1pbmF0aW9uIG9mIHRoZSBkZXBlbmRlbmN5IHNvbHZpbmcgYW5kIGluc3RhbGxhdGlvbiBjb21wbGV0aW9uIHRoYXQgY29uZGEgdGFrZXMgY2FyZSBvZiBkdXJpbmcgdGhlIGNyZWF0aW9uIHN0YWdlLiBBZnRlciBpdCBpcyBjcmVhdGVkLCBpdCB3aWxsIHJlbWFpbiBhdmFpbGFibGUgYW5kIGNhbiBiZSBlbmFibGVkL2Rpc2FibGVkIGF0IHdpbGwuCgpUbyBlbmFibGUgYW5kIGRpc2FibGUgYW4gZXhpc3RpbmcgY29uZGEgZW52aXJvbm1lbnQsIHdlIHdpbGwgdXNlIHRoZSBjb21tYW5kIHRlcm1zIGBjb25kYSBhY3RpdmF0ZSA8ZW52aXJvbm1lbnQgbmFtZT5gIGFuZCBgY29uZGEgZGVhY3RpdmF0ZWAuCgpXaXRoIHRoZSBlbnZpcm9ubWVudCBhY3RpdmF0ZWQsIHNvZnR3YXJlIGlzIG1hZGUgYXZhaWxhYmxlLCByZWxldmFudCBjb21tYW5kcyBiZWNvbWUgY2FsbGFibGUsIGV0Yy4sIGFuZCB3aGVuIGl0J3MgZGVhY3RpdmF0ZWQsIHRoZSBzb2Z0d2FyZSBiZWNvbWVzIHVuYXZhaWxhYmxlIGFnYWluLgoKUXVpY2sgYXNpZGUgYWJvdXQgYCRQQVRIYCAtIGl0IGlzIG9uZSBvZiB0aGUgdHJpY2tzIHRoYXQgY29uZGEgdXNlcyBpbiBvcmRlciB0byBhY2hpZXZlIHRoaXMgcGx1Z2dhYmxlIGNhcGFiaWxpdHkgdGhhdCB3ZSd2ZSBiZWVuIHRhbGtpbmcgYWJvdXQuIHRoZSBgJFBBVEhgIGVudmlyb25tZW50IHZhcmlhYmxlIGlzIHVzZWQgdG8gc3BlY2lmeSBhbmQgcHJpb3JpdGl6ZSBzb2Z0d2FyZSBsb2NhdGlvbnMuIFdlJ2xsIHNlZSB0aGlzIGluIGFjdGlvbiBkdXJpbmcgb3VyIGV4ZXJjaXNlcyBiZWxvdy4KCgojIyMgQSBDb3VwbGUgb2YgUXVpY2sgTm90ZXMKCi0gQ29uZGEgcHJvdmlkZXMgcGx1Z2dhYmxlIGNhcGFiaWxpdHksIGJ1dCBpdCBkb2VzIG5vdCBvZmZlciBhIGhpZ2ggZGVncmVlIG9mIGlzb2xhdGlvbiBmcm9tIG90aGVyIHNvZnR3YXJlIG9uIHlvdXIgc3lzdGVtLgotIFdlIHVzZSAnQ29uZGEnIGFzIGEgZ2VuZXJhbGl6ZWQgdGVybS4gVGhlcmUgYXJlIHNldmVyYWwgdmFyaWF0aW9ucyBpbmNsdWRpbmcgJ0FuYWNvbmRhJyBhbmQgJ01pbmljb25kYScuCiAgLSBBbmFjb25kYSBjb21lcyBwcmUtYnVuZGxlZCB3aXRoIGEgcGxldGhvcmEgb2YgY29tbW9uIHB5dGhvbiBhbmQgZGF0YSBzY2llbmNlIHBhY2thZ2VzLgogIC0gTWluaWNvbmRhIHN0YXJ0cyBvdXQgYXMgbW9yZSBvZiBhIGJsYW5rIHNsYXRlLgogIC0gV2Ugd2lsbCBiZSBpbnN0YWxsaW5nIE1pbmljb25kYSBhbmQgdXNpbmcgaXQgaW4gb3VyIGV4ZXJjaXNlcy4KCjxicj4KCjxkZXRhaWxzPgo8c3VtbWFyeT5QYWNrYWdlcyBhbmQgQ2hhbm5lbHM8L3N1bW1hcnk+CgpXZSB3YW50IHRvIGdldCBzdGFydGVkIHVzaW5nIENvbmRhIGZhaXJseSBxdWlja2x5IGFuZCBnaXZlIHByYWN0aWNhbCB0aXBzIGZvciB1c2luZyBpdCBpbiBvdXIgSFBDIGVjb3N5c3RlbSwgc28gd2UncmUgbm90IGdvaW5nIHRvIGNvdmVyIHNvbWUgb2YgdGhlIGZpbmVyIGRldGFpbHMgYWJvdXQgaG93IGNvbmRhIGNyZWF0ZXMgZW52aXJvbm1lbnRzLgoKV2UgcmVhbGx5IHN0YXJ0IHRvIGNhcmUgYWJvdXQgdGhlc2UgZGV0YWlscyB3aGVuIHdlIGFyZSBjcmVhdGluZyBvdXIgb3duIGNvbmRhIGVudmlyb25tZW50cy4gCgpUaGVyZSBpcyBhbiBleGNlbGxlbnQgb25saW5lIHJlc291cmNlIFtoZXJlLCBjb3ZlcmluZyB0aGUgZGV0YWlsZWQgc3RydWN0dXJlIG9mIGNvbmRhIHBhY2thZ2VzIGFuZCBob3cgaXQgd29ya3MgdW5kZXIgdGhlIGhvb2RdKGh0dHBzOi8vZWRjYXJwLmdpdGh1Yi5pby9pbnRyb2R1Y3Rpb24tdG8tY29uZGEtZm9yLWRhdGEtc2NpZW50aXN0cy8wMy11c2luZy1wYWNrYWdlcy1hbmQtY2hhbm5lbHMvaW5kZXguaHRtbCkKCkJhc2ljYWxseSwgY29uZGEgcGFja2FnZXMgYXJlIGJ1bmRsZWQgdXAgc29mdHdhcmUsIHN5c3RlbS1sZXZlbCBsaWJyYXJpZXMsIGRlcGVuZGVuY3kgbGlicmFyaWVzLCBtZXRhZGF0YSwgZXRjLiBpbnRvIGEgcGFydGljdWxhciBzdHJ1Y3R1cmUuIFRoaXMgb3JnYW5pemVkIHN0cnVjdHVyZSBhbGxvd3MgY29uZGEgdG8gYWNoaWV2ZSBpdHMgcGFja2FnZSBtYW5hZ2VtZW50IGR1dGllcyB3aGlsZSByZXRhaW5pbmcgdGhlIGJlbmVmaWNpYWwgY2hhcmFjdGVyaXN0aWNzIGFuZCBjYXBhYmlsaXRpZXMgdGhhdCB3ZSBlbmpveS4KCjwvZGV0YWlscz4KCjxicj4KCiMjIE1pbmljb25kYSBJbnN0YWxsYXRpb24gYW5kIENvbmZpZ3VyYXRpb24gRGV0YWlscwoKU28gZmFyIHdlJ3ZlIGRlc2NyaWJlZCBtYW55IG9mIHRoZSBkZXRhaWxzIG9mIGhvdyBjb25kYSB3b3JrcyBhbmQgaG93IHdlIGNhbiB1c2UgaXQsIGJvdGggdG8gY3JlYXRlIG5ldyBlbnZpcm9ubWVudHMgYW5kIHRvIGFjdGl2YXRlL2RlYWN0aXZhdGUgdGhlbSBhdCB3aWxsLiBTaW5jZSB3ZSdsbCBiZSBpbnN0YWxsaW5nIGFuZCBjb25maWd1cmluZyBpdCBkdXJpbmcgdGhpcyB3b3Jrc2hvcCwgd2UgaGF2ZSBzb21lIG5vdGVzIGhlcmUgdGhhdCB3ZSdsbCBxdWlja2x5IGNvdmVyIGJlZm9yZSBqdW1waW5nIGluLgoKIyMjIE1pbmljb25kYSBJbnN0YWxsYXRpb24gT3ZlcnZpZXcKCi0gV2Ugd2lsbCB1c2UgdGhlIE1pbmljb25kYSBpbnN0YWxsZXIgYW5kIGVhY2ggb2YgdXMgd2lsbCBpbnN0YWxsIG1pbmljb25kYSB0byBvdXIgYCRXT1JLU0hPUF9IT01FYCBkaXJlY3Rvcnkgb24gR3JlYXQgTGFrZXMuCi0gW0xpbmsgdG8gTWluaWNvbmRhIGluc3RhbGxhdGlvbiBpbnN0cnVjdGlvbnNdKGh0dHBzOi8vZG9jcy5hbmFjb25kYS5jb20vZnJlZS9taW5pY29uZGEvbWluaWNvbmRhLWluc3RhbGwvKQotIFRvZ2V0aGVyLCB3ZSdsbCB2ZXJpZnkgdGhlIGZpbGUgaW50ZWdyaXR5IG9mIHRoZSBpbnN0YWxsZXIgYW5kIHRoZW4gdXNlIGl0IHRvIGd1aWRlIHVzIHRocm91Z2ggdGhlIGluc3RhbGxhdGlvbiBwcm9jZXNzLgoKPGJyPgoKIyMjIENvbmRhIENvbmZpZ3VyYXRpb24gd2l0aCAuY29uZGFyYyBPdmVydmlldwoKLSBDb25kYXJjIGZpbGUgY29udGFpbnMgY29uZmlndXJhdGlvbiBkZXRhaWxzIGZvciB5b3VyIGNvbmRhIGluc3RhbGxhdGlvbi4KLSBbTGluayB0byBkb2N1bWVudGF0aW9uIG9uIHVzaW5nIGNvbmRhcmNdKGh0dHBzOi8vY29uZGEuaW8vcHJvamVjdHMvY29uZGEvZW4vbGF0ZXN0L3VzZXItZ3VpZGUvY29uZmlndXJhdGlvbi91c2UtY29uZGFyYy5odG1sKQotIEluIG91ciBjb25maWd1cmF0aW9uIGV4ZXJjaXNlIHdlIHdpbGwgc2V0IGBlbnZzX2RpcnNgIHdpdGhpbiBvdXIgY29uZGFyYyBmaWxlIHRvIGEgbG9jYXRpb24gd2l0aGluIG91ciB0dXJibyBzdG9yYWdlLgoKPGJyPgoKIyMgRXhlcmNpc2UgLSBDb25kYSBJbnN0YWxsIGFuZCBDb25maWd1cmUKCkZvbGxvd2luZyBhbG9uZyB3aXRoIGluc3RydWN0b3IsIGxlYXJuZXJzIHdpbGwgaW5zdGFsbCBtaW5pY29uZGEgYW5kIGNyZWF0ZSBhIGAuY29uZGFyY2AgZmlsZS4KCjxkZXRhaWxzPgo8c3VtbWFyeT5NaW5pY29uZGEgSW5zdGFsbCBhbmQgQ29uZmlndXJlIC0gU29sdXRpb248L3N1bW1hcnk+Cgpgc2hhMjU2c3VtIE1pbmljb25kYTMtbGF0ZXN0LUxpbnV4LXg4Nl82NC5zaCAgIyBDaGVjayByZXN1bHQgYWdhaW5zdCB0aGUgbWluaWNvbmRhIGluc3RhbGxlciBwYWdlYAoKYC4vTWluaWNvbmRhMy1sYXRlc3QtTGludXgteDg2XzY0LnNoIC1wICR7V09SS1NIT1BfSE9NRX0vbWluaWNvbmRhM2AKCj5Ob3RlOiBBdCB0aGUgZW5kLCB3aGVuIGFza2VkIGFib3V0IHNldHRpbmcgdXAgY29uZGEgaW5pdGlhbGl6YXRpb24sIHdlIGNob3NlICdubycsIGFuZCBpbnN0ZWFkIG9wdGVkIHRvIGNyZWF0ZSBhIHNlcGFyYXRlIGNvbmRhX2luaXRpYWxpemF0aW9uIGZpbGUgdGhhdCB3ZSBjYW4gYHNvdXJjZWAgd2hlbiB3ZSB3YW50IHRvIHVzZSBjb25kYS4KCmBuYW5vICR7V09SS1NIT1BfSE9NRX0vaW5pdGlhbGl6ZV9jb25kYV93b3Jrc2hvcC5zaGAKCkNvbnRlbnQgb2YgYGluaXRpYWxpemVfY29uZGFfd29ya3Nob3Auc2hgOgoKYGV2YWwgIiQoL25mcy90dXJiby91bW1zLWJpb2luZi13a3NocC93b3Jrc2hvcC9ob21lLyR7VVNFUn0vbWluaWNvbmRhMy9iaW4vY29uZGEgc2hlbGwuYmFzaCBob29rKSJgCgpUaGVuIHdlIGNhbiBgc291cmNlICR7V09SS1NIT1BfSE9NRX0vaW5pdGlhbGl6ZV9jb25kYV93b3Jrc2hvcC5zaGAgYW5kIG5vdGljZSBgKGJhc2UpYCBhcHBlYXJzIGluIG91ciBwcm9tcHQsIGFuIGluZGljYXRvciB0aGF0IHRoZSBgYmFzZWAgZW52aXJvbm1lbnQgb2Ygb3VyIGNvbmRhIGluc3RhbGxhdGlvbiBpcyBhY3RpdmF0ZWQuCgpgbWtkaXIgcHJvamVjdF9hbmFseXNpcy9jb25kYV9lbnZzYAoKYG5hbm8gfi8uY29uZGFyYyAgIyBBZGQgYW4gZW50cnkgZm9yICdlbnZzX2RpcnMnIGluIG91ciBjb25kYXJjYAoKQXMgYW4gYWx0ZXJuYXRpdmUgdG8gbmFubywgd2UgY2FuIHVzZSB0aGlzIG9uZS1saW5lciAoISBPbmx5IGRvIHRoaXMgaWYgeW91IGFyZSBzdXJlIHlvdSBkb24ndCBoYXZlIGFuIGV4aXN0aW5nIGB+Ly5jb25kYXJjYCwgaXQgd291bGQgYmUgb3ZlcndyaXR0ZW4hKToKCmBlY2hvIC1lICJlbnZzX2RpcnM6XG4gIC0gJHtXT1JLU0hPUF9IT01FfS9wcm9qZWN0X2FuYWx5c2lzL2NvbmRhX2VudnMiID4gfi8uY29uZGFyY2AKCjwvZGV0YWlscz4KCjwhLS0gTElWRV9OT1RFOiBPbmUtbGluZXIgd2l0aCBsaWJtYW1iYSBzb2x2ZXIKYGVjaG8gLWUgImVudnNfZGlyczpcbiAgLSAke1dPUktTSE9QX0hPTUV9L3Byb2plY3RfYW5hbHlzaXMvY29uZGFfZW52c1xuc29sdmVyOiBsaWJtYW1iYSIgPiB+Ly5jb25kYXJjYCAtLT4KCjwhLS0gTElWRV9OT1RFOiBab29tIHBvbGwgdG8gdmVyaWZ5IG1pbmljb25kYSBpbnN0YWxsYXRpb24gbG9jYXRpb24gd2l0aCBgbHNgIGFuZCB2ZXJpZnkgY29uZGFyYyBmaWxlIHdpdGggYGNhdGAgLS0+Cgo8YnI+CgojIyBFeGVyY2lzZSAtIENvbmRhIEFjdGl2YXRlLCBNYWtlIEJpZ1dpZyBGaWxlcwoKRm9sbG93aW5nIGFsb25nIHdpdGggaW5zdHJ1Y3RvciwgbGVhcm5lcnMgd2lsbCBhY3RpdmF0ZSBhbiBleGlzdGluZyBlbnZpcm9ubWVudC4gV2UnbGwgZGVtb25zdHJhdGUgYWRkaXRpb24gdG8gdGhlICRQQVRIIChhbmQgdXNpbmcgYHdoaWNoYCkuIFRoZW4sIHdlJ2xsIGNyZWF0ZSBhIHZpc3VhbGl6YXRpb24gZmlsZSBmb3Igc2FtcGxlX0EgLSBBIEJpZ1dpZyBGaWxlLgoKPGRldGFpbHM+CjxzdW1tYXJ5PkNvbmRhIEFjdGl2YXRlLCBNYWtlIEJpZ3dpZyAtIFNvbHV0aW9uPC9zdW1tYXJ5PgoKYG1rZGlyIGZpbHRlcl92aXpfY29uZGFgCgpgc3J1biAtLXB0eSAtLWpvYi1uYW1lPSR7VVNFUn1fYmFtY292ZXJhZ2Vfc2FtcGxlX0EgLS1hY2NvdW50PWJpb2luZl93a3NocF9jbGFzcyAtLXBhcnRpdGlvbiBzdGFuZGFyZCAtLW1lbT00MDAwIC0tY3B1cy1wZXItdGFzaz00IC0tdGltZT0wMDozMDowMCAvYmluL2Jhc2hgCgpgY29uZGEgYWN0aXZhdGUgL25mcy90dXJiby91bW1zLWJpb2luZi13a3NocC93b3Jrc2hvcC9zaGFyZWQtZW52cy9zYW10b29sc19kZWVwdG9vbHMvYAoKYGVjaG8gJFBBVEhgCgpgd2hpY2ggYmFtQ292ZXJhZ2VgCgpgYmFtQ292ZXJhZ2UgLWIgaW5wdXRfYmFtcy9zYW1wbGVfQS5nZW5vbWUuYmFtIC1vIGZpbHRlcl92aXpfY29uZGEvc2FtcGxlX0EuZ2Vub21lLmJpZ3dpZ2AKCj5Ob3RlOiBOb3cgd2UnbGwgZ28gdG8gaHR0cHM6Ly9pZ3Yub3JnL2FwcC8gYW5kIHZpc3VhbGl6ZSB3aGF0IHRoaXMgbG9va3MgbGlrZS4gU2VsZWN0IG1tMTAgYXMgZ2Vub21lLgo+VHJhY2sgVVJMOiBodHRwczovL3VtYmlvaW5mY29yZS13b3Jrc2hvcC5zMy5hbWF6b25hd3MuY29tL3NhbXBsZV9BLmdlbm9tZS5iaWd3aWcKCjwvZGV0YWlscz4KCjxicj4KCiMjIERlbW9uc3RyYXRpb24gLSBDb25kYSBDcmVhdGUKCkluc3RydWN0b3Igd2lsbCBkZW1vbnN0cmF0ZSBjcmVhdGluZyBhIHNpbXBsZSBjb25kYSBlbnZpcm9ubWVudCBvbiB0aGUgY29tbWFuZCBsaW5lLiAKCldlJ2xsIHRoZW4gYXNrIGFib3V0IGhvdyB0byBjcmVhdGUgYSBzbGlnaHRseSBtb3JlIGNvbXBsaWNhdGVkIGNvbmRhIGVudmlyb25tZW50LiBXZSdsbCBzdGFydCBhIHRocmVhZCBhbmQgbGVhcm5lcnMgd2lsbCByZXNwb25kIGFuZC9vciB2b3RlIG9uIHRoZSBjb21tYW5kIHRoYXQgdGhleSB3b3VsZCB1c2UuCgo8ZGV0YWlscz4KPHN1bW1hcnk+Q29uZGEgQ3JlYXRlIERlbW8gLSBTb2x1dGlvbjwvc3VtbWFyeT4KCmBjb25kYSBzZWFyY2ggLWMgYmlvY29uZGEgc2FtdG9vbHNgCgpgc3J1biAtLXB0eSAtLWpvYi1uYW1lPWNvbmRhX2NyZWF0ZV9kZW1vIC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MgLS1wYXJ0aXRpb24gc3RhbmRhcmQgLS1tZW09MjAwMCAtLWNwdXMtcGVyLXRhc2s9MiAtLXRpbWU9MDA6MzA6MDAgL2Jpbi9iYXNoYAoKYGNvbmRhIGNyZWF0ZSAtbiBzYW10b29scyAtYyBiaW9jb25kYSAtYyBjb25kYS1mb3JnZSBzYW10b29scz0xLjIwYAoKPC9kZXRhaWxzPgoKPGJyPgoKIyMgRXhlcmNpc2UgLSBgc3J1bmAgYW5kIENvbmRhIENyZWF0ZQoKRm9sbG93aW5nIGFsb25nIHdpdGggaW5zdHJ1Y3Rvciwgd2UnbGwgbGF1bmNoIGFuIHNydW4gam9iIGFuZCB0aGVuIGNyZWF0ZSBhIGNvbmRhIGVudmlyb25tZW50IGluIGl0LiBBZnRlciBpdCdzIGNyZWF0ZWQsIHdlJ2xsIHRlc3QgaXQgYnkgYWN0aXZhdGluZyBhbmQgZGVhY3RpdmF0aW5nIGl0LiBXaGlsZSBhY3RpdmUsIHdlJ2xsIGNoZWNrIHRoaW5ncyBsaWtlIGAkUEFUSGAgYW5kIHVzZSBgd2hpY2hgIHRvIGNvbmZpcm0gdGhhdCBpdCdzIHdvcmtpbmcgYXMgaW50ZW5kZWQuCgo8ZGV0YWlscz4KPHN1bW1hcnk+Q29uZGEgQ3JlYXRlIC0gU29sdXRpb248L3N1bW1hcnk+Cgpgc3J1biAtLXB0eSAtLWpvYi1uYW1lPSR7VVNFUn1fY29uZGFfY3JlYXRlIC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MgLS1wYXJ0aXRpb24gc3RhbmRhcmQgLS1tZW09MjAwMCAtLWNwdXMtcGVyLXRhc2s9MiAtLXRpbWU9MDA6MzA6MDAgL2Jpbi9iYXNoYAoKYGNvbmRhIGNyZWF0ZSAtbiBzYW10b29sc19kZWVwdG9vbHMgLWMgYmlvY29uZGEgLWMgY29uZGEtZm9yZ2Ugc2FtdG9vbHM9MS4yMCBkZWVwdG9vbHM9My41YAoKPC9kZXRhaWxzPgoKPGJyPgoKIyMgRXhlcmNpc2UgLSBDb25kYSBFeHBvcnQKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCB1c2UgQ29uZGEncyBleHBvcnQgZnVuY3Rpb25hbGl0eSB0byBjcmVhdGUgYW4gZXhwb3J0IC0gYSBtb3JlIGNvbXBsZXRlIHJlY2lwZSB3aXRoIGFsbCBkZXBlbmRlbmNpZXMgYW5kIHRoZWlyIHZlcnNpb25zIGZ1bGx5IGxpc3RlZC4KCjxkZXRhaWxzPgo8c3VtbWFyeT5Db25kYSBFeHBvcnQgLSBTb2x1dGlvbjwvc3VtbWFyeT4KCmBjb25kYSBhY3RpdmF0ZSBzYW10b29sc19kZWVwdG9vbHNgCgpgY29uZGEgZXhwb3J0ID4gJHtXT1JLU0hPUF9IT01FfS9wcm9qZWN0X2FuYWx5c2lzL2NvbmRhX2VudnMvZXhwb3J0X3NhbXRvb2xzX2RlZXB0b29scy55YW1sYAoKPCEtLSBMSVZFX05PVEU6IEFsbHVkZSB0byB0aGUgaWRlYSBvZiB0aW1lLWJhc2VkIGR1cmFiaWxpdHkgLS0+Cgo8L2RldGFpbHM+Cgo8YnI+CgojIyBFeGVyY2lzZSAtIGBzcnVuYCwgQ29uZGEsIEZpbHRlcmluZyBvdXIgQkFNcwoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIGxhdW5jaCBhbiBpbnRlcmFjdGl2ZSBqb2Igd2l0aCBgc3J1bmAuIE9uY2Ugd2UndmUgZW50ZXJlZCB0aGUgcnVubmluZyBqb2IsIHdlJ2xsIGFjdGl2YXRlIG91ciBjb25kYSBlbnZpcm9ubWVudCBhbmQgdXNlIHNhbXRvb2xzIHRvIGZpbHRlciBvdXIgQkFNIGZpbGUganVzdCBhcyB3ZSBkaWQgaW4gdGhlIGBsbW9kYCBleGVyY2lzZXMuCgo8IS0tIExJVkVfTk9URTogV2UnbGwganVzdCBkbyBzYW1wbGVfQSAtLT4KCjwhLS0gTElWRV9OT1RFOiBNYWtlIHN1cmUgdG8gYG1vZHVsZSBsaXN0YCBhbmQgY29uZmlybSB3ZSdyZSBub3QgdXNpbmcgYHNhbXRvb2xzYCAtLT4KCjxkZXRhaWxzPgo8c3VtbWFyeT5gc3J1bmAsIENvbmRhLCBGaWx0ZXJpbmcgQkFNIC0gU29sdXRpb248L3N1bW1hcnk+Cgpgc3J1biAtLXB0eSAtLWpvYi1uYW1lPSR7VVNFUn1fY29uZGFfZmlsdGVyYmFtcyAtLWFjY291bnQ9YmlvaW5mX3drc2hwX2NsYXNzIC0tcGFydGl0aW9uIHN0YW5kYXJkIC0tbWVtPTIwMDAgLS1jcHVzLXBlci10YXNrPTIgLS10aW1lPTAwOjMwOjAwIC9iaW4vYmFzaGAKCmBzYW10b29scyB2aWV3IC1vIGZpbHRlcl92aXpfY29uZGEvc2FtcGxlX0EuY2hyMTkuYmFtIGlucHV0X2JhbXMvc2FtcGxlX0EuZ2Vub21lLmJhbSAxOWAKCj5Ob3RlOiBNYWtlIHN1cmUgdG8gYG1vZHVsZSBsaXN0YCBhbmQgY29uZmlybSB3ZSdyZSBub3QgdXNpbmcgdGhlIHNhbXRvb2xzIG1vZHVsZSAtIHRoZSBMTU9EIG1vZHVsZSBhbmQgY29uZGEgZW52aXJvbm1lbnQgd291bGQgaW50ZXJmZXJlIHdpdGggb25lIGFub3RoZXIhCgo8L2RldGFpbHM+Cgo8YnI+CgojIyBJbmRlcGVuZGVudCBFeGVyY2lzZSAtIFNCQVRDSCwgQ29uZGEsIEZpbHRlcmluZyBvdXQgQkFNcwoKW0xpbmsgdG8gSW5kZXBlbmRlbnQgRXhlcmNpc2VdKGV4ZXJjaXNlLTIuaHRtbCkKCjxicj4KCiMjIEV4ZXJjaXNlIC0gYHNydW5gLCBDb25kYSwgU2FuaXR5IENoZWNrIGFuZCBJbmRleCBCQU0KCjwhLS0gTElWRV9OT1RFOiBKdXN0IGRvaW5nIHNhbXBsZV9BIC0tPgoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIGxhdW5jaCBhbiBpbnRlcmFjdGl2ZSBqb2Igd2l0aCBgc3J1bmAuIE9uY2Ugd2UndmUgZW50ZXJlZCB0aGUgcnVubmluZyBqb2IsIHdlJ2xsIGFjdGl2YXRlIG91ciBjb25kYSBlbnZpcm9ubWVudCBhbmQgdXNlIHNhbXRvb2xzIHRvIHBlcmZvcm0gYSBzYW5pdHkgY2hlY2sgb24gb3VyIGZpbHRlcmVkIEJBTSBmaWxlcy4gV2UnbGwgYWxzbyBpbmRleCBvbmUgb2Ygb3VyIEJBTSBmaWxlcyAtIHNhbXBsZV9BLiBUaGlzIHdpbGwgc2V0IHVzIHVwIGZvciB0aGUgbmV4dCBzdGVwLgoKPGRldGFpbHM+CjxzdW1tYXJ5PmBzcnVuYCwgQ29uZGEsIFNhbml0eSBDaGVjaywgSW5kZXggQkFNIC0gU29sdXRpb248L3N1bW1hcnk+Cgpgc3J1biAtLXB0eSAtLWpvYi1uYW1lPSR7VVNFUn1fY29uZGFfY2hlY2tfYW5kX2luZGV4IC0tYWNjb3VudD1iaW9pbmZfd2tzaHBfY2xhc3MgLS1wYXJ0aXRpb24gc3RhbmRhcmQgLS1tZW09MjAwMCAtLWNwdXMtcGVyLXRhc2s9MiAtLXRpbWU9MDA6MzA6MDAgL2Jpbi9iYXNoYAoKYGNvbmRhIGFjdGl2YXRlIHNhbXRvb2xzX2RlZXB0b29sc2AKCmBzYW10b29scyB2aWV3IGZpbHRlcl92aXpfY29uZGEvc2FtcGxlX0EuY2hyMTkuYmFtIHwgd2MgLWxgCgpgc2FtdG9vbHMgaW5kZXggZmlsdGVyX3Zpel9jb25kYS9zYW1wbGVfQS5jaHIxOS5iYW1gCgo8L2RldGFpbHM+CgoKIyMgRXhlcmNpc2UgLSBgc3J1bmAsIENvbmRhLCBDcmVhdGluZyBCaWd3aWdzCgpOb3cgd2UnbGwgY3JlYXRlIGZpbGVzIGZvciB2aXN1YWxpemF0aW9uIG9mIG91ciBmaWx0ZXJlZCBCQU1zLCBhcyBhbm90aGVyIHdheSB0byBjaGVjayBvdXIgcmVzdWx0cy4KCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBsYXVuY2ggYW4gaW50ZXJhY3RpdmUgam9iIHdpdGggYHNydW5gLiBPbmNlIHdlJ3ZlIGVudGVyZWQgdGhlIHJ1bm5pbmcgam9iLCB3ZSdsbCBhY3RpdmF0ZSBvdXIgY29uZGEgZW52aXJvbm1lbnQgYW5kIHVzZSBgYmFtQ292ZXJhZ2VgIHRvIGNyZWF0ZSBhIGJpZ3dpZyBmaWxlIGZvciBzYW1wbGVfQS4KCjxkZXRhaWxzPgo8c3VtbWFyeT5gc3J1bmAsIENvbmRhLCBDcmVhdGUgQmlnd2lnIC0gU29sdXRpb248L3N1bW1hcnk+Cgpgc3J1biAtLXB0eSAtLWpvYi1uYW1lPSR7VVNFUn1fY29uZGFfYmlnd2lncyAtLWFjY291bnQ9YmlvaW5mX3drc2hwX2NsYXNzIC0tcGFydGl0aW9uIHN0YW5kYXJkIC0tbWVtPTIwMDAgLS1jcHVzLXBlci10YXNrPTIgLS10aW1lPTAwOjMwOjAwIC9iaW4vYmFzaGAKCmBiYW1Db3ZlcmFnZSAtYiBmaWx0ZXJfdml6X2NvbmRhL3NhbXBsZV9BLmNocjE5LmJhbSAtbyBmaWx0ZXJfdml6X2NvbmRhL3NhbXBsZV9BLmNocjE5LmJpZ3dpZ2AKCj5Ob3RlOiBOb3cgd2UnbGwgZ28gdG8gaHR0cHM6Ly9pZ3Yub3JnL2FwcC8gYW5kIHZpc3VhbGl6ZSB3aGF0IHRoaXMgbG9va3MgbGlrZS4gU2VsZWN0IG1tMTAgYXMgZ2Vub21lLgo+VHJhY2sgVVJMOiBodHRwczovL3VtYmlvaW5mY29yZS13b3Jrc2hvcC5zMy5hbWF6b25hd3MuY29tL3NhbXBsZV9BLmZpbHRlcmVkLmJpZ3dpZwoKPC9kZXRhaWxzPgoKIyMgUmV2aWV3CgpDb25kYSBhbGxvd3MgdXMgdG8gaW5zdGFsbCBhbmQgbWFuYWdlIG91ciBvd24gc29mdHdhcmUuIE9uIGEgbXVsdGktdXNlciBzeXN0ZW0gbGlrZSBHcmVhdCBMYWtlcywgdGhpcyBpcyB2ZXJ5IHBvd2VyZnVsLgoKQ29uZGEgaXMgYmFzaWNhbGx5IGEgcGFja2FnZSBtYW5hZ2VyIC0gaXQgaXMgc29mdHdhcmUgdGhhdCBtYW5hZ2VzIGJ1bmRsZXMgb2Ygb3RoZXIgc29mdHdhcmUgLSBidXQgaXQgaGFzIGFkZGl0aW9uYWwgY2FwYWJpbGl0aWVzIHRoYXQgbWFrZSBpdCBncmVhdCBmb3IgcmVwcm9kdWNpYmlsaXR5LgoKPCEtLSBMSVZFX05PVEU6IFJlbWluZCBhYm91dCBjb25kYSByZWNpcGVzIHRoYXQgd2UgY2FuIHNoYXJlLCBhbGxvd2luZyB0aGVtIHRvIGJlIGJ1aWx0IG9uIG90aGVyIHN5c3RlbXMgb3IgYnkgb3RoZXIgcGVvcGxlIC0tPgoKSXQgcHJvdmlkZXMgcGx1Z2dhYmlsaXR5IHRvIG91ciBzb2Z0d2FyZSBuZWVkcy4gV2hlbiB3ZSBuZWVkIGEgd2lkZSB2YXJpZXR5IG9mIHRvb2xzIGF0IGRpZmZlcmVudCB0aW1lcywgd2l0aCBzb21lIGJlaW5nIGluY29tcGF0aWJsZSB3aXRoIG9uZSBhbm90aGVyLCB0aGlzIGJlY29tZXMgY3JpdGljYWwuCgpXaGVuIGdpdmVuIGEgc2V0IG9mIHNvZnR3YXJlIHJlcXVpcmVtZW50IHNwZWNpZmljYXRpb25zLCBDb25kYSBoYW5kbGVzIGFsbCBvZiB0aGUgZGVwZW5kZW5jaWVzIGFuZCBjcmVhdGVzIGEgc29tZXdoYXQgY29udGFpbmVkIGVudmlyb25tZW50IHRoYXQgd2UgY2FuIGBhY3RpdmF0ZWAgYW5kIGBkZWFjdGl2YXRlYCBhcyBuZWVkZWQuCgo8YnI+CgojIyMgSGFuZHkgTGlua3MKCi0gW01pbmljb25kYSBpbnN0YWxsYXRpb24gaW5zdHJ1Y3Rpb25zXShodHRwczovL2RvY3MuYW5hY29uZGEuY29tL2ZyZWUvbWluaWNvbmRhL21pbmljb25kYS1pbnN0YWxsLykKLSBbTWluaWNvbmRhIGRvd25sb2FkcyBwYWdlXShodHRwczovL3JlcG8uYW5hY29uZGEuY29tL21pbmljb25kYS9NaW5pY29uZGEzLWxhdGVzdC1MaW51eC14ODZfNjQuc2gpCi0gW0NvbmZpZ3VyYXRpb24gd2l0aCBjb25kYXJjXShodHRwczovL2NvbmRhLmlvL3Byb2plY3RzL2NvbmRhL2VuL2xhdGVzdC91c2VyLWd1aWRlL2NvbmZpZ3VyYXRpb24vdXNlLWNvbmRhcmMuaHRtbCkKCjxicj4KCi0tLQoKCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlMDNiX2dyZWF0X2xha2VzX2NsdXN0ZXIuaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlMDVfY29udGFpbmVyc19kb2NrZXJfc2luZ3VsYXJpdHkuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwKCg==</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module_software_management_conda.md");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
