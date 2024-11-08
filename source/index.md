@@ -32,7 +32,7 @@ body, td {
 #### Day 1
 | Time | Topic : Details |
 | :---  | :---- |
-|  9:00 | [Introductions and Startup](Module00_Introduction.html) |
+|  9:00 | [Introductions and Startup](intro.html) |
 |  9:30 | **Quick-Start** |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Overview and Warmup](Module_overview_and_warmup.html) |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Sneak Peek of Great Lakes](Module_sneak_peek_great_lakes.html) |
@@ -55,7 +55,6 @@ body, td {
 | 11:00 | Break |
 | 11:15 | **Workflow automation** |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to workflow automation](Module_intro_to_workflow_automation.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to Snakemake](Module_intro_to_snakemake.html) |
 |  1:00 | Day 2 concludes |
 #### Day 3
 | | |

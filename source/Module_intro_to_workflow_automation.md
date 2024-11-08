@@ -32,7 +32,7 @@ By the end of this module, we will:
 
 - Understand what workflow automation is and how it helps reproducibility.
 - Review several different ways to execute repetitive tasks on Great Lakes.
-- Introduce the idea of job/task geometries to visualize approachs and their advantages and limitations.
+- Introduce the idea of job/task geometries to visualize advantages and limitations of various approaches.
 
 
 ## Workflow automation helps reproducibility
@@ -45,20 +45,22 @@ automated so a computer can. A reproducible solution has a blend of
 documentation and automation.
 
 Data-intensive research often involves repeating transformation tasks many
-times. Also overtime transformations evolve to be more complex, more
+times. Also over time, transformations evolve to be more complex, more
 computationally demanding, or take longer. A **workflow** describes the key
 transformation tasks and their relationships to the inputs and outputs.
 
 **Workflow automation** describes the tools and techniques to systematically
-assemble these tasks into a executable, repeatable, robust solution. Building an
-automated workflow appears harder than documenting it to be run manually, but
-there are many benefits to reproducibility:
+assemble these tasks into an executable, repeatable, robust solution. Building an
+automated workflow may appear to be harder than documenting it so that it can be 
+run manually, but there are many benefits to automation:
 
   - Automation facilitates repetition.
   - Automation can simplify manual documentation.
   - Automation simplifies validation of your workflow.
   - Automation streamlines sharing.
-  - Automation scales to larger inputs
+  - Automation scales to larger inputs.
+
+## Consider a simple workflow
 
 There are many ways to build an automated workflow. In this module we will
 consider several ways of executing [pleasingly
@@ -69,16 +71,16 @@ tasks on Great Lakes:
 - Parallelizing tasks using driver scripts and sbatch files.
 - The SLURM Launcher
 
-All these approaches execute the same workflow in different ways. The workflow
+All these approaches execute the same workflow in different ways. This workflow
 produces word pangrams. A **word pangram** is like an anagram that allows
 repeating letters, e.g. the sequence of letters ACEHMNT can be rearranged to
 create the pangrams ATTACHMENT, CATCHMENT, ENCHANTMENT, and ENHANCEMENT.
 
-The workflow accepts a text file containing list of letter sequences separated
-by lines; for each letter sequence it produces a file containing one or more 
-pangrams.
+For this example, the workflow is a single program that accepts a text file 
+containing list of letter sequences separated by lines; for each letter sequence 
+it produces a file containing one or more pangrams.
 
-<img src="images/Module06_pangram_workflow.png" width="60%" height="60%"/>
+<img src="images/intro_to_workflow_automation/pangram_workflow.png" width="60%" height="60%"/>
 
 <br/>
 
@@ -89,12 +91,12 @@ pangrams.
 ```r
 # Orient on project pangram
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
-cd project_pangrams
+cd workflows/project_pangrams
 ls -1
 ```
 
 > ```
-pangram_job_launcher
+pangram_launcher
 pangram_parallel_sbatch
 pangram_serial_loop
 README.md
@@ -262,7 +264,7 @@ This approach is correct, clear, and reproducible; however it's not ideal.
 Consider how the tasks are contained within a job:
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometry of the serial loop approach</th></tr>
-<tr><td class='fig'>![](images/Module06_geometry_serial_loop.png)</td></tr>
+<tr><td class='fig'>![](images/intro_to_workflow_automation/geometry_serial_loop.png)</td></tr>
 <tr><td class='fig'>Each sbatch request is a job script; a job script may be
 composed of multiple tasks. Key attributes of a **job script** are 
 
@@ -432,8 +434,8 @@ because the tasks are working in parallel, it's **much** faster. Contrast this
 job/task geometry with the serial loop approach from above:
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometries: serial loop vs parallel sbatch</th></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_serial_loop_small.png"/></td></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_parallel.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_serial_loop_small.png"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_parallel.png" height="40%" width="40%"/></td></tr>
 </table>
 
 This is great. But there's two to three minor drawbacks to this approach:
@@ -605,9 +607,9 @@ each tasks has a modest compute request (e.g. each task needs a single CPU).
 ## Geometries and dependencies
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometries compared</th></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_serial_loop_small.png"/></td></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_parallel.png" height="40%" width="40%"/></td></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_launcher.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_serial_loop_small.png"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_parallel.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_launcher.png" height="40%" width="40%"/></td></tr>
 </table>
 
 The three job geometries diagrammed above hint that we quietly made a
@@ -620,18 +622,18 @@ applied many different inputs.
 Commonly workflows contain several different steps which where the input of one 
 step often depends on the output of the previous.
 <div style="text-align: center;">
-<img src="images/Module06_geometry_of_multistep_job.png" height="20%" width="20%"/>
+<img src="images/intro_to_workflow_automation/geometry_of_multistep_job.png" height="20%" width="20%"/>
 </div>
 
 Also steps in a workflow often have variable resrouce needs and run times:
 
 <div style="text-align: center;">
-<img src="images/Module06_heterogeneity_of_multistep_job.png" height="30%" width="30%"/>
+<img src="images/intro_to_workflow_automation/heterogeneity_of_multistep_job.png" height="30%" width="30%"/>
 </div>
 
 Moreover, workflows are not always linear; the logical flow of steps may join the outputs of two steps as an input to a third:
 <div style="text-align: center;">
-<img src="images/Module06_nonlinear_workflow.png" height="50%" width="50%"/>
+<img src="images/intro_to_workflow_automation/nonlinear_workflow.png" height="50%" width="50%"/>
 </div>
 
 
@@ -674,7 +676,7 @@ the way:
 5. **Instead of developing the whole workflow end to end, consider an iterative and incremental approach.** <br/>
 
 <div style="text-align: center;">
-<img src="images/Module06_iterative_development.png" height="80%" width="80%"/>
+<img src="images/intro_to_workflow_automation/iterative_development.png" height="80%" width="80%"/>
 </div>
 
    Break workflow development into steps:
@@ -777,7 +779,7 @@ pack everyones jobs as neatly as possible.
 
 ## Links and references
 
-- UM ITS docs on [launcher](https://arc.umich.edu/greatlakes/software/launcher/){target="_blank"}
+- UM ITS docs on [launcher](https://documentation.its.umich.edu/arc-software/launcher){target="_blank"}
 - UM ARC docs on [job arrays](https://docs.support.arc.umich.edu/slurm/array/){target="_blank"}
 - SLURM docs on [job arrays](https://slurm.schedmd.com/job_array.html){target="_blank"}
 - UM ARC [miVideo](https://www.mivideo.it.umich.edu/media/t/1_z4df84ti/181860561){target="_blank"} on advanced SLURM techniques (including launcher, job arrays, and more)

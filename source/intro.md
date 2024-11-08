@@ -1,5 +1,5 @@
 ---
-title: "Reproducible Computing Workshop"
+title: "Introduction and housekeeping"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
@@ -35,13 +35,13 @@ pre {
    University of Michigan affiliated persons and assumes a basic familiarity
    with the command line.
 
- - By the end of the workshop, attendees will
-   - Understand the main research data storage systems at UM and know how to 
-     move data among systems.
-   - Install 3rd party software in virtual environments.
-   - Describe the advantages of containerization and install 3rd party containers.
-   - Submit and manage jobs in UM's high performance computing environment.
+ - By the end of the workshop, attendees will:
+   - Understand how to use UM's Great Lakes high performance compute (HPC) environment 
+   - Be able to install 3rd party software in virtual environments.
+   - Understand the advantages of containerization and install 3rd party containers.
    - Streamline data transformation using workflow automation.
+   - Understand data storage options (e.g. Turbo) and how to use Globus to move data
+
 
  - Our purpose is not to be exhaustive, there is a lot that we cannot cover in
    the allotted time, and we don't expect anyone to be an expert at the end of
@@ -52,10 +52,10 @@ pre {
 
 
 ## About the workshop team
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) |
+| ![](images/headshots/headshot_cgates.jpg) | ![](images/headshots/headshot_mbradenb.jpg) | ![](images/headshots/headshot_trsaari.jpg) |
 |:-:|:-:|:-:|:-:|
 | **Chris** | **Marci** | **Travis** |
-| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg) |
+| ![](images/headshots/headshot_damki.jpg) | ![](images/headshots/headshot_rcavalca.jpg) |
 | **Dana** | **Raymond** |
 
 <br/>
@@ -92,10 +92,10 @@ pre {
   following the workshop.
 
 
-## <img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/>
+## <img src="images/intro/zoom_logo.png" alt="Zoom" width=120/>
 
 - Zoom controls are at the bottom of the Zoom window:
-![Zoom controls](images/Module00_zoom_controls.png?s)
+![Zoom controls](images/intro/zoom_controls.png?s)
 
 - To minimize distractions, we encourage participants to keep their audio muted
   (unless actively asking a question).
@@ -107,7 +107,7 @@ pre {
 - Zoom's "Reactions" are a useful way to interact. You can access these from 
   the **React** button.
 
-![Zoom reactions](images/Module00_zoom_reactions.png)
+![Zoom reactions](images/intro/zoom_reactions.png)
 
   - **Raise Hand** to request clarification or ask a question. (Same as an 
     in-person workshop.)
@@ -117,7 +117,7 @@ pre {
 <br/>
 
 ### Exercise: Use Zoom reactions
-  - Everyone use Zoom to raise your hand. <img src="images/Module00_zoom_raise_hand.png" width=50/>
+  - Everyone use Zoom to raise your hand. <img src="images/intro/zoom_raise_hand.png" width=50/>
 <br/>
 <br/>
 
@@ -131,17 +131,17 @@ breakout room.
   - Click **Join** (to the right of the room name).
   - When you have completed introductions, you can leave the breakout room to rejoin the main room.
 
-  <img src="images/Module00_zoom_breakout_room.png" width="60%"/>
+  <img src="images/intro/zoom_breakout_room.png" width="60%"/>
 <br/>
 <br/>
 
 
-## <img src="images/Module00_slack_logo.png" alt="Slack" width=120/>
+## <img src="images/intro/slack_logo.png" alt="Slack" width=120/>
 
 - **Slack** can be used to communicate to the group or to individuals and has a
   few features/behaviors that we prefer over Zoom's Chat functionality.
 
-![Posting messages to Slack](images/Module00_slack.png)
+![Posting messages to Slack](images/intro/slack.png)
 
   - Slack messages will be posted to the **2024-06-reproducible-computing** channel.  
     Click on the channel in the left pane (1) to select this channel.
@@ -159,12 +159,12 @@ breakout room.
 
 
 ## Review of Key communication patterns
-| | <img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/> | <img src="images/Module00_Slack_logo.png" alt="Slack" width=120/> |
+| | <img src="images/intro/zoom_logo.png" alt="Zoom" width=120/> | <img src="images/intro/Slack_logo.png" alt="Slack" width=120/> |
 |-|:-:|-|
-| "I have an urgent question" | <img src="images/Module00_zoom_raise_hand.png" width=50/> | **Post a question** |
+| "I have an urgent question" | <img src="images/intro/zoom_raise_hand.png" width=50/> | **Post a question** |
 | "I have a general question" | | **Post a question** |
 | "I'm stuck / I need a hand" | | **Post a note** |
-| Instructor check-in | <img src="images/Module00_zoom_green_check.png" width=50/> -or- <img src="images/Module00_zoom_red_x.png" width=50/> | |
+| Instructor check-in | <img src="images/intro/zoom_green_check.png" width=50/> -or- <img src="images/intro/zoom_red_x.png" width=50/> | |
 | Instructor Slack question | | **Respond in Slack thread** |
 <br/>
 <br/>
@@ -183,7 +183,7 @@ It is important that you can see:
  - Slack
  - Lesson plan web page
 
-![arranged screens](images/Module00_arranged_screens.png?)
+![arranged screens](images/intro/arranged_screens.png?)
 <br/>
 <br/>
 
@@ -197,7 +197,7 @@ It is important that you can see:
 
 # Thank you to our sponsors/contributors
 
-![](images/Module00_sponsor_logos.png)
+![](images/intro/sponsor_logos.png)
 
 ## [UM BRCF Bioinformatics Core](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core){target="_blank"}
 

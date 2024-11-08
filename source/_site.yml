@@ -14,49 +14,51 @@ navbar:
   type: inverse
   left:
     - text: "Intro"
-      href: Module00_Introduction.html
-    - text: "Overview & Quick-Start"
+      href: intro.html
+    - text: "Day 1"
       menu:
-        - text: "Overview and Warmup"
-          href: Module_overview_and_warmup.html
-        - text: "Sneak Peek of Great Lakes"
-          href: Module_sneak_peek_great_lakes.html
-        - text: "Data Priorities and Analysis Setup"
-          href: Module_data_priorities_analysis_setup.html
-        - text: "Terminology - Compute Environment"
-          href: Module_compute_environment_definition.html
+      - text: "Overview & Quick-Start"
+        menu:
+          - text: "Overview and Warmup"
+            href: Module_overview_and_warmup.html
+          - text: "Sneak Peek of Great Lakes"
+            href: Module_sneak_peek_great_lakes.html
+          - text: "Data Priorities and Analysis Setup"
+            href: Module_data_priorities_analysis_setup.html
+          - text: "Terminology - Compute Environment"
+            href: Module_compute_environment_definition.html
+  
+      - text: "UMich Resources"
+        menu:
+          - text: "Storage"
+            href: Module_storage_best_practices_UMRCP.html
+          - text: "Compute Hardware"
+            href: Module_great_lakes_cluster.html
+  
+  
+      - text: "Software management with Conda"
+        href: Module_software_management_conda.html
 
-    - text: "UMich Resources"
+    - text: "Day 2"
       menu:
-        - text: "Storage"
-          href: Module_storage_best_practices_UMRCP.html
-        - text: "Compute Hardware"
-          href: Module_great_lakes_cluster.html
+          - text: "Containerization with Docker/Singularity"
+            href: Module_containers_docker_singularity.html
+          - text: "Independent Exercise"
+            href: exercise-2.html
+          - text: "Intro to workflow automation"
+            href: Module_intro_to_workflow_automation.html
 
-
-    - text: "Software Management"
+    - text: "Day 3"
       menu:
-        - text: "Software management with Conda"
-          href: Module_software_management_conda.html
-        - text: "Containerization with Docker/Singularity"
-          href: Module_containers_docker_singularity.html
-        - text: "Independent Exercise"
-          href: exercise-2.html
-          
-    - text: "Workflow automation"
-      menu:
-        - text: "Intro to workflow automation"
-          href: Module_intro_to_workflow_automation.html
         - text: "Intro to Snakemake"
           href: Module_intro_to_snakemake.html
 #        - text: "Advanced Snakemake"
-#          href: Module-08-advanced-snakemake.html
+#          href: Module_advanced-snakemake.html
 
-    - text: "Data Management"
-      menu:
         - text: "Raw Data Management"
           href: Module_raw_data_management.html
         - text: "Transferring data with Globus"
           href: Module_transferring_data_globus.html
+
     - text: "Wrap up"
-      href: Module_wrap_up.html
+      href: wrap_up.html

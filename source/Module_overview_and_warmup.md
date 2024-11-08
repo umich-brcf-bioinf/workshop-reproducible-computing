@@ -103,5 +103,5 @@ Here is the link to [ARC's Great Lakes Portal](https://greatlakes.arc-ts.umich.e
 <br>
 <br>
 
-| [Previous lesson](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module_sneak_peek_great_lakes.html) |
+| [Previous lesson](intro.html) | [Top of this lesson](#top) | [Next lesson](Module_sneak_peek_great_lakes.html) |
 | :--- | :----: | ---: |
