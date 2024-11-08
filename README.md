@@ -6,9 +6,9 @@ This is the custom curriculum for the UM Bioinformatics Core RNA-Seq Demystified
 
 * Links to web content:
   
-  - [Main](https://umich-brcf-bioinf.github.io/workshop-reproducible-computing/main/html/index.html){target="_blank"}
-  - [2024-11-13](https://umich-brcf-bioinf.github.io/workshop-reproducible-computing/2024-11-13/html/index.html){target="_blank"}
-  - [2024-06-10](https://umich-brcf-bioinf.github.io/workshop-reproducible-computing/2024-06-10/html/index.html){target="_blank"}
+  - [Main](https://umich-brcf-bioinf.github.io/workshop-reproducible-computing/main/html/index.html)
+  - [2024-11-13](https://umich-brcf-bioinf.github.io/workshop-reproducible-computing/2024-11-13/html/index.html)
+  - [2024-06-10](https://umich-brcf-bioinf.github.io/workshop-reproducible-computing/2024-06-10/html/index.html)
 
 
   

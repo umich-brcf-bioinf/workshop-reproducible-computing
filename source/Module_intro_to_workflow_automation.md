@@ -32,7 +32,7 @@ By the end of this module, we will:
 
 - Understand what workflow automation is and how it helps reproducibility.
 - Review several different ways to execute repetitive tasks on Great Lakes.
-- Introduce the idea of job/task geometries to visualize approachs and their advantages and limitations.
+- Introduce the idea of job/task geometries to visualize advantages and limitations of various approaches.
 
 
 ## Workflow automation helps reproducibility
@@ -45,20 +45,22 @@ automated so a computer can. A reproducible solution has a blend of
 documentation and automation.
 
 Data-intensive research often involves repeating transformation tasks many
-times. Also overtime transformations evolve to be more complex, more
+times. Also over time, transformations evolve to be more complex, more
 computationally demanding, or take longer. A **workflow** describes the key
 transformation tasks and their relationships to the inputs and outputs.
 
 **Workflow automation** describes the tools and techniques to systematically
-assemble these tasks into a executable, repeatable, robust solution. Building an
-automated workflow appears harder than documenting it to be run manually, but
-there are many benefits to reproducibility:
+assemble these tasks into an executable, repeatable, robust solution. Building an
+automated workflow may appear to be harder than documenting it so that it can be 
+run manually, but there are many benefits to automation:
 
   - Automation facilitates repetition.
   - Automation can simplify manual documentation.
   - Automation simplifies validation of your workflow.
   - Automation streamlines sharing.
-  - Automation scales to larger inputs
+  - Automation scales to larger inputs.
+
+## Consider a simple workflow
 
 There are many ways to build an automated workflow. In this module we will
 consider several ways of executing [pleasingly
@@ -69,14 +71,14 @@ tasks on Great Lakes:
 - Parallelizing tasks using driver scripts and sbatch files.
 - The SLURM Launcher
 
-All these approaches execute the same workflow in different ways. The workflow
+All these approaches execute the same workflow in different ways. This workflow
 produces word pangrams. A **word pangram** is like an anagram that allows
 repeating letters, e.g. the sequence of letters ACEHMNT can be rearranged to
 create the pangrams ATTACHMENT, CATCHMENT, ENCHANTMENT, and ENHANCEMENT.
 
-The workflow accepts a text file containing list of letter sequences separated
-by lines; for each letter sequence it produces a file containing one or more 
-pangrams.
+For this example, the workflow is a single program that accepts a text file 
+containing list of letter sequences separated by lines; for each letter sequence 
+it produces a file containing one or more pangrams.
 
 <img src="images/intro_to_workflow_automation/pangram_workflow.png" width="60%" height="60%"/>
 
@@ -89,12 +91,12 @@ pangrams.
 ```r
 # Orient on project pangram
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
-cd project_pangrams
+cd workflows/project_pangrams
 ls -1
 ```
 
 > ```
-pangram_job_launcher
+pangram_launcher
 pangram_parallel_sbatch
 pangram_serial_loop
 README.md
@@ -777,7 +779,7 @@ pack everyones jobs as neatly as possible.
 
 ## Links and references
 
-- UM ITS docs on [launcher](https://arc.umich.edu/greatlakes/software/launcher/){target="_blank"}
+- UM ITS docs on [launcher](https://documentation.its.umich.edu/arc-software/launcher){target="_blank"}
 - UM ARC docs on [job arrays](https://docs.support.arc.umich.edu/slurm/array/){target="_blank"}
 - SLURM docs on [job arrays](https://slurm.schedmd.com/job_array.html){target="_blank"}
 - UM ARC [miVideo](https://www.mivideo.it.umich.edu/media/t/1_z4df84ti/181860561){target="_blank"} on advanced SLURM techniques (including launcher, job arrays, and more)
