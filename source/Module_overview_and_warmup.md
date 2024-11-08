@@ -78,5 +78,5 @@ Following along with the instructor, we'll use the web-based shell to connect to
 <br>
 <br>
 
-| [Previous lesson](Module00_Introduction.html) | [Top of this lesson](#top) | [Next lesson](Module_sneak_peek_great_lakes.html) |
+| [Previous lesson](intro.html) | [Top of this lesson](#top) | [Next lesson](Module_sneak_peek_great_lakes.html) |
 | :--- | :----: | ---: |
