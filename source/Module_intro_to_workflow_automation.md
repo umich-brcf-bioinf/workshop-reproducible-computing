@@ -78,7 +78,7 @@ The workflow accepts a text file containing list of letter sequences separated
 by lines; for each letter sequence it produces a file containing one or more 
 pangrams.
 
-<img src="images/Module06_pangram_workflow.png" width="60%" height="60%"/>
+<img src="images/intro_to_workflow_automation/pangram_workflow.png" width="60%" height="60%"/>
 
 <br/>
 
@@ -262,7 +262,7 @@ This approach is correct, clear, and reproducible; however it's not ideal.
 Consider how the tasks are contained within a job:
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometry of the serial loop approach</th></tr>
-<tr><td class='fig'>![](images/Module06_geometry_serial_loop.png)</td></tr>
+<tr><td class='fig'>![](images/intro_to_workflow_automation/geometry_serial_loop.png)</td></tr>
 <tr><td class='fig'>Each sbatch request is a job script; a job script may be
 composed of multiple tasks. Key attributes of a **job script** are 
 
@@ -432,8 +432,8 @@ because the tasks are working in parallel, it's **much** faster. Contrast this
 job/task geometry with the serial loop approach from above:
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometries: serial loop vs parallel sbatch</th></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_serial_loop_small.png"/></td></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_parallel.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_serial_loop_small.png"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_parallel.png" height="40%" width="40%"/></td></tr>
 </table>
 
 This is great. But there's two to three minor drawbacks to this approach:
@@ -605,9 +605,9 @@ each tasks has a modest compute request (e.g. each task needs a single CPU).
 ## Geometries and dependencies
 
 <table class='fig' width='100%'><tr><th class='fig'>Job/task geometries compared</th></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_serial_loop_small.png"/></td></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_parallel.png" height="40%" width="40%"/></td></tr>
-<tr><td class='fig'><img src="images/Module06_geometry_launcher.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_serial_loop_small.png"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_parallel.png" height="40%" width="40%"/></td></tr>
+<tr><td class='fig'><img src="images/intro_to_workflow_automation/geometry_launcher.png" height="40%" width="40%"/></td></tr>
 </table>
 
 The three job geometries diagrammed above hint that we quietly made a
@@ -620,18 +620,18 @@ applied many different inputs.
 Commonly workflows contain several different steps which where the input of one 
 step often depends on the output of the previous.
 <div style="text-align: center;">
-<img src="images/Module06_geometry_of_multistep_job.png" height="20%" width="20%"/>
+<img src="images/intro_to_workflow_automation/geometry_of_multistep_job.png" height="20%" width="20%"/>
 </div>
 
 Also steps in a workflow often have variable resrouce needs and run times:
 
 <div style="text-align: center;">
-<img src="images/Module06_heterogeneity_of_multistep_job.png" height="30%" width="30%"/>
+<img src="images/intro_to_workflow_automation/heterogeneity_of_multistep_job.png" height="30%" width="30%"/>
 </div>
 
 Moreover, workflows are not always linear; the logical flow of steps may join the outputs of two steps as an input to a third:
 <div style="text-align: center;">
-<img src="images/Module06_nonlinear_workflow.png" height="50%" width="50%"/>
+<img src="images/intro_to_workflow_automation/nonlinear_workflow.png" height="50%" width="50%"/>
 </div>
 
 
@@ -674,7 +674,7 @@ the way:
 5. **Instead of developing the whole workflow end to end, consider an iterative and incremental approach.** <br/>
 
 <div style="text-align: center;">
-<img src="images/Module06_iterative_development.png" height="80%" width="80%"/>
+<img src="images/intro_to_workflow_automation/iterative_development.png" height="80%" width="80%"/>
 </div>
 
    Break workflow development into steps:

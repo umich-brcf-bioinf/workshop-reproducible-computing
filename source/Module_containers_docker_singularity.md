@@ -328,5 +328,5 @@ In choosing any tool, we must consider the inherent trade-offs between simplicit
 ---
 
 
-| [Previous lesson](Module04_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module06-intro-to-workflow-automation.html) |
+| [Previous lesson](Module_software_management_conda.html) | [Top of this lesson](#top) | [Next lesson](Module_intro_to_workflow_automation.html) |
 | :--- | :----: | ---: |

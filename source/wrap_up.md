@@ -1,5 +1,5 @@
 ---
-title: "Reproducible Computing Workshop"
+title: "Wrap up"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -32,8 +32,6 @@ a.external {
     padding-right: 13px;
 }
 </style>
-
-## Wrapping up
 
 We hope you now have more familiarity with key patterns, approaches, and tools
 that can enable more computational reproducibility in your research. Please remember that reproducibility exists on a continuum:
@@ -92,13 +90,13 @@ Making research reproducibile is a learning process. Resources to consider:
 
 ## Thank you
 
-![Sponsors](images/Module00_sponsor_logos.png)
+![Sponsors](images/intro/sponsor_logos.png)
 
 ## Thank you to/from the workshop team
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg) | ![](images/Module00_headshots/headshot_trsaari.jpg) |
+| ![](images/headshots/headshot_cgates.jpg) | ![](images/headshots/headshot_mbradenb.jpg) | ![](images/headshots/headshot_trsaari.jpg) |
 |:-:|:-:|:-:|:-:|
 | **Chris** | **Marci** | **Travis** |
-| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_rcavalca.jpg)
+| ![](images/headshots/headshot_damki.jpg) | ![](images/headshots/headshot_rcavalca.jpg)
 | **Dana** | **Raymond** |
 
 <br/>

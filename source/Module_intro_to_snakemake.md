@@ -70,7 +70,7 @@ also emits a few intermediate files).
 
 <table class='fig'><tr><th class='fig' colspan="2">alcott_script/alcott_script.sh</th></tr>
 <tr>
-<td class='fig'><img src="images/Module07_bash_dag.png"/></td>
+<td class='fig'><img src="images/intro_to_snakemake/bash_dag.png"/></td>
 <td class='fig'><pre>
 #!/bin/bash
 # Which of the March sisters is referred to most often in
@@ -648,7 +648,7 @@ visualizer).
 snakemake --dag | dot -Tpng > dag.png
 ```
 
-![dag.png](images/Module07_dag.png)
+![dag.png](images/intro_to_snakemake/dag.png)
 <br/>
 
 As you can see above, by default `dot` displays the graphs vertically with inputs
@@ -659,7 +659,7 @@ output to input, so you can invert the diagram like so:
 snakemake --dag | dot -Grankdir="BT" -Tpng > dag_inverted.png
 ```
 
-![dag_inverted.png](images/Module07_dag_inverted.png)
+![dag_inverted.png](images/intro_to_snakemake/dag_inverted.png)
 <br/>
 
 ### All target / Wildcards / Visualizaing the rulegraph
@@ -813,7 +813,7 @@ graph.) Note:
 snakemake --dag | dot -Grankdir="BT" -Tpng > dag_inverted_wildcards.png
 ```
 
-![dag_inverted_wildcards.png](images/Module07_dag_inverted_wildcards.png)
+![dag_inverted_wildcards.png](images/intro_to_snakemake/dag_inverted_wildcards.png)
 <br/>
 
 With complex workflows, you sometimes don't want to see all the possible inputs 
@@ -824,7 +824,7 @@ supports this with a related flag `--rulegraph`
 snakemake --rulegraph | dot -Grankdir="BT" -Tpng > rulegraph.png
 ```
 
-![rulegraph.png](images/Module07_rulegraph.png)
+![rulegraph.png](images/intro_to_snakemake/rulegraph.png)
 <br/>
 
 
@@ -1199,7 +1199,7 @@ cd to the project publication_snakemake_1
 Given this DAG can you fill in the missing parts of the Snakefile below and 
 regenerate a similar DAG figure?
 
-![](images/Module07_exercise1_dag.png)
+![](images/intro_to_snakemake/exercise1_dag.png)
 
 FYI:
 
@@ -1253,7 +1253,7 @@ Use params and a config file to extract hardcoded absolute paths and any other
 
 Extend the workflow to cover more inputs as illustrated in the DAG below:
 
-![](images/Module07_exercise1C_dag.png)
+![](images/intro_to_snakemake/exercise1C_dag.png)
 
 
 ### Exercise 1D:
@@ -1271,5 +1271,5 @@ re-run the Snakefile using worker nodes instead of the login-node.
 
 ---
 
-| [Previous lesson](Module_intro_to_workflow_automation.html) | [Top of this lesson](#top) | [Wrap up](Module_raw_data_managment.html) |
+| [Previous lesson](Module_intro_to_workflow_automation.html) | [Top of this lesson](#top) | [Next lesson](Module_raw_data_management.html) |
 | :--- | :----: | ---: |

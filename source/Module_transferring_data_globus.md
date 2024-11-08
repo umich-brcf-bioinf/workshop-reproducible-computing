@@ -169,5 +169,5 @@ When considering any data transfer, you must understand:
 Unless this is arranged previously for an ongoing relationship, *someone* will *always* need to grant permissions to enable a transfer between two parties.
 
 
-| [Previous lesson](Module_raw_data_management.html) | [Top of this lesson](#top) | [Next lesson](Module_wrap_up.html) |
+| [Previous lesson](Module_raw_data_management.html) | [Top of this lesson](#top) | [Next lesson](wrap_up.html) |
 | :--- | :----: | ---: |

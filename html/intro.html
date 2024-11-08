@@ -12,9 +12,9 @@
 <meta name="author" content="UM Bioinformatics Core Workshop Team" />
 
 
-<title>Reproducible Computing Workshop</title>
+<title>Introduction and housekeeping</title>
 
-<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -334,84 +334,76 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Module00_Introduction.html">Intro</a>
+  <a href="intro.html">Intro</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Overview &amp; Quick-Start
+    Day 1
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
-    </li>
-    <li>
-      <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    UMich Resources
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
-    </li>
-    <li>
-      <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Software Management
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_software_management_conda.html">Software management with Conda</a>
     </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
     </li>
     <li>
       <a href="exercise-2.html">Independent Exercise</a>
     </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Workflow automation
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
     </li>
-    <li>
-      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Data Management
+    Day 3
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
     <li>
       <a href="Module_raw_data_management.html">Raw Data Management</a>
     </li>
@@ -421,7 +413,7 @@ div.tocify {
   </ul>
 </li>
 <li>
-  <a href="Module_wrap_up.html">Wrap up</a>
+  <a href="wrap_up.html">Wrap up</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -435,7 +427,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Reproducible Computing Workshop</h1>
+<h1 class="title toc-ignore">Introduction and housekeeping</h1>
 <h4 class="author">UM Bioinformatics Core Workshop Team</h4>
 
 </div>
@@ -460,16 +452,16 @@ pre {
 able to improve the reproducibility of data-intensive research projects.
 It is open to University of Michigan affiliated persons and assumes a
 basic familiarity with the command line.</p></li>
-<li><p>By the end of the workshop, attendees will</p>
+<li><p>By the end of the workshop, attendees will:</p>
 <ul>
-<li>Understand the main research data storage systems at UM and know how
-to move data among systems.</li>
-<li>Install 3rd party software in virtual environments.</li>
-<li>Describe the advantages of containerization and install 3rd party
+<li>Understand how to use UM’s Great Lakes high performance compute
+(HPC) environment</li>
+<li>Be able to install 3rd party software in virtual environments.</li>
+<li>Understand the advantages of containerization and install 3rd party
 containers.</li>
-<li>Submit and manage jobs in UM’s high performance computing
-environment.</li>
 <li>Streamline data transformation using workflow automation.</li>
+<li>Understand data storage options (e.g. Turbo) and how to use Globus
+to move data</li>
 </ul></li>
 <li><p>Our purpose is not to be exhaustive, there is a lot that we
 cannot cover in the allotted time, and we don’t expect anyone to be an
@@ -491,11 +483,11 @@ workshop experience.</p></li>
 <thead>
 <tr class="header">
 <th align="center"><img
-src="images/Module00_headshots/headshot_cgates.jpg" /></th>
+src="images/headshots/headshot_cgates.jpg" /></th>
 <th align="center"><img
-src="images/Module00_headshots/headshot_mbradenb.jpg" /></th>
+src="images/headshots/headshot_mbradenb.jpg" /></th>
 <th align="center"><img
-src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
+src="images/headshots/headshot_trsaari.jpg" /></th>
 <th align="center"></th>
 </tr>
 </thead>
@@ -508,9 +500,9 @@ src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
 </tr>
 <tr class="even">
 <td align="center"><img
-src="images/Module00_headshots/headshot_damki.jpg" /></td>
+src="images/headshots/headshot_damki.jpg" /></td>
 <td align="center"><img
-src="images/Module00_headshots/headshot_rcavalca.jpg" /></td>
+src="images/headshots/headshot_rcavalca.jpg" /></td>
 <td align="center"></td>
 <td align="center"></td>
 </tr>
@@ -562,11 +554,10 @@ participants<br />
 following the workshop.</li>
 </ul>
 <div id="section" class="section level2">
-<h2><img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/></h2>
+<h2><img src="images/intro/zoom_logo.png" alt="Zoom" width=120/></h2>
 <ul>
 <li><p>Zoom controls are at the bottom of the Zoom window: <img
-src="images/Module00_zoom_controls.png?s"
-alt="Zoom controls" /></p></li>
+src="images/intro/zoom_controls.png?s" alt="Zoom controls" /></p></li>
 <li><p>To minimize distractions, we encourage participants to keep their
 audio muted (unless actively asking a question).</p></li>
 <li><p>To maximize engagement, we encourage participants to keep their
@@ -581,7 +572,7 @@ minutes.</p></li>
 these from the <strong>React</strong> button.</p></li>
 </ul>
 <div class="float">
-<img src="images/Module00_zoom_reactions.png" alt="Zoom reactions" />
+<img src="images/intro/zoom_reactions.png" alt="Zoom reactions" />
 <div class="figcaption">Zoom reactions</div>
 </div>
 <ul>
@@ -595,8 +586,7 @@ X</strong> to poll the group at checkpoints along the way. <br/>
 <h3>Exercise: Use Zoom reactions</h3>
 <ul>
 <li>Everyone use Zoom to raise your hand.
-<img src="images/Module00_zoom_raise_hand.png" width=50/> <br/>
-<br/></li>
+<img src="images/intro/zoom_raise_hand.png" width=50/> <br/> <br/></li>
 </ul>
 </div>
 <div id="exercise-using-zoom-breakout-rooms" class="section level3">
@@ -611,19 +601,19 @@ name</li>
 <li>When you have completed introductions, you can leave the breakout
 room to rejoin the main room.</li>
 </ul>
-<p><img src="images/Module00_zoom_breakout_room.png" width="60%"/> <br/>
+<p><img src="images/intro/zoom_breakout_room.png" width="60%"/> <br/>
 <br/></p>
 </div>
 </div>
 <div id="section-1" class="section level2">
-<h2><img src="images/Module00_slack_logo.png" alt="Slack" width=120/></h2>
+<h2><img src="images/intro/slack_logo.png" alt="Slack" width=120/></h2>
 <ul>
 <li><strong>Slack</strong> can be used to communicate to the group or to
 individuals and has a few features/behaviors that we prefer over Zoom’s
 Chat functionality.</li>
 </ul>
 <div class="float">
-<img src="images/Module00_slack.png" alt="Posting messages to Slack" />
+<img src="images/intro/slack.png" alt="Posting messages to Slack" />
 <div class="figcaption">Posting messages to Slack</div>
 </div>
 <ul>
@@ -656,15 +646,15 @@ trigger the message menu and clicking the <strong>speech bubble</strong>
 <tr class="header">
 <th></th>
 <th
-align="center"><img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/></th>
-<th><img src="images/Module00_slack_logo.png" alt="Slack" width=120/></th>
+align="center"><img src="images/intro/zoom_logo.png" alt="Zoom" width=120/></th>
+<th><img src="images/intro/slack_logo.png" alt="Slack" width=120/></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>“I have an urgent question”</td>
 <td
-align="center"><img src="images/Module00_zoom_raise_hand.png" width=50/></td>
+align="center"><img src="images/intro/zoom_raise_hand.png" width=50/></td>
 <td><strong>Post a question</strong></td>
 </tr>
 <tr class="even">
@@ -680,8 +670,8 @@ align="center"><img src="images/Module00_zoom_raise_hand.png" width=50/></td>
 <tr class="even">
 <td>Instructor check-in</td>
 <td
-align="center"><img src="images/Module00_zoom_green_check.png" width=50/>
--or- <img src="images/Module00_zoom_red_x.png" width=50/></td>
+align="center"><img src="images/intro/zoom_green_check.png" width=50/>
+-or- <img src="images/intro/zoom_red_x.png" width=50/></td>
 <td></td>
 </tr>
 <tr class="odd">
@@ -710,7 +700,7 @@ need clarification. <br/> <br/></li>
 <li>Slack</li>
 <li>Lesson plan web page</li>
 </ul>
-<p><img src="images/Module00_arranged_screens.png?"
+<p><img src="images/intro/arranged_screens.png?"
 alt="arranged screens" /> <br/> <br/></p>
 </div>
 </div>
@@ -724,7 +714,7 @@ alt="arranged screens" /> <br/> <br/></p>
 </div>
 <div id="thank-you-to-our-sponsorscontributors" class="section level1">
 <h1>Thank you to our sponsors/contributors</h1>
-<p><img src="images/Module00_sponsor_logos.png" /></p>
+<p><img src="images/intro/sponsor_logos.png" /></p>
 <div id="um-brcf-bioinformatics-core" class="section level2">
 <h2><a
 href="https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core"
