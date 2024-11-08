@@ -23,7 +23,8 @@ pre {
 In this module, we will:
 
 * discuss reproducible computing in general
-* use a simple warm-up exercise to introduce example data and example tasks that we'll use to demonstrate tools and techniques for reproducible computing
+* use a simple warm-up exercise to introduce example data and example tasks
+  * we'll expand on this simple analysis/dataset throughout the workshop to demonstrate aspects of reproducible computing
 * quickly get started using UMich's Great Lakes High-Performance Computing (HPC) cluster
 * start to get acquainted with project organization
 
@@ -49,11 +50,37 @@ In this workshop we'll discuss these tools and techniques, we'll provide specifi
 
 ## Warmup Example - "Hello Alcott"
 
-![](images/ModuleOAW_hello_alcott.png)
+<br>
+
+We'll use the text of Louisa May Alcott's novel, "Little Women" as a dataset throughout a good portion of this workshop. As a simple example analysis task, we'll search the text for the mention of several main characters.
 
 <br>
 
-### Purpose of Examples
+### Task: Count Mention of Main Characters
+
+<br>
+
+How many times are each of these main characters mentioned:?
+
+- Amy
+- Beth
+- Jo
+- Laurie
+- Meg
+
+<br>
+
+### Preview of Example Warmup Script
+
+<br>
+
+We have an example script called `hello_alcott.sh` that we'll use to find the answer to this question. Here is a diagram showing what it does:
+
+<br>
+
+![](images/ModuleOAW_hello_alcott.png)
+
+<!-- LIVE_NOTE: Mention the purpose of these examples - simple dataset is easy to understand and explain - We'll use the example to demonstrate things like project organization, documentation, software management, etc. -->
 
 <br>
 
@@ -71,9 +98,7 @@ Sneak preview of the web-based shell
 
 Following along with the instructor, we'll use the web-based shell to connect to Great Lakes. Once there, we'll run an introductory script, and take another look at our transferred files.
 
-<br>
-
-### Review
+Here is the link to [ARC's Great Lakes Portal](https://greatlakes.arc-ts.umich.edu)
 
 <br>
 <br>

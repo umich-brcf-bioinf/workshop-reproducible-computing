@@ -29,7 +29,51 @@ In this module, we will:
 
 <br>
 
-### Analysis Projects
+## Storage Best Practices
+
+One simple way to organize our thinking about storage best practices is to divide the topic into raw data considerations, and considerations for analysis projects. By separating and focusing on those two aspects, we can effectively address many of the challenges associated with each.
+
+>Note: The importance of documentation is universal to all aspects of reproducible research. In considering best practices both for our raw data and for our analysis projects, we will emphasize the importance of documentation!
+
+<br>
+
+### Data Priorities
+
+<br>
+
+In general, our first priority is to receive our raw data and keep it in a safe location  
+Next, we want to prepare a secondary location where we will conduct our analysis  
+Finally, we'll copy the subset of data needed for analysis, into our prepared analysis project location  
+
+<br>
+
+![](images/Module01_general_best_practice_data_flow.png)
+
+<br>
+
+### Raw Data - Overview
+
+When considering best practices for raw data storage, we can generally orient ourselves around one task - ensure that the data are safe.
+
+Safe from:
+
+- Accidental deletion
+- Hardware failure
+- Loss of access
+
+With this in mind, we recommend placing your raw experimental data into a specific designated location which is **solely** dedicated to storing your raw data.
+
+In future modules we'll discuss specific options for UMich researchers, but for now we'll just speak of the general process. Data that cannot easily be re-obtained should be treated with great care. By following the recommendations here, we can achieve this and have peace of mind that we are preserving our raw data and our capabilities for reproducible research well into the future.
+
+![](images/ModuleDPAR_data_priorities.png)
+
+| Step | Step Name       | Preparatory Action                                                                                                                                               |
+| ---- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Receive Data    | Determine Sufficient Storage:<br> - Total size<br> - Total # files                                                                                               |
+| 2    | Prepare Project | Determine if analysis location is appropriate:<br> - Total size (including intermediates)<br> - Fast connection to compute hardware<br> - Separate from raw data |
+| 3    | Copy Data       | Document                                                                                                                                                         |
+
+### Analysis Projects - In-Depth Look
 
 We can begin thinking of our next task - handling data and organizing files and artifacts for our analysis - by starting with the idea of the data flow described above. One of the first tasks in this area is to set up a new location for your analysis and make a copy of your raw data there.
 
@@ -65,6 +109,7 @@ Some ideas for project identification systems:
 
 - Codenames
 - Alphanumeric IDs
+- Short contextual descriptions
 
 <br>
 
