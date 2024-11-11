@@ -9,7 +9,7 @@ output:
             number_sections: false
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
@@ -22,17 +22,21 @@ pre {
 
 In this module, we will:
 
-* learn about software management
+* learn more about software management
 * discuss package managers
 * discuss conda as a software management solution
-* learn how to set up conda
+* learn how to set up conda and use it on Great Lakes
 * learn how to create and use our own conda environments
+
+<br>
 
 ## Software Management
 
 Software management is something that is not typically appreciated until it is missing. In your typical day-to-day computing tasks, software management is an automatic background process, and generally this is how we want things to be.
 
 When performing research computing tasks, however, you may run into situations when this automatic background handling of software requirements is not sufficient. You may have very specific version requirements, or you may have disparate (or incompatible!) software needs for different tasks.
+
+<br>
 
 ### Package Managers
 
@@ -87,11 +91,13 @@ In the figure above, we show what could happen when we try to use a cutting-edge
   - Used during environment creation
   - Can communicate requirements to others when shared
 
+<br>
+
 ### Allows Us to Manage Our Own Software
 
 For us as users of research software, we're primarily interested in conda because it grants us the ability to manage our own software. In addition, it provides the immense benefit of providing pluggability to our software management capabilities.
 
-<!-- LIVE_NOTE: Relate to not being able to use deeptools, no module available in prev module -->
+<!-- LIVE_NOTE: Relate to the earlier module where "wordcloud" package was not available -->
 
 ### Simplifies Distribution of New Software
 
@@ -102,7 +108,7 @@ The platform allows developers to record a project's environment in a shareable 
 For developers, Conda breaks down software distribution into a few straightforward steps. By defining and packaging an application's environment, they make it effortlessly accessible, thereby encouraging broader use and facilitating user adoption.
 
 
-### Environments
+### Conda Environments
 
 The environment is what is created by Conda, it is the culmination of the dependency solving and installation completion that conda takes care of during the creation stage. After it is created, it will remain available and can be enabled/disabled at will.
 
@@ -119,7 +125,6 @@ Quick aside about `$PATH` - it is one of the tricks that conda uses in order to 
 - We use 'Conda' as a generalized term. There are several variations including 'Anaconda' and 'Miniconda'.
   - Anaconda comes pre-bundled with a plethora of common python and data science packages.
   - Miniconda starts out as more of a blank slate.
-  - We will be installing Miniconda and using it in our exercises.
 
 <br>
 
@@ -138,104 +143,57 @@ Basically, conda packages are bundled up software, system-level libraries, depen
 
 <br>
 
-## Miniconda Installation and Configuration Details
-
-So far we've described many of the details of how conda works and how we can use it, both to create new environments and to activate/deactivate them at will. Since we'll be installing and configuring it during this workshop, we have some notes here that we'll quickly cover before jumping in.
-
-### Miniconda Installation Overview
-
-- We will use the Miniconda installer and each of us will install miniconda to our `$WORKSHOP_HOME` directory on Great Lakes.
-- [Link to Miniconda installation instructions](https://docs.anaconda.com/free/miniconda/miniconda-install/)
-- Together, we'll verify the file integrity of the installer and then use it to guide us through the installation process.
-
-<br>
-
 ### Conda Configuration with .condarc Overview
 
 - Condarc file contains configuration details for your conda installation.
 - [Link to documentation on using condarc](https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html)
-- In our configuration exercise we will set `envs_dirs` within our condarc file to a location within our turbo storage.
+- In our workshop exercises together, we will not create nor modify a `.condarc` file.
+  - Instead, we'll temporarily set `envs_dirs` using our workshop conda shortcut script.
+  - We will set it to a location within our `$WORKSHOP_HOME`.
 
 <br>
 
-## Exercise - Conda Install and Configure
+## Exercise - Quick-Start with Conda 
 
-Following along with instructor, learners will install miniconda and create a `.condarc` file.
+We will use a pre-prepared shortcut to load ARC's anaconda module and set some configuration details. Following along with the instructor, we'll inspect what the shortcut does, and discuss how you could take similar steps and modify these configuration details for future work with conda on Great Lakes
 
-<details>
-<summary>Miniconda Install and Configure - Solution</summary>
+`source ${WORKSHOP_HOME}/intro_scripts/source_me_for_workshop_conda.sh`
 
-`sha256sum Miniconda3-latest-Linux-x86_64.sh  # Check result against the miniconda installer page`
+`which python`
 
-`./Miniconda3-latest-Linux-x86_64.sh -p ${WORKSHOP_HOME}/miniconda3`
+<!-- LIVE_NOTE: Check in to verify that 'which python' is returning correct thing (the LMOD python anaconda one) -->
 
->Note: At the end, when asked about setting up conda initialization, we chose 'no', and instead opted to create a separate conda_initialization file that we can `source` when we want to use conda.
-
-`nano ${WORKSHOP_HOME}/initialize_conda_workshop.sh`
-
-Content of `initialize_conda_workshop.sh`:
-
-`eval "$(/nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/miniconda3/bin/conda shell.bash hook)"`
-
-Then we can `source ${WORKSHOP_HOME}/initialize_conda_workshop.sh` and notice `(base)` appears in our prompt, an indicator that the `base` environment of our conda installation is activated.
-
-`mkdir project_analysis/conda_envs`
-
-`nano ~/.condarc  # Add an entry for 'envs_dirs' in our condarc`
-
-As an alternative to nano, we can use this one-liner (! Only do this if you are sure you don't have an existing `~/.condarc`, it would be overwritten!):
-
-`echo -e "envs_dirs:\n  - ${WORKSHOP_HOME}/project_analysis/conda_envs" > ~/.condarc`
-
-</details>
-
-<!-- LIVE_NOTE: One-liner with libmamba solver
-`echo -e "envs_dirs:\n  - ${WORKSHOP_HOME}/project_analysis/conda_envs\nsolver: libmamba" > ~/.condarc` -->
-
-<!-- LIVE_NOTE: Zoom poll to verify miniconda installation location with `ls` and verify condarc file with `cat` -->
+<!-- LIVE_NOTE: Do Demo-Only exercise where I show that desired packages are still not available yet -->
 
 <br>
 
-## Exercise - Conda Activate, Make BigWig Files
+## Exercise - `srun`, Conda Activate, Run Dialog Parser
 
-Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and using `which`). Then, we'll create a visualization file for sample_A - A BigWig File.
-
-<details>
-<summary>Conda Activate, Make Bigwig - Solution</summary>
-
-`mkdir filter_viz_conda`
-
-`srun --pty --job-name=${USER}_bamcoverage_sample_A --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:30:00 /bin/bash`
-
-`conda activate /nfs/turbo/umms-bioinf-wkshp/workshop/shared-envs/samtools_deeptools/`
-
-`echo $PATH`
-
-`which bamCoverage`
-
-`bamCoverage -b input_bams/sample_A.genome.bam -o filter_viz_conda/sample_A.genome.bigwig`
-
->Note: Now we'll go to https://igv.org/app/ and visualize what this looks like. Select mm10 as genome.
->Track URL: https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.genome.bigwig
-
-</details>
-
-<br>
-
-## Demonstration - Conda Create
-
-Instructor will demonstrate creating a simple conda environment on the command line. 
-
-We'll then ask about how to create a slightly more complicated conda environment. We'll start a thread and learners will respond and/or vote on the command that they would use.
+Following along with instructor, learners will activate an existing environment. We'll demonstrate addition to the $PATH (and using `which`). Then, we'll try running our .
 
 <details>
-<summary>Conda Create Demo - Solution</summary>
+<summary>`srun`, Conda Activate, Run Dialog Parser - Solution</summary>
 
-`conda search -c bioconda samtools`
+`srun --pty --job-name=${USER}_dialog_parsing --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:10:00 /bin/bash`
 
-`srun --pty --job-name=conda_create_demo --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+`cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing`
 
-`conda create -n samtools -c bioconda -c conda-forge samtools=1.20`
+`conda activate /nfs/turbo/umms-bioinf-wkshp/shared-envs/dialog_parsing/`
+
+`which python`
+
+<!-- LIVE_NOTE: Also do a show-only demonstration of 'echo $PATH' and show that in action -->
+
+`mkdir results_shared_conda`
+
+<!-- LIVE_NOTE: do a 'python3 scripts/dialog_parser.py --help and look at the help page -->
+
+`python3 scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_shared_conda -p ADJ -c 'Jo,Meg,Amy,Beth,Laurie'`
+
+`ls -l results_shared_conda`
+
+>Note: After you complete the exercise, you can end your currently-running `srun` job by typing `exit`.
+> You can always check if you're on the login node or a worker node using the `hostname` command.
 
 </details>
 
@@ -248,9 +206,19 @@ Following along with instructor, we'll launch an srun job and then create a cond
 <details>
 <summary>Conda Create - Solution</summary>
 
-`srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+`srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=2 --time=00:15:00 /bin/bash`
 
-`conda create -n samtools_deeptools -c bioconda -c conda-forge samtools=1.20 deeptools=3.5`
+<!-- LIVE_NOTE: Use Zoom check-in, make sure that users check with 'conda config --show envs_dirs' before -->
+
+`conda create -n my_dialog_parsing -c conda-forge python=3.11 wordcloud spacy=3.5.4 spacy-model-en_core_web_sm=3.5.0`
+
+`conda activate my_dialog_parsing`
+
+`which python`
+
+<!-- LIVE_NOTE: Demonstrate that we now have desired packages like 'spacy' and 'wordcloud' -->
+
+>Note: After you complete the exercise, you can end your currently-running `srun` job by typing `exit`.
 
 </details>
 
@@ -263,9 +231,9 @@ Following along with the instructor, we'll use Conda's export functionality to c
 <details>
 <summary>Conda Export - Solution</summary>
 
-`conda activate samtools_deeptools`
+`conda activate my_dialog_parsing`
 
-`conda export > ${WORKSHOP_HOME}/project_analysis/conda_envs/export_samtools_deeptools.yaml`
+`conda export > ${WORKSHOP_HOME}/conda_envs/export_my_dialog_parsing.yaml`
 
 <!-- LIVE_NOTE: Allude to the idea of time-based durability -->
 
@@ -273,70 +241,34 @@ Following along with the instructor, we'll use Conda's export functionality to c
 
 <br>
 
-## Exercise - `srun`, Conda, Filtering our BAMs
+## Exercise - `srun`, Conda, Dialog Parsing and Creating Word Clouds
 
-Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to filter our BAM file just as we did in the `lmod` exercises.
-
-<!-- LIVE_NOTE: We'll just do sample_A -->
-
-<!-- LIVE_NOTE: Make sure to `module list` and confirm we're not using `samtools` -->
+Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and re-create our results from the previous Dialog Parsing Exercise. This time, we'll also take it one step further by using our `word_cloud.py` script to create word clouds from the extracted word lists.
 
 <details>
-<summary>`srun`, Conda, Filtering BAM - Solution</summary>
+<summary>`srun`, Conda, Dialog Parsing and Creating Word Clouds - Solution</summary>
 
-`srun --pty --job-name=${USER}_conda_filterbams --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+`srun --pty --job-name=${USER}_conda_wordclouds --account=bioinf_wkshp_class --partition standard --mem=1000 --cpus-per-task=2 --time=00:05:00 /bin/bash`
 
-`samtools view -o filter_viz_conda/sample_A.chr19.bam input_bams/sample_A.genome.bam 19`
+`conda activate my_dialog_parsing`
 
->Note: Make sure to `module list` and confirm we're not using the samtools module - the LMOD module and conda environment would interfere with one another!
+`cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing`
+
+`mkdir results_my_conda`
+
+`python3 scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_my_conda -p ADJ -c 'Jo,Meg,Amy,Beth,Laurie'`
+
+`python3 scripts/word_cloud.py -i results_my_conda/Amy_adj.txt`
+
+`ls -l results_my_conda`
+
+<!-- LIVE_NOTE: Also look in the web-based file browser at the word cloud! -->
 
 </details>
+
 
 <br>
-
-## Independent Exercise - SBATCH, Conda, Filtering out BAMs
-
-[Link to Independent Exercise](exercise-2.html)
-
 <br>
-
-## Exercise - `srun`, Conda, Sanity Check and Index BAM
-
-<!-- LIVE_NOTE: Just doing sample_A -->
-
-Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use samtools to perform a sanity check on our filtered BAM files. We'll also index one of our BAM files - sample_A. This will set us up for the next step.
-
-<details>
-<summary>`srun`, Conda, Sanity Check, Index BAM - Solution</summary>
-
-`srun --pty --job-name=${USER}_conda_check_and_index --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
-
-`conda activate samtools_deeptools`
-
-`samtools view filter_viz_conda/sample_A.chr19.bam | wc -l`
-
-`samtools index filter_viz_conda/sample_A.chr19.bam`
-
-</details>
-
-
-## Exercise - `srun`, Conda, Creating Bigwigs
-
-Now we'll create files for visualization of our filtered BAMs, as another way to check our results.
-
-Following along with the instructor, we'll launch an interactive job with `srun`. Once we've entered the running job, we'll activate our conda environment and use `bamCoverage` to create a bigwig file for sample_A.
-
-<details>
-<summary>`srun`, Conda, Create Bigwig - Solution</summary>
-
-`srun --pty --job-name=${USER}_conda_bigwigs --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
-
-`bamCoverage -b filter_viz_conda/sample_A.chr19.bam -o filter_viz_conda/sample_A.chr19.bigwig`
-
->Note: Now we'll go to https://igv.org/app/ and visualize what this looks like. Select mm10 as genome.
->Track URL: https://umbioinfcore-workshop.s3.amazonaws.com/sample_A.filtered.bigwig
-
-</details>
 
 ## Review
 
@@ -354,15 +286,14 @@ When given a set of software requirement specifications, Conda handles all of th
 
 ### Handy Links
 
-- [Miniconda installation instructions](https://docs.anaconda.com/free/miniconda/miniconda-install/)
-- [Miniconda downloads page](https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh)
 - [Configuration with condarc](https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html)
+- [Conda cheat-sheet](https://docs.conda.io/projects/conda/en/4.6.0/_downloads/52a95608c49671267e40c689e0bc00ca/conda-cheatsheet.pdf)
 
 <br>
 
 ---
 
 
-| [Previous lesson](Module_great_lakes_cluster.html) | [Top of this lesson](#top) | [Next lesson](Module_containers_docker_singularity.html) |
+| [Previous lesson](Module_compute_environment_definition.html) | [Top of this lesson](#top) | [Next lesson](Module_containers_docker_singularity.html) |
 | :--- | :----: | ---: |
 

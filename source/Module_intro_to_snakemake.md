@@ -1271,5 +1271,5 @@ re-run the Snakefile using worker nodes instead of the login-node.
 
 ---
 
-| [Previous lesson](Module_intro_to_workflow_automation.html) | [Top of this lesson](#top) | [Next lesson](Module_raw_data_management.html) |
+| [Previous lesson](Module_intro_to_workflow_automation.html) | [Top of this lesson](#top) | [Next lesson](Module_transferring_data_globus.html) |
 | :--- | :----: | ---: |

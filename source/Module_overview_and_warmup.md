@@ -9,7 +9,7 @@ output:
             number_sections: false
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
@@ -96,7 +96,9 @@ Sneak preview of the web-based shell
 
 ## Exercise - Connect with the Web-Based Shell
 
-Following along with the instructor, we'll use the web-based shell to connect to Great Lakes. Once there, we'll run an introductory script, and take another look at our transferred files.
+Following along with the instructor, we'll use the web-based shell to connect to Great Lakes. Once there, we'll run an introductory script, and take a first look at some of the files provided for the workshop.
+
+<br>
 
 Here is the link to [ARC's Great Lakes Portal](https://greatlakes.arc-ts.umich.edu)
 

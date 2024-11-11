@@ -25,28 +25,27 @@ navbar:
             href: Module_sneak_peek_great_lakes.html
           - text: "Data Priorities and Analysis Setup"
             href: Module_data_priorities_analysis_setup.html
-          - text: "Terminology - Compute Environment"
-            href: Module_compute_environment_definition.html
-  
+
       - text: "UMich Resources"
         menu:
-          - text: "Storage"
+          - text: "Raw Data, Compute/Storage Options, & UMRCP"
             href: Module_storage_best_practices_UMRCP.html
-          - text: "Compute Hardware"
+          - text: "Great Lakes HPC"
             href: Module_great_lakes_cluster.html
-  
-  
-      - text: "Software management with Conda"
-        href: Module_software_management_conda.html
+
+      - text: "Software Management"
+        menu:
+          - text: "Terminology - Compute Environment"
+            href: Module_compute_environment_definition.html
+          - text: "Software Management and Conda"
+            href: Module_software_management_conda.html
 
     - text: "Day 2"
       menu:
-          - text: "Containerization with Docker/Singularity"
-            href: Module_containers_docker_singularity.html
-          - text: "Independent Exercise"
-            href: exercise-2.html
-          - text: "Intro to workflow automation"
-            href: Module_intro_to_workflow_automation.html
+        - text: "Containerization with Docker/Singularity"
+          href: Module_containers_docker_singularity.html
+        - text: "Intro to workflow automation"
+          href: Module_intro_to_workflow_automation.html
 
     - text: "Day 3"
       menu:
@@ -55,8 +54,6 @@ navbar:
 #        - text: "Advanced Snakemake"
 #          href: Module_advanced-snakemake.html
 
-        - text: "Raw Data Management"
-          href: Module_raw_data_management.html
         - text: "Transferring data with Globus"
           href: Module_transferring_data_globus.html
 

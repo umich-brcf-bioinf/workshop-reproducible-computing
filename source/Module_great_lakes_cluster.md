@@ -9,7 +9,7 @@ output:
             number_sections: false
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
@@ -24,40 +24,17 @@ In this module, we will:
 
 * discuss the Great Lakes HPC cluster and review its usage
 * discuss software modules available on Great Lakes
-* log in to the Great Lakes cluster using `ssh`
+* log in to the Great Lakes cluster using the web-based shell
 * review some of the fundamental helper commands on Great Lakes
 * review SBATCH and submit jobs for our analysis
 
-## Review of Yesterday
-
-Very briefly, yesterday after learning about storage best practices and various storage options available to UMich researchers, we gained direct experience using these options by transferring our dataset to our own Data Den and Turbo storage locations.
-
 <br>
-
-We learned about a broadly-available and very generous compute package available to UMich researchers - the UMRCP - and now we'll take a few moments to briefly review that.
-
-![](images/Module01_UMRCP_provides.png)
-
-<br>
-
-We also discussed HPC compute clusters managed by ARC and had some opportunities to use the Great Lakes cluster,  utilizing some of the web-based connection methods.
-
-We talked about a pattern that may be new to us. In order to really use the HPC cluster, we had to request the appropriate resources from the system ahead of time. Let's take a few moments to briefly review our experiences there. Today we'll extend this idea.
-
-<br>
-
-Today we're going to discuss more in depth about additional, powerful methods for connecting to the Great Lakes cluster, requesting resources, and ultimately running jobs in a more reproducible and automatable way. We'll add more concrete detail about how this works, and gain experience through our exercises.
 
 ## Great Lakes HPC
 
 Again, we'll provide the link to ARC's general overview page on Great Lakes here: https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes
 
-![](images/Module03b_arc_site_navbar.png)
 
-Let's not go there right now, but I'd just like to point out that there's a good deal of informational resources available on ARC's website.
-
-<br>
-<br>
 <br>
 
 ### A More Detailed Look at How Great Lakes Works
@@ -73,17 +50,15 @@ For our benefit, ARC has made available a plethora of widely used and oft-reques
 
 The usage is very simple:
 
+- `module list` to list currently loaded modules
 - `module load <name-of-module>` to enable a particular module
 - `module unload <name-of-module>` to disable that module
 - `module purge` to unload all modules
 - `module keyword <keyword>` to search the modules for a particular keyword
 - `module spider <name-of-module>` to view all versions of a particular software - many different versions may be available
+- `module avail` to list all LMOD modules available
 
 We'll use these command-line methods for exploring and using LMOD modules in our exercises shortly, but it may also be helpful to later review this [link to all software modules available on various ARC HPC clusters](https://websites.umich.edu/~greatlakes/catalog/).
-
-### Exercise - Log in to Great Lakes using ssh
-
-Following along with the instructor, we'll all log in to the Great Lakes cluster using ssh. Once there, we'll get a brief introduction to using the module system.
 
 <br>
 
@@ -103,7 +78,7 @@ By having formal mechanisms for requesting resources, and utilizing a job queue 
 
 ### Interactive and Scripted Jobs
 
-We've gained a little experience with some types of interactive jobs, for instance during our `RStudio` demonstration or when we verified the file integrity of our BAMs with `md5sum` using the OpenOnDemand 'Basic Desktop' app. During that exercise, we mentioned that there are other ways of doing this, which we'll introduce here.
+We've gained a little experience with some types of interactive jobs, for instance during our `RStudio` demonstration. During that preview, we mentioned that there are other ways of doing requesting resources for interactive jobs, and we'll discuss those here.
 
 We've just logged in using SSH to the Great Lakes HPC, and now we're all interacting with the login node. Thinking back to yesterday when we were writing the README file, we were similarly interacting with the login node.  We mentioned that we can't do anything compute-intensive here, and instead offered the OpenOnDemand apps as an alternative.
 
@@ -130,7 +105,7 @@ When would we want to run an interactive job?
 How do we launch an interactive job from the command line? See the example here:
 
 ```
-srun --pty --job-name=${USER}_calculate_md5sum --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash
+srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash
 ```
 
 <br>
@@ -171,7 +146,7 @@ What does a scripted job look like? See the dropdown section here:
 #SBATCH --time=00:05:00
 #SBATCH --account=bioinf_wkshp_class
 #SBATCH --partition=standard
-#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/sleeping_bear/logs/%x-%j.log
+#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/intro_scripts/%x-%j.log
 
 # The application(s) to execute along with its input arguments and options:
 
@@ -204,9 +179,9 @@ Following along with the instructor, we will inspect the `hello_SBATCH.sh` shell
 <details>
 <summary>SBATCH Hello World - Solution</summary>
 
-`source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.txt`
+`source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.sh`
 
-`cd ${WORKSHOP_HOME}/project_analysis`
+`cd ${WORKSHOP_HOME}/intro_scripts`
 
 `sbatch ../intro_scripts/hello_SBATCH.sh`
 
@@ -217,21 +192,28 @@ While the job is running, check the job queue with:
 
 <br>
 
-## Exercise `srun` with LMOD - Indexing our BAM Files
+## Exercise `srun` with LMOD - Revisiting hello_alcott Examples
 
-Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to index our BAM files. This is a required step for some of our later processes, so we'll take care of it now. Additionally, we should do a baseline sanity check of the number of entries in each sample.
+Following along with the instructor, we'll launch an interactive job with `srun`, load the python LMOD module, and then revisit our hello_alcott examples.
 
 <details>
-<summary>`srun` with LMOD Indexing BAMs - Solution</summary>
+<summary>`srun` with LMOD hello_alcott - Solution</summary>
 
-`srun --pty --job-name=${USER}_index_bams --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+`srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
 
-`module load Bioinformatics; module load samtools`
+`cd ${WORKSHOP_HOME}/intro_scripts`
 
-`for f in *.bam ; do echo $f ; samtools index $f ; done`
+`which python`
 
-<!-- LIVE_NOTE: Need to do a baseline sanity check here: -->
-`for f in *.bam ; do echo -n "${f}: " ; samtools view $f | wc -l ; done`
+`module spider python`
+
+`module load python/3.11.5`
+
+`which python`
+
+`python hello_alcott.py -i ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt`
+
+<!-- LIVE_NOTE: Just for fun we might also run ./hello_alcott.sh ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt -->
 
 >Note: Type the command `exit` to exit from a running interactive job. This will put you back onto the log in node and free up remaining resources.
 
@@ -239,89 +221,39 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 
 <br>
 
-## Exercise `srun` with LMOD - Filtering our BAM Files
+## Exercise SBATCH with LMOD - hello_alcott Cont'd
 
-Following along with the instructor, we'll launch an interactive job with `srun`, load the samtools module, and use samtools to filter our sample_A BAM file to select only alignments from chromosome 19.
+Following along with the instructor, we'll create an SBATCH script that is similar to our previous `srun` exercise, but this time we will launch it with `sbatch` and see how that works.
 
 <details>
-<summary>`srun` with LMOD Filtering BAM - Solution</summary>
+<summary>SBATCH with LMOD hello_alcott Cont'd - Solution</summary>
 
-`srun --pty --job-name=${USER}_filter_sample_A --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+`cd ${WORKSHOP_HOME}`
 
-`module load Bioinformatics; module load samtools`
+`cp intro_scripts/hello_SBATCH.sh projects/hello_alcott/hello_alcott_sbatch.sh`
 
-`mkdir filter_lmod`
+Edit the file appropriately - We'll use the web-based text editor for ease-of-use, but a command-line based text editor like `nano` could also work well here.
 
-`samtools view -o filter_lmod/sample_A.chr19.bam input_bams/sample_A.genome.bam 19`
+When we're happy with our SBATCH script, we can submit it.
 
->Note: We re-create this same filtered BAM file in the additional SBATCH exercises below
+`sbatch projects/hello_alcott/hello_alcott_sbatch.sh`
+
+We'll look for the log file in our project folder, and inspect it for the outputs.
 
 </details>
 
 <br>
 
-## Exercise SBATCH with LMOD - Filtering our BAM Files Cont'd
+<!-- LIVE_NOTE: Reveal that we have some more interesting tasks left for analyzing the Alcott text - dialog attribution -->
 
-Following along with the instructor, we'll create an SBATCH script that is similar to our previous `srun` exercise, and use that to filter our sample_B BAM file in the same fashion. We will launch it with `sbatch` and inspect the results. If it is successful, we will continue this exercise by creating and running two more SBATCH scripts for sample_C and sample_D.
+<!-- LIVE_NOTE: Do a show-only demonstration of lack of wordcloud package - we need to install it - we may be tempted to pip install it, but stay tuned for the next modules amd we'll offer better alternatives -->
 
-<details>
-<summary>SBATCH with LMOD Filtering BAMs Cont'd - Solution</summary>
+>Note: Make sure to unload the python module, so that it does not interfere with the exercises in the next sections!
 
-`cp ../intro_scripts/hello_SBATCH.sh scripts/filter_lmod_sample_A_sbatch.sh`
-
-`nano scripts/filter_lmod_sample_A_sbatch.sh # Edit the file appropriately`
-
-`sbatch scripts/filter_lmod_sample_A_sbatch.sh`
-
-When we're happy with how sample_A turned out, we'll copy our sbatch file and set it up for sample_B etc.
-
-`cp scripts/filter_lmod_sample_A_sbatch.sh scripts/filter_lmod_sample_B_sbatch.sh`
-
-`nano scripts/filter_lmod_sample_B_sbatch.sh`
-
-`sbatch scripts/filter_lmod_sample_B_sbatch.sh`
-
-<br>
-
-Contents of `filter_lmod_sample_A_sbatch.sh`
-```
-#!/bin/bash
-# The interpreter used to execute the script
-
-#“#SBATCH” directives that convey submission options:
-
-#SBATCH --job-name=Filter_sample_A
-#SBATCH --cpus-per-task=2
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem-per-cpu=2000m
-#SBATCH --time=00:20:00
-#SBATCH --account=bioinf_wkshp_class
-#SBATCH --partition=standard
-#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/project_analysis/logs/%x-%j.log
-
-# The application(s) to execute along with its input arguments and options:
-
-hostname
-pwd
-
-module load Bioinformatics
-module load samtools
-samtools view -o filter_lmod/sample_A.chr19.bam input_bams/sample_A.genome.bam 19
-```
-
-</details>
-
-<br>
-
-<!-- LIVE_NOTE: We would like to also visualize our samples, we know that we can use `bamCoverage` from the `deeptools package, however it's not available as an LMOD module. -->
-
-<!-- LIVE_NOTE: Make sure we unload samtools module! -->
-
->Note: Make sure to unload the samtools module, so that it does not interfere with the conda exercises in the next section!
+`module unload python`
 
 ---
 
 
-| [Previous lesson](Module_storage_best_practices_UMRCP.html) | [Top of this lesson](#top) | [Next lesson](Module_software_management_conda.html) |
+| [Previous lesson](Module_storage_best_practices_UMRCP.html) | [Top of this lesson](#top) | [Next lesson](Module_compute_environment_definition.html) |
 | :--- | :----: | ---: |
