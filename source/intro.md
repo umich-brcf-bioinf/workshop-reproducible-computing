@@ -55,8 +55,8 @@ pre {
 | ![](images/headshots/headshot_cgates.jpg) | ![](images/headshots/headshot_mbradenb.jpg) | ![](images/headshots/headshot_trsaari.jpg) |
 |:-:|:-:|:-:|:-:|
 | **Chris** | **Marci** | **Travis** |
-| ![](images/headshots/headshot_damki.jpg) | ![](images/headshots/headshot_rcavalca.jpg) |
-| **Dana** | **Raymond** |
+| ![](images/headshots/headshot_damki.jpg) | ![](images/headshots/headshot_rcavalca.jpg) | ![](images/headshots/headshot_clairis.jpg) | 
+| **Dana** | **Raymond** | **Clair** | 
 
 <br/>
 
