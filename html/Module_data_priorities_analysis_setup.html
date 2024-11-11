@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,9 +231,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -289,24 +279,29 @@ $(document).ready(function () {
         <li>
           <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
         </li>
-        <li>
-          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
-        </li>
       </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
         </li>
         <li>
-          <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
         </li>
       </ul>
     </li>
-    <li>
-      <a href="Module_software_management_conda.html">Software management with Conda</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
@@ -319,9 +314,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
-    </li>
-    <li>
-      <a href="exercise-2.html">Independent Exercise</a>
     </li>
     <li>
       <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
@@ -337,9 +329,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="Module_raw_data_management.html">Raw Data Management</a>
     </li>
     <li>
       <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
@@ -358,13 +347,6 @@ $(document).ready(function () {
 </div><!--/.navbar -->
 
 <div id="header">
-
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
 
@@ -390,11 +372,12 @@ active analysis projects</li>
 files, intermediate outputs, scripts, etc.</li>
 <li>utilize some of the access methods mentioned in the previous
 module</li>
-<li>use the web-based text editor for Great Lakes</li>
+<li>use the Great Lakes web-based text editor and gain practice
+documenting</li>
 </ul>
 <p><br></p>
-<div id="storage-best-practices" class="section level2">
-<h2>Storage Best Practices</h2>
+<div id="overall-approach" class="section level3">
+<h3>Overall Approach</h3>
 <p>One simple way to organize our thinking about storage best practices
 is to divide the topic into raw data considerations, and considerations
 for analysis projects. By separating and focusing on those two aspects,
@@ -407,17 +390,86 @@ data and for our analysis projects, we will emphasize the importance of
 documentation!</p>
 </blockquote>
 <p><br></p>
+</div>
 <div id="data-priorities" class="section level3">
 <h3>Data Priorities</h3>
 <p><br></p>
 <p>In general, our first priority is to receive our raw data and keep it
-in a safe location<br />
+in a safe location.<br />
 Next, we want to prepare a secondary location where we will conduct our
-analysis<br />
+analysis.<br />
 Finally, we’ll copy the subset of data needed for analysis, into our
-prepared analysis project location</p>
+prepared analysis project location.</p>
+<p><img src="images/ModuleDPAR_data_priorities.png" /></p>
 <p><br></p>
-<p><img src="images/Module01_general_best_practice_data_flow.png" /></p>
+<p>We also have several things to consider, before acting on each of
+these priorities:</p>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="30%" />
+<col width="59%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Step</th>
+<th align="left">Step Name</th>
+<th align="left">Preparatory Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Receive Data</td>
+<td align="left">Determine Sufficient Storage:</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Total size</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Total # files</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Prepare Project</td>
+<td align="left">Determine if analysis location is appropriate:</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Total size (including intermediates)</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Fast connection to compute hardware</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Separate from raw data</td>
+</tr>
+<tr class="even">
+<td align="left">3</td>
+<td align="left">Copy Data</td>
+<td align="left">Document critical details:</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Permanent location of the raw data</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Type of data, info from data provider, etc.</td>
+</tr>
+</tbody>
+</table>
 <p><br></p>
 </div>
 <div id="raw-data---overview" class="section level3">
@@ -434,47 +486,13 @@ safe.</p>
 <p>With this in mind, we recommend placing your raw experimental data
 into a specific designated location which is <strong>solely</strong>
 dedicated to storing your raw data.</p>
-<p>In future modules we’ll discuss specific options for UMich
+<p>In the next module we’ll discuss specific options for UMich
 researchers, but for now we’ll just speak of the general process. Data
 that cannot easily be re-obtained should be treated with great care. By
 following the recommendations here, we can achieve this and have peace
 of mind that we are preserving our raw data and our capabilities for
 reproducible research well into the future.</p>
-<p><img src="images/ModuleDPAR_data_priorities.png" /></p>
-<table>
-<colgroup>
-<col width="2%" />
-<col width="8%" />
-<col width="89%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Step</th>
-<th>Step Name</th>
-<th>Preparatory Action</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1</td>
-<td>Receive Data</td>
-<td>Determine Sufficient Storage:<br> - Total size<br> - Total #
-files</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>Prepare Project</td>
-<td>Determine if analysis location is appropriate:<br> - Total size
-(including intermediates)<br> - Fast connection to compute hardware<br>
-- Separate from raw data</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>Copy Data</td>
-<td>Document</td>
-</tr>
-</tbody>
-</table>
+<p><br></p>
 </div>
 <div id="analysis-projects---in-depth-look" class="section level3">
 <h3>Analysis Projects - In-Depth Look</h3>
@@ -504,11 +522,9 @@ consistent manner for all of our projects.</p>
 <li><code>input_data</code> directory for copy of raw data</li>
 <li><code>scripts</code> directory for analysis scripts</li>
 <li>Directories for intermediates, log files, and final outputs</li>
-<li><code>README.txt</code> for the project
-<ul>
-<li>Optional <code>docs</code> directory for extensive documentation,
-supporting works, etc.</li>
-</ul></li>
+<li><code>README.txt</code> for the project</li>
+<li><code>docs</code> directory for extensive documentation, supporting
+works, etc.</li>
 </ul>
 <p>A useful idea for our project directory layouts is to think about the
 project life cycle and work towards an end-goal of a reproducible
@@ -524,17 +540,17 @@ towards that goal.</p>
 be trying several related analysis approaches using the same input data,
 but intend on using results from only one of the evaluated methods, it
 may make sense to intentionally subdivide the contents of your project
-directory accordingly. If you have several distinct analyses that may
-use the same input data, then perhaps creating separate projects for
-each of them will make the most sense. It’s hard to be totally
+directory accordingly. If you have several distinct analyses that use
+different input datasets, then creating separate project directories for
+each of them will likely make the most sense. It’s hard to be totally
 prescriptive when making recommendations here, but through our example
 we hope to spark the kinds of conversations and the types of thinking
 that are required here.</p>
 <p><img src="images/Module01_projects_layout.png" /></p>
 <p>One last note on handling and organizing analysis projects - use some
-form of identification system for projects in your lab. This simplifies
-communication and record keeping, in addition to the organizational
-benefits.</p>
+form of identification system for projects in your lab or research
+group. This simplifies communication and record keeping, in addition to
+the organizational benefits.</p>
 <p>Some ideas for project identification systems:</p>
 <ul>
 <li>Codenames</li>
@@ -544,30 +560,42 @@ benefits.</p>
 <p><br></p>
 <!-- LIVE_NOTE: Ask if anyone has any preferences, or what might work best for their group and why -->
 </div>
-</div>
-<div id="exercise---organize-your-project" class="section level2">
-<h2>Exercise - Organize your project</h2>
-<p>Following along with the instructor, we’ll organize the files that
-are in our <code>$WORKSHOP_HOME</code> directory.</p>
+<div id="exercise---organize-intro-project-and-save-results"
+class="section level2">
+<h2>Exercise - Organize Intro Project and Save Results</h2>
+<p>Following along with the instructor, we’ll organize some of the files
+that are in our <code>$WORKSHOP_HOME</code> directory.<br />
+When we’re ready, we can re-try running the hello_alcott scripts - this
+time redirecting our outputs into files.</p>
 <p><br></p>
 </div>
 <div id="exercise---write-a-readme-file" class="section level2">
 <h2>Exercise - Write a README File</h2>
 <p>Following along with the instructor, we will write the beginnings of
-a README for our project as it exists so far.</p>
-<p><br></p>
-</div>
-<div id="review" class="section level2">
-<h2>Review</h2>
+a README for our intro project as it exists so far.</p>
 <p><br></p>
 <div id="handy-links" class="section level3">
 <h3>Handy Links</h3>
 <ul>
 <li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
-Dashboard (same as above)</a></li>
-<li><a href="http://michmed.org/agc-md5sum">link from AGC on validating
-file integrity using md5sum</a></li>
+Dashboard</a></li>
 </ul>
+<p><br></p>
+</div>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<ul>
+<li>It can be helpful to think about our raw data and our analysis data
+separately.</li>
+<li>Typically, the first priority is ensuring that raw data is stored in
+a separate, long-term storage location</li>
+<li>Organizing our projects in a consistent manner provides many
+benefits - pre-arranging project folders can help!</li>
+<li>Documentation is critical - record information about receipt of raw
+data and about your ongoing projects</li>
+</ul>
+<p><br> <br></p>
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -580,16 +608,14 @@ file integrity using md5sum</a></li>
 lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
 <th align="right"><a
-href="Module_compute_environment_definition.html">Next lesson</a></th>
+href="Module_storage_best_practices_UMRCP.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 </div>
-</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF0YSBQcmlvcml0aWVzIGFuZCBBbmFseXNpcyBTZXR1cCIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgoqIHN1Z2dlc3QgcHJpb3JpdGllcyBhbmQgb3ZlcmFsbCB0cmVhdG1lbnQgb2YgZXhwZXJpbWVudGFsIGRhdGEgYW5kIGFjdGl2ZSBhbmFseXNpcyBwcm9qZWN0cwoqIGRpc2N1c3Mgb3JnYW5pemF0aW9uIHByYWN0aWNlcyBhbmQgcmVjb21tZW5kYXRpb25zIGZvciBhbmxheXNpcyBmaWxlcywgaW50ZXJtZWRpYXRlIG91dHB1dHMsIHNjcmlwdHMsIGV0Yy4KKiB1dGlsaXplIHNvbWUgb2YgdGhlIGFjY2VzcyBtZXRob2RzIG1lbnRpb25lZCBpbiB0aGUgcHJldmlvdXMgbW9kdWxlCiogdXNlIHRoZSB3ZWItYmFzZWQgdGV4dCBlZGl0b3IgZm9yIEdyZWF0IExha2VzCgo8YnI+CgojIyBTdG9yYWdlIEJlc3QgUHJhY3RpY2VzCgpPbmUgc2ltcGxlIHdheSB0byBvcmdhbml6ZSBvdXIgdGhpbmtpbmcgYWJvdXQgc3RvcmFnZSBiZXN0IHByYWN0aWNlcyBpcyB0byBkaXZpZGUgdGhlIHRvcGljIGludG8gcmF3IGRhdGEgY29uc2lkZXJhdGlvbnMsIGFuZCBjb25zaWRlcmF0aW9ucyBmb3IgYW5hbHlzaXMgcHJvamVjdHMuIEJ5IHNlcGFyYXRpbmcgYW5kIGZvY3VzaW5nIG9uIHRob3NlIHR3byBhc3BlY3RzLCB3ZSBjYW4gZWZmZWN0aXZlbHkgYWRkcmVzcyBtYW55IG9mIHRoZSBjaGFsbGVuZ2VzIGFzc29jaWF0ZWQgd2l0aCBlYWNoLgoKPk5vdGU6IFRoZSBpbXBvcnRhbmNlIG9mIGRvY3VtZW50YXRpb24gaXMgdW5pdmVyc2FsIHRvIGFsbCBhc3BlY3RzIG9mIHJlcHJvZHVjaWJsZSByZXNlYXJjaC4gSW4gY29uc2lkZXJpbmcgYmVzdCBwcmFjdGljZXMgYm90aCBmb3Igb3VyIHJhdyBkYXRhIGFuZCBmb3Igb3VyIGFuYWx5c2lzIHByb2plY3RzLCB3ZSB3aWxsIGVtcGhhc2l6ZSB0aGUgaW1wb3J0YW5jZSBvZiBkb2N1bWVudGF0aW9uIQoKPGJyPgoKIyMjIERhdGEgUHJpb3JpdGllcwoKPGJyPgoKSW4gZ2VuZXJhbCwgb3VyIGZpcnN0IHByaW9yaXR5IGlzIHRvIHJlY2VpdmUgb3VyIHJhdyBkYXRhIGFuZCBrZWVwIGl0IGluIGEgc2FmZSBsb2NhdGlvbiAgCk5leHQsIHdlIHdhbnQgdG8gcHJlcGFyZSBhIHNlY29uZGFyeSBsb2NhdGlvbiB3aGVyZSB3ZSB3aWxsIGNvbmR1Y3Qgb3VyIGFuYWx5c2lzICAKRmluYWxseSwgd2UnbGwgY29weSB0aGUgc3Vic2V0IG9mIGRhdGEgbmVlZGVkIGZvciBhbmFseXNpcywgaW50byBvdXIgcHJlcGFyZWQgYW5hbHlzaXMgcHJvamVjdCBsb2NhdGlvbiAgCgo8YnI+CgohW10oaW1hZ2VzL01vZHVsZTAxX2dlbmVyYWxfYmVzdF9wcmFjdGljZV9kYXRhX2Zsb3cucG5nKQoKPGJyPgoKIyMjIFJhdyBEYXRhIC0gT3ZlcnZpZXcKCldoZW4gY29uc2lkZXJpbmcgYmVzdCBwcmFjdGljZXMgZm9yIHJhdyBkYXRhIHN0b3JhZ2UsIHdlIGNhbiBnZW5lcmFsbHkgb3JpZW50IG91cnNlbHZlcyBhcm91bmQgb25lIHRhc2sgLSBlbnN1cmUgdGhhdCB0aGUgZGF0YSBhcmUgc2FmZS4KClNhZmUgZnJvbToKCi0gQWNjaWRlbnRhbCBkZWxldGlvbgotIEhhcmR3YXJlIGZhaWx1cmUKLSBMb3NzIG9mIGFjY2VzcwoKV2l0aCB0aGlzIGluIG1pbmQsIHdlIHJlY29tbWVuZCBwbGFjaW5nIHlvdXIgcmF3IGV4cGVyaW1lbnRhbCBkYXRhIGludG8gYSBzcGVjaWZpYyBkZXNpZ25hdGVkIGxvY2F0aW9uIHdoaWNoIGlzICoqc29sZWx5KiogZGVkaWNhdGVkIHRvIHN0b3JpbmcgeW91ciByYXcgZGF0YS4KCkluIGZ1dHVyZSBtb2R1bGVzIHdlJ2xsIGRpc2N1c3Mgc3BlY2lmaWMgb3B0aW9ucyBmb3IgVU1pY2ggcmVzZWFyY2hlcnMsIGJ1dCBmb3Igbm93IHdlJ2xsIGp1c3Qgc3BlYWsgb2YgdGhlIGdlbmVyYWwgcHJvY2Vzcy4gRGF0YSB0aGF0IGNhbm5vdCBlYXNpbHkgYmUgcmUtb2J0YWluZWQgc2hvdWxkIGJlIHRyZWF0ZWQgd2l0aCBncmVhdCBjYXJlLiBCeSBmb2xsb3dpbmcgdGhlIHJlY29tbWVuZGF0aW9ucyBoZXJlLCB3ZSBjYW4gYWNoaWV2ZSB0aGlzIGFuZCBoYXZlIHBlYWNlIG9mIG1pbmQgdGhhdCB3ZSBhcmUgcHJlc2VydmluZyBvdXIgcmF3IGRhdGEgYW5kIG91ciBjYXBhYmlsaXRpZXMgZm9yIHJlcHJvZHVjaWJsZSByZXNlYXJjaCB3ZWxsIGludG8gdGhlIGZ1dHVyZS4KCiFbXShpbWFnZXMvTW9kdWxlRFBBUl9kYXRhX3ByaW9yaXRpZXMucG5nKQoKfCBTdGVwIHwgU3RlcCBOYW1lICAgICAgIHwgUHJlcGFyYXRvcnkgQWN0aW9uICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CnwgLS0tLSB8IC0tLS0tLS0tLS0tLS0tLSB8IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gfAp8IDEgICAgfCBSZWNlaXZlIERhdGEgICAgfCBEZXRlcm1pbmUgU3VmZmljaWVudCBTdG9yYWdlOjxicj4gLSBUb3RhbCBzaXplPGJyPiAtIFRvdGFsICMgZmlsZXMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKfCAyICAgIHwgUHJlcGFyZSBQcm9qZWN0IHwgRGV0ZXJtaW5lIGlmIGFuYWx5c2lzIGxvY2F0aW9uIGlzIGFwcHJvcHJpYXRlOjxicj4gLSBUb3RhbCBzaXplIChpbmNsdWRpbmcgaW50ZXJtZWRpYXRlcyk8YnI+IC0gRmFzdCBjb25uZWN0aW9uIHRvIGNvbXB1dGUgaGFyZHdhcmU8YnI+IC0gU2VwYXJhdGUgZnJvbSByYXcgZGF0YSB8CnwgMyAgICB8IENvcHkgRGF0YSAgICAgICB8IERvY3VtZW50ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAoKIyMjIEFuYWx5c2lzIFByb2plY3RzIC0gSW4tRGVwdGggTG9vawoKV2UgY2FuIGJlZ2luIHRoaW5raW5nIG9mIG91ciBuZXh0IHRhc2sgLSBoYW5kbGluZyBkYXRhIGFuZCBvcmdhbml6aW5nIGZpbGVzIGFuZCBhcnRpZmFjdHMgZm9yIG91ciBhbmFseXNpcyAtIGJ5IHN0YXJ0aW5nIHdpdGggdGhlIGlkZWEgb2YgdGhlIGRhdGEgZmxvdyBkZXNjcmliZWQgYWJvdmUuIE9uZSBvZiB0aGUgZmlyc3QgdGFza3MgaW4gdGhpcyBhcmVhIGlzIHRvIHNldCB1cCBhIG5ldyBsb2NhdGlvbiBmb3IgeW91ciBhbmFseXNpcyBhbmQgbWFrZSBhIGNvcHkgb2YgeW91ciByYXcgZGF0YSB0aGVyZS4KClNvbWUgY29uc2lkZXJhdGlvbnM6CgogLSBGYXN0IHN0b3JhZ2UsIHdlbGwgc3VpdGVkIGZvciBjb21wdXRhdGlvbgogLSBQcm9qZWN0IG9yZ2FuaXphdGlvbiB0aGF0IGZhY2lsaXRhdGVzIHJlcHJvZHVjaWJpbGl0eQogLSBJbi1wcm9ncmVzcyBhbmFseXNlcywgY2xlYW51cCBwcm9jZWR1cmVzLCBhbmQgZW5kLXRvLWVuZCByZXBlYXRhYmxlIGFuYWx5c2VzCgpXaGVuIHdlIHRoaW5rIGFib3V0IGZhc3Qgc3RvcmFnZSB0aGF0IGlzIHdlbGwgc3VpdGVkIGZvciBjb21wdXRhdGlvbiwgd2UgbW9zdGx5IGNvbnRyYXN0IHRoYXQgd2l0aCBvdXIgbG9uZy10ZXJtIGFyY2hpdmFsIHN0b3JhZ2UuIEEgc3RvcmFnZSBvcHRpb24gaXMgd2VsbCBzdWl0ZWQgZm9yIGNvbXB1dGF0aW9uIGlmIGl0IGlzIGFjY2Vzc2libGUgdmlhIGhpZ2gtdGhyb3VnaHB1dCBjb25uZWN0aW9uIHRvIHN1ZmZpY2llbnRseSBwb3dlcmZ1bCBwcm9jZXNzaW5nIGhhcmR3YXJlLiBUaGUgc3BlZWQgb2YgcmVhZGluZyBhbmQgd3JpdGluZyBmcm9tIHRoaXMgbG9jYXRpb24gY2FuIGdyZWF0bHkgYWZmZWN0IHByb2Nlc3NpbmcgdGltZXMgb2YgeW91ciBhbmFseXNpcywgZGVwZW5kaW5nIG9uIHRoZSBzdGVwcyBpbnZvbHZlZC4KCkluIHRlcm1zIG9mIHByb2plY3Qgb3JnYW5pemF0aW9uLCBnZW5lcmFsbHkgd2Ugd2FudCB0byBoYXZlIGRpc3RpbmN0IGxvY2F0aW9ucyBmb3Igc3BlY2lmaWMgcHVycG9zZXMsIGFuZCBwcmVmZXJhYmx5IG9yZ2FuaXppbmcgdGhpbmdzIGluIGEgY29uc2lzdGVudCBtYW5uZXIgZm9yIGFsbCBvZiBvdXIgcHJvamVjdHMuCgpJbiBhIHBhcnRpY3VsYXIgcHJvamVjdCwgeW91IG1heSB3YW50OgoKLSBgaW5wdXRfZGF0YWAgZGlyZWN0b3J5IGZvciBjb3B5IG9mIHJhdyBkYXRhCi0gYHNjcmlwdHNgIGRpcmVjdG9yeSBmb3IgYW5hbHlzaXMgc2NyaXB0cwotIERpcmVjdG9yaWVzIGZvciBpbnRlcm1lZGlhdGVzLCBsb2cgZmlsZXMsIGFuZCBmaW5hbCBvdXRwdXRzCi0gYFJFQURNRS50eHRgIGZvciB0aGUgcHJvamVjdAogIC0gT3B0aW9uYWwgYGRvY3NgIGRpcmVjdG9yeSBmb3IgZXh0ZW5zaXZlIGRvY3VtZW50YXRpb24sIHN1cHBvcnRpbmcgd29ya3MsIGV0Yy4KCkEgdXNlZnVsIGlkZWEgZm9yIG91ciBwcm9qZWN0IGRpcmVjdG9yeSBsYXlvdXRzIGlzIHRvIHRoaW5rIGFib3V0IHRoZSBwcm9qZWN0IGxpZmUgY3ljbGUgYW5kIHdvcmsgdG93YXJkcyBhbiBlbmQtZ29hbCBvZiBhIHJlcHJvZHVjaWJsZSBhbmFseXNpcy4gV2hpbGUgYXQgdGhlIGJlZ2lubmluZyBvZiBhbiBhbmFseXNpcyBtYW55IHRoaW5ncyBtYXkgYmUgZmxleGlibGUsIGF0IHRoZSBlbmQgd2Ugd2lsbCB3YW50IHRvIGJlIGFibGUgdG8gcmUtZXhlY3V0ZSB0aGUgYW5hbHlzaXMgc3RhcnRpbmcgZnJvbSB0aGUgcmF3IGlucHV0IGRhdGEgYW5kIHJ1bm5pbmcgYWxsIHRoZSB3YXkgdW50aWwgaXQgcHJvZHVjZXMgdGhlIGZpbmFsIG91dHB1dHMuCgpUYWtpbmcgdGltZSB0byBzZWdyZWdhdGUgc3BlY2lmaWMgZWZmb3J0cyB3aXRoaW4gYSBwcm9qZWN0LCBkb2N1bWVudGluZyBvdXIgc3RlcHMgYXMgd2UgcGVyZm9ybSBpbi1wcm9ncmVzcyBhbmFseXNlcywgcGVyZm9ybWluZyBjbGVhbnVwcyB3aGVyZSBuZWVkZWQsIGFuZCBzaW1pbGFyIGVmZm9ydHMgd2lsbCBhaWQgdXMgYXMgd2Ugd29yayB0b3dhcmRzIHRoYXQgZ29hbC4KClRoaW5rIGFoZWFkIHdoZW4gZGVzaWduaW5nIHRoZSBsYXlvdXQgb2YgeW91ciBwcm9qZWN0cy4gSWYgeW91IHdpbGwgYmUgdHJ5aW5nIHNldmVyYWwgcmVsYXRlZCBhbmFseXNpcyBhcHByb2FjaGVzIHVzaW5nIHRoZSBzYW1lIGlucHV0IGRhdGEsIGJ1dCBpbnRlbmQgb24gdXNpbmcgcmVzdWx0cyBmcm9tIG9ubHkgb25lIG9mIHRoZSBldmFsdWF0ZWQgbWV0aG9kcywgaXQgbWF5IG1ha2Ugc2Vuc2UgdG8gaW50ZW50aW9uYWxseSBzdWJkaXZpZGUgdGhlIGNvbnRlbnRzIG9mIHlvdXIgcHJvamVjdCBkaXJlY3RvcnkgYWNjb3JkaW5nbHkuIElmIHlvdSBoYXZlIHNldmVyYWwgZGlzdGluY3QgYW5hbHlzZXMgdGhhdCBtYXkgdXNlIHRoZSBzYW1lIGlucHV0IGRhdGEsIHRoZW4gcGVyaGFwcyBjcmVhdGluZyBzZXBhcmF0ZSBwcm9qZWN0cyBmb3IgZWFjaCBvZiB0aGVtIHdpbGwgbWFrZSB0aGUgbW9zdCBzZW5zZS4gSXQncyBoYXJkIHRvIGJlIHRvdGFsbHkgcHJlc2NyaXB0aXZlIHdoZW4gbWFraW5nIHJlY29tbWVuZGF0aW9ucyBoZXJlLCBidXQgdGhyb3VnaCBvdXIgZXhhbXBsZSB3ZSBob3BlIHRvIHNwYXJrIHRoZSBraW5kcyBvZiBjb252ZXJzYXRpb25zIGFuZCB0aGUgdHlwZXMgb2YgdGhpbmtpbmcgdGhhdCBhcmUgcmVxdWlyZWQgaGVyZS4KCiFbXShpbWFnZXMvTW9kdWxlMDFfcHJvamVjdHNfbGF5b3V0LnBuZykKCk9uZSBsYXN0IG5vdGUgb24gaGFuZGxpbmcgYW5kIG9yZ2FuaXppbmcgYW5hbHlzaXMgcHJvamVjdHMgLSB1c2Ugc29tZSBmb3JtIG9mIGlkZW50aWZpY2F0aW9uIHN5c3RlbSBmb3IgcHJvamVjdHMgaW4geW91ciBsYWIuIFRoaXMgc2ltcGxpZmllcyBjb21tdW5pY2F0aW9uIGFuZCByZWNvcmQga2VlcGluZywgaW4gYWRkaXRpb24gdG8gdGhlIG9yZ2FuaXphdGlvbmFsIGJlbmVmaXRzLgoKU29tZSBpZGVhcyBmb3IgcHJvamVjdCBpZGVudGlmaWNhdGlvbiBzeXN0ZW1zOgoKLSBDb2RlbmFtZXMKLSBBbHBoYW51bWVyaWMgSURzCi0gU2hvcnQgY29udGV4dHVhbCBkZXNjcmlwdGlvbnMKCjxicj4KCjwhLS0gTElWRV9OT1RFOiBBc2sgaWYgYW55b25lIGhhcyBhbnkgcHJlZmVyZW5jZXMsIG9yIHdoYXQgbWlnaHQgd29yayBiZXN0IGZvciB0aGVpciBncm91cCBhbmQgd2h5IC0tPgoKIyMgRXhlcmNpc2UgLSBPcmdhbml6ZSB5b3VyIHByb2plY3QKCkZvbGxvd2luZyBhbG9uZyB3aXRoIHRoZSBpbnN0cnVjdG9yLCB3ZSdsbCBvcmdhbml6ZSB0aGUgZmlsZXMgdGhhdCBhcmUgaW4gb3VyIGAkV09SS1NIT1BfSE9NRWAgZGlyZWN0b3J5LgoKCjxicj4KCiMjIEV4ZXJjaXNlIC0gV3JpdGUgYSBSRUFETUUgRmlsZQoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlIHdpbGwgd3JpdGUgdGhlIGJlZ2lubmluZ3Mgb2YgYSBSRUFETUUgZm9yIG91ciBwcm9qZWN0IGFzIGl0IGV4aXN0cyBzbyBmYXIuCgo8YnI+CgojIyBSZXZpZXcKCjxicj4KCiMjIyBIYW5keSBMaW5rcwoKLSBbTGluayB0byBHcmVhdCBMYWtlcyBEYXNoYm9hcmQgKHNhbWUgYXMgYWJvdmUpXShodHRwczovL2dyZWF0bGFrZXMuYXJjLXRzLnVtaWNoLmVkdSkKLSBbbGluayBmcm9tIEFHQyBvbiB2YWxpZGF0aW5nIGZpbGUgaW50ZWdyaXR5IHVzaW5nIG1kNXN1bV0oaHR0cDovL21pY2htZWQub3JnL2FnYy1tZDVzdW0pCgoKfCBbUHJldmlvdXMgbGVzc29uXShNb2R1bGVfb3ZlcnZpZXdfYW5kX3dhcm11cC5odG1sKSB8IFtUb3Agb2YgdGhpcyBsZXNzb25dKCN0b3ApIHwgW05leHQgbGVzc29uXShNb2R1bGVfY29tcHV0ZV9lbnZpcm9ubWVudF9kZWZpbml0aW9uLmh0bWwpIHwKfCA6LS0tIHwgOi0tLS06IHwgLS0tOiB8Cg==</div>
 
 
 
@@ -623,11 +649,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Module_data_priorities_analysis_setup.md");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
