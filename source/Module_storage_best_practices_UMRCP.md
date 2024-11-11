@@ -1,5 +1,5 @@
 ---
-title: "Storage"
+title: "Raw Data, Compute/Storage Options, and UMRCP"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -9,7 +9,7 @@ output:
             number_sections: false
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
@@ -40,8 +40,8 @@ Recommended:
   - Hardware redundancy
   - Location redundancy
 
-Another thing to mention for raw data best practices is the procedure of checking file integrity. Whenever transferring data from one storage location to another, and especially while doing so over a network connection, it is good practice to follow up with a file integrity check. Briefly, we use software to inspect our files and determine if any of the contents have changed. In a later module we'll have a chance to try this ourselves, using the `md5sum` utility. This is a relatively efficient way of verifying file integrity after a file transfer.
 
+<br>
 
 ## Storage Options for UMich Researchers
 
@@ -53,6 +53,8 @@ We've discussed best practices for data, analysis intermediates and scripts, etc
 The vast majority of computing resources we'll be discussing in the workshop are provided and managed by ARC - Advanced Research Computing at University of Michigan. The shared computing cluster that we'll be using in the workshop is run by ARC, and the storage allocations likewise are provided by ARC. Their mission is to provide university researchers with the advanced computing resources that they need, and they've been working with research groups in various compute intensive fields to achieve this. 
 
 Later in this module we'll discuss in detail how to request resources through ARC, but for now we'll focus on the storage topic and cover some important storage options that ARC provides.
+
+<br>
 
 ### Data Den
 
@@ -229,5 +231,5 @@ There are two video links below. There's a decent amount of overlap in the conte
 <br>
 <br>
 
-| [Previous lesson](Module_compute_environment_definition.html) | [Top of this lesson](#top) | [Next lesson](Module_great_lakes_cluster.html) |
+| [Previous lesson](Module_data_priorities_analysis_setup.html) | [Top of this lesson](#top) | [Next lesson](Module_great_lakes_cluster.html) |
 | :--- | :----: | ---: |

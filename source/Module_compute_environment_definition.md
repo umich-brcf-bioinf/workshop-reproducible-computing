@@ -9,7 +9,7 @@ output:
             number_sections: false
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
@@ -33,15 +33,12 @@ In this module, we will:
 <br>
 <br>
 <br>
-<br>
 
 ![](images/ModuleTCE_kitchen.png)
 
 <br>
 
 ### Related Terminology and Concepts
-
-<br>
 
 **Virtual Environment:**  
 An isolated space within a compute environment where certain components - e.g. software and configuration details - can be used independently without interference from system-wide components or other projects  
@@ -54,5 +51,5 @@ Kitchen metaphor: like a note on the refrigerator that states where different sp
 
 <br>
 
-| [Previous lesson](Module_data_priorities_analysis_setup.html) | [Top of this lesson](#top) | [Next lesson](Module_storage_best_practices_UMRCP.html) |
+| [Previous lesson](Module_great_lakes_cluster.html) | [Top of this lesson](#top) | [Next lesson](Module_software_management_conda.html) |
 | :--- | :----: | ---: |
