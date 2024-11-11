@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,9 +231,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -289,24 +279,29 @@ $(document).ready(function () {
         <li>
           <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
         </li>
-        <li>
-          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
-        </li>
       </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
         </li>
         <li>
-          <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
         </li>
       </ul>
     </li>
-    <li>
-      <a href="Module_software_management_conda.html">Software management with Conda</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
@@ -319,9 +314,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
-    </li>
-    <li>
-      <a href="exercise-2.html">Independent Exercise</a>
     </li>
     <li>
       <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
@@ -337,9 +329,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="Module_raw_data_management.html">Raw Data Management</a>
     </li>
     <li>
       <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
@@ -358,13 +347,6 @@ $(document).ready(function () {
 </div><!--/.navbar -->
 
 <div id="header">
-
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
 
@@ -391,12 +373,11 @@ terms</li>
 <div id="components-of-the-compute-environment" class="section level2">
 <h2>Components of the Compute Environment</h2>
 <p><img src="images/ModuleTCE_compute_env_building_blocks.png" /></p>
-<p><br> <br> <br> <br></p>
+<p><br> <br> <br></p>
 <p><img src="images/ModuleTCE_kitchen.png" /></p>
 <p><br></p>
 <div id="related-terminology-and-concepts" class="section level3">
 <h3>Related Terminology and Concepts</h3>
-<p><br></p>
 <p><strong>Virtual Environment:</strong><br />
 An isolated space within a compute environment where certain components
 - e.g. software and configuration details - can be used independently
@@ -421,12 +402,11 @@ different spices are located</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a
-href="Module_data_priorities_analysis_setup.html">Previous
+<th align="left"><a href="Module_great_lakes_cluster.html">Previous
 lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a
-href="Module_storage_best_practices_UMRCP.html">Next lesson</a></th>
+<th align="right"><a href="Module_software_management_conda.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>
@@ -435,7 +415,6 @@ href="Module_storage_best_practices_UMRCP.html">Next lesson</a></th>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiVGVybWlub2xvZ3kgLSBDb21wdXRlIEVudmlyb25tZW50IgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpJbiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKCiogZGlzY3VzcyB0aGUgaWRlYSBvZiB0aGUgImNvbXB1dGUgZW52aXJvbm1lbnQiIGFuZCBzb21lIHJlbGF0ZWQgdGVybXMKCjxicj4KCiMjIENvbXBvbmVudHMgb2YgdGhlIENvbXB1dGUgRW52aXJvbm1lbnQKCiFbXShpbWFnZXMvTW9kdWxlVENFX2NvbXB1dGVfZW52X2J1aWxkaW5nX2Jsb2Nrcy5wbmcpCgo8YnI+Cjxicj4KPGJyPgo8YnI+CgohW10oaW1hZ2VzL01vZHVsZVRDRV9raXRjaGVuLnBuZykKCjxicj4KCiMjIyBSZWxhdGVkIFRlcm1pbm9sb2d5IGFuZCBDb25jZXB0cwoKPGJyPgoKKipWaXJ0dWFsIEVudmlyb25tZW50OioqICAKQW4gaXNvbGF0ZWQgc3BhY2Ugd2l0aGluIGEgY29tcHV0ZSBlbnZpcm9ubWVudCB3aGVyZSBjZXJ0YWluIGNvbXBvbmVudHMgLSBlLmcuIHNvZnR3YXJlIGFuZCBjb25maWd1cmF0aW9uIGRldGFpbHMgLSBjYW4gYmUgdXNlZCBpbmRlcGVuZGVudGx5IHdpdGhvdXQgaW50ZXJmZXJlbmNlIGZyb20gc3lzdGVtLXdpZGUgY29tcG9uZW50cyBvciBvdGhlciBwcm9qZWN0cyAgCkNvbW1vbmx5IHVzZWQgaW4gc29mdHdhcmUgZGV2ZWxvcG1lbnQgYW5kIGRhdGEgYW5hbHlzaXMgdG8gYXZvaWQgY29uZmxpY3RzIGJldHdlZW4gZGlmZmVyZW50IHByb2plY3RzICAKS2l0Y2hlbiBtZXRhcGhvcjogbGlrZSBhIHNlcGFyYXRlIGNsZWFuIHdvcmtzcGFjZSB3aXRoaW4geW91ciBraXRjaGVuIGZvciBzcGVjaWZpYyB0YXNrcyAtIGUuZy4gY2xlYW4gYXJlYSBmb3IgY2hvcHBpbmcgdmVnZXRhYmxlcyAgCioqRW52aXJvbm1lbnQgVmFyaWFibGU6KiogIApJbmZvcm1hdGlvbiB0aGF0IGlzIHVzZWQgYnkgYSBjb21wdXRlcidzIG9wZXJhdGluZyBzeXN0ZW0gdGhhdCBjYW4gaW5mbHVlbmNlIHRoZSB3YXkgdGhhdCBwcm9jZXNzZXMgYmVoYXZlICAKQ29tbW9ubHkgdXNlZCB0byBzdG9yZSBpbmZvcm1hdGlvbiBsaWtlIGZpbGUgcGF0aHMsIHVzZXJuYW1lcywgc3lzdGVtIHNldHRpbmdzLCBldGMuICAKS2l0Y2hlbiBtZXRhcGhvcjogbGlrZSBhIG5vdGUgb24gdGhlIHJlZnJpZ2VyYXRvciB0aGF0IHN0YXRlcyB3aGVyZSBkaWZmZXJlbnQgc3BpY2VzIGFyZSBsb2NhdGVkICAKCjxicj4KCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlX2RhdGFfcHJpb3JpdGllc19hbmFseXNpc19zZXR1cC5odG1sKSB8IFtUb3Agb2YgdGhpcyBsZXNzb25dKCN0b3ApIHwgW05leHQgbGVzc29uXShNb2R1bGVfc3RvcmFnZV9iZXN0X3ByYWN0aWNlc19VTVJDUC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfA==</div>
 
 
 
@@ -469,11 +448,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Module_compute_environment_definition.md");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

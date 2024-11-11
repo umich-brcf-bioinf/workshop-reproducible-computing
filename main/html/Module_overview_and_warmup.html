@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,9 +231,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -289,24 +279,29 @@ $(document).ready(function () {
         <li>
           <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
         </li>
-        <li>
-          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
-        </li>
       </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="Module_storage_best_practices_UMRCP.html">Storage</a>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
         </li>
         <li>
-          <a href="Module_great_lakes_cluster.html">Compute Hardware</a>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
         </li>
       </ul>
     </li>
-    <li>
-      <a href="Module_software_management_conda.html">Software management with Conda</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
@@ -319,9 +314,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
-    </li>
-    <li>
-      <a href="exercise-2.html">Independent Exercise</a>
     </li>
     <li>
       <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
@@ -337,9 +329,6 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="Module_raw_data_management.html">Raw Data Management</a>
     </li>
     <li>
       <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
@@ -358,13 +347,6 @@ $(document).ready(function () {
 </div><!--/.navbar -->
 
 <div id="header">
-
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
 
@@ -480,7 +462,9 @@ class="section level2">
 <h2>Exercise - Connect with the Web-Based Shell</h2>
 <p>Following along with the instructor, we’ll use the web-based shell to
 connect to Great Lakes. Once there, we’ll run an introductory script,
-and take another look at our transferred files.</p>
+and take a first look at some of the files provided for the
+workshop.</p>
+<p><br></p>
 <p>Here is the link to <a
 href="https://greatlakes.arc-ts.umich.edu">ARC’s Great Lakes
 Portal</a></p>
@@ -503,8 +487,6 @@ lesson</a></th>
 </tbody>
 </table>
 </div>
-
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiT3ZlcnZpZXcgYW5kIFdhcm11cCIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiBmYWxzZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGw6CgoqIGRpc2N1c3MgcmVwcm9kdWNpYmxlIGNvbXB1dGluZyBpbiBnZW5lcmFsCiogdXNlIGEgc2ltcGxlIHdhcm0tdXAgZXhlcmNpc2UgdG8gaW50cm9kdWNlIGV4YW1wbGUgZGF0YSBhbmQgZXhhbXBsZSB0YXNrcwogICogd2UnbGwgZXhwYW5kIG9uIHRoaXMgc2ltcGxlIGFuYWx5c2lzL2RhdGFzZXQgdGhyb3VnaG91dCB0aGUgd29ya3Nob3AgdG8gZGVtb25zdHJhdGUgYXNwZWN0cyBvZiByZXByb2R1Y2libGUgY29tcHV0aW5nCiogcXVpY2tseSBnZXQgc3RhcnRlZCB1c2luZyBVTWljaCdzIEdyZWF0IExha2VzIEhpZ2gtUGVyZm9ybWFuY2UgQ29tcHV0aW5nIChIUEMpIGNsdXN0ZXIKKiBzdGFydCB0byBnZXQgYWNxdWFpbnRlZCB3aXRoIHByb2plY3Qgb3JnYW5pemF0aW9uCgo8YnI+CgojIyBSZXByb2R1Y2libGUgQ29tcHV0aW5nCgpSZXByb2R1Y2libGUgY29tcHV0aW5nIGhhcyBiZWNvbWUgaW5jcmVhc2luZ2x5IGltcG9ydGFudCBpbiByZWNlbnQgeWVhcnMuIEFzIGV4cGVyaW1lbnRhbCBkYXRhIHZvbHVtZXMgaGF2ZSBpbmNyZWFzZWQgZXhwb25lbnRpYWxseSwgYW5kIGFzIHJlc2VhcmNoIGVuZGVhdm9ycyBoYXZlIGVtcGxveWVkIG1vcmUgY29tcGxpY2F0ZWQgYW5hbHlzZXMgb3ZlciB0aW1lLCBjb21wdXRhdGlvbiBoYXMgYmVjb21lIGEgZnVuZGFtZW50YWwgYXNwZWN0IG9mIHZpcnR1YWxseSBldmVyeSB0eXBlIG9mIHJlc2VhcmNoLgoKUmVwcm9kdWNpYmlsaXR5IGl0c2VsZiBpcyBhbiBpbnRlZ3JhbCBwYXJ0IG9mIHRoZSBzY2llbnRpZmljIHByb2Nlc3MuIFdlIGRlc2NyaWJlIG91ciBleHBlcmltZW50cyB3aXRoIHN1ZmZpY2llbnQgZGV0YWlsIHNvIHRoYXQgdGhleSBjYW4gYmUgcmVwbGljYXRlZCBhbmQgb3VyIGZpbmRpbmdzIGNhbiBiZSBjb25maXJtZWQgYnkgb3RoZXJzLCBhbmQgc28gdGhhdCBldmVudHVhbGx5IG90aGVycyBtYXkgYnVpbGQgdXBvbiB0aGVtLgoKU28gdGFraW5nIHRoZXNlIHR3byB0aGluZ3MgdG9nZXRoZXIsIHRoZSBpbmNyZWFzaW5nIHVzZSBvZiBjb21wdXRpbmcgaW4gcmVzZWFyY2ggYW5kIHRoZSBpbmhlcmVudCBuZWVkIGZvciByZXByb2R1Y2liaWxpdHkgaW4gdGhlIHNjaWVudGlmaWMgcHJvY2Vzcywgd2UgY2FuIHN0YXJ0IHRvIHVuZGVyc3RhbmQgdGhlIGltcG9ydGFuY2Ugb2YgcmVwcm9kdWNpYmxlIGNvbXB1dGluZy4KClRoZXJlIGFyZSBzb21lIGNoYWxsZW5nZXMgd2UgbXVzdCBvdmVyY29tZSBpbiB0aGlzIHJlYWxtLiBXaGVuIHdlIHRyeSB0byBlbXBsb3kgb3VyIHR5cGljYWwgbWV0aG9kb2xvZ2llcyBmb3IgZ2VuZXJhbCBzY2llbnRpZmljIHJlcHJvZHVjaWJpbGl0eSwgdGhleSBtYXkgbm90IGJlIHN1ZmZpY2llbnQgdG8gdHJ1bHkgZW5hYmxlIG90aGVycyB0byByZWNyZWF0ZSBvdXIgd29yay4gSW4gbWFueSBjYXNlcywgaW4gb3JkZXIgdG8gY3JlZGlibHkgdmFsaWRhdGUgYW4gYW5hbHlzaXMsIHdlIG11c3QgYmUgYWJsZSB0byBub3Qgb25seSBzZWUgYW5kIHVuZGVyc3RhbmQgdGhlIHN0ZXBzIG9mIGFuIGFuYWx5c2lzLCBidXQgYWxzbyB0byB1c2UgdGhlIHNhbWUgc29mdHdhcmUgd2l0aCB0aGUgc2FtZSBpbnB1dCBkYXRhIGFuZCBwZXJmb3JtIHRoZXNlIHNhbWUgZGF0YSBtYW5pcHVsYXRpb25zIG91cnNlbHZlcy4gVHJ5aW5nIHRvIGFjaGlldmUgdGhpcyB0YXNrIHdpdGggb25seSBhIGRlc2NyaXB0aXZlIHN1bW1hcnkgb2Ygb3VyIGFuYWx5c2lzIG1ldGhvZHMsIHBhcnRpY3VsYXJseSB3aGVuIHVzaW5nIGN1dHRpbmctZWRnZSBhY2FkZW1pYyBzb2Z0d2FyZSwgbWF5IG9mdGVuIHByb2R1Y2UgbGl0dGxlIG1vcmUgdGhhbiBmcnVzdHJhdGlvbi4KCkxldCdzIHRha2UgYSBtb21lbnQgdG8gdGhpbmsgYWJvdXQgb3VyIG93biBleHBlcmllbmNlcyB3aXRoIHRoaXMgdG9waWMuIENhbiB3ZSB0aGluayBvZiBleHBlcmllbmNlcyB3aGVyZSB3ZSBlbmNvdW50ZXJlZCBjaGFsbGVuZ2VzIHdoaWxlIHRyeWluZyB0byByZXByb2R1Y2UgdGhlIGFuYWx5c2lzIG9mIG90aGVycz8gT3Igd2hpbGUgdHJ5aW5nIHRvIHNoYXJlIG91ciBvd24gYW5hbHlzZXMgd2l0aCBjb2xsZWFndWVzPwoKVGhlcmUgYXJlIGEgbnVtYmVyIG9mIHRvb2xzIGFuZCB0ZWNobmlxdWVzIHRoYXQgaGF2ZSBlbWVyZ2VkIHRvIGFkZHJlc3Mgc29tZSBvZiB0aGVzZSBjaGFsbGVuZ2VzLCBhbmQgdG8gcmVhbGx5IGxvd2VyIHRoZSBiYXJyaWVyIHRvIHNoYXJpbmcgYW5kIHJlcHJvZHVjaW5nIG91ciByZXN1bHRzLgoKSW4gdGhpcyB3b3Jrc2hvcCB3ZSdsbCBkaXNjdXNzIHRoZXNlIHRvb2xzIGFuZCB0ZWNobmlxdWVzLCB3ZSdsbCBwcm92aWRlIHNwZWNpZmljIGd1aWRhbmNlIGZvciBVbml2ZXJzaXR5IG9mIE1pY2hpZ2FuIHJlc2VhcmNoZXJzIHRvIGFkZHJlc3MgcmVwcm9kdWNpYmlsaXR5IGNvbmNlcm5zLCBhbmQgd2UnbGwgdXNlIHByYWN0aWNhbCBleGFtcGxlcyBhbG9uZyB0aGUgd2F5IHRvIGdhaW4gZXhwZXJpZW5jZSBhbmQgZW1waGFzaXplIHRoZSBjb25jZXB0cyB0aGF0IHdlIGxlYXJuLgoKPGJyPgoKIyMgV2FybXVwIEV4YW1wbGUgLSAiSGVsbG8gQWxjb3R0IgoKPGJyPgoKV2UnbGwgdXNlIHRoZSB0ZXh0IG9mIExvdWlzYSBNYXkgQWxjb3R0J3Mgbm92ZWwsICJMaXR0bGUgV29tZW4iIGFzIGEgZGF0YXNldCB0aHJvdWdob3V0IGEgZ29vZCBwb3J0aW9uIG9mIHRoaXMgd29ya3Nob3AuIEFzIGEgc2ltcGxlIGV4YW1wbGUgYW5hbHlzaXMgdGFzaywgd2UnbGwgc2VhcmNoIHRoZSB0ZXh0IGZvciB0aGUgbWVudGlvbiBvZiBzZXZlcmFsIG1haW4gY2hhcmFjdGVycy4KCjxicj4KCiMjIyBUYXNrOiBDb3VudCBNZW50aW9uIG9mIE1haW4gQ2hhcmFjdGVycwoKPGJyPgoKSG93IG1hbnkgdGltZXMgYXJlIGVhY2ggb2YgdGhlc2UgbWFpbiBjaGFyYWN0ZXJzIG1lbnRpb25lZDo/CgotIEFteQotIEJldGgKLSBKbwotIExhdXJpZQotIE1lZwoKPGJyPgoKIyMjIFByZXZpZXcgb2YgRXhhbXBsZSBXYXJtdXAgU2NyaXB0Cgo8YnI+CgpXZSBoYXZlIGFuIGV4YW1wbGUgc2NyaXB0IGNhbGxlZCBgaGVsbG9fYWxjb3R0LnNoYCB0aGF0IHdlJ2xsIHVzZSB0byBmaW5kIHRoZSBhbnN3ZXIgdG8gdGhpcyBxdWVzdGlvbi4gSGVyZSBpcyBhIGRpYWdyYW0gc2hvd2luZyB3aGF0IGl0IGRvZXM6Cgo8YnI+CgohW10oaW1hZ2VzL01vZHVsZU9BV19oZWxsb19hbGNvdHQucG5nKQoKPCEtLSBMSVZFX05PVEU6IE1lbnRpb24gdGhlIHB1cnBvc2Ugb2YgdGhlc2UgZXhhbXBsZXMgLSBzaW1wbGUgZGF0YXNldCBpcyBlYXN5IHRvIHVuZGVyc3RhbmQgYW5kIGV4cGxhaW4gLSBXZSdsbCB1c2UgdGhlIGV4YW1wbGUgdG8gZGVtb25zdHJhdGUgdGhpbmdzIGxpa2UgcHJvamVjdCBvcmdhbml6YXRpb24sIGRvY3VtZW50YXRpb24sIHNvZnR3YXJlIG1hbmFnZW1lbnQsIGV0Yy4gLS0+Cgo8YnI+CgojIyMgUXVpY2stU3RhcnQgR3JlYXQgTGFrZXMKCjxicj4KClNuZWFrIHByZXZpZXcgb2YgdGhlIHdlYi1iYXNlZCBzaGVsbAohW10oaW1hZ2VzL01vZHVsZTAzYV9hY2Nlc3Npbmdfd2ViX2Jhc2VkX3NoZWxsLnBuZykKIVtdKGltYWdlcy9Nb2R1bGUwM2FfcHJldmlld193ZWJfYmFzZWRfc2hlbGwucG5nKQoKPGJyPgoKIyMgRXhlcmNpc2UgLSBDb25uZWN0IHdpdGggdGhlIFdlYi1CYXNlZCBTaGVsbAoKRm9sbG93aW5nIGFsb25nIHdpdGggdGhlIGluc3RydWN0b3IsIHdlJ2xsIHVzZSB0aGUgd2ViLWJhc2VkIHNoZWxsIHRvIGNvbm5lY3QgdG8gR3JlYXQgTGFrZXMuIE9uY2UgdGhlcmUsIHdlJ2xsIHJ1biBhbiBpbnRyb2R1Y3Rvcnkgc2NyaXB0LCBhbmQgdGFrZSBhbm90aGVyIGxvb2sgYXQgb3VyIHRyYW5zZmVycmVkIGZpbGVzLgoKSGVyZSBpcyB0aGUgbGluayB0byBbQVJDJ3MgR3JlYXQgTGFrZXMgUG9ydGFsXShodHRwczovL2dyZWF0bGFrZXMuYXJjLXRzLnVtaWNoLmVkdSkKCjxicj4KPGJyPgoKfCBbUHJldmlvdXMgbGVzc29uXShNb2R1bGUwMF9JbnRyb2R1Y3Rpb24uaHRtbCkgfCBbVG9wIG9mIHRoaXMgbGVzc29uXSgjdG9wKSB8IFtOZXh0IGxlc3Nvbl0oTW9kdWxlX3NuZWFrX3BlZWtfZ3JlYXRfbGFrZXMuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
 
 
 
@@ -539,11 +521,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Module_overview_and_warmup.md");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
