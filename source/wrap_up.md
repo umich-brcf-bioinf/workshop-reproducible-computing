@@ -43,7 +43,7 @@ Sourced from [Advanced Reproducibility in Cancer Informatics](https://jhudatasci
 
 ## Housekeeping
 
-- Please take our optional [post-workshop survey](https://forms.gle/spsxWoyceGG2VxBG9){target="_blank"}. (5-10 minutes)
+- Please take our optional [post-workshop survey](https://forms.gle/rmV7J3MURWFeWGSc6){target="_blank"}. (5-10 minutes)
 
 - We will email you a link to the final session recordings by end of next week.
 
@@ -74,17 +74,18 @@ your own datasets. In particular:
 - It is not sized for compute intensive operations or large storage.
 - It is not secured for sensitive data of any kind.
 
-## University of Michigan Resources
-
-
 #### Continued learning and support
-Making research reproducibile is a learning process. Resources to consider:
+
+Making research reproducible is a learning process. Resources to consider:
 
 - <a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces "office hours"</a> and UM CoderSpaces Slack workspace. _(See "Useful Resources" section in above page for instructions on how to join and access the CoderSpaces Slack workspace.)_
 - Upcoming <a class="external" href="https://arc.umich.edu/events/" target="_blank">UM Advanced Research Computing workshops</a>.
 - Videos on <a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting started with Great Lakes</a>.
 - For more intro lessons and workshops in Bash / Git / R / Python : <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.
 - [Advanced Reproducibility in Cancer Informatics](https://jhudatascience.org/Adv_Reproducibility_in_Cancer_Informatics/index.html){target="_blank"} from The Johns Hopkins Data Science Lab
+- Alston et al. 2020. A Beginner's Guide to Conducting Reproducible Research. Bull Ecol Soc Am 102(2):e01801. https://doi.org/10.1002/bes2.1801
+- Essawy et al.A taxonomy for reproducible and replicable research in environmental modelling, Environmental Modelling & Software, Volume 134, 2020, https://doi.org/10.1016/j.envsoft.2020.104753
+- [Guide to Reproducibility in Science](https://ropensci-archive.github.io/reproducibility-guide/){target="_blank"}
 
 ---
 
@@ -107,4 +108,4 @@ Thank you for participating in our workshop. We welcome your questions and feedb
 Bioinformatics Workshop Team
 
 [bioinformatics-workshops@umich.edu](mailto:bioinformatics-workshops@umich.edu) <br/>
-[https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core){target="_blank"}
+[Bioinformatics Core](https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core){target="_blank"}
