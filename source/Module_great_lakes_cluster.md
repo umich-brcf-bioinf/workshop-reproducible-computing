@@ -202,7 +202,7 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 <summary>`srun` with LMOD hello_alcott - Solution</summary>
 
 ```sh
-srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash
+srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=500 --cpus-per-task=1 --time=00:10:00 /bin/bash
 
 cd ${WORKSHOP_HOME}/intro_scripts
 
@@ -240,10 +240,14 @@ cd projects/hello_alcott
 
 Edit the file appropriately - We'll use the web-based text editor for ease-of-use, but a command-line based text editor like `nano` could also work well here.
 
+[Link to Great Lakes Dashboard](https://greatlakes.arc-ts.umich.edu)
+
+<!-- LIVE_NOTE: You'll need this path handy to paste into the changedir modal: /nfs/turbo/umms-bioinf-wkshp/workshop/home/ -->
+
 When we're happy with our SBATCH script, we can submit it.
 
 ```sh
-sbatch projects/hello_alcott/hello_alcott_sbatch.sh
+sbatch hello_alcott_sbatch.sh
 ```
 
 We'll look for the log file in our project folder, and inspect it for the outputs.
@@ -256,7 +260,7 @@ We'll look for the log file in our project folder, and inspect it for the output
 
 <!-- LIVE_NOTE: Do a show-only demonstration of lack of wordcloud package - we need to install it - we may be tempted to pip install it, but stay tuned for the next modules amd we'll offer better alternatives -->
 
->Note: Make sure to unload the python module, so that it does not interfere with the exercises in the next sections!
+>Note: If you have the python module loaded, make sure to `unload` it, so that it does not interfere with the exercises in the next sections!
 
 ```sh
 module unload python

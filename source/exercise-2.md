@@ -1,5 +1,5 @@
 ---
-title: "Independent Exercise - SBATCH, Conda, Filtering our BAMs"
+title: "Independent Exercise - SBATCH, Dialog Parsing, & Word Clouds - Proper Nouns"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -8,7 +8,7 @@ output:
             theme: paper
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
@@ -21,7 +21,7 @@ pre {
 
 <br>
 
-## Filtering All Samples
+## SBATCH, Dialog Parsing, & Word Clouds - Proper Nouns
 
 <br>
 
@@ -29,11 +29,9 @@ pre {
 
 <br>
 
-We just learned how to activate an existing conda environment and use it to provide software that we want - `samtools` - and use samtools to filter our BAM files. We also recently learned how to create SBATCH script files and submit them using `sbatch`.
+We just proved out our alcott_dialog_parsing project with a number of `srun` commands. We also gained additional practice creating SBATCH script files and submitting them using `sbatch`.
 
-Let's combine these ideas and filter the rest of our BAM files. 
-
-If you have extra time, there's a bonus exercise of indexing your BAMs as well
+Let's use what we've learned and revisit our analysis - this time extracting and visualizing proper nouns used by each of the characters.
 
 <br>
 
@@ -50,13 +48,16 @@ If you have extra time, there's a bonus exercise of indexing your BAMs as well
 
 <br>
 
-- Review our samtools command that we used earlier. Combine this with what we've learned about using conda environments and creating SBATCH files.
-- Create an SBATCH file that activates our `samtools_deeptools` conda environment. With the conda environment active, use `samtools` to filter sample_A.
-- Submit the SBATCH file, view the output, and verify once it's complete that we have created the filtered sample_A BAM file.
-- Once we are happy with the results, create additional SBATCH files for our other samples, and submit them as well.
+- Create an SBATCH file that uses `singularity exec` to run our `dialog_parser.py` script, this time extracting proper nouns from each character.
+  - Pay attention to SBATCH preamble (job name, resources, log file location).
+- Submit the above SBATCH file, view the output, and verify that we have word lists containing proper nouns in our results directory.
+- Create an SBATCH file that creates a word cloud from one of the characters' extracted proper nouns.
+- Submit that SBATCH file, view the output exists, and view the image in the Great Lakes file browser as well.
+- Create similar SBATCH files for all other characters and submit them.
+- View all of the result images in the Great Lakes file browser.
 
 <br>
 
->Bonus: If you have extra time, extend this exercise and use `samtools index` to index the filtered BAM file for sample_A.
+[Link to Great Lakes Dashboard](https://greatlakes.arc-ts.umich.edu)
 
 <br>
