@@ -60,6 +60,7 @@ body, td {
 | :---  | :---- |
 |  9:00 | Review |
 |  9:10 | [Intro to Snakemake](Module_intro_to_snakemake.html) |
+|  10:30 | [Advanced Snakemake](Module_advanced_snakemake.html) |
 | 11:00 | Break |
 | 11:15 | [Transferring data with Globus](Module_transferring_data_globus.html) |
 | 12:45 | [Wrap-up](Module_wrap_up.html) |
