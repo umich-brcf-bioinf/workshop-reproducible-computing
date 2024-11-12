@@ -586,7 +586,7 @@ our hello_alcott examples.</p>
 <summary>
 <code>srun</code> with LMOD hello_alcott - Solution
 </summary>
-<pre class="sh"><code>srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash
+<pre class="sh"><code>srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=500 --cpus-per-task=1 --time=00:10:00 /bin/bash
 
 cd ${WORKSHOP_HOME}/intro_scripts
 
@@ -625,8 +625,11 @@ cd projects/hello_alcott</code></pre>
 <p>Edit the file appropriately - We’ll use the web-based text editor for
 ease-of-use, but a command-line based text editor like <code>nano</code>
 could also work well here.</p>
+<p><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard</a></p>
+<!-- LIVE_NOTE: You'll need this path handy to paste into the changedir modal: /nfs/turbo/umms-bioinf-wkshp/workshop/home/ -->
 <p>When we’re happy with our SBATCH script, we can submit it.</p>
-<pre class="sh"><code>sbatch projects/hello_alcott/hello_alcott_sbatch.sh</code></pre>
+<pre class="sh"><code>sbatch hello_alcott_sbatch.sh</code></pre>
 <p>We’ll look for the log file in our project folder, and inspect it for
 the outputs.</p>
 </details>
@@ -634,8 +637,9 @@ the outputs.</p>
 <!-- LIVE_NOTE: Reveal that we have some more interesting tasks left for analyzing the Alcott text - dialog attribution -->
 <!-- LIVE_NOTE: Do a show-only demonstration of lack of wordcloud package - we need to install it - we may be tempted to pip install it, but stay tuned for the next modules amd we'll offer better alternatives -->
 <blockquote>
-<p>Note: Make sure to unload the python module, so that it does not
-interfere with the exercises in the next sections!</p>
+<p>Note: If you have the python module loaded, make sure to
+<code>unload</code> it, so that it does not interfere with the exercises
+in the next sections!</p>
 </blockquote>
 <pre class="sh"><code>module unload python</code></pre>
 <hr />
