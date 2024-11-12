@@ -51,9 +51,8 @@ navbar:
       menu:
         - text: "Intro to Snakemake"
           href: Module_intro_to_snakemake.html
-#        - text: "Advanced Snakemake"
-#          href: Module_advanced-snakemake.html
-
+        - text: "Advanced Snakemake"
+          href: Module_advanced_snakemake.html
         - text: "Transferring data with Globus"
           href: Module_transferring_data_globus.html
 

@@ -12,7 +12,7 @@ output:
             number_sections: false
             fig_caption: true
             markdown: GFM
-            code_download: true
+            code_download: false
 ---
 <style type="text/css">
 body{ /* Normal  */
