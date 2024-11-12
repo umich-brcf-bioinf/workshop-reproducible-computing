@@ -174,19 +174,21 @@ We'll have a chance to try this in a moment, after we get warmed up with some in
 
 ## Exercise SBATCH Hello World
 
-Following along with the instructor, we will inspect the `hello_SBATCH.sh` shell script that each of us have in our `$WORKSHOP_HOME` directory, review the preamble and body of it, and then submit it with `sbatch`. Once it is running, we will use `squeue` to view the status of the job. After it completes, we'll view its log.
+Following along with the instructor, we will inspect the `hello_sbatch.sh` shell script that each of us have in our `$WORKSHOP_HOME` directory, review the preamble and body of it, and then submit it with `sbatch`. Once it is running, we will use `squeue` to view the status of the job. After it completes, we'll view its log.
 
 <details>
 <summary>SBATCH Hello World - Solution</summary>
 
-`source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.sh`
+```sh
+source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.sh
 
-`cd ${WORKSHOP_HOME}/intro_scripts`
+cd ${WORKSHOP_HOME}/intro_scripts
 
-`sbatch ../intro_scripts/hello_SBATCH.sh`
+sbatch ./hello_sbatch.sh
 
-While the job is running, check the job queue with:
-`squeue -u $USER`
+# While the job is running, check the job queue with:
+squeue -u $USER
+```
 
 </details>
 
@@ -199,19 +201,20 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 <details>
 <summary>`srun` with LMOD hello_alcott - Solution</summary>
 
-`srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash`
+```sh
+srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash
 
-`cd ${WORKSHOP_HOME}/intro_scripts`
+cd ${WORKSHOP_HOME}/intro_scripts
 
-`which python`
+which python
 
-`module spider python`
+module spider python
 
-`module load python/3.11.5`
+module load python/3.11.5
+which python
 
-`which python`
-
-`python hello_alcott.py -i ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt`
+python hello_alcott.py -i ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt
+```
 
 <!-- LIVE_NOTE: Just for fun we might also run ./hello_alcott.sh ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt -->
 
@@ -228,15 +231,20 @@ Following along with the instructor, we'll create an SBATCH script that is simil
 <details>
 <summary>SBATCH with LMOD hello_alcott Cont'd - Solution</summary>
 
-`cd ${WORKSHOP_HOME}`
-
-`cp intro_scripts/hello_SBATCH.sh projects/hello_alcott/hello_alcott_sbatch.sh`
+```sh
+cd ${WORKSHOP_HOME}
+mkdir -p projects/hello_alcott
+cp intro_scripts/hello_sbatch.sh projects/hello_alcott/hello_alcott_sbatch.sh
+cd projects/hello_alcott
+```
 
 Edit the file appropriately - We'll use the web-based text editor for ease-of-use, but a command-line based text editor like `nano` could also work well here.
 
 When we're happy with our SBATCH script, we can submit it.
 
-`sbatch projects/hello_alcott/hello_alcott_sbatch.sh`
+```sh
+sbatch projects/hello_alcott/hello_alcott_sbatch.sh
+```
 
 We'll look for the log file in our project folder, and inspect it for the outputs.
 
@@ -250,7 +258,9 @@ We'll look for the log file in our project folder, and inspect it for the output
 
 >Note: Make sure to unload the python module, so that it does not interfere with the exercises in the next sections!
 
-`module unload python`
+```sh
+module unload python
+```
 
 ---
 
