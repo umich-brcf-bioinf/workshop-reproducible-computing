@@ -153,12 +153,26 @@ Basically, conda packages are bundled up software, system-level libraries, depen
 
 <br>
 
+<details>
+<summary>Example `.condarc` with `envs_dirs` set to a turbo location</summary>
+
+```
+envs_dirs:
+  - /nfs/turbo/your-turbo-allocation/path/to/conda_envs
+```
+
+Where `your-turbo-allocation/path/to/conda_envs` is a directory in your Turbo allocation that you create specifically for storing your conda environments
+
+</details>
+
+<br>
+
 ## Exercise - Quick-Start with Conda 
 
 We will use a pre-prepared shortcut to load ARC's anaconda module and set some configuration details. Following along with the instructor, we'll inspect what the shortcut does, and discuss how you could take similar steps and modify these configuration details for future work with conda on Great Lakes
 
 ```sh
-source ${WORKSHOP_HOME}/intro_scripts/source_me_for_workshop_conda.sh
+source ${WORKSHOP_HOME}/source_me_for_workshop_conda.sh
 which python
 ```
 
@@ -177,11 +191,14 @@ Following along with instructor, learners will activate an existing environment.
 ```sh
 srun --pty --job-name=${USER}_dialog_parsing --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:10:00 /bin/bash
 
+source ${WORKSHOP_HOME}/source_me_for_workshop_conda.sh
+
 conda activate /nfs/turbo/umms-bioinf-wkshp/shared-envs/dialog_parsing/
 which python
 ```
 
 <!-- LIVE_NOTE: Also do a show-only demonstration of 'echo $PATH' and show that in action -->
+<!-- LIVE_NOTE: do a 'python scripts/dialog_parser.py --help and look at the help page -->
 
 ```sh
 cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
@@ -190,7 +207,6 @@ python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o result
 
 ls -l results_shared_conda
 ```
-<!-- LIVE_NOTE: do a 'python scripts/dialog_parser.py --help and look at the help page -->
 
 >Note: After you complete the exercise, you can end your currently-running `srun` job by typing `exit`.
 > You can always check if you're on the login node or a worker node using the `hostname` command.
@@ -209,7 +225,9 @@ Following along with instructor, we'll launch an srun job and then create a cond
 <!-- LIVE_NOTE: Use Zoom check-in, make sure that users double-check their 'conda config --show envs_dirs' results -->
 
 ```sh
-srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=2 --time=00:15:00 /bin/bash
+srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:20:00 /bin/bash
+
+source ${WORKSHOP_HOME}/source_me_for_workshop_conda.sh
 
 conda config --show envs_dirs
 
@@ -236,7 +254,7 @@ Following along with the instructor, we'll use Conda's export functionality to c
 
 ```sh
 conda activate my_dialog_parsing
-conda export > ${WORKSHOP_HOME}/conda_envs/export_my_dialog_parsing.yaml
+conda env export > ${WORKSHOP_HOME}/conda_envs/export_my_dialog_parsing.yaml
 ```
 
 <!-- LIVE_NOTE: Allude to the idea of time-based durability -->
@@ -253,15 +271,16 @@ Following along with the instructor, we'll launch an interactive job with `srun`
 <summary>`srun`, Conda, Dialog Parsing and Creating Word Clouds - Solution</summary>
 
 ```sh
-srun --pty --job-name=${USER}_conda_wordclouds --account=bioinf_wkshp_class --partition standard --mem=1000 --cpus-per-task=2 --time=00:05:00 /bin/bash
+srun --pty --job-name=${USER}_conda_wordclouds --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:15:00 /bin/bash
 
+source ${WORKSHOP_HOME}/source_me_for_workshop_conda.sh
 conda activate my_dialog_parsing
 
 cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
 mkdir results_my_conda
 
 python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_my_conda -p ADJ -c 'Jo,Meg,Amy,Beth,Laurie'
-python scripts/word_cloud.py -i results_my_conda/Amy_adj.txt
+python scripts/word_cloud.py -i results_my_conda/Jo_adj.txt
 
 ls -l results_my_conda
 ```
@@ -273,6 +292,8 @@ ls -l results_my_conda
 
 <br>
 <br>
+
+<!-- LIVE_NOTE: make sure to unload python3.11-anaconda module! -->
 
 ## Review
 
