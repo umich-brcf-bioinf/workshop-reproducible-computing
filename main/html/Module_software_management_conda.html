@@ -550,8 +550,8 @@ set some configuration details. Following along with the instructor,
 we’ll inspect what the shortcut does, and discuss how you could take
 similar steps and modify these configuration details for future work
 with conda on Great Lakes</p>
-<p><code>source ${WORKSHOP_HOME}/intro_scripts/source_me_for_workshop_conda.sh</code></p>
-<p><code>which python</code></p>
+<pre class="sh"><code>source ${WORKSHOP_HOME}/intro_scripts/source_me_for_workshop_conda.sh
+which python</code></pre>
 <!-- LIVE_NOTE: Check in to verify that 'which python' is returning correct thing (the LMOD python anaconda one) -->
 <!-- LIVE_NOTE: Do Demo-Only exercise where I show that desired packages are still not available yet -->
 <p><br></p>
@@ -561,20 +561,23 @@ class="section level2">
 <h2>Exercise - <code>srun</code>, Conda Activate, Run Dialog Parser</h2>
 <p>Following along with instructor, learners will activate an existing
 environment. We’ll demonstrate addition to the $PATH (and using
-<code>which</code>). Then, we’ll try running our .</p>
+<code>which</code>). Then, we’ll try running our
+<code>dialog_parser.py</code> script.</p>
 <details>
 <summary>
 <code>srun</code>, Conda Activate, Run Dialog Parser - Solution
 </summary>
-<p><code>srun --pty --job-name=${USER}_dialog_parsing --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:10:00 /bin/bash</code></p>
-<p><code>cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing</code></p>
-<p><code>conda activate /nfs/turbo/umms-bioinf-wkshp/shared-envs/dialog_parsing/</code></p>
-<p><code>which python</code></p>
+<pre class="sh"><code>srun --pty --job-name=${USER}_dialog_parsing --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=4 --time=00:10:00 /bin/bash
+
+conda activate /nfs/turbo/umms-bioinf-wkshp/shared-envs/dialog_parsing/
+which python</code></pre>
 <!-- LIVE_NOTE: Also do a show-only demonstration of 'echo $PATH' and show that in action -->
-<p><code>mkdir results_shared_conda</code></p>
-<!-- LIVE_NOTE: do a 'python3 scripts/dialog_parser.py --help and look at the help page -->
-<p><code>python3 scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_shared_conda -p ADJ -c 'Jo,Meg,Amy,Beth,Laurie'</code></p>
-<p><code>ls -l results_shared_conda</code></p>
+<pre class="sh"><code>cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
+mkdir results_shared_conda
+python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_shared_conda -p ADJ -c &#39;Jo,Meg,Amy,Beth,Laurie&#39;
+
+ls -l results_shared_conda</code></pre>
+<!-- LIVE_NOTE: do a 'python scripts/dialog_parser.py --help and look at the help page -->
 <blockquote>
 <p>Note: After you complete the exercise, you can end your
 currently-running <code>srun</code> job by typing <code>exit</code>. You
@@ -595,11 +598,15 @@ working as intended.</p>
 <summary>
 Conda Create - Solution
 </summary>
-<p><code>srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=2 --time=00:15:00 /bin/bash</code></p>
-<!-- LIVE_NOTE: Use Zoom check-in, make sure that users check with 'conda config --show envs_dirs' before -->
-<p><code>conda create -n my_dialog_parsing -c conda-forge python=3.11 wordcloud spacy=3.5.4 spacy-model-en_core_web_sm=3.5.0</code></p>
-<p><code>conda activate my_dialog_parsing</code></p>
-<p><code>which python</code></p>
+<!-- LIVE_NOTE: Use Zoom check-in, make sure that users double-check their 'conda config --show envs_dirs' results -->
+<pre class="sh"><code>srun --pty --job-name=${USER}_conda_create --account=bioinf_wkshp_class --partition standard --mem=4000 --cpus-per-task=2 --time=00:15:00 /bin/bash
+
+conda config --show envs_dirs
+
+conda create -n my_dialog_parsing -c conda-forge python=3.11 wordcloud spacy=3.5.4 spacy-model-en_core_web_sm=3.5.0
+
+conda activate my_dialog_parsing
+which python</code></pre>
 <!-- LIVE_NOTE: Demonstrate that we now have desired packages like 'spacy' and 'wordcloud' -->
 <blockquote>
 <p>Note: After you complete the exercise, you can end your
@@ -617,8 +624,8 @@ dependencies and their versions fully listed.</p>
 <summary>
 Conda Export - Solution
 </summary>
-<p><code>conda activate my_dialog_parsing</code></p>
-<p><code>conda export &gt; ${WORKSHOP_HOME}/conda_envs/export_my_dialog_parsing.yaml</code></p>
+<pre class="sh"><code>conda activate my_dialog_parsing
+conda export &gt; ${WORKSHOP_HOME}/conda_envs/export_my_dialog_parsing.yaml</code></pre>
 <!-- LIVE_NOTE: Allude to the idea of time-based durability -->
 </details>
 <p><br></p>
@@ -638,13 +645,17 @@ clouds from the extracted word lists.</p>
 <code>srun</code>, Conda, Dialog Parsing and Creating Word Clouds -
 Solution
 </summary>
-<p><code>srun --pty --job-name=${USER}_conda_wordclouds --account=bioinf_wkshp_class --partition standard --mem=1000 --cpus-per-task=2 --time=00:05:00 /bin/bash</code></p>
-<p><code>conda activate my_dialog_parsing</code></p>
-<p><code>cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing</code></p>
-<p><code>mkdir results_my_conda</code></p>
-<p><code>python3 scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_my_conda -p ADJ -c 'Jo,Meg,Amy,Beth,Laurie'</code></p>
-<p><code>python3 scripts/word_cloud.py -i results_my_conda/Amy_adj.txt</code></p>
-<p><code>ls -l results_my_conda</code></p>
+<pre class="sh"><code>srun --pty --job-name=${USER}_conda_wordclouds --account=bioinf_wkshp_class --partition standard --mem=1000 --cpus-per-task=2 --time=00:05:00 /bin/bash
+
+conda activate my_dialog_parsing
+
+cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
+mkdir results_my_conda
+
+python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_my_conda -p ADJ -c &#39;Jo,Meg,Amy,Beth,Laurie&#39;
+python scripts/word_cloud.py -i results_my_conda/Amy_adj.txt
+
+ls -l results_my_conda</code></pre>
 <!-- LIVE_NOTE: Also look in the web-based file browser at the word cloud! -->
 </details>
 <p><br> <br></p>

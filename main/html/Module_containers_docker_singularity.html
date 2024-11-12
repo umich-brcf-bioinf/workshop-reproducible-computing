@@ -375,8 +375,9 @@ pre {
 we’ve discussed</li>
 <li>learn how to utilize publically available Docker or Singularity
 containers</li>
-<li>see how to build a new singularity container</li>
+<li>see a demonstration of building a new singularity container</li>
 </ul>
+<p><br></p>
 <div id="commonalities-between-software-management-tools"
 class="section level2">
 <h2>Commonalities Between Software Management Tools</h2>
@@ -438,8 +439,7 @@ using containers, we’ll briefly discuss this figure.</p>
 <p><br></p>
 <div id="sharing-software-environments" class="section level3">
 <h3>Sharing Software Environments</h3>
-<p><br></p>
-<p><img src="images/Module05_sharing_analyses.png" /></p>
+<p><img src="images/ModuleCDS_sharing_analyses.png" /></p>
 <p>Let’s revisit the topic of sharing analyses once again. We’ve
 discussed how some of you may have experienced friction when trying to
 share some analysis code with a collaborator or with a colleague - when
@@ -558,6 +558,7 @@ MirrorURL: http://ftp.us.debian.org/debian/
 
 %environment
     export PATH=$PATH:/usr/games</code></pre>
+<p><br></p>
 <div id="some-quick-notes-on-singularity" class="section level3">
 <h3>Some Quick Notes on Singularity</h3>
 <ul>
@@ -577,104 +578,120 @@ href="https://depot.galaxyproject.org/singularity/"
 class="uri">https://depot.galaxyproject.org/singularity/</a></li>
 </ul></li>
 </ul>
+<p><br></p>
 <!-- LIVE_NOTE: Do a demonstration of going to Quay.io and getting samtools and deeptools images -->
 </div>
 </div>
-<div id="exercise---srun-singularity-shell-filter-and-index-a-bam"
+<div id="exercise---srun-singularity-shell-dialog-parsing"
 class="section level2">
-<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Filter
-and Index a BAM</h2>
-<!-- LIVE_NOTE: Also do sanity check -->
+<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Dialog
+Parsing</h2>
 <p>Following along with the instructor, we’ll launch an interactive job
 with <code>srun</code>. Once we’ve entered the running job, we will use
-singularity with an existing samtools docker image and launch a
-‘singularity shell’. With the samtools software now available, we’ll
-filter and index sample_A.</p>
-<p>After we complete this, we’ll delete the filtered &amp; indexed BAM
-file, to start fresh for our SBATCH exercises.</p>
+singularity with an existing docker image and launch a ‘singularity
+shell’. With the required python packages now available inside the
+running container, we’ll try our <code>dialog_parsing.py</code>
+script.</p>
 <details>
 <summary>
-<code>srun</code>, <code>singularity shell</code>, Filter and Index BAM
-- Solution
-</summary>
-<p><code>srun --pty --job-name=${USER}_singularity_filter_and_index --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:20:00 /bin/bash</code></p>
-<p><code>mkdir filter_viz_singularity</code></p>
-<p><code>module load singularity</code></p>
-<p><code>singularity shell docker://quay.io/biocontainers/samtools:1.20--h50ea8bc_0</code></p>
-<p><code>samtools view -o filter_viz_singularity/sample_A.chr19.bam input_bams/sample_A.genome.bam 19</code></p>
-<p>We’ll also do a sanity check here:</p>
-<p><code>samtools view filter_viz_singularity/sample_A.chr19.bam | wc -l</code></p>
-<p>As well as index the BAM (bamCoverage will need the index in the next
-step)</p>
-<p><code>samtools index filter_viz_singularity/sample_A.chr19.bam</code></p>
-</details>
-<p><br></p>
-<!-- LIVE_NOTE: Skip several exercises -->
-</div>
-<div id="exercise---sbatch-singularity-exec-filter-and-index-a-bam"
-class="section level2">
-<h2>Exercise - SBATCH, <code>singularity exec</code>, Filter and Index a
-BAM</h2>
-<p>Following along with the instructor, we’ll use the nano editor to
-create an SBATCH file and use <code>singularity exec</code> to filter
-and index our sample_A BAM file. We’ll submit the job with
-<code>sbatch</code> and review its log file and output.</p>
-<p><br></p>
-</div>
-<div id="exercise---sbatch-singularity-exec-filter-and-index-all-bams"
-class="section level2">
-<h2>Exercise - SBATCH, <code>singularity exec</code>, Filter and Index
-all BAMs</h2>
-<p>Following along with the instructor, we’ll quickly create additional
-sbatch files that can use <code>singularity exec</code> to filter and
-index the rest our samples. We’ll submit those jobs with
-<code>sbatch</code> and review once again.</p>
-<p><br></p>
-</div>
-<div id="exercise---srun-singularity-shell-sanity-check-all-samples"
-class="section level2">
-<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Sanity
-Check All Samples</h2>
-<p>Following along with the instructor, we’ll launch an interactive job
-with <code>srun</code>. Once we’ve entered the running job, we’ll use
-<code>singularity shell</code> and quickly perform a sanity check on all
-of our filtered BAM files, counting the entries in each file.</p>
-<!-- LIVE_NOTE: write our sanity check command to a file to record it for future -->
-<p><br></p>
-</div>
-<div id="exercise---srun-singularity-exec-create-a-bigwig"
-class="section level2">
-<h2>Exercise - <code>srun</code>, <code>singularity exec</code>, Create
-a Bigwig</h2>
-<!-- LIVE_NOTE: We'll demonstrate singularity exec in this exercise -->
-<p>Following along with the instructor, we’ll launch an interactive job
-with <code>srun</code>. Once we’ve entered the running job, we’ll use
-singularity with an existing deeptools docker image and launch a
-‘singularity shell’. With the <code>bamCoverage</code> command now
-available, we’ll create a Bigwig for sample_A.</p>
-<p>After we complete this, we’ll delete the newly created Bigwig file,
-so that we can start fresh on our SBATCH exercises.</p>
-<details>
-<summary>
-<code>srun</code>, <code>singularity exec</code>, Create a Bigwig -
+<code>srun</code>, <code>singularity shell</code>, Dialog Parsing -
 Solution
 </summary>
-<p><code>srun --pty --job-name=${USER}_singularity_create_bigwig --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash</code></p>
-<p><code>module list</code></p>
-<p><code>module load singularity</code></p>
-<p><code>singularity exec docker://quay.io/biocontainers/deeptools:3.5.5--pyhdfd78af_0 bamCoverage -b filter_viz_singularity/sample_A.chr19.bam -o filter_viz_singularity/sample_A.chr19.bigwig</code></p>
+<pre class="sh"><code>srun --pty --job-name=${USER}_singularity_dialog_parsing --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:20:00 /bin/bash
+
+cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
+mkdir results_singularity_A
+module load singularity
+
+singularity shell docker://umichbfxcore/rcom_nlp_env:0.1.1
+
+python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_singularity_A -p ADJ -c &#39;Jo,Meg,Amy,Beth,Laurie&#39;</code></pre>
+<!-- LIVE_NOTE: The first attempt should fail OOM - learn to increase resources and try again! -->
+<p>We’ll take a look at the resulting word lists after running the
+script.</p>
+<!-- LIVE_NOTE: Make sure to emphasize documentation here! Take a time-out to update your README with info about 'results_singularity_A' -->
+<!-- LIVE_NOTE: If there's time, you may want to try running hello_alcott.py just for fun -->
+</details>
+<blockquote>
+<p>Note: We’ll use the same running <code>srun</code> job for the next
+exercise as well</p>
+</blockquote>
+<p><br></p>
+</div>
+<div id="exercise---continued-srun-singularity-exec-dialog-parsing"
+class="section level2">
+<h2>Exercise - Continued <code>srun</code>,
+<code>singularity exec</code>, Dialog Parsing</h2>
+<p>Following along with the instructor, we’ll continue to use the same,
+running, <code>srun</code> job. This time we’ll use
+<code>singularity exec</code> to run our script.</p>
+<details>
+<summary>
+Continued <code>srun</code>, <code>singularity exec</code>, Dialog
+Parsing - Solution
+</summary>
+<pre class="sh"><code>pwd  # Ensure that we&#39;re in the alcott_dialog_parsing project directory
+mkdir results_singularity_B
+module list  # Ensure that we have the singularity module loaded
+
+singularity exec docker://umichbfxcore/rcom_nlp_env:0.1.1 python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_singularity_B -p ADJ -c &#39;Jo,Meg,Amy,Beth,Laurie&#39;</code></pre>
+<!-- LIVE_NOTE: Once again emphasize documentation! Take another timeout to quickly update the README -->
+<p>Once again we’ll take a look at the resulting word lists.</p>
 </details>
 <p><br></p>
-<!-- LIVE_NOTE: Skip create all bigwigs exercise -->
 </div>
-<div id="exercise---sbatch-singularity-create-bigwigs-for-all-bams"
+<div id="exercise---sbatch-singularity-exec-dialog-parsing"
 class="section level2">
-<h2>Exercise - SBATCH, Singularity, Create Bigwigs for All BAMs</h2>
-<p>In the same pattern as we’ve established for our filtering task,
-we’ll with a single sample, sample_A and craft an SBATCH file to create
-a Bigwig file for that one sample before moving on to others.</p>
+<h2>Exercise - SBATCH, <code>singularity exec</code>, Dialog
+Parsing</h2>
+<p>Following along with the instructor, we’ll create an SBATCH file that
+will use <code>singularity exec</code> to run dialog parsing. We’ll use
+what we’ve learned to construct an appropriate file, and then submit it
+with <code>sbatch</code>.</p>
 <p><br></p>
-<!-- LIVE_NOTE: Remember to have users move their conda env -->
+</div>
+<div id="exercise---srun-singularity-shell-word-cloud"
+class="section level2">
+<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Word
+Cloud</h2>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>. Once we’ve entered the running job, we’ll use
+<code>singularity shell</code> and try running our
+<code>word_cloud.py</code> script on an extracted word list.</p>
+<details>
+<summary>
+<code>srun</code>, <code>singularity shell</code>, Word Cloud - Solution
+</summary>
+<pre class="sh"><code>srun --pty --job-name=${USER}_singularity_word_cloud --account=bioinf_wkshp_class --partition standard --mem=500 --cpus-per-task=1 --time=00:05:00 /bin/bash
+
+module list
+module load singularity
+
+cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
+singularity shell docker://umichbfxcore/rcom_nlp_env:0.1.1
+
+python scripts/word_cloud.py -i results_singularity_B/Jo_adj.txt</code></pre>
+<p>After running the command, we’ll check for the existence of the
+expected output file <code>results_singularity_B/Jo_adj.png</code>, then
+look at it via Great Lakes’ web-based file browser.</p>
+<p><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard if needed</a></p>
+<!-- LIVE_NOTE: Another good time to update documentation - continued forward with 'results_singularity_B' creating word clouds -->
+</details>
+<p><br></p>
+</div>
+<div id="exercise---sbatch-singularity-exec-word-clouds"
+class="section level2">
+<h2>Exercise - SBATCH, <code>singularity exec</code>, Word Clouds</h2>
+<p>Following along with the instructor, we’ll create an SBATCH file that
+will use <code>singularity exec</code> to create word clouds for Beth’s
+lists of adjectives. We’ll use what we’ve learned to construct an
+appropriate file, and then submit it with <code>sbatch</code>.</p>
+<p>If we’re confident in our SBATCH file and are satisfied with our
+results, then we’ll make copies of the SBATCH file for each separate
+character, and submit them with <code>sbatch</code>. Finally, we’ll
+review our results.</p>
+<p><br></p>
 <!-- LIVE_NOTE: Take time to document and to tidy up -->
 </div>
 <div id="demonstration---remote-build-of-a-singularity-image"
@@ -684,11 +701,11 @@ class="section level2">
 singularity images. While we’ve shown that this is powerful and easy to
 use, we aren’t taking full advantage of singularity’s capabilities
 without building new images.</p>
-<p>This topic is outside the scope of this workshop, but we want to
-demonstrate that it is possible to build singularity containers. It’s
-not quite straightforward to do so on Great Lakes, but with a little bit
-of extra setup it is possible to use a remote builder, which we’ll
-demonstrate.</p>
+<p>We won’t dive deeply into the topic of how to build singularity
+containers, but we want to demonstrate that it is possible to do so.
+It’s not quite straightforward to run the build steps on Great Lakes,
+but with a little bit of extra setup it is possible to use a remote
+(cloud) builder, which we’ll demonstrate.</p>
 <p>For more information about the remote build process, see the
 documentation here:</p>
 <p><a
