@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Raw Data, Compute/Storage Options, and UMRCP</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 1
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Raw Data, Compute/Storage Options, and
+UMRCP</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>learn about several institutional storage options (and associated
+compute resources)</li>
+<li>learn about the UMRCP and how to request it</li>
+<li>make a plan for enrolling PIs in UMRCP and enabling access to all
+researchers</li>
+</ul>
+<p><br></p>
+<div id="revisiting-raw-data-considerations" class="section level2">
+<h2>Revisiting Raw Data Considerations</h2>
+<p>Recommended:</p>
+<ul>
+<li>Designated location for storing raw data</li>
+<li>Limit write access of stored data files</li>
+<li>Use institutional storage
+<ul>
+<li>Large file sizes and large total allocations</li>
+<li>Long-term support</li>
+<li>Hardware redundancy</li>
+<li>Location redundancy</li>
+</ul></li>
+</ul>
+<p><br></p>
+</div>
+<div id="storage-options-for-umich-researchers" class="section level2">
+<h2>Storage Options for UMich Researchers</h2>
+<p>We’ve discussed best practices for data, analysis intermediates and
+scripts, etc. in general terms, but now we’ll have the opportunity to
+revisit these ideas while highlighting specific options and
+recommendations for UMich researchers. By the end of this module, we
+will understand our numerous storage options available to us. Looking
+forward to future modules, we’ll also run exercises that interact with
+some of these storage allocations as we proceed, including Data Den and
+its unique characteristics and usage patterns.</p>
+<div id="what-is-arc" class="section level3">
+<h3>What is ARC?</h3>
+<p>The vast majority of computing resources we’ll be discussing in the
+workshop are provided and managed by ARC - Advanced Research Computing
+at University of Michigan. The shared computing cluster that we’ll be
+using in the workshop is run by ARC, and the storage allocations
+likewise are provided by ARC. Their mission is to provide university
+researchers with the advanced computing resources that they need, and
+they’ve been working with research groups in various compute intensive
+fields to achieve this.</p>
+<p>Later in this module we’ll discuss in detail how to request resources
+through ARC, but for now we’ll focus on the storage topic and cover some
+important storage options that ARC provides.</p>
+<p><br></p>
+</div>
+<div id="data-den" class="section level3">
+<h3>Data Den</h3>
+<p>Data Den is a low-cost, highly durable storage system operated by
+ARC.</p>
+<ul>
+<li>Tape-based archival storage</li>
+<li>The largest and most affordable storage available through ARC.</li>
+<li>Can only access this indirectly
+<ul>
+<li>i.e. use Globus to interface with this storage.</li>
+</ul></li>
+</ul>
+<!-- Due to its architecture, slow speeds, and need to eliminate unnecessary read/write operations -->
+<blockquote>
+<p>Note: Data Den has a file size limitation - it does not handle large
+amounts of small files. Optimal file size is in the multi-gigabyte
+range. The limitation 10,000 files per TB of storage.</p>
+</blockquote>
+</div>
+<div id="turbo" class="section level3">
+<h3>Turbo</h3>
+<p>Turbo is a high-capacity, reliable, and fast storage system operated
+by ARC. It is more costly than Data Den.</p>
+<ul>
+<li>More costly than Data Den</li>
+<li>Tuned for files moderate to large in size, but can also easily
+accomodate small files</li>
+<li>Can be accessed through the High-Performance Computing (HPC)
+cluster</li>
+</ul>
+<p>Fast storage like Turbo is well-equipped for computing direcly from
+it. Turbo supports fast read/write times, and is an excellent place to
+perform analyses.</p>
+</div>
+<div id="turbo-and-data-den---cost-difference" class="section level3">
+<h3>Turbo and Data Den - Cost Difference</h3>
+<p>We discussed above that Data Den is slow, unsuited for analysis, yet
+cost-effective, while Turbo is fast, well-tuned for analysis, and more
+costly. To put some numbers to this price discussion, see the following
+table of cost per TB per year:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right"></th>
+<th align="right">Unreplicated</th>
+<th align="right">Replicated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">Turbo</td>
+<td align="right">$77.88</td>
+<td align="right">$156.22</td>
+</tr>
+<tr class="even">
+<td align="right">Data Den</td>
+<td align="right">NA</td>
+<td align="right">$20.04</td>
+</tr>
+</tbody>
+</table>
+<p>Notice that Turbo storage is about 8x more costly than Data Den for
+the same amount of replicated storage.</p>
+<blockquote>
+<p>Note: Data Den is only available in the replicated format.</p>
+</blockquote>
+<!-- LIVE_NOTE: We'll mention how researchers can get a portion of Turbo and Data Den at no cost to them -->
+</div>
+<div id="home-scratch-tmp-and-others" class="section level3">
+<h3>Home, Scratch, tmp, and others</h3>
+<ul>
+<li>Home directory (80 GB quota)
+<ul>
+<li>/home/uniqname</li>
+</ul></li>
+<li>Scratch directory (10 TB and 1,000,000 file quota)
+<ul>
+<li>/scratch/account_root/account/uniqname</li>
+<li>Not persistent over time
+<ul>
+<li>Automatically deleted if not accessed in 60 days</li>
+</ul></li>
+</ul></li>
+<li>Local disk (4 TB shared)
+<ul>
+<li>/tmp</li>
+<li>Not persistent across machines</li>
+</ul></li>
+</ul>
+</div>
+<div id="institutional-storage-vs-other-storage" class="section level3">
+<h3>Institutional Storage vs Other Storage</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Institutional</th>
+<th align="left">Other</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Turbo</td>
+<td align="left">Laptop Storage</td>
+</tr>
+<tr class="even">
+<td align="left">Data Den</td>
+<td align="left">Storage on a Shared Lab Computer</td>
+</tr>
+<tr class="odd">
+<td align="left">Home / Scratch*</td>
+<td align="left">Portable Hard Drive / Flash Drive</td>
+</tr>
+<tr class="even">
+<td align="left">MiStorage</td>
+<td align="left">Cloud Storage</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+</div>
+<div id="umrcp" class="section level2">
+<h2>UMRCP</h2>
+<p><img src="images/Module01_umrcp_provides.png" /></p>
+<p>The figure above highlights the most important and impressive details
+of the UMRCP, but you can find full details of the resources offered
+through this program on <a
+href="https://its.umich.edu/advanced-research-computing/research-computing-package">the
+UMRCP page of ARC’s website</a>.</p>
+<div id="signing-up-for-the-umrcp" class="section level3">
+<h3>Signing up for the UMRCP</h3>
+<p>Within that site, there is another page that I highly recommend as a
+great place to start - the <a
+href="https://its.umich.edu/advanced-research-computing/research-computing-package/getting-started">UMRCP
+Getting Started Guide</a>. There you’ll find details about the signup
+process. After signing up, you’ll be able to use some of the numerous
+compute nodes available through ARC, as well as the various storage
+tiers described above.</p>
+<p><br></p>
+<p><img src="images/Module01_steps_getting_UMRCP.png" /></p>
+<p><br></p>
+<details>
+<summary>
+Additional Resources Available Through HITS RCI
+</summary>
+<p><img src="images/Module01_umrcp_plus_umrci_provides.png" /></p>
+<p>In addition to the resources provided through the UMRCP, some
+researchers within the medical system will have additonal resources
+available through UM Health Information Technology &amp; Services
+(HITS). Through strategic investments in High Performance Computing by
+Michigan Medicine, eligible researchers can enjoy additional allocations
+for the described resources - most notably unlimited Data Den
+storage.</p>
+<p>In the documentation for the UMRCP and the UMRCI, you’ll see that
+they recommend first using the UMRCP resources (available to all
+university researchers) and then transitioning to these additional HITS
+UMRCI resources (available to Michigan Medicine researchers) when
+possible. In any case, since these allocations are managed by ARC for
+all univerisity researchers - Michigan Medicne or otherwise - you’ll be
+using the same forms and procedures to request resources and use them.
+However, the billing details may change depending on this
+eligibility.</p>
+<p><a
+href="https://hits.medicine.umich.edu/research-education/research-computing-data-storage/research-computing-package">Link
+to HITS page on UMRCI</a></p>
+</details>
+<p><br></p>
+</div>
+<div id="great-lakes-armis2-and-lighthouse-clusters"
+class="section level3">
+<h3>Great Lakes, Armis2, and Lighthouse Clusters</h3>
+<p>This module overall is primarily focused on storage-related topics.
+We’ve briefly mentioned that in addition to storage resources, ARC also
+provides access to high-performance computing (HPC) hardware as well.
+While in this workshop we’ll just be focusing on one of them, in fact
+there are several HPC clusters that are available to UMich researchers,
+in order to meet various needs.</p>
+<p>When discussing research needs, especially in anticipation of
+requesting UMRCP resources and filling out the required form, we should
+discuss a little bit about three HPC options provided through ARC:</p>
+<ul>
+<li>Great Lakes</li>
+<li>Armis2 (HIPAA-aligned)</li>
+<li>Lighthouse (Researcher-owned hardware)</li>
+</ul>
+<p>We’ll be discussing Great Lakes at length throughout this workshop
+and using it for our example analyses. We can think of it as a
+general-purpose HPC cluster, which is suitable for many different kinds
+of research.</p>
+<p>Armis2 is similar in feel to the Great Lakes cluster, except it is
+configured with specific security measures in place to enable analysis
+of sensitive data, such as export-controlled or HIPAA protected data.
+When filling out the UMRCP form, you can make selections for sensitive
+data needs, which will provide CPU hours on Armis2 and associated
+storage. We’ll see later, that we have flexibility in how we allocate
+resources between e.g. Great Lakes and Armis2.</p>
+<blockquote>
+<p>Note: There is a separate, security-enhanced Turbo allocation that is
+also HIPAA aligned that should be used with Armis2.</p>
+</blockquote>
+<p>Lighthouse is also similar in feel to the Great Lakes cluster, except
+it is a cluster comprised entirely of researcher-owned hardware.
+Contrasting this with Great Lakes where we are only responsible for the
+cost of the resources we use, on Lighthouse, a researcher will fund the
+entirety of the hardware and receive 100% of its availability. This can
+be a good choice for researchers who are expected to have near-constant
+compute usage needs, or who require instant availability of HPC
+resources.</p>
+<!-- LIVE_NOTE: Link to the ITS sensitive data guide, is also available at the "UMRCP Requesting Resources Guide": https://safecomputing.umich.edu/dataguide/?q=home -->
+<p><br></p>
+<p>Main ideas:</p>
+<ul>
+<li>PI must be the one to fill out form</li>
+<li>PI will automatically become an administrator</li>
+<li>Others can become administrators (lab manager) or members</li>
+</ul>
+<p><br></p>
+</div>
+<div id="administrators-vs-users" class="section level3">
+<h3>Administrators vs Users</h3>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="17%" />
+<col width="15%" />
+<col width="18%" />
+<col width="24%" />
+<col width="12%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Change Allocations</th>
+<th align="left">Add/Remove Users</th>
+<th align="left">Use GL compute time</th>
+<th align="left">Read/Write access to Turbo</th>
+<th align="left">Globus Admin</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PI</td>
+<td align="left">✅</td>
+<td align="left">✅</td>
+<td align="left">⏳</td>
+<td align="left">⏳</td>
+<td align="left">✅</td>
+</tr>
+<tr class="even">
+<td>Lab Manager</td>
+<td align="left">✅</td>
+<td align="left">✅</td>
+<td align="left">⏳</td>
+<td align="left">⏳</td>
+<td align="left">✅</td>
+</tr>
+<tr class="odd">
+<td>Grad Student</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">✅</td>
+<td align="left">✅</td>
+<td align="left"></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Legend:</p>
+<p>✅ = Frequent</p>
+<p>⏳ = Occasional</p>
+</blockquote>
+<p><br></p>
+</div>
+<div id="resource-management-portal" class="section level3">
+<h3>Resource Management Portal</h3>
+<p><img src="images/Module01_resource_management_portal.png" /></p>
+<p>A key part of how we will manage our ARC resources is through their
+Resource Management Portal, shown here.</p>
+<p>This portal can be found at <a
+href="https://portal.arc.umich.edu">https://portal.arc.umich.edu</a>.</p>
+<p>Let’s not go there just yet, but discuss what we see in this
+screenshot, and then move on to the exercise. We’ll learn about some of
+the differences that we may see depending on our current status and
+existing resources, and we’ll learn that there are some differences in
+the best way to request UMRCP resources depending on these details.</p>
+<p><br></p>
+</div>
+</div>
+<div id="exercise-make-a-game-plan-for-umrcp" class="section level2">
+<h2>Exercise: Make a Game Plan for UMRCP</h2>
+<p>In this exercise we will determine the needs for UMRCP enrollment by
+audience &amp; their PIs.</p>
+<p>There are two video links below. There’s a decent amount of overlap
+in the content, and the main ideas are pretty similar. In either case,
+we will be filling out the UMRCP web forms as shown in the videos.
+Depending on our current status though, we may have different optimal
+starting points and different things to consider.</p>
+<!-- LIVE_NOTE: The main difference is that the web-form for requesting resources can automatically detect some existing resources. In the videos it demonstrates navigating to that form in different ways - that's one thing to pay attention to. There are many possibilities of existing setups, and not everything will be automatically detected -->
+<p><br></p>
+<p><a
+href="https://www.mivideo.it.umich.edu/media/t/1_i8j5pujz/181860561">UMRCP
+How to Enroll - New to ARC Services</a></p>
+<p><br></p>
+<p><a
+href="https://www.mivideo.it.umich.edu/media/t/1_znf6ygk0/181860561">UMRCP
+How to Enroll - Existing Owner of ARC Services</a></p>
+<p><br> <br></p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module_data_priorities_analysis_setup.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module_great_lakes_cluster.html">Next
+lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Intro to Snakemake</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 1
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Intro to Snakemake</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+
+.wrapper { overflow-x: auto; }
+.wrapper table { white-space: nowrap; }
+
+</style>
+<p>By the end of this module, we will:</p>
+<ul>
+<li>List the some advantages of a robust workflow automation solution
+like Snakemake.</li>
+<li>Describe the fundamental relationship between Snakemake, a
+Snakefile, and the file system.</li>
+<li>Describe key parts of a Snakemake rule.</li>
+<li>Build a Snakefile and use Snakemake to automate a simple
+workflow.</li>
+<li>Show a Snakemake dry-run</li>
+</ul>
+<div id="what-is-snakemake" class="section level2">
+<h2>What is Snakemake?</h2>
+<p>Snakemake is a python program that interprets a text file describing
+your workflow against the file system and uses rules in that workflow to
+transform inputs into outputs as necessary. Snakemake is essentially
+<strong>declarative</strong> meaning that you don’t tell it what to do,
+you simply ask for the final output and Snakemake figures out what it
+needs to do. That declarative pattern supports several key
+attributes:</p>
+<ul>
+<li>Snakemake workflows can gracefully extend to new inputs.</li>
+<li>Snakemake is modular.</li>
+<li>Snakemake is portable.</li>
+<li>Snakemake is “durable” (i.e it crashes with poise).</li>
+<li>Snakemake is efficient.</li>
+</ul>
+</div>
+<div id="build-a-snakefile" class="section level2">
+<h2>Build a Snakefile</h2>
+<p>A Snakefile is a text file that decribes your workflow. It is
+interpreted by the <code>snakemake</code> command. Building a good
+Snakefile is the key step in understanding Snakemake, so we’ll begin
+there.</p>
+<div id="consider-a-sample-bash-script" class="section level3">
+<h3>Consider a sample bash script</h3>
+<p>To build a Snakefile it’s helpful to use a concrete example and also
+helpful to adapt an existing script. The script below considers the 1868
+novel “Little Women”, by Louisa May Alcott. It outputs a file containing
+the ranked name counts for each of the four March sisters: Amy, Beth,
+Jo, and Meg. (It also emits a few intermediate files).</p>
+<table class="fig">
+<tr>
+<th class="fig" colspan="2">
+alcott_script/alcott_script.sh
+</th>
+</tr>
+<tr>
+<td class="fig">
+<img src="images/intro_to_snakemake/bash_dag.png"/>
+</td>
+<td class="fig">
+<pre>
+#!/bin/bash
+# Which of the March sisters is referred to most often in
+# part 1 of the Little Women?
+
+# Split lines into words
+cat inputs/little_women_part_1.txt \
+    | tr -cs '[:alpha:]' '\n' \
+    > 1.split_words.txt
+
+# Count words
+sort 1.split_words.txt | uniq -c \
+    > 2.count_words.txt
+
+# Sort words by descending count and add header
+sort -k1,1nr 2.count_words.txt \
+    | awk 'BEGIN {print "word\tcount"} { print $2 "\t" $1}' \
+    > 3.sort_counts.txt
+
+# Select names with respective counts
+egrep '^(Jo|Amy|Meg|Beth)\s' 3.sort_counts.txt > 4.select_words.txt
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>It’s not necessary to understand the command in detail, but it is
+helpful to consider the steps with their various outputs:</p>
+<table class="fig">
+<tr>
+<th class="fig">
+Inputs, steps, and outputs
+</th>
+</tr>
+<tr>
+<td class="fig">
+inputs/little_women_part_1.txt
+</td>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+CHAPTER ONE
+
+PLAYING PILGRIMS
+
+"Christmas won't be Christmas without any presents," grumbled Jo, lying
+on the rug.
+
+"It's so dreadful to be poor!" sighed Meg, looking down at her old
+dress.
+...
+</pre>
+</td>
+</tr>
+<tr>
+<td class="fig">
+1.split_words.txt
+</td>
+</tr>
+<tr>
+<td class="fig">
+<pre>CHAPTER
+ONE
+PLAYING
+PILGRIMS
+Christmas
+won
+t
+be
+Christmas
+without
+</pre>
+</td>
+</tr>
+<tr>
+<td class="fig">
+2.count_words.txt
+</td>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+   1992 a
+     75 A
+      1 aback
+      1 abase
+      3 abashed
+      1 abed
+      1 abject
+      3 able
+      3 abominable
+      1 abominably
+</pre>
+</td>
+</tr>
+<tr>
+<td class="fig">
+3.sort_counts.txt
+</td>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+word    count
+and 3811
+the 3303
+to  2303
+a   1992
+I   1988
+her 1660
+of  1490
+in  1094
+you 1010
+</pre>
+</td>
+</tr>
+<tr>
+<td class="fig">
+4.select_words.txt
+</td>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+Jo      737
+Meg     508
+Beth    294
+Amy     283
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>To view the results interactively, you can execute the script.</p>
+<pre class="sh"><code>export WORKSHOP_HOME=&quot;/nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}&quot;
+cd $WORKSHOP_HOME/workflows/project_alcott/alcott_script
+
+./alcott_script.sh</code></pre>
+<p>And view excepts of the results in <code>less</code>. (Hit
+<code>q</code> key to exit <code>less</code>.)</p>
+<pre class="sh"><code>head inputs/little_women_part_1.txt *.txt | less</code></pre>
+</div>
+<div id="snakemake-and-the-snakefile" class="section level3">
+<h3>Snakemake and the Snakefile</h3>
+<p>Switch to the alcott_snakemake dir; note there are inputs and a
+Snakefile</p>
+<pre class="sh"><code>cd $WORKSHOP_HOME/workflows/workflows/project_alcott/alcott_snakemake
+tree</code></pre>
+<blockquote>
+<pre><code>.
+├── inputs
+│   ├── little_women_part_1.txt
+│   └── little_women_part_2.txt
+└── workflow
+└── Snakefile</code></pre>
+</blockquote>
+<p>A Snakefile is a simple markdown file.By convention, the snakefile is
+named <code>Snakefile</code> and lives in the <code>workflow</code>
+sub-directory. The current Snakefile is simply a stub based on the
+earlier bash script:</p>
+<table class="fig">
+<tr>
+<th class="fig">
+workflow/Snakefile
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+# split_words ###########################################################
+#cat inputs/little_women_part_1.txt \
+#    | tr -cs '[:alpha:]' '\n' \
+#    > 1.split_words.txt
+# count_words ###########################################################
+#sort 1.split_words.txt | uniq -c \
+#    > 2.count_words.txt
+## sort_count ###########################################################
+#sort -k1,1nr 2.count_words.txt \
+#    | awk 'BEGIN {print "word\tcount"} { print $2 "\t" $1}' \
+#    > 3.sort_counts.txt
+# select_words ##########################################################
+#egrep '^(Jo|Amy|Meg|Beth)\s' 3.sort_counts.txt > 4.select_words.txt
+</pre>
+</td>
+</tr>
+</table>
+<p>A snakefile is composed of rules; each rule has a name and specifies
+directives such as</p>
+<ul>
+<li>input (what the rule requires)</li>
+<li>output (what the rule promises to generate)</li>
+<li>shell (how it will make input into output)</li>
+</ul>
+<p>We add the first step in the workflow as a new rule. (Adding below
+the existing comment block.) Note that we will keep the input files and
+result files in separate directories.</p>
+<pre><code>rule split_words:
+    input: &quot;inputs/little_women_part_1.txt&quot;
+    output: &quot;results/little_women_part_1.split_words.txt&quot; 
+    shell: &quot;cat inputs/little_women_part_1.txt | tr -cs &#39;[:alpha:]&#39; &#39;\n&#39; &gt; results/little_women_part_1.split_words.txt&quot;</code></pre>
+</div>
+<div id="running-snakemake" class="section level3">
+<h3>Running Snakemake</h3>
+<ul>
+<li>The <strong>snakemake</strong> python program interprets the
+Snakefile and executes rules as appropriate to produce the expected
+output.</li>
+<li>The snakemake program is installed as a module on Great Lakes.</li>
+<li>When launching snakemake, You specify the number of cores
+(i.e. CPUs) with the -c flag. We will use 1 core.</li>
+</ul>
+<pre class="sh"><code>module load snakemake
+module list
+# confirm you are in the right working directory
+tree</code></pre>
+<blockquote>
+<pre class="sh="><code>Currently Loaded Modules:
+1) python3.10-anaconda/2023.03   2) snakemake/7.32.4
+$ tree
+.
+├── inputs
+│   ├── little_women_part_1.txt
+│   └── little_women_part_2.txt
+└── workflow
+└── Snakefile</code></pre>
+</blockquote>
+<p>Run <code>snakemake</code> command as below. Note:</p>
+<ul>
+<li><code>snakemake</code> will look for a Snakefile in the workflow
+directory.</li>
+<li><code>snakemake</code> emits a log to the screen that include
+<ul>
+<li>run details</li>
+<li>Job stats</li>
+<li>Rule details</li>
+<li>Completion status i.e. (100%) done</li>
+</ul></li>
+</ul>
+<pre><code>snakemake -c1</code></pre>
+<blockquote>
+<pre><code>Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job            count
+-----------  -------
+split_words        1
+total              1
+.
+Select jobs to execute...
+.
+[Mon Jun 10 18:35:41 2024]
+rule split_words:
+input: inputs/little_women_part_1.txt
+output: results/little_women_part_1.split_words.txt
+jobid: 0
+reason: Missing output files: results/little_women_part_1.split_words.txt
+resources: tmpdir=/tmp
+.
+[Mon Jun 10 18:35:41 2024]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: .snakemake/log/2024-06-10T183541.204636.snakemake.log</code></pre>
+</blockquote>
+<p>Check the file system. Note new results/ dir and new file. Note that
+<code>snakemake</code> created the results/ dir automatically.</p>
+<pre class="sh"><code>tree</code></pre>
+<blockquote>
+<pre><code>.
+├── inputs
+│   ├── little_women_part_1.txt
+│   └── little_women_part_2.txt
+├── results
+│   └── little_women_part_1.split_words.txt
+└── workflow
+└── Snakefile</code></pre>
+</blockquote>
+<p>Also note that <code>snakemake</code> creates a hidden directory
+<code>.snakemake/</code> in the working directory. This holds various
+info that help snakemake manage the workflow. It’s extremely rare for
+you to need to examine the contents of the <code>.snakemake/</code>
+directory, but FYI.</p>
+<p>If you re-run <code>snakemake</code> it determines the filesystem is
+up to date and no rules need to be triggered.</p>
+<pre class="sh"><code>snakemake -c1</code></pre>
+<blockquote>
+<pre><code>Building DAG of jobs...
+Nothing to be done (all requested files are present and up to date).
+Complete log: .snakemake/log/2024-06-10T184850.944535.snakemake.log</code></pre>
+</blockquote>
+</div>
+<div id="add-a-new-rule" class="section level3">
+<h3>Add a new rule</h3>
+<p>In the Snakemake file, add the second step as a new rule below the
+first rule. Note that the inputs of this rule match the outputs of the
+prior rule.</p>
+<pre><code>rule count_words:
+    input: &quot;results/little_women_part_1.split_words.txt&quot;
+    output: &quot;results/little_women_part_1.count_words.txt&quot;
+    shell: &quot;sort results/little_women_part_1.split_words.txt | uniq -c &gt; results/little_women_part_1.count_words.txt&quot;</code></pre>
+<p>By default, <code>snakemake</code> only runs the first rule in the
+Snakefile. To trigger the new rule, you can specify the desired end
+target on the command line.</p>
+<pre class="sh"><code>snakemake -c1 count_words</code></pre>
+<p>Note the log output similar to above, but now shows the new rule.</p>
+<blockquote>
+<pre><code>Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1 (use --cores to define parallelism)
+Rules claiming more threads will be scaled down.
+Job stats:
+job            count
+-----------  -------
+count_words        1
+total              1
+.
+Select jobs to execute...
+.
+[Mon Jun 10 18:52:07 2024]
+rule count_words:
+input: results/little_women_part_1.split_words.txt
+output: results/little_women_part_1.count_words.txt
+jobid: 0
+reason: Missing output files: results/little_women_part_1.count_words.txt
+resources: tmpdir=/tmp
+.
+[Mon Jun 10 18:52:08 2024]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: .snakemake/log/2024-06-10T185207.598695.snakemake.log</code></pre>
+</blockquote>
+<p>See the new file and review the contents:</p>
+<pre class="sh"><code>head results/*</code></pre>
+<blockquote>
+<pre><code>==&gt; results/little_women_part1.count_words.txt &lt;==
+1992 a
+75 A
+1 aback
+1 abase
+3 abashed
+1 abed
+1 abject
+3 able
+3 abominable
+1 abominably
+.
+==&gt; results/little_women_part_1.split_words.txt &lt;==
+CHAPTER
+ONE
+PLAYING
+PILGRIMS
+Christmas
+won
+t
+be
+Christmas
+without</code></pre>
+</blockquote>
+</div>
+<div id="variables-rule-ordering" class="section level3">
+<h3>Variables / Rule ordering</h3>
+<p>Each rule defines <strong>input</strong> and <strong>output</strong>
+variables; you can use those values in the <strong>shell</strong>
+directive:</p>
+<pre><code>rule split_words:
+    input: &quot;inputs/little_women_part_1.txt&quot;
+    output: &quot;results/little_women_part_1.split_words.txt&quot;
+    shell: &quot;cat {input} | tr -cs &#39;[:alpha:]&#39; &#39;\n&#39; &gt; {output}&quot;
+
+rule count_words:
+    input: &quot;results/little_women_part_1.split_words.txt&quot;
+    output: &quot;results/little_women_part1.count_words.txt&quot;
+    shell: &quot;sort {input} | uniq -c &gt; {output}&quot;</code></pre>
+<p>Snakemake doesn’t care what order the rules appear in the Snakefile
+but it assumes the first rule is the default target. Put the last step
+of the workflow at the top of the file and <code>snakemake</code> will
+default to running the whole workflow.</p>
+<pre><code>rule count_words:
+    input: &quot;results/little_women_part_1.split_words.txt&quot;
+    output: &quot;results/little_women_part1.count_words.txt&quot;
+    shell: &quot;sort {input} | uniq -c &gt; {output}&quot;
+
+rule split_words:
+    input: &quot;inputs/little_women_part_1.txt&quot;
+    output: &quot;results/little_women_part_1.split_words.txt&quot;
+    shell: &quot;cat {input} | tr -cs &#39;[:alpha:]&#39; &#39;\n&#39; &gt; {output}&quot;</code></pre>
+<p>Rerun after making these changes, and check out the log (excepted
+below).</p>
+<ul>
+<li>Note that in <strong>Job stats</strong> all rules are
+triggered.</li>
+<li>Note the value of reason in each of the rules. Does the reason make
+sense?</li>
+</ul>
+<pre class="sh"><code>snakemake -c1</code></pre>
+<blockquote>
+<pre><code>...
+Job stats:
+job            count
+-----------  -------
+count_words        1
+split_words        1
+total              2
+...
+rule split_words:
+input: inputs/little_women_part_1.txt
+output: results/little_women_part_1.split_words.txt
+jobid: 1
+reason: Code has changed since last execution
+resources: tmpdir=/tmp
+...
+rule count_words:
+input: results/little_women_part_1.split_words.txt
+output: results/little_women_part1.count_words.txt
+jobid: 0
+reason: Input files updated by another job: results/little_women_part_1.split_words.txt
+resources: tmpdir=/tmp</code></pre>
+</blockquote>
+</div>
+<div id="using-triple-quotes-escaping-curly-braces"
+class="section level3">
+<h3>Using triple quotes / Escaping curly braces</h3>
+<p>Add the third step of the transform</p>
+<ul>
+<li>Place it <strong>above</strong> the existing rules.</li>
+<li>Use {input} and {output} variables.</li>
+<li>We use triple quotes to make multiline shell commands.</li>
+<li>In the shell, any braces ({}) related to the command must be doubled
+to distinguish them from Snakefile variables.</li>
+</ul>
+<pre><code>rule sort_counts:
+    input: &quot;results/little_women_part_1.count_words.txt&quot;
+    output: &quot;results/little_women_part_1.sort_counts.txt&quot;
+    shell: &quot;&quot;&quot;
+    sort -k1,1nr {input} \
+        | awk &#39;BEGIN {{print &quot;word\tcount&quot;}} {{ print $2 &quot;\t&quot; $1}}&#39; \
+            &gt; {output}
+        &quot;&quot;&quot;</code></pre>
+<p>Note that when you run <code>snakemake</code> it only generates the
+files it needs to.</p>
+<pre class="sh"><code>snakemake -c1</code></pre>
+<blockquote>
+<pre><code>...
+Job stats:
+job            count
+-----------  -------
+sort_counts        1
+total              1
+...
+rule sort_counts:
+input: results/little_women_part_1.count_words.txt
+output: results/little_women_part_1.sort_counts.txt
+jobid: 0
+reason: Missing output files: results/little_women_part_1.sort_counts.txt
+resources: tmpdir=/tmp
+...
+1 of 1 steps (100%) done</code></pre>
+<p>Use triple quotes to create multiline shell commands. If your
+commands use curly braces ({}) you need to double them so snakemake
+doesn’t get confused.</p>
+</blockquote>
+</div>
+<div id="snakemake-dry-run-interpreting-rule-errors"
+class="section level3">
+<h3>Snakemake dry-run / Interpreting rule errors</h3>
+<p>Add the fourth rule, placing it above the prior.</p>
+<pre><code>rule select_words:
+    input: &quot;results/little_women_part_1.sort_counts.txt&quot;
+    output: &quot;results/little_women_part_1.select_words.txt&quot;
+    shell: &quot;egrep &#39;^(Jo|Amy|Meg|Beth)\s&#39; {input} &gt; {output}&quot;</code></pre>
+<p>You probably have noticed that <code>snakemake</code> will only run
+the rules it needs to, based on changes in files or scripts or missing
+files. You can preview what <code>snakemake</code> will do by using the
+dry-run flag <code>--dry-run</code> or <code>-n</code>. This will show
+the typical snakemake output but will not change any files.</p>
+<pre class="sh"><code>snakemake -c1 --dry-run</code></pre>
+<blockquote>
+<pre><code>Building DAG of jobs...
+Job stats:
+job             count
+------------  -------
+select_words        1
+total               1
+.
+[Mon Jun 10 19:41:43 2024]
+rule select_words:
+input: results/little_women_part_1.sort_counts.txt
+output: results/little_women_part_1.select_words.txt
+jobid: 0
+reason: Missing output files: results/little_women_part_1.select_words.txt
+resources: tmpdir=/tmp
+.
+Job stats:
+job             count
+------------  -------
+select_words        1
+total               1
+.
+Reasons:
+(check individual jobs above for details)
+missing output files:
+select_words
+.
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.</code></pre>
+</blockquote>
+<p>Developing a Snakefile typically involves some troubleshooting along
+the way. I’ve intentionally introduced a typo in the Snakefile and then
+did a dry-run to show an Snakefile error message:</p>
+<blockquote>
+<pre><code>$ snakemake -c1 --dry-run
+.
+A  Building DAG of jobs...
+B  MissingInputException in rule select_words in file .../Snakefile, line 15:
+C  Missing input files for rule select_words:
+D    output: results/little_women_part_1.select_words.txt
+E    affected files:
+F        result/little_women_part_1.sort_counts.txt</code></pre>
+</blockquote>
+<p>Note:</p>
+<ul>
+<li>B line number (line 15)</li>
+<li>C Missing input files for rule select_words</li>
+<li>E &amp; F result/little_women_part_1.sort_counts.txt</li>
+</ul>
+<p>Can you see the error? You will likely need to consider the rule in
+context:</p>
+<pre><code>rule select_words:
+    input: &quot;result/little_women_part_1.sort_counts.txt&quot;
+    output: &quot;results/little_women_part_1.select_words.txt&quot;
+    shell: &quot;egrep &#39;^(Jo|Amy|Meg|Beth)\s&#39; {input} &gt; {output}&quot;
+
+rule sort_counts:
+    input: &quot;results/little_women_part_1.count_words.txt&quot;
+    output: &quot;results/little_women_part_1.sort_counts.txt&quot;
+    shell: &quot;&quot;&quot;
+    sort -k1,1nr {input} \
+        | awk &#39;BEGIN {{print &quot;word\tcount&quot;}} {{ print $2 &quot;\t&quot; $1}}&#39; \
+            &gt; {output}
+        &quot;&quot;&quot;
+rule count_words:
+    input: &quot;results/little_women_part_1.split_words.txt&quot;
+    output: &quot;results/little_women_part_1.count_words.txt&quot;
+    shell: &quot;sort {input} | uniq -c &gt; {output}&quot;
+
+rule split_words:
+    input: &quot;inputs/little_women_part_1.txt&quot;
+    output: &quot;results/little_women_part_1.split_words.txt&quot;
+    shell: &quot;cat {input} | tr -cs &#39;[:alpha:]&#39; &#39;\n&#39; &gt; {output}&quot;</code></pre>
+<p>Fix the typo and confirm the fix using <code>--dry-run</code> to get
+a clean output. Then execute <code>snakemake</code> normally until you
+are 100% done.</p>
+<hr />
+</div>
+</div>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
+<ul>
+<li>A robust workflow automation solution is great because:
+<ul>
+<li>it supports simple (e.g. linear) and complex (e.g. graph)
+transformations equally well</li>
+<li>only outstanding steps are run and individual steps are atomic</li>
+<li>it’s designed with software dependency management in mind</li>
+<li>it’s easy to tune, resulting in higher resource efficiency</li>
+<li>it’s portable across execution environments</li>
+<li>it’s designed to gracefully scale to many inputs</li>
+<li>all the capabilities above don’t obscure the actual data
+transfromation</li>
+</ul></li>
+<li>Snakemake is a Python program that evaluates the rules in a
+Snakefile against the file system and applies rules as necessary to
+produce the desired output files.</li>
+<li>The Snakefile is a simple markdown file composed of rules. Each rule
+contains <strong>directives</strong> that specify inputs, outputs,
+commands to run foe that rule.</li>
+<li>Snakemake builds the intended set of rules into a <strong>directed
+acyclic graph</strong> (DAG).</li>
+<li>The <strong>dry-run</strong> enables you to see the rules it will
+execute in advance.</li>
+<li>Command line flags we reviewed:
+<ul>
+<li>-c</li>
+<li>-n –dry-run</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+<div id="references-and-links" class="section level2">
+<h2>References and links:</h2>
+<ul>
+<li><a href="https://snakemake.readthedocs.io/en/stable/index.html"
+class="uri">https://snakemake.readthedocs.io/en/stable/index.html</a>
+<ul>
+<li><a
+href="https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options"
+class="uri">https://snakemake.readthedocs.io/en/stable/executing/cli.html#all-options</a></li>
+<li><a
+href="https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar"
+class="uri">https://snakemake.readthedocs.io/en/stable/snakefiles/writing_snakefiles.html#grammar</a></li>
+</ul></li>
+</ul>
+<hr />
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module_intro_to_workflow_automation.html">Previous lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module_advanced_snakemake.html">Next
+lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

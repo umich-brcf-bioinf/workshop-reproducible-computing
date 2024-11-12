@@ -12,9 +12,9 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Advanced Snakemake</title>
+<title>Sneak Peek of Great Lakes</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -30,12 +30,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -76,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -241,73 +231,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -317,16 +241,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -339,81 +253,93 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Reprodicble Computing</a>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Module00_Introduction.html">Intro</a>
+  <a href="intro.html">Intro</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Working with Data
+    Day 1
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="exercise-1.html">Exercise 1</a>
-    </li>
-    <li>
-      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Using the GreatLakes HPC
+    Day 2
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
     </li>
     <li>
-      <a href="Module04_software_management_conda.html">Software management with Conda</a>
-    </li>
-    <li>
-      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singulairty</a>
-    </li>
-    <li>
-      <a href="exercise-2.html">Exercise 2</a>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Workflow automation
+    Day 3
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="why-workflow-automation.html">Why workflow automation?</a>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="basic-workflow-automation.html">Basic workflow automation</a>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
     </li>
     <li>
-      <a href="intro-to-snakemake.html">Intro to Snakemake</a>
-    </li>
-    <li>
-      <a href="exercise-3.html">Exercise 3</a>
-    </li>
-    <li>
-      <a href="capstone-exercise.html">Capstone exercise</a>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="Module99_Wrap_up.html">Wrap up</a>
+  <a href="wrap_up.html">Wrap up</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -425,16 +351,9 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Advanced Snakemake</h1>
+<h1 class="title toc-ignore">Sneak Peek of Great Lakes</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -448,26 +367,133 @@ pre {
   font-size: 12pt
 }
 </style>
-<p>By the end of this module, we will: * Specify transformation
-parameters and log files in Snakemake rules * Call a shell script from a
-Snakefile * Understand how to fine-tune resource allocations like CPUs,
-memory, time * Understand how to use conda/singularity in workflows *
-Use a profile run a Snakemake workflow using SLURM/GreatLakes * Connect
-to a specifc login-node and use <code>tmux</code> to simplify
-long-running Snakemake jobs * Review best practices for organizing a
-Snakemake workflow</p>
-<div id="header-1" class="section level2">
-<h2>Header 1</h2>
-</div>
-<div id="header-2" class="section level2">
-<h2>Header 2</h2>
-</div>
-<div id="key-ideas" class="section level2">
-<h2>Key ideas</h2>
+<p>In this module, we will:</p>
 <ul>
-<li>TODO</li>
-<li>Be a good neighbor</li>
+<li>introduce several additional ways of interacting with the Great
+Lakes HPC cluster</li>
+<li>use the web-based file browser for Great Lakes</li>
+<li>use the OpenOnDemand service to launch a web-based interactive
+job</li>
+<li>discuss why we must request compute resources for most analysis
+tasks</li>
 </ul>
+<p><br></p>
+<div id="great-lakes---sneak-peek" class="section level2">
+<h2>Great Lakes - Sneak Peek</h2>
+<p>So far, we’ve briefly described Great Lakes as a general-purpose
+High-Performance Compute (HPC) cluster.</p>
+<p>In this module we’ll start to get a feel for what it’s like to use an
+HPC cluster. It’s not intended to be a deep dive, but rather to
+demonstrate/preview some of the quickest ways to get started in order to
+start gaining experience with this system.</p>
+<p><br></p>
+<div id="several-ways-to-access-great-lakes" class="section level3">
+<h3>Several ways to access Great Lakes</h3>
+<ul>
+<li>For compute access:
+<ul>
+<li>Secure Shell (ssh)</li>
+<li>Web-based shell</li>
+<li>OpenOnDemand interactive apps (e.g. RStudio, Basic Desktop)</li>
+</ul></li>
+<li>For file access:
+<ul>
+<li>Web-based file browser</li>
+<li>Globus</li>
+<li>File manipulation via aforementioned shells or OpenOnDemand
+apps</li>
+<li>Remote mount (it can be network-connected to your workstation)</li>
+<li><code>scp</code>, <code>rsync</code>, etc.</li>
+</ul></li>
+</ul>
+<p><br></p>
+</div>
+<div id="using-the-web-based-access-methods" class="section level3">
+<h3>Using the web-based access methods</h3>
+<p>The web-based tools that provide access to Great Lakes and other ARC
+resources are a quick and easy way to get started. We’ll use these in
+our upcoming exercises to make our first foray into using the Great
+Lakes HPC. Additionally, the ‘Interactive Apps’ with ARC’s Open On
+Demand service offer a unique solution for when we need to run graphical
+applications. We’ll preview this and give some practical tips for using
+the RStudio and the Basic Desktop apps.</p>
+<p><br></p>
+<p>Sneak preview of the web-based file browser <img
+src="images/Module03a_accessing_web_based_file_browser.png" /> <img
+src="images/Module03a_preview_web_based_file_browser.png" /></p>
+<p><br></p>
+<p>Sneak preview of the web-based shell <img
+src="images/Module03a_accessing_web_based_shell.png" /> <img
+src="images/Module03a_preview_web_based_shell.png" /></p>
+<p><br></p>
+<p>Sneak preview of a web-based RStudio session <img
+src="images/Module03a_accessing_interactive_rstudio.png" /> <img
+src="images/Module03a_preview_interactive_rstudio.png" /></p>
+<p><br></p>
+<p>Sneak preview of a web-based Basic Desktop session <img
+src="images/Module03a_accessing_interactive_basic_desktop.png" /> <img
+src="images/Module03a_preview_interactive_basic_desktop.png" /></p>
+<p><br></p>
+</div>
+</div>
+<div id="handy-links-for-great-lakes" class="section level2">
+<h2>Handy links for Great Lakes</h2>
+<ul>
+<li><a
+href="https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes">Link
+to ARC’s Great Lakes overview page</a></li>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard</a></li>
+</ul>
+<p><br></p>
+</div>
+<div id="exercise---view-warmup-files" class="section level2">
+<h2>Exercise - View Warmup Files</h2>
+<p>Following along with the instructor, we’ll use the web-based file
+browser to review the files from the hello_alcott.sh warmup exercise</p>
+</div>
+<div id="exercise---launch-an-rstudio-instance-on-openondemand"
+class="section level2">
+<h2>Exercise - Launch an RStudio Instance on OpenOnDemand</h2>
+<p>Following along with the instructor, we’ll use OpenOnDemand to launch
+an RStudio instance. Once there, we’ll run a basic R script as a quick
+demonstration of these capabilities.</p>
+<p><br> <br></p>
+</div>
+<div id="using-an-hpc-cluster---must-request-resources"
+class="section level2">
+<h2>Using an HPC Cluster - Must Request Resources</h2>
+<p><img src="images/Module03a_ask_for_resources.png" /></p>
+<p>When using an HPC cluster, there is a pattern that is quite different
+from our typical interactions with a computer system - we must ask for
+resources before we are able to use them. This is a characteristic of a
+shared, large, multi-user system like Great Lakes. Within the entirety
+of the system, we have an enormous amount of computing power, but at the
+same time, we need to allow equal access to this resource to the whole
+university. Therefore, we use this pattern of requesting resources and
+receiving them before we begin our computing tasks.</p>
+<p><br></p>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<ul>
+<li>Learned about additional ways of accessing the Great Lakes HPC
+cluster</li>
+<li>Gained familiarity and experience with some of the the web-based
+access methods</li>
+<li>Discussed the importance of requesting resources</li>
+</ul>
+<p><br></p>
+<div id="handy-links" class="section level3">
+<h3>Handy Links</h3>
+<ul>
+<li><a
+href="https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes">Link
+to ARC’s Great Lakes overview page (same as above)</a></li>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard (same as above)</a></li>
+</ul>
+<p><br> <br></p>
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -476,22 +502,21 @@ Snakemake workflow</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module00_Introduction.html">Back to
-Introduction</a></th>
+<th align="left"><a href="Module_overview_and_warmup.html">Previous
+lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module%20FIXME%20.html">Next lesson</a></th>
+<th align="right"><a
+href="Module_data_priorities_analysis_setup.html">Next lesson</a></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 </div>
-
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQWR2YW5jZWQgU25ha2VtYWtlIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoqIFNwZWNpZnkgdHJhbnNmb3JtYXRpb24gcGFyYW1ldGVycyBhbmQgbG9nIGZpbGVzIGluIFNuYWtlbWFrZSBydWxlcwoqIENhbGwgYSBzaGVsbCBzY3JpcHQgZnJvbSBhIFNuYWtlZmlsZQoqIFVuZGVyc3RhbmQgaG93IHRvIGZpbmUtdHVuZSByZXNvdXJjZSBhbGxvY2F0aW9ucyBsaWtlIENQVXMsIG1lbW9yeSwgdGltZQoqIFVuZGVyc3RhbmQgaG93IHRvIHVzZSBjb25kYS9zaW5ndWxhcml0eSBpbiB3b3JrZmxvd3MKKiBVc2UgYSBwcm9maWxlIHJ1biBhIFNuYWtlbWFrZSB3b3JrZmxvdyB1c2luZyBTTFVSTS9HcmVhdExha2VzCiogQ29ubmVjdCB0byBhIHNwZWNpZmMgbG9naW4tbm9kZSBhbmQgdXNlIGB0bXV4YCB0byBzaW1wbGlmeSBsb25nLXJ1bm5pbmcKICBTbmFrZW1ha2Ugam9icwoqIFJldmlldyBiZXN0IHByYWN0aWNlcyBmb3Igb3JnYW5pemluZyBhIFNuYWtlbWFrZSB3b3JrZmxvdwoKIyMgSGVhZGVyIDEKCiMjIEhlYWRlciAyCgoKIyMgS2V5IGlkZWFzCgoqIFRPRE8KKiBCZSBhIGdvb2QgbmVpZ2hib3IKCgp8IFtCYWNrIHRvIEludHJvZHVjdGlvbl0oTW9kdWxlMDBfSW50cm9kdWN0aW9uLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbTmV4dCBsZXNzb25dKE1vZHVsZSBGSVhNRSAuaHRtbCkgfAp8IDotLS0gfCA6LS0tLTogfCAtLS06IHwK</div>
-
-
 </div>
-</div>
+
+
+
 
 </div>
 
@@ -523,41 +548,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("advanced-snakemake.md");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

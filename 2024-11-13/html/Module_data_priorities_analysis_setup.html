@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Independent Exercise - SBATCH, Conda, Filtering our BAMs</title>
+<title>Data Priorities and Analysis Setup</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,9 +231,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -361,17 +351,9 @@ $(document).ready(function () {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda,
-Filtering our BAMs</h1>
+<h1 class="title toc-ignore">Data Priorities and Analysis Setup</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -385,59 +367,258 @@ pre {
   font-size: 12pt
 }
 </style>
-<p><br></p>
-<div id="filtering-all-samples" class="section level2">
-<h2>Filtering All Samples</h2>
-<p><br></p>
-<p><strong>15 Minutes</strong></p>
-<p><br></p>
-<p>We just learned how to activate an existing conda environment and use
-it to provide software that we want - <code>samtools</code> - and use
-samtools to filter our BAM files. We also recently learned how to create
-SBATCH script files and submit them using <code>sbatch</code>.</p>
-<p>Let’s combine these ideas and filter the rest of our BAM files.</p>
-<p>If you have extra time, there’s a bonus exercise of indexing your
-BAMs as well</p>
-<p><br></p>
-<div id="instructions" class="section level3">
-<h3>Instructions:</h3>
-<p><br></p>
+<p>In this module, we will:</p>
 <ul>
-<li>Work independently in the main room, posting any questions that
-arise to slack.</li>
-<li>Recommendations for writing your own code:
-<ul>
-<li>Read function documentation</li>
-<li>Test out ideas - it’s okay to make mistakes and generate errors</li>
-<li>Use a search engine to look up errors or recommended solutions using
-keywords</li>
-</ul></li>
-<li>We’ll review possible solutions after time is up as a group.</li>
+<li>suggest priorities and overall treatment of experimental data and
+active analysis projects</li>
+<li>discuss organization practices and recommendations for anlaysis
+files, intermediate outputs, scripts, etc.</li>
+<li>utilize some of the access methods mentioned in the previous
+module</li>
+<li>use the Great Lakes web-based text editor and gain practice
+documenting</li>
 </ul>
 <p><br></p>
-<ul>
-<li>Review our samtools command that we used earlier. Combine this with
-what we’ve learned about using conda environments and creating SBATCH
-files.</li>
-<li>Create an SBATCH file that activates our
-<code>samtools_deeptools</code> conda environment. With the conda
-environment active, use <code>samtools</code> to filter sample_A.</li>
-<li>Submit the SBATCH file, view the output, and verify once it’s
-complete that we have created the filtered sample_A BAM file.</li>
-<li>Once we are happy with the results, create additional SBATCH files
-for our other samples, and submit them as well.</li>
-</ul>
-<p><br></p>
+<div id="overall-approach" class="section level3">
+<h3>Overall Approach</h3>
+<p>One simple way to organize our thinking about storage best practices
+is to divide the topic into raw data considerations, and considerations
+for analysis projects. By separating and focusing on those two aspects,
+we can effectively address many of the challenges associated with
+each.</p>
 <blockquote>
-<p>Bonus: If you have extra time, extend this exercise and use
-<code>samtools index</code> to index the filtered BAM file for
-sample_A.</p>
+<p>Note: The importance of documentation is universal to all aspects of
+reproducible research. In considering best practices both for our raw
+data and for our analysis projects, we will emphasize the importance of
+documentation!</p>
 </blockquote>
 <p><br></p>
 </div>
+<div id="data-priorities" class="section level3">
+<h3>Data Priorities</h3>
+<p><br></p>
+<p>In general, our first priority is to receive our raw data and keep it
+in a safe location.<br />
+Next, we want to prepare a secondary location where we will conduct our
+analysis.<br />
+Finally, we’ll copy the subset of data needed for analysis, into our
+prepared analysis project location.</p>
+<p><img src="images/ModuleDPAR_data_priorities.png" /></p>
+<p><br></p>
+<p>We also have several things to consider, before acting on each of
+these priorities:</p>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="30%" />
+<col width="59%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Step</th>
+<th align="left">Step Name</th>
+<th align="left">Preparatory Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">Receive Data</td>
+<td align="left">Determine Sufficient Storage:</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Total size</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Total # files</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">Prepare Project</td>
+<td align="left">Determine if analysis location is appropriate:</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Total size (including intermediates)</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Fast connection to compute hardware</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Separate from raw data</td>
+</tr>
+<tr class="even">
+<td align="left">3</td>
+<td align="left">Copy Data</td>
+<td align="left">Document critical details:</td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Permanent location of the raw data</td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"></td>
+<td align="left">- Type of data, info from data provider, etc.</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+</div>
+<div id="raw-data---overview" class="section level3">
+<h3>Raw Data - Overview</h3>
+<p>When considering best practices for raw data storage, we can
+generally orient ourselves around one task - ensure that the data are
+safe.</p>
+<p>Safe from:</p>
+<ul>
+<li>Accidental deletion</li>
+<li>Hardware failure</li>
+<li>Loss of access</li>
+</ul>
+<p>With this in mind, we recommend placing your raw experimental data
+into a specific designated location which is <strong>solely</strong>
+dedicated to storing your raw data.</p>
+<p>In the next module we’ll discuss specific options for UMich
+researchers, but for now we’ll just speak of the general process. Data
+that cannot easily be re-obtained should be treated with great care. By
+following the recommendations here, we can achieve this and have peace
+of mind that we are preserving our raw data and our capabilities for
+reproducible research well into the future.</p>
+<p><br></p>
+</div>
+<div id="analysis-projects---in-depth-look" class="section level3">
+<h3>Analysis Projects - In-Depth Look</h3>
+<p>We can begin thinking of our next task - handling data and organizing
+files and artifacts for our analysis - by starting with the idea of the
+data flow described above. One of the first tasks in this area is to set
+up a new location for your analysis and make a copy of your raw data
+there.</p>
+<p>Some considerations:</p>
+<ul>
+<li>Fast storage, well suited for computation</li>
+<li>Project organization that facilitates reproducibility</li>
+<li>In-progress analyses, cleanup procedures, and end-to-end repeatable
+analyses</li>
+</ul>
+<p>When we think about fast storage that is well suited for computation,
+we mostly contrast that with our long-term archival storage. A storage
+option is well suited for computation if it is accessible via
+high-throughput connection to sufficiently powerful processing hardware.
+The speed of reading and writing from this location can greatly affect
+processing times of your analysis, depending on the steps involved.</p>
+<p>In terms of project organization, generally we want to have distinct
+locations for specific purposes, and preferably organizing things in a
+consistent manner for all of our projects.</p>
+<p>In a particular project, you may want:</p>
+<ul>
+<li><code>input_data</code> directory for copy of raw data</li>
+<li><code>scripts</code> directory for analysis scripts</li>
+<li>Directories for intermediates, log files, and final outputs</li>
+<li><code>README.txt</code> for the project</li>
+<li><code>docs</code> directory for extensive documentation, supporting
+works, etc.</li>
+</ul>
+<p>A useful idea for our project directory layouts is to think about the
+project life cycle and work towards an end-goal of a reproducible
+analysis. While at the beginning of an analysis many things may be
+flexible, at the end we will want to be able to re-execute the analysis
+starting from the raw input data and running all the way until it
+produces the final outputs.</p>
+<p>Taking time to segregate specific efforts within a project,
+documenting our steps as we perform in-progress analyses, performing
+cleanups where needed, and similar efforts will aid us as we work
+towards that goal.</p>
+<p>Think ahead when designing the layout of your projects. If you will
+be trying several related analysis approaches using the same input data,
+but intend on using results from only one of the evaluated methods, it
+may make sense to intentionally subdivide the contents of your project
+directory accordingly. If you have several distinct analyses that use
+different input datasets, then creating separate project directories for
+each of them will likely make the most sense. It’s hard to be totally
+prescriptive when making recommendations here, but through our example
+we hope to spark the kinds of conversations and the types of thinking
+that are required here.</p>
+<p><img src="images/Module01_projects_layout.png" /></p>
+<p>One last note on handling and organizing analysis projects - use some
+form of identification system for projects in your lab or research
+group. This simplifies communication and record keeping, in addition to
+the organizational benefits.</p>
+<p>Some ideas for project identification systems:</p>
+<ul>
+<li>Codenames</li>
+<li>Alphanumeric IDs</li>
+<li>Short contextual descriptions</li>
+</ul>
+<p><br></p>
+<!-- LIVE_NOTE: Ask if anyone has any preferences, or what might work best for their group and why -->
+</div>
+<div id="exercise---organize-intro-project-and-save-results"
+class="section level2">
+<h2>Exercise - Organize Intro Project and Save Results</h2>
+<p>Following along with the instructor, we’ll organize some of the files
+that are in our <code>$WORKSHOP_HOME</code> directory.<br />
+When we’re ready, we can re-try running the hello_alcott scripts - this
+time redirecting our outputs into files.</p>
+<p><br></p>
+</div>
+<div id="exercise---write-a-readme-file" class="section level2">
+<h2>Exercise - Write a README File</h2>
+<p>Following along with the instructor, we will write the beginnings of
+a README for our intro project as it exists so far.</p>
+<p><br></p>
+<div id="handy-links" class="section level3">
+<h3>Handy Links</h3>
+<ul>
+<li><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard</a></li>
+</ul>
+<p><br></p>
+</div>
+</div>
+<div id="review" class="section level2">
+<h2>Review</h2>
+<ul>
+<li>It can be helpful to think about our raw data and our analysis data
+separately.</li>
+<li>Typically, the first priority is ensuring that raw data is stored in
+a separate, long-term storage location</li>
+<li>Organizing our projects in a consistent manner provides many
+benefits - pre-arranging project folders can help!</li>
+<li>Documentation is critical - record information about receipt of raw
+data and about your ongoing projects</li>
+</ul>
+<p><br> <br></p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module_overview_and_warmup.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a
+href="Module_storage_best_practices_UMRCP.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW5kZXBlbmRlbnQgRXhlcmNpc2UgLSBTQkFUQ0gsIENvbmRhLCBGaWx0ZXJpbmcgb3VyIEJBTXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBGaWx0ZXJpbmcgQWxsIFNhbXBsZXMKCjxicj4KCioqMTUgTWludXRlcyoqCgo8YnI+CgpXZSBqdXN0IGxlYXJuZWQgaG93IHRvIGFjdGl2YXRlIGFuIGV4aXN0aW5nIGNvbmRhIGVudmlyb25tZW50IGFuZCB1c2UgaXQgdG8gcHJvdmlkZSBzb2Z0d2FyZSB0aGF0IHdlIHdhbnQgLSBgc2FtdG9vbHNgIC0gYW5kIHVzZSBzYW10b29scyB0byBmaWx0ZXIgb3VyIEJBTSBmaWxlcy4gV2UgYWxzbyByZWNlbnRseSBsZWFybmVkIGhvdyB0byBjcmVhdGUgU0JBVENIIHNjcmlwdCBmaWxlcyBhbmQgc3VibWl0IHRoZW0gdXNpbmcgYHNiYXRjaGAuCgpMZXQncyBjb21iaW5lIHRoZXNlIGlkZWFzIGFuZCBmaWx0ZXIgdGhlIHJlc3Qgb2Ygb3VyIEJBTSBmaWxlcy4gCgpJZiB5b3UgaGF2ZSBleHRyYSB0aW1lLCB0aGVyZSdzIGEgYm9udXMgZXhlcmNpc2Ugb2YgaW5kZXhpbmcgeW91ciBCQU1zIGFzIHdlbGwKCjxicj4KCiMjIyBJbnN0cnVjdGlvbnM6Cgo8YnI+CgotIFdvcmsgaW5kZXBlbmRlbnRseSBpbiB0aGUgbWFpbiByb29tLCBwb3N0aW5nIGFueSBxdWVzdGlvbnMgdGhhdCBhcmlzZSB0byBzbGFjay4KLSBSZWNvbW1lbmRhdGlvbnMgZm9yIHdyaXRpbmcgeW91ciBvd24gY29kZToKICAtIFJlYWQgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogIC0gVGVzdCBvdXQgaWRlYXMgLSBpdCdzIG9rYXkgdG8gbWFrZSBtaXN0YWtlcyBhbmQgZ2VuZXJhdGUgZXJyb3JzCiAgLSBVc2UgYSBzZWFyY2ggZW5naW5lIHRvIGxvb2sgdXAgZXJyb3JzIG9yIHJlY29tbWVuZGVkIHNvbHV0aW9ucyB1c2luZyBrZXl3b3JkcwotIFdlJ2xsIHJldmlldyBwb3NzaWJsZSBzb2x1dGlvbnMgYWZ0ZXIgdGltZSBpcyB1cCBhcyBhIGdyb3VwLgoKPGJyPgoKLSBSZXZpZXcgb3VyIHNhbXRvb2xzIGNvbW1hbmQgdGhhdCB3ZSB1c2VkIGVhcmxpZXIuIENvbWJpbmUgdGhpcyB3aXRoIHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCB1c2luZyBjb25kYSBlbnZpcm9ubWVudHMgYW5kIGNyZWF0aW5nIFNCQVRDSCBmaWxlcy4KLSBDcmVhdGUgYW4gU0JBVENIIGZpbGUgdGhhdCBhY3RpdmF0ZXMgb3VyIGBzYW10b29sc19kZWVwdG9vbHNgIGNvbmRhIGVudmlyb25tZW50LiBXaXRoIHRoZSBjb25kYSBlbnZpcm9ubWVudCBhY3RpdmUsIHVzZSBgc2FtdG9vbHNgIHRvIGZpbHRlciBzYW1wbGVfQS4KLSBTdWJtaXQgdGhlIFNCQVRDSCBmaWxlLCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgb25jZSBpdCdzIGNvbXBsZXRlIHRoYXQgd2UgaGF2ZSBjcmVhdGVkIHRoZSBmaWx0ZXJlZCBzYW1wbGVfQSBCQU0gZmlsZS4KLSBPbmNlIHdlIGFyZSBoYXBweSB3aXRoIHRoZSByZXN1bHRzLCBjcmVhdGUgYWRkaXRpb25hbCBTQkFUQ0ggZmlsZXMgZm9yIG91ciBvdGhlciBzYW1wbGVzLCBhbmQgc3VibWl0IHRoZW0gYXMgd2VsbC4KCjxicj4KCj5Cb251czogSWYgeW91IGhhdmUgZXh0cmEgdGltZSwgZXh0ZW5kIHRoaXMgZXhlcmNpc2UgYW5kIHVzZSBgc2FtdG9vbHMgaW5kZXhgIHRvIGluZGV4IHRoZSBmaWx0ZXJlZCBCQU0gZmlsZSBmb3Igc2FtcGxlX0EuCgo8YnI+Cg==</div>
 
 
 
@@ -471,11 +652,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("exercise-2.md");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -12,9 +12,9 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Advanced Snakemake</title>
+<title>Terminology - Compute Environment</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -30,12 +30,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -76,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -241,73 +231,7 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
-
-
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
 
 
 
@@ -317,16 +241,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -344,64 +258,88 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Module00_Introduction.html">Intro</a>
+  <a href="intro.html">Intro</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Working with Data
+    Day 1
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Using the GreatLakes HPC
+    Day 2
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
     </li>
     <li>
-      <a href="Module04_software_management_conda.html">Software management with Conda</a>
-    </li>
-    <li>
-      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
-    </li>
-    <li>
-      <a href="exercise-2.html">Independent Exercise</a>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Workflow automation
+    Day 3
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="Module07-intro-to-snakemake.html">Intro to Snakemake</a>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="Module99_Wrap_up.html">Wrap up</a>
+  <a href="wrap_up.html">Wrap up</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -413,16 +351,9 @@ div.tocify {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Advanced Snakemake</h1>
+<h1 class="title toc-ignore">Terminology - Compute Environment</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -436,43 +367,36 @@ pre {
   font-size: 12pt
 }
 </style>
-<p>By the end of this module, we will: * Call a shell script from a
-Snakefile * Understand how to fine-tune resource allocations like CPUs,
-memory, time * Understand how to use conda/singularity in workflows *
-Use a profile run a Snakemake workflow using SLURM/GreatLakes * Connect
-to a specifc login-node and use <code>tmux</code> to simplify
-long-running Snakemake jobs * Review best practices for organizing a
-Snakemake workflow</p>
-<div id="header-1" class="section level2">
-<h2>Header 1</h2>
-</div>
-<div id="header-2" class="section level2">
-<h2>Header 2</h2>
-</div>
-<div id="key-ideas" class="section level2">
-<h2>Key ideas</h2>
+<p>In this module, we will:</p>
 <ul>
-<li>TODO</li>
-<li>Be a good neighbor</li>
+<li>discuss the idea of the “compute environment” and some related
+terms</li>
 </ul>
-<p>Exercise 1: consider the profile config:
-alcott_snakemake/config/profile/config.yaml Look up the meaning of TODO
-in the snakemake doc:</p>
-<p>Choose another config entry that you don’t understand and review the
-correspoinding doc</p>
-<p>Exercise 2A: cd to the project publication_snakemake_2 Fill in the
-missing parts of this Snakefile so it matches the supplied DAG figure.
-OK to confirm it runs on the login-node.</p>
-<p>Exercise 2B: Make a profile config and run this on the Great Lakes
-cluster worker nodes. (You can copy the config from
-alcott_snakemake/config/profile/config.yaml.)</p>
-<p>Exercise 3C: Rearrange the Snakefile so that rules live in their own
-files in a new <code>rules</code> directory and are imported to the
-Snakefile.</p>
-<p>Exercise 4D: In rule TODO, replace the module loads with a container
-directive to specify a singularity instance for the analysis rules. TODO
-directive text</p>
-<hr />
+<p><br></p>
+<div id="components-of-the-compute-environment" class="section level2">
+<h2>Components of the Compute Environment</h2>
+<p><img src="images/ModuleTCE_compute_env_building_blocks.png" /></p>
+<p><br> <br> <br></p>
+<p><img src="images/ModuleTCE_kitchen.png" /></p>
+<p><br></p>
+<div id="related-terminology-and-concepts" class="section level3">
+<h3>Related Terminology and Concepts</h3>
+<p><strong>Virtual Environment:</strong><br />
+An isolated space within a compute environment where certain components
+- e.g. software and configuration details - can be used independently
+without interference from system-wide components or other projects<br />
+Commonly used in software development and data analysis to avoid
+conflicts between different projects<br />
+Kitchen metaphor: like a separate clean workspace within your kitchen
+for specific tasks - e.g. clean area for chopping vegetables<br />
+<strong>Environment Variable:</strong><br />
+Information that is used by a computer’s operating system that can
+influence the way that processes behave<br />
+Commonly used to store information like file paths, usernames, system
+settings, etc.<br />
+Kitchen metaphor: like a note on the refrigerator that states where
+different spices are located</p>
+<p><br></p>
 <table style="width:100%;">
 <colgroup>
 <col width="28%" />
@@ -481,22 +405,21 @@ directive text</p>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="left"><a href="Module07-intro-to-snakemake.html">Previous
+<th align="left"><a href="Module_great_lakes_cluster.html">Previous
 lesson</a></th>
 <th align="center"><a href="#top">Top of this lesson</a></th>
-<th align="right"><a href="Module99_Wrap_up.html">Wrap up</a></th>
+<th align="right"><a href="Module_software_management_conda.html">Next
+lesson</a></th>
 </tr>
 </thead>
 <tbody>
 </tbody>
 </table>
 </div>
-
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiQWR2YW5jZWQgU25ha2VtYWtlIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IGZhbHNlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgpCeSB0aGUgZW5kIG9mIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoqIENhbGwgYSBzaGVsbCBzY3JpcHQgZnJvbSBhIFNuYWtlZmlsZQoqIFVuZGVyc3RhbmQgaG93IHRvIGZpbmUtdHVuZSByZXNvdXJjZSBhbGxvY2F0aW9ucyBsaWtlIENQVXMsIG1lbW9yeSwgdGltZQoqIFVuZGVyc3RhbmQgaG93IHRvIHVzZSBjb25kYS9zaW5ndWxhcml0eSBpbiB3b3JrZmxvd3MKKiBVc2UgYSBwcm9maWxlIHJ1biBhIFNuYWtlbWFrZSB3b3JrZmxvdyB1c2luZyBTTFVSTS9HcmVhdExha2VzCiogQ29ubmVjdCB0byBhIHNwZWNpZmMgbG9naW4tbm9kZSBhbmQgdXNlIGB0bXV4YCB0byBzaW1wbGlmeSBsb25nLXJ1bm5pbmcKICBTbmFrZW1ha2Ugam9icwoqIFJldmlldyBiZXN0IHByYWN0aWNlcyBmb3Igb3JnYW5pemluZyBhIFNuYWtlbWFrZSB3b3JrZmxvdwoKIyMgSGVhZGVyIDEKCiMjIEhlYWRlciAyCgoKIyMgS2V5IGlkZWFzCgoqIFRPRE8KKiBCZSBhIGdvb2QgbmVpZ2hib3IKCgpFeGVyY2lzZSAxOgpjb25zaWRlciB0aGUgcHJvZmlsZSBjb25maWc6IGFsY290dF9zbmFrZW1ha2UvY29uZmlnL3Byb2ZpbGUvY29uZmlnLnlhbWwKTG9vayB1cCB0aGUgbWVhbmluZyBvZiBUT0RPIGluIHRoZSBzbmFrZW1ha2UgZG9jOgoKQ2hvb3NlIGFub3RoZXIgY29uZmlnIGVudHJ5IHRoYXQgeW91IGRvbid0IHVuZGVyc3RhbmQgYW5kIHJldmlldyB0aGUgY29ycmVzcG9pbmRpbmcgZG9jIAoKRXhlcmNpc2UgMkE6CmNkIHRvIHRoZSBwcm9qZWN0IHB1YmxpY2F0aW9uX3NuYWtlbWFrZV8yCkZpbGwgaW4gdGhlIG1pc3NpbmcgcGFydHMgb2YgdGhpcyBTbmFrZWZpbGUgc28gaXQgbWF0Y2hlcyB0aGUgc3VwcGxpZWQgREFHIGZpZ3VyZS4KT0sgdG8gY29uZmlybSBpdCBydW5zIG9uIHRoZSBsb2dpbi1ub2RlLgoKRXhlcmNpc2UgMkI6Ck1ha2UgYSBwcm9maWxlIGNvbmZpZyBhbmQgcnVuIHRoaXMgb24gdGhlIEdyZWF0IExha2VzIGNsdXN0ZXIgd29ya2VyIG5vZGVzLiAoWW91IGNhbiBjb3B5IHRoZSBjb25maWcgZnJvbSBhbGNvdHRfc25ha2VtYWtlL2NvbmZpZy9wcm9maWxlL2NvbmZpZy55YW1sLikKCkV4ZXJjaXNlIDNDOiAKUmVhcnJhbmdlIHRoZSBTbmFrZWZpbGUgc28gdGhhdCBydWxlcwpsaXZlIGluIHRoZWlyIG93biBmaWxlcyBpbiBhIG5ldyBgcnVsZXNgIGRpcmVjdG9yeSBhbmQgYXJlIGltcG9ydGVkIHRvIHRoZSAKU25ha2VmaWxlLgoKRXhlcmNpc2UgNEQ6CkluIHJ1bGUgVE9ETywgcmVwbGFjZSB0aGUgbW9kdWxlIGxvYWRzIHdpdGggYSBjb250YWluZXIgZGlyZWN0aXZlIHRvIHNwZWNpZnkgYSBzaW5ndWxhcml0eSBpbnN0YW5jZSBmb3IgdGhlIGFuYWx5c2lzIHJ1bGVzLgpUT0RPIGRpcmVjdGl2ZSB0ZXh0CgotLS0KCnwgW1ByZXZpb3VzIGxlc3Nvbl0oTW9kdWxlMDctaW50cm8tdG8tc25ha2VtYWtlLmh0bWwpIHwgW1RvcCBvZiB0aGlzIGxlc3Nvbl0oI3RvcCkgfCBbV3JhcCB1cF0oTW9kdWxlOTlfV3JhcF91cC5odG1sKSB8CnwgOi0tLSB8IDotLS0tOiB8IC0tLTogfAo=</div>
-
-
 </div>
-</div>
+
+
+
 
 </div>
 
@@ -528,41 +451,7 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("Module08-advanced-snakemake.md");
-});
-</script>
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3,h4",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
