@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Great Lakes HPC Cluster</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 1
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Great Lakes HPC Cluster</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>discuss the Great Lakes HPC cluster and review its usage</li>
+<li>discuss software modules available on Great Lakes</li>
+<li>log in to the Great Lakes cluster using the web-based shell</li>
+<li>review some of the fundamental helper commands on Great Lakes</li>
+<li>review SBATCH and submit jobs for our analysis</li>
+</ul>
+<p><br></p>
+<div id="great-lakes-hpc" class="section level2">
+<h2>Great Lakes HPC</h2>
+<p>Again, we’ll provide the link to ARC’s general overview page on Great
+Lakes here: <a
+href="https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes"
+class="uri">https://its.umich.edu/advanced-research-computing/high-performance-computing/great-lakes</a></p>
+<p><br></p>
+<div id="a-more-detailed-look-at-how-great-lakes-works"
+class="section level3">
+<h3>A More Detailed Look at How Great Lakes Works</h3>
+<p><img src="images/Module03_cluster_overview.png" /></p>
+<p>We may have briefly mentioned the concept of a login node and a
+worker node when getting acquainted with Great Lakes, but we kept the
+explanation minimal, and only stated the fact that resources must be
+specified ahead of time for our tasks. With this figure we can dive a
+bit deeper into how this works.</p>
+<p><br></p>
+</div>
+<div id="software-modules-available-on-great-lakes"
+class="section level3">
+<h3>Software Modules Available on Great Lakes</h3>
+<p>For our benefit, ARC has made available a plethora of widely used and
+oft-requested software tools, via their module system. We may refer to
+this module system as LMOD. We won’t cover the details of how it
+works<!-- LIVE_NOTE: note we will revisit this idea when comparing with other software management solutions later -->,
+however we’ll demonstrate their usage and get a feel for using these
+LMOD modules on Great Lakes in our exercises.</p>
+<p>The usage is very simple:</p>
+<ul>
+<li><code>module list</code> to list currently loaded modules</li>
+<li><code>module load &lt;name-of-module&gt;</code> to enable a
+particular module</li>
+<li><code>module unload &lt;name-of-module&gt;</code> to disable that
+module</li>
+<li><code>module purge</code> to unload all modules</li>
+<li><code>module keyword &lt;keyword&gt;</code> to search the modules
+for a particular keyword</li>
+<li><code>module spider &lt;name-of-module&gt;</code> to view all
+versions of a particular software - many different versions may be
+available</li>
+<li><code>module avail</code> to list all LMOD modules available</li>
+</ul>
+<p>We’ll use these command-line methods for exploring and using LMOD
+modules in our exercises shortly, but it may also be helpful to later
+review this <a
+href="https://websites.umich.edu/~greatlakes/catalog/">link to all
+software modules available on various ARC HPC clusters</a>.</p>
+<p><br></p>
+</div>
+<div id="scheduled-jobs" class="section level3">
+<h3>Scheduled Jobs</h3>
+<p><img src="images/Module03_scheduled_jobs.png" /></p>
+<p>We’ve taken a look into how, but now we’re going to go a little
+deeper on the why aspect - why is the HPC cluster set up this way?</p>
+<p>Remember, this infrastructure must support the entire university.
+This means that we need a system to provide resources in a controlled,
+efficient, and reasonably fair way.</p>
+<p>By having formal mechanisms for requesting resources, and utilizing a
+job queue and a scheduler to allocate resources and assign them to jobs,
+we can achieve these goals.</p>
+<!-- LIVE_NOTE: Relate the efficiency of the scheduled jobs in the figure. Idle time is minimized, while many differently-sized jobs can run simultaneously -->
+<p><br></p>
+</div>
+<div id="interactive-and-scripted-jobs" class="section level3">
+<h3>Interactive and Scripted Jobs</h3>
+<p>We’ve gained a little experience with some types of interactive jobs,
+for instance during our <code>RStudio</code> demonstration. During that
+preview, we mentioned that there are other ways of doing requesting
+resources for interactive jobs, and we’ll discuss those here.</p>
+<p>We’ve just logged in using SSH to the Great Lakes HPC, and now we’re
+all interacting with the login node. Thinking back to yesterday when we
+were writing the README file, we were similarly interacting with the
+login node. We mentioned that we can’t do anything compute-intensive
+here, and instead offered the OpenOnDemand apps as an alternative.</p>
+<p>What we didn’t discuss was that where we are now - on the login node
+- we have the ability to request resources and run jobs via the command
+line. These are the powerful abilities that we alluded to, and we have
+two ways of doing this - interactive and scripted jobs.</p>
+<!-- LIVE_NOTE: These are both examples of scheduled jobs, either way we'll request resources and use them once granted -->
+<p><br></p>
+</div>
+<div id="interactive-jobs" class="section level3">
+<h3>Interactive Jobs</h3>
+<p>When we speak of interactive jobs on the command line, what we really
+mean is that we request resources in a special way so that once they are
+granted, our shell will be ‘sent’ into a worker node, and we will be
+able to interact with a command-line interface that is running inside of
+our worker node. We’ll have all of our desired resources, and we’ll be
+able to execute our compute-intensive tasks in an interactive way.</p>
+<p>In some of the educational material provided by ARC, a lot of times
+they will introduce this idea later on, or briefly mentioned as an
+aside. However, we want to introduce it right away, because it’s very
+useful as a starting point, and is a great way to ‘right-size’ your
+scripted jobs, which we’ll cover in a moment.</p>
+<p>When would we want to run an interactive job?</p>
+<ul>
+<li>When we’re not quite sure about the resources needed</li>
+<li>When we want to verify that our commands will work correctly</li>
+<li>When runtimes are relatively short and commands are fairly
+straightforward</li>
+</ul>
+<!-- LIVE_NOTE: Commands inside of the interactive job may lack reproducibility, we have to manually record what we do within the interactive job. -->
+<p>How do we launch an interactive job from the command line? See the
+example here:</p>
+<pre><code>srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=1 --time=00:30:00 /bin/bash</code></pre>
+<p><br></p>
+</div>
+<div id="scripted-jobs" class="section level3">
+<h3>Scripted Jobs</h3>
+<p>When we talk about scripted jobs, generally we mean that inside of a
+file we place commands that we want to run in order - a script - along
+with the resource requirements.</p>
+<p>In this case, when the resources become available, the contents of
+the script are executed on a worker node. There is no interaction with
+the running job<!--**LIVE_NOTE: Except maybe to observe it** -->. Any
+feedback that we’d normally receive in the terminal, can go to a log
+file. We’ll see an example of this.</p>
+<p>When would we want to run scripted jobs?</p>
+<ul>
+<li>When we’re confident that our script/processes are correct and do
+what we want</li>
+<li>When we’re confident that we are requesting adequate resources</li>
+<li>When we want reproducibility</li>
+<li>When we want scalability, we have the ability of creating many
+scripted jobs ahead of time, and launching them all at once</li>
+</ul>
+<!-- LIVE_NOTE: There are many solutions for scalability, that can leverege scripted jobs without as much upfront work. Chris will cover these tomorrow -->
+<p>What does a scripted job look like? See the dropdown section
+here:</p>
+<!-- LIVE_NOTE: We'll see this in just a moment, no need to look at it here -->
+<details>
+<summary>
+SBATCH example
+</summary>
+<pre><code>#!/bin/bash
+# The interpreter used to execute the script
+
+#“#SBATCH” directives that convey submission options:
+
+#SBATCH --job-name=Hello_SBATCH
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+#SBATCH --output=/nfs/turbo/umms-bioinf-wkshp/workshop/home/%u/intro_scripts/%x-%j.log
+
+# The application(s) to execute along with its input arguments and options:
+
+hostname
+pwd
+
+echo &quot;Hello, SBATCH!&quot;
+
+sleep 60</code></pre>
+</details>
+<p><br></p>
+<p>Briefly, we place our resource requirements at the top of our file -
+the preamble - and then we place our scripted commands until the end of
+the file. Once we have our file written - our SBATCH file - we’ll launch
+it with the command <code>sbatch</code>. For example:</p>
+<p><code>sbatch &lt;name-of-SBATCH-file&gt;</code></p>
+<p>We’ll have a chance to try this in a moment, after we get warmed up
+with some interactive jobs.</p>
+<blockquote>
+<p>Note: We’re just going to demonstrate some of the most salient bits
+of requesting resources. There are a lot more informational resources
+available at <a
+href="https://documentation.its.umich.edu/arc-hpc/slurm-user-guide">ARC’s
+SLURM user guide</a>.</p>
+</blockquote>
+<p><br></p>
+</div>
+</div>
+<div id="exercise-sbatch-hello-world" class="section level2">
+<h2>Exercise SBATCH Hello World</h2>
+<p>Following along with the instructor, we will inspect the
+<code>hello_sbatch.sh</code> shell script that each of us have in our
+<code>$WORKSHOP_HOME</code> directory, review the preamble and body of
+it, and then submit it with <code>sbatch</code>. Once it is running, we
+will use <code>squeue</code> to view the status of the job. After it
+completes, we’ll view its log.</p>
+<details>
+<summary>
+SBATCH Hello World - Solution
+</summary>
+<pre class="sh"><code>source /nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}/source_me_for_shortcut.sh
+
+cd ${WORKSHOP_HOME}/intro_scripts
+
+sbatch ./hello_sbatch.sh
+
+# While the job is running, check the job queue with:
+squeue -u $USER</code></pre>
+</details>
+<p><br></p>
+</div>
+<div id="exercise-srun-with-lmod---revisiting-hello_alcott-examples"
+class="section level2">
+<h2>Exercise <code>srun</code> with LMOD - Revisiting hello_alcott
+Examples</h2>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>, load the python LMOD module, and then revisit
+our hello_alcott examples.</p>
+<details>
+<summary>
+<code>srun</code> with LMOD hello_alcott - Solution
+</summary>
+<pre class="sh"><code>srun --pty --job-name=${USER}_hello_alcott --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:30:00 /bin/bash
+
+cd ${WORKSHOP_HOME}/intro_scripts
+
+which python
+
+module spider python
+
+module load python/3.11.5
+which python
+
+python hello_alcott.py -i ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt</code></pre>
+<!-- LIVE_NOTE: Just for fun we might also run ./hello_alcott.sh ${WORKSHOP_HOME}/intro_data/alcott_little_women_full.txt -->
+<blockquote>
+<p>Note: Type the command <code>exit</code> to exit from a running
+interactive job. This will put you back onto the log in node and free up
+remaining resources.</p>
+</blockquote>
+</details>
+<p><br></p>
+</div>
+<div id="exercise-sbatch-with-lmod---hello_alcott-contd"
+class="section level2">
+<h2>Exercise SBATCH with LMOD - hello_alcott Cont’d</h2>
+<p>Following along with the instructor, we’ll create an SBATCH script
+that is similar to our previous <code>srun</code> exercise, but this
+time we will launch it with <code>sbatch</code> and see how that
+works.</p>
+<details>
+<summary>
+SBATCH with LMOD hello_alcott Cont’d - Solution
+</summary>
+<pre class="sh"><code>cd ${WORKSHOP_HOME}
+mkdir -p projects/hello_alcott
+cp intro_scripts/hello_sbatch.sh projects/hello_alcott/hello_alcott_sbatch.sh
+cd projects/hello_alcott</code></pre>
+<p>Edit the file appropriately - We’ll use the web-based text editor for
+ease-of-use, but a command-line based text editor like <code>nano</code>
+could also work well here.</p>
+<p>When we’re happy with our SBATCH script, we can submit it.</p>
+<pre class="sh"><code>sbatch projects/hello_alcott/hello_alcott_sbatch.sh</code></pre>
+<p>We’ll look for the log file in our project folder, and inspect it for
+the outputs.</p>
+</details>
+<p><br></p>
+<!-- LIVE_NOTE: Reveal that we have some more interesting tasks left for analyzing the Alcott text - dialog attribution -->
+<!-- LIVE_NOTE: Do a show-only demonstration of lack of wordcloud package - we need to install it - we may be tempted to pip install it, but stay tuned for the next modules amd we'll offer better alternatives -->
+<blockquote>
+<p>Note: Make sure to unload the python module, so that it does not
+interfere with the exercises in the next sections!</p>
+</blockquote>
+<pre class="sh"><code>module unload python</code></pre>
+<hr />
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module_storage_best_practices_UMRCP.html">Previous lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a
+href="Module_compute_environment_definition.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

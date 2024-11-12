@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Independent Exercise - SBATCH, Conda, Filtering our BAMs</title>
+<title>Wrap up</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -30,9 +30,10 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +74,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,10 +234,70 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
 
 
 
@@ -251,6 +307,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -361,85 +427,176 @@ $(document).ready(function () {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda,
-Filtering our BAMs</h1>
+<h1 class="title toc-ignore">Wrap up</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
 
 
 <style type="text/css">
-body{ /* Normal  */
-      font-size: 14pt;
-  }
+
+body, td {
+   font-size: 18px;
+}
+code.r{
+  font-size: 12px;
+}
 pre {
-  font-size: 12pt
+  font-size: 12px
+}
+
+a.external {
+    background: url(images/external-link.png) center right no-repeat;
+    padding-right: 13px;
 }
 </style>
-<p><br></p>
-<div id="filtering-all-samples" class="section level2">
-<h2>Filtering All Samples</h2>
-<p><br></p>
-<p><strong>15 Minutes</strong></p>
-<p><br></p>
-<p>We just learned how to activate an existing conda environment and use
-it to provide software that we want - <code>samtools</code> - and use
-samtools to filter our BAM files. We also recently learned how to create
-SBATCH script files and submit them using <code>sbatch</code>.</p>
-<p>Let’s combine these ideas and filter the rest of our BAM files.</p>
-<p>If you have extra time, there’s a bonus exercise of indexing your
-BAMs as well</p>
-<p><br></p>
-<div id="instructions" class="section level3">
-<h3>Instructions:</h3>
-<p><br></p>
+<p>We hope you now have more familiarity with key patterns, approaches,
+and tools that can enable more computational reproducibility in your
+research. Please remember that reproducibility exists on a
+continuum:</p>
+<p><img src="images/Module99_continuum.png" target="_blank"
+alt="Advanced Reproducibility in Cancer Informatics / The Johns Hopkins Data Science Lab" />
+Sourced from <a
+href="https://jhudatascience.org/Adv_Reproducibility_in_Cancer_Informatics/index.html"
+target="_blank">Advanced Reproducibility in Cancer Informatics</a> / The
+Johns Hopkins Data Science Lab —</p>
+<div id="housekeeping" class="section level2">
+<h2>Housekeeping</h2>
 <ul>
-<li>Work independently in the main room, posting any questions that
-arise to slack.</li>
-<li>Recommendations for writing your own code:
-<ul>
-<li>Read function documentation</li>
-<li>Test out ideas - it’s okay to make mistakes and generate errors</li>
-<li>Use a search engine to look up errors or recommended solutions using
-keywords</li>
-</ul></li>
-<li>We’ll review possible solutions after time is up as a group.</li>
+<li><p>Please take our optional <a
+href="https://forms.gle/spsxWoyceGG2VxBG9" target="_blank">post-workshop
+survey</a>. (5-10 minutes)</p></li>
+<li><p>We will email you a link to the final session recordings by end
+of next week.</p></li>
+<li><p>The website/notes for this workshop will be available.</p></li>
+<li><p>The
+<a class="external" href="https://umbioinfcoreworkshops.slack.com" target="_blank">UM
+Bioinformatics Core Workshop Slack channel</a> will be available for 90
+days.</p></li>
 </ul>
-<p><br></p>
+<hr />
+</div>
+<div id="looking-ahead" class="section level2">
+<h2>Looking ahead</h2>
+<div id="workshop-environment" class="section level4">
+<h4>Workshop environment</h4>
 <ul>
-<li>Review our samtools command that we used earlier. Combine this with
-what we’ve learned about using conda environments and creating SBATCH
-files.</li>
-<li>Create an SBATCH file that activates our
-<code>samtools_deeptools</code> conda environment. With the conda
-environment active, use <code>samtools</code> to filter sample_A.</li>
-<li>Submit the SBATCH file, view the output, and verify once it’s
-complete that we have created the filtered sample_A BAM file.</li>
-<li>Once we are happy with the results, create additional SBATCH files
-for our other samples, and submit them as well.</li>
+<li><p>This Great Lakes account will will be available to you until
+6/30/24. Following that, you will be removed this account and any
+content inside the workshop Turbo or DataDen will be removed.</p></li>
+<li><p>You can download files from your workshop home dir using your
+terminal/command line window as below. (You will need to substitute your
+actual uniqname and type your password when prompted.)</p>
+<pre><code>mkdir computational-reproducibility-workshop
+cd computational-reproducibility-workshop
+scp -r greatlakes-xfer.arc-ts.umich.edu:/nfs/turbo/umms-bioinf-wkshp/workshop/home/YOUR_USERNAME .</code></pre>
+<p>Please keep in mind that this workshop environment is optimized for
+the exercises in this particular workshop but is likely unsuitable for
+analyzing your own datasets. In particular:</p></li>
+<li><p>It is not sized for compute intensive operations or large
+storage.</p></li>
+<li><p>It is not secured for sensitive data of any kind.</p></li>
 </ul>
-<p><br></p>
-<blockquote>
-<p>Bonus: If you have extra time, extend this exercise and use
-<code>samtools index</code> to index the filtered BAM file for
-sample_A.</p>
-</blockquote>
-<p><br></p>
 </div>
 </div>
+<div id="university-of-michigan-resources" class="section level2">
+<h2>University of Michigan Resources</h2>
+<div id="continued-learning-and-support" class="section level4">
+<h4>Continued learning and support</h4>
+<p>Making research reproducibile is a learning process. Resources to
+consider:</p>
+<ul>
+<li><a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM
+CoderSpaces “office hours”</a> and UM CoderSpaces Slack workspace.
+<em>(See “Useful Resources” section in above page for instructions on
+how to join and access the CoderSpaces Slack workspace.)</em></li>
+<li>Upcoming
+<a class="external" href="https://arc.umich.edu/events/" target="_blank">UM
+Advanced Research Computing workshops</a>.</li>
+<li>Videos on
+<a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting
+started with Great Lakes</a>.</li>
+<li>For more intro lessons and workshops in Bash / Git / R / Python :
+<a href="https://software-carpentry.org/lessons/" target="_blank">Software
+Carpentry</a> and the
+<a href="https://umcarpentries.org/" target="_blank">UM Software
+Carpentry Group</a>.</li>
+<li><a
+href="https://jhudatascience.org/Adv_Reproducibility_in_Cancer_Informatics/index.html"
+target="_blank">Advanced Reproducibility in Cancer Informatics</a> from
+The Johns Hopkins Data Science Lab</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="thank-you" class="section level2">
+<h2>Thank you</h2>
+<div class="float">
+<img src="images/intro/sponsor_logos.png" alt="Sponsors" />
+<div class="figcaption">Sponsors</div>
+</div>
+</div>
+<div id="thank-you-tofrom-the-workshop-team" class="section level2">
+<h2>Thank you to/from the workshop team</h2>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><img
+src="images/headshots/headshot_cgates.jpg" /></th>
+<th align="center"><img
+src="images/headshots/headshot_mbradenb.jpg" /></th>
+<th align="center"><img
+src="images/headshots/headshot_trsaari.jpg" /></th>
+<th align="center"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Chris</strong></td>
+<td align="center"><strong>Marci</strong></td>
+<td align="center"><strong>Travis</strong></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"><img
+src="images/headshots/headshot_damki.jpg" /></td>
+<td align="center"><img
+src="images/headshots/headshot_rcavalca.jpg" /></td>
+<td align="center"><img
+src="images/headshots/headshot_clairis.jpg" /></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Dana</strong></td>
+<td align="center"><strong>Raymond</strong></td>
+<td align="center"><strong>Clair</strong></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+<p>Thank you for participating in our workshop. We welcome your
+questions and feedback now and in the future.</p>
+<p>Bioinformatics Workshop Team</p>
+<p><a
+href="mailto:bioinformatics-workshops@umich.edu">bioinformatics-workshops@umich.edu</a>
+<br/> <a
+href="https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core"
+target="_blank">https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/bioinformatics-core</a></p>
+</div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW5kZXBlbmRlbnQgRXhlcmNpc2UgLSBTQkFUQ0gsIENvbmRhLCBGaWx0ZXJpbmcgb3VyIEJBTXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBGaWx0ZXJpbmcgQWxsIFNhbXBsZXMKCjxicj4KCioqMTUgTWludXRlcyoqCgo8YnI+CgpXZSBqdXN0IGxlYXJuZWQgaG93IHRvIGFjdGl2YXRlIGFuIGV4aXN0aW5nIGNvbmRhIGVudmlyb25tZW50IGFuZCB1c2UgaXQgdG8gcHJvdmlkZSBzb2Z0d2FyZSB0aGF0IHdlIHdhbnQgLSBgc2FtdG9vbHNgIC0gYW5kIHVzZSBzYW10b29scyB0byBmaWx0ZXIgb3VyIEJBTSBmaWxlcy4gV2UgYWxzbyByZWNlbnRseSBsZWFybmVkIGhvdyB0byBjcmVhdGUgU0JBVENIIHNjcmlwdCBmaWxlcyBhbmQgc3VibWl0IHRoZW0gdXNpbmcgYHNiYXRjaGAuCgpMZXQncyBjb21iaW5lIHRoZXNlIGlkZWFzIGFuZCBmaWx0ZXIgdGhlIHJlc3Qgb2Ygb3VyIEJBTSBmaWxlcy4gCgpJZiB5b3UgaGF2ZSBleHRyYSB0aW1lLCB0aGVyZSdzIGEgYm9udXMgZXhlcmNpc2Ugb2YgaW5kZXhpbmcgeW91ciBCQU1zIGFzIHdlbGwKCjxicj4KCiMjIyBJbnN0cnVjdGlvbnM6Cgo8YnI+CgotIFdvcmsgaW5kZXBlbmRlbnRseSBpbiB0aGUgbWFpbiByb29tLCBwb3N0aW5nIGFueSBxdWVzdGlvbnMgdGhhdCBhcmlzZSB0byBzbGFjay4KLSBSZWNvbW1lbmRhdGlvbnMgZm9yIHdyaXRpbmcgeW91ciBvd24gY29kZToKICAtIFJlYWQgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogIC0gVGVzdCBvdXQgaWRlYXMgLSBpdCdzIG9rYXkgdG8gbWFrZSBtaXN0YWtlcyBhbmQgZ2VuZXJhdGUgZXJyb3JzCiAgLSBVc2UgYSBzZWFyY2ggZW5naW5lIHRvIGxvb2sgdXAgZXJyb3JzIG9yIHJlY29tbWVuZGVkIHNvbHV0aW9ucyB1c2luZyBrZXl3b3JkcwotIFdlJ2xsIHJldmlldyBwb3NzaWJsZSBzb2x1dGlvbnMgYWZ0ZXIgdGltZSBpcyB1cCBhcyBhIGdyb3VwLgoKPGJyPgoKLSBSZXZpZXcgb3VyIHNhbXRvb2xzIGNvbW1hbmQgdGhhdCB3ZSB1c2VkIGVhcmxpZXIuIENvbWJpbmUgdGhpcyB3aXRoIHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCB1c2luZyBjb25kYSBlbnZpcm9ubWVudHMgYW5kIGNyZWF0aW5nIFNCQVRDSCBmaWxlcy4KLSBDcmVhdGUgYW4gU0JBVENIIGZpbGUgdGhhdCBhY3RpdmF0ZXMgb3VyIGBzYW10b29sc19kZWVwdG9vbHNgIGNvbmRhIGVudmlyb25tZW50LiBXaXRoIHRoZSBjb25kYSBlbnZpcm9ubWVudCBhY3RpdmUsIHVzZSBgc2FtdG9vbHNgIHRvIGZpbHRlciBzYW1wbGVfQS4KLSBTdWJtaXQgdGhlIFNCQVRDSCBmaWxlLCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgb25jZSBpdCdzIGNvbXBsZXRlIHRoYXQgd2UgaGF2ZSBjcmVhdGVkIHRoZSBmaWx0ZXJlZCBzYW1wbGVfQSBCQU0gZmlsZS4KLSBPbmNlIHdlIGFyZSBoYXBweSB3aXRoIHRoZSByZXN1bHRzLCBjcmVhdGUgYWRkaXRpb25hbCBTQkFUQ0ggZmlsZXMgZm9yIG91ciBvdGhlciBzYW1wbGVzLCBhbmQgc3VibWl0IHRoZW0gYXMgd2VsbC4KCjxicj4KCj5Cb251czogSWYgeW91IGhhdmUgZXh0cmEgdGltZSwgZXh0ZW5kIHRoaXMgZXhlcmNpc2UgYW5kIHVzZSBgc2FtdG9vbHMgaW5kZXhgIHRvIGluZGV4IHRoZSBmaWx0ZXJlZCBCQU0gZmlsZSBmb3Igc2FtcGxlX0EuCgo8YnI+Cg==</div>
 
 
+</div>
+</div>
 
 </div>
 
@@ -471,12 +628,36 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+
 <script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("exercise-2.md");
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
 });
 </script>
-
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

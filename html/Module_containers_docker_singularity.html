@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Containers - Docker and Singularity</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 1
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Containers - Docker and Singularity</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<p>In this module, we will:</p>
+<ul>
+<li>learn about container systems Docker and Singularity</li>
+<li>discuss the what and why of containerization</li>
+<li>compare container solutions to other software management tools that
+we’ve discussed</li>
+<li>learn how to utilize publically available Docker or Singularity
+containers</li>
+<li>see a demonstration of building a new singularity container</li>
+</ul>
+<p><br></p>
+<div id="commonalities-between-software-management-tools"
+class="section level2">
+<h2>Commonalities Between Software Management Tools</h2>
+<p><img
+src="images/Module05_software_management_commonalities.png" /></p>
+</div>
+<div id="overview-of-containerized-software" class="section level2">
+<h2>Overview of Containerized Software</h2>
+<p>The software management tools we’ve discussed so far are extremely
+helpful and important for reproducible research. However, they do have
+some limitations that we’ve mentioned, which we’ll bring into focus and
+elaborate in this module as we consider some additional options -
+containerized software. We’ll discuss in a moment what we mean by this
+term, but to start I’ll mention some of the additional things that
+containerized software can grant us:</p>
+<ul>
+<li>Additional portability</li>
+<li>Additional isolation of compute environments</li>
+<li>Additional long-term reliability</li>
+</ul>
+<p>The simplest way to think of containers is as if there is a virtual
+computer system, running inside of your computer. You can imagine that
+the hardware layout of your typical computer can also be recreated
+through software, and that is kind of what is happening when we use
+software containers. This is of course a gross simplification, but for
+now we can think of it in this way.</p>
+<p><br> <br></p>
+<p><img src="images/Module05_computer_in_computer.png" /></p>
+<p><br></p>
+<p>You may have already heard the term “virtual machine” in the past,
+and this is a technology that is related to, but distinct from
+containers. We will be discussing containerization software
+specifically, and focusing on these because containers are more
+efficient, streamlined, and perfectly suited for reproducibility, when
+compared to virtual machines. When comparing between these, some things
+I’d like to highlight that work highly in favor of containerized
+software are:</p>
+<ul>
+<li>The usage of standardized specification files
+<ul>
+<li>e.g. Dockerfiles, Singularity definition files</li>
+<li>allow for superior transparency and reproducibility.</li>
+</ul></li>
+<li>The layered nature of container architecture
+<ul>
+<li>During creation, the result of each task is formed into its own
+layer</li>
+<li>The separate layers are “stacked” one over another until the entire
+environment is built</li>
+<li>Allows for high transparency and portability, and streamlines the
+build process</li>
+</ul></li>
+</ul>
+<p><br></p>
+<p><img
+src="images/Module05_file_image_container_generalized.png" /></p>
+<p>To cover some terminology and to give a broad overview of the flow of
+using containers, we’ll briefly discuss this figure.</p>
+<p><br></p>
+<div id="sharing-software-environments" class="section level3">
+<h3>Sharing Software Environments</h3>
+<p><img src="images/ModuleCDS_sharing_analyses.png" /></p>
+<p>Let’s revisit the topic of sharing analyses once again. We’ve
+discussed how some of you may have experienced friction when trying to
+share some analysis code with a collaborator or with a colleague - when
+they try to run the analysis on their machine they are unsuccessful.
+Maybe they don’t have the required software. Maybe they have some
+certain configuration details that are set incorrectly. Or maybe the
+software that you’ve given them is actually incompatible with some
+software that’s running on their system. In the figure above, we’ve
+shown a very simplistic idea for getting around these issues, which is
+to just share your entire laptop with your colleague. However, you can
+imagine that there are many practical reasons why this is not a very
+good solution.</p>
+<p>We’ve discussed some solutions that can aid in these sharing tasks,
+without having to resort to actually sharing your entire computer with
+your colleague. In many ways, these solutions allow us to get past this
+friction. Let’s take a moment to think about our experiences with LMOD
+modules and conda, and describe their strengths and limitations.</p>
+<!-- LIVE_NOTE: Highlight the limitation of conda - while we can share recipes, we can't really share the built environment. Relate to stale links on the internet - it's not guaranteed to stay intact forever! -->
+<p><br></p>
+<p>Now we shift our focus back to containers, and how they can offer
+some solutions to the limitations of other options. An important aspect
+of containers that makes them powerful is that after they’re built
+according to specifications, the container is basically unchangeable.
+Once again, this is a simplification, but for the most common usages, in
+terms of shareability and reproducibility, we can consider it to be
+so.</p>
+<p>In addition to being stable once created, it is also shareable after
+creation. This benefit cannot be overstated. By being able to share the
+static environment after it has been created, and to know that it will
+remain stable and usable far into the future, we can ensure
+reproducibility far into the future as well.</p>
+<p>There are several ways that you can share containerized software:</p>
+<ul>
+<li>Sharing the specification files (akin to sharing a conda
+recipe)</li>
+<li>Sharing by hosting the images in an accessible repository (Docker
+Hub, Quay IO, Biocontainers)</li>
+<li>Sharing the image directly (Singularity Image File)</li>
+</ul>
+<p><br></p>
+</div>
+<div id="environment-isolation" class="section level3">
+<h3>Environment Isolation</h3>
+<p><img src="images/Module05_container_isolation.png" /></p>
+<p>Another important aspect of containers is their relative isolation
+from the host system when compared to something like Conda. Remember
+that when we are running software within a container, the software
+interacts with a completely virtualized version of the hardware system.
+By nature of that, that means that there is additional separation
+between the software in the container and the software that is outside
+of the container. Conda makes no such distinction, but rather uses a
+couple of tricks to make it easy to switch between environments.</p>
+<p><br></p>
+</div>
+<div id="static-images-are-stable-across-time" class="section level3">
+<h3>Static Images are Stable Across Time</h3>
+<p><img src="images/Module04_dependencies_incompatibility.png" /></p>
+<p><br> <br> <br></p>
+<p><img src="images/Module05_dependencies_over_time.png" /></p>
+<p>We’ll briefly revisit this idea and relate it to the incompatibility
+scenario that we described in the previous module.</p>
+<p><br></p>
+</div>
+<div id="not-just-software" class="section level3">
+<h3>Not Just Software</h3>
+<p>Containers can be bundled with more than software - things like
+environment variables, configuration files, etc. can be included. For
+some tools, this is a critical aspect of providing simple plug-and-play
+usability.</p>
+<p><br></p>
+</div>
+</div>
+<div id="docker" class="section level2">
+<h2>Docker</h2>
+<p>We’ve discussed containerized software as a concept, and now it’s
+time to briefly discuss a specific containerization tool - in fact
+arguably the most widely used container software today - Docker.</p>
+<p><img src="images/Module05_file_image_container_docker.png" /></p>
+<!-- LIVE_NOTE: Emphasize that images are shareable on DockerHub, and then executable. Also want to highlight that we can't directly use Docker on Great Lakes, but we can still use docker images with the next software we'll discuss, singularity -->
+<!-- LIVE_NOTE: Emphasize that Docker assumes that you have full control over a system. On an HPC, this is not the case, there are systems in place that keep us from stepping on each-others toes. -->
+<p><br></p>
+<details>
+<summary>
+Example of a Dockerfile
+</summary>
+<pre><code>FROM centos:centos7
+
+RUN yum -y install wget gdb
+
+COPY foo.yaml /tmp
+
+RUN wget -P /tmp &quot;https://download.example.com/example-installer-3.2.1.el7.x86_64.rpm&quot; &amp;&amp; \
+    rpm -i /tmp/example-installer-3.2.1.el7.x86_64.rpm &amp;&amp; \
+    rm /tmp/example-installer-3.2.1.el7.x86_64.rpm
+
+ENV PATH ${PATH}:/opt/foo/bin</code></pre>
+</details>
+<p><br></p>
+</div>
+<div id="singularity" class="section level2">
+<h2>Singularity</h2>
+<p><img
+src="images/Module05_file_image_container_singularity.png" /></p>
+<p>Example of a Singularity definition file:</p>
+<pre><code>BootStrap: debootstrap
+OSVersion: stable
+MirrorURL: http://ftp.us.debian.org/debian/
+
+%runscript
+    echo &quot;This is what happens when you run the container...&quot;
+
+%post
+    echo &quot;Hello from inside the container&quot;
+    apt-get update
+    apt-get -y install fortune cowsay lolcat
+
+%environment
+    export PATH=$PATH:/usr/games</code></pre>
+<p><br></p>
+<div id="some-quick-notes-on-singularity" class="section level3">
+<h3>Some Quick Notes on Singularity</h3>
+<ul>
+<li>It is a purpose-built containerization software for an HPC
+system</li>
+<li>Singularity can also run Docker containers</li>
+<li>We have several repositories at our fingertips
+<ul>
+<li>Docker Hub - <a href="https://hub.docker.com"
+class="uri">https://hub.docker.com</a></li>
+<li>Biocontainers - <a href="https://biocontainers.pro"
+class="uri">https://biocontainers.pro</a></li>
+<li>Quay IO - <a href="https://quay.io"
+class="uri">https://quay.io</a></li>
+<li>Galaxy Project - <a
+href="https://depot.galaxyproject.org/singularity/"
+class="uri">https://depot.galaxyproject.org/singularity/</a></li>
+</ul></li>
+</ul>
+<p><br></p>
+<!-- LIVE_NOTE: Do a demonstration of going to Quay.io and getting samtools and deeptools images -->
+</div>
+</div>
+<div id="exercise---srun-singularity-shell-dialog-parsing"
+class="section level2">
+<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Dialog
+Parsing</h2>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>. Once we’ve entered the running job, we will use
+singularity with an existing docker image and launch a ‘singularity
+shell’. With the required python packages now available inside the
+running container, we’ll try our <code>dialog_parsing.py</code>
+script.</p>
+<details>
+<summary>
+<code>srun</code>, <code>singularity shell</code>, Dialog Parsing -
+Solution
+</summary>
+<pre class="sh"><code>srun --pty --job-name=${USER}_singularity_dialog_parsing --account=bioinf_wkshp_class --partition standard --mem=2000 --cpus-per-task=2 --time=00:20:00 /bin/bash
+
+cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
+mkdir results_singularity_A
+module load singularity
+
+singularity shell docker://umichbfxcore/rcom_nlp_env:0.1.1
+
+python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_singularity_A -p ADJ -c &#39;Jo,Meg,Amy,Beth,Laurie&#39;</code></pre>
+<!-- LIVE_NOTE: The first attempt should fail OOM - learn to increase resources and try again! -->
+<p>We’ll take a look at the resulting word lists after running the
+script.</p>
+<!-- LIVE_NOTE: Make sure to emphasize documentation here! Take a time-out to update your README with info about 'results_singularity_A' -->
+<!-- LIVE_NOTE: If there's time, you may want to try running hello_alcott.py just for fun -->
+</details>
+<blockquote>
+<p>Note: We’ll use the same running <code>srun</code> job for the next
+exercise as well</p>
+</blockquote>
+<p><br></p>
+</div>
+<div id="exercise---continued-srun-singularity-exec-dialog-parsing"
+class="section level2">
+<h2>Exercise - Continued <code>srun</code>,
+<code>singularity exec</code>, Dialog Parsing</h2>
+<p>Following along with the instructor, we’ll continue to use the same,
+running, <code>srun</code> job. This time we’ll use
+<code>singularity exec</code> to run our script.</p>
+<details>
+<summary>
+Continued <code>srun</code>, <code>singularity exec</code>, Dialog
+Parsing - Solution
+</summary>
+<pre class="sh"><code>pwd  # Ensure that we&#39;re in the alcott_dialog_parsing project directory
+mkdir results_singularity_B
+module list  # Ensure that we have the singularity module loaded
+
+singularity exec docker://umichbfxcore/rcom_nlp_env:0.1.1 python scripts/dialog_parser.py -i inputs/alcott_little_women_full.txt -o results_singularity_B -p ADJ -c &#39;Jo,Meg,Amy,Beth,Laurie&#39;</code></pre>
+<!-- LIVE_NOTE: Once again emphasize documentation! Take another timeout to quickly update the README -->
+<p>Once again we’ll take a look at the resulting word lists.</p>
+</details>
+<p><br></p>
+</div>
+<div id="exercise---sbatch-singularity-exec-dialog-parsing"
+class="section level2">
+<h2>Exercise - SBATCH, <code>singularity exec</code>, Dialog
+Parsing</h2>
+<p>Following along with the instructor, we’ll create an SBATCH file that
+will use <code>singularity exec</code> to run dialog parsing. We’ll use
+what we’ve learned to construct an appropriate file, and then submit it
+with <code>sbatch</code>.</p>
+<p><br></p>
+</div>
+<div id="exercise---srun-singularity-shell-word-cloud"
+class="section level2">
+<h2>Exercise - <code>srun</code>, <code>singularity shell</code>, Word
+Cloud</h2>
+<p>Following along with the instructor, we’ll launch an interactive job
+with <code>srun</code>. Once we’ve entered the running job, we’ll use
+<code>singularity shell</code> and try running our
+<code>word_cloud.py</code> script on an extracted word list.</p>
+<details>
+<summary>
+<code>srun</code>, <code>singularity shell</code>, Word Cloud - Solution
+</summary>
+<pre class="sh"><code>srun --pty --job-name=${USER}_singularity_word_cloud --account=bioinf_wkshp_class --partition standard --mem=500 --cpus-per-task=1 --time=00:05:00 /bin/bash
+
+module list
+module load singularity
+
+cd ${WORKSHOP_HOME}/projects/alcott_dialog_parsing
+singularity shell docker://umichbfxcore/rcom_nlp_env:0.1.1
+
+python scripts/word_cloud.py -i results_singularity_B/Jo_adj.txt</code></pre>
+<p>After running the command, we’ll check for the existence of the
+expected output file <code>results_singularity_B/Jo_adj.png</code>, then
+look at it via Great Lakes’ web-based file browser.</p>
+<p><a href="https://greatlakes.arc-ts.umich.edu">Link to Great Lakes
+Dashboard if needed</a></p>
+<!-- LIVE_NOTE: Another good time to update documentation - continued forward with 'results_singularity_B' creating word clouds -->
+</details>
+<p><br></p>
+</div>
+<div id="exercise---sbatch-singularity-exec-word-clouds"
+class="section level2">
+<h2>Exercise - SBATCH, <code>singularity exec</code>, Word Clouds</h2>
+<p>Following along with the instructor, we’ll create an SBATCH file that
+will use <code>singularity exec</code> to create word clouds for Beth’s
+lists of adjectives. We’ll use what we’ve learned to construct an
+appropriate file, and then submit it with <code>sbatch</code>.</p>
+<p>If we’re confident in our SBATCH file and are satisfied with our
+results, then we’ll make copies of the SBATCH file for each separate
+character, and submit them with <code>sbatch</code>. Finally, we’ll
+review our results.</p>
+<p><br></p>
+<!-- LIVE_NOTE: Take time to document and to tidy up -->
+</div>
+<div id="demonstration---remote-build-of-a-singularity-image"
+class="section level2">
+<h2>Demonstration - Remote Build of a Singularity Image</h2>
+<p>So far we’ve only demonstrated uses where we use existing docker or
+singularity images. While we’ve shown that this is powerful and easy to
+use, we aren’t taking full advantage of singularity’s capabilities
+without building new images.</p>
+<p>We won’t dive deeply into the topic of how to build singularity
+containers, but we want to demonstrate that it is possible to do so.
+It’s not quite straightforward to run the build steps on Great Lakes,
+but with a little bit of extra setup it is possible to use a remote
+(cloud) builder, which we’ll demonstrate.</p>
+<p>For more information about the remote build process, see the
+documentation here:</p>
+<p><a
+href="https://docs.sylabs.io/guides/latest/user-guide/build_a_container.html#remote-builds">Link
+to documentation on remote builds</a></p>
+<details>
+<summary>
+Demo Remote Build - Solution
+</summary>
+<p>We’ll create a singularity definition file called
+<code>cowsay.def</code></p>
+<p><code>nano cowsay.def</code></p>
+<p>Contents of <code>cowsay.def</code> are shown in the singularity
+definition file shown in the above lesson.</p>
+<p>Note, to use the remote builder with the <code>--remote</code> flag,
+you must follow the instructions on remote builds above - create an
+account and generate a token online, then use
+<code>singularity remote login</code>.</p>
+<p><code>singularity build --remote cowsay.sif cowsay.def</code></p>
+<p>After this, we have a singularity image file, <code>cowsay.sif</code>
+that we can use with <code>singularity shell cowsay.sif</code> or
+<code>singularity exec cowsay.sif cowsay Mooo</code></p>
+</details>
+<p><br> <br> <br> <br></p>
+</div>
+<div id="review-of-lmod-conda-docker-and-singularity"
+class="section level2">
+<h2>Review of LMOD, Conda, Docker, and Singularity</h2>
+<p><img src="images/Module05_comparison_software_management.png" /></p>
+<p>In choosing any tool, we must consider the inherent trade-offs
+between simplicity, portability, and durability.</p>
+<p><br></p>
+<hr />
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module_software_management_conda.html">Previous lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a
+href="Module_intro_to_workflow_automation.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

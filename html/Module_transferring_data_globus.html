@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Independent Exercise - SBATCH, Conda, Filtering our BAMs</title>
+<title>Transferring Data with Globus</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,9 +231,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -361,17 +351,9 @@ $(document).ready(function () {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda,
-Filtering our BAMs</h1>
+<h1 class="title toc-ignore">Transferring Data with Globus</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -385,59 +367,311 @@ pre {
   font-size: 12pt
 }
 </style>
-<p><br></p>
-<div id="filtering-all-samples" class="section level2">
-<h2>Filtering All Samples</h2>
-<p><br></p>
-<p><strong>15 Minutes</strong></p>
-<p><br></p>
-<p>We just learned how to activate an existing conda environment and use
-it to provide software that we want - <code>samtools</code> - and use
-samtools to filter our BAM files. We also recently learned how to create
-SBATCH script files and submit them using <code>sbatch</code>.</p>
-<p>Let’s combine these ideas and filter the rest of our BAM files.</p>
-<p>If you have extra time, there’s a bonus exercise of indexing your
-BAMs as well</p>
-<p><br></p>
-<div id="instructions" class="section level3">
-<h3>Instructions:</h3>
-<p><br></p>
+<p>In this module, we will:</p>
 <ul>
-<li>Work independently in the main room, posting any questions that
-arise to slack.</li>
-<li>Recommendations for writing your own code:
+<li>review storage best practices and relate them to real
+situations</li>
+<li>learn about the data transfer tool Globus</li>
+<li>gain real experience using Globus in various ways</li>
+</ul>
+<div
+id="relating-data-transfer-to-storage-best-practices-with-typical-examples"
+class="section level2">
+<h2>Relating Data Transfer to Storage Best Practices with Typical
+Examples</h2>
 <ul>
-<li>Read function documentation</li>
-<li>Test out ideas - it’s okay to make mistakes and generate errors</li>
-<li>Use a search engine to look up errors or recommended solutions using
-keywords</li>
+<li>I need to retrieve raw data from a data provider, and keep it in a
+safe place</li>
+<li>I need to copy my raw data into a new location, to perform an
+analysis</li>
+<li>I need to share my raw data and my analysis with a collaborator</li>
+</ul>
+</div>
+<div id="data-transfer" class="section level2">
+<h2>Data Transfer</h2>
+<p>As you can see, data transfer itself is an important consideration
+that goes hand in hand with our storage best practices described in the
+previous module. Ensuring that data is transmitted and received intact,
+and understanding the movement and placement of data during your
+research life cycle is a very important aspect of reproducible
+computing.</p>
+</div>
+<div id="globus" class="section level2">
+<h2>Globus</h2>
+<p>For the data transfer portion of this workshop, we’ll focus on a
+software solution called Globus. Globus allows the transfer of data
+between different storage systems, and it’s designed particularly for
+transferring research data. Many universities and institutions,
+including the University of Michigan, are using Globus in this way.</p>
+<div id="what-is-globus-and-what-it-isnt" class="section level3">
+<h3>What is Globus, and What it Isn’t</h3>
+<p><br></p>
+<p>Globus is a software suite for data transfer operations with the
+following characteristics:</p>
+<ul>
+<li>Fast, with parallelized transfer operations</li>
+<li>Resilient to connectivity problems
+<ul>
+<li>If any failures occur during transfer, ability to resume</li>
 </ul></li>
-<li>We’ll review possible solutions after time is up as a group.</li>
+<li>Fire and forget*</li>
+<li>Highly configurable with fine-tuned access control</li>
+<li>Geared towards research data, particularly where data volumes are
+very high</li>
 </ul>
-<p><br></p>
-<ul>
-<li>Review our samtools command that we used earlier. Combine this with
-what we’ve learned about using conda environments and creating SBATCH
-files.</li>
-<li>Create an SBATCH file that activates our
-<code>samtools_deeptools</code> conda environment. With the conda
-environment active, use <code>samtools</code> to filter sample_A.</li>
-<li>Submit the SBATCH file, view the output, and verify once it’s
-complete that we have created the filtered sample_A BAM file.</li>
-<li>Once we are happy with the results, create additional SBATCH files
-for our other samples, and submit them as well.</li>
-</ul>
-<p><br></p>
-<blockquote>
-<p>Bonus: If you have extra time, extend this exercise and use
-<code>samtools index</code> to index the filtered BAM file for
-sample_A.</p>
-</blockquote>
+<p>Globus is <em>not</em> a cloud storage service, in contrast with
+something like DropBox</p>
+<p><img src="images/Module02_globus_vs_dropbox.png" /></p>
 <p><br></p>
 </div>
+</div>
+<div id="globus-sneak-preview-orientation" class="section level2">
+<h2>Globus Sneak Preview / Orientation</h2>
+<p><br></p>
+<div class="float">
+<img src="images/Module02_globus_preview_single_pane_highlights.png"
+alt="Globus Single Pane Preview" />
+<div class="figcaption">Globus Single Pane Preview</div>
+</div>
+<p><br></p>
+<div class="float">
+<img src="images/Module02_globus_preview_dual_pane_highlights.png"
+alt="Globus Dual Pane Preview" />
+<div class="figcaption">Globus Dual Pane Preview</div>
+</div>
+<p><br></p>
+</div>
+<div id="exercise-transferring-data-from-data-provider-to-my-data-den"
+class="section level2">
+<h2>Exercise Transferring Data from Data Provider to My Data Den</h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img
+src="images/Module02_data_shared_with_me_I_transfer_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_shared_with_me_I_transfer_2.png" /></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="exercise-transferring-data-from-my-data-den-to-my-turbo"
+class="section level2">
+<h2>Exercise Transferring Data from My Data Den to My Turbo</h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img
+src="images/Module02_data_I_transfer_between_own_storage_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_transfer_between_own_storage_2.png" /></td>
+</tr>
+</tbody>
+</table>
+<p><br> <br></p>
+<div id="additional-scenarios" class="section level3">
+<h3>Additional Scenarios</h3>
+<p><br></p>
+<details>
+<summary>
+Sharing Data with a Collaborator
+</summary>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img
+src="images/Module02_data_I_share_collaborator_transfers_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_share_collaborator_transfers_2.png" /></td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><br></p>
+<details>
+<p><br></p>
+<summary>
+Data Provider (AGC) ‘Pushes’ Data to Me
+</summary>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img
+src="images/Module02_data_I_grant_AGC_RW_AGC_transfers_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_I_grant_AGC_RW_AGC_transfers_2.png" /></td>
+</tr>
+</tbody>
+</table>
+<p>Sometimes, if we expect many data deliveries over a period of time,
+and if we’re dealing with an entity that we can trust with write access
+to our storage location, it may be advantageous to set up an arrangement
+so that they may transfer the data to us without any action on our
+part.</p>
+<p>As shown in the figure, we can grant read <strong>and</strong> write
+access to them, and this enables them to transfer data to us without our
+involvement. In other words, this allows them to ‘push’ data to us,
+without the need for interaction from us.</p>
+<p>The Advanced Genomics Core at UMich is increasingly recommending this
+type of arrangement, especially to researchers who already have Data Den
+storage allocations through the UMRCP. This is an excellent way to
+ensure that your data are automatically placed in a good place for
+long-term archival storage.</p>
+<p>Here is a <a
+href="https://medresearch.umich.edu/office-research/about-office-research/biomedical-research-core-facilities/advanced-genomics-core/data-retrieval">link
+for the AGC data retrieval page which includes the push-to-data-den
+instructions</a>. If you scroll to the bottom of that page, under the
+“Where to keep your data” heading, there is a drop-down section for “U-M
+Clients”. The instructions therein are the details of how to set up a
+<code>push-to-data-den</code>, where you set up a designated location in
+your Data Den space and grant permissions for the AGC to write your
+sequencing data directly to that location.</p>
+</details>
+<p><br></p>
+<details>
+<summary>
+Collaborator Shares Data with Me
+</summary>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">1</th>
+<th align="center">2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><img
+src="images/Module02_data_collab_shared_with_me_I_transfer_1.png" /></td>
+<td align="center"><img
+src="images/Module02_data_collab_shared_with_me_I_transfer_2.png" /></td>
+</tr>
+</tbody>
+</table>
+</details>
+<p><br></p>
+<details>
+<summary>
+Using Globus Connect Personal to Transfer to/from Non-Institutional
+Storage
+</summary>
+<p>During this workshop, we’ve emphasized usage of institutional storage
+allocations like Turbo and Data Den. Our example exercises have also
+only utilized institutional storage. As discussed, we recommend keeping
+your data within the institutional storage options if possible, for the
+redundancy and safety capabilities that they offer. However, there may
+be situations where you must transfer data to/from non-institutional
+storage. We can also use the Globus software suite to accomplish this,
+using a tool called Globus Connect Personal.</p>
+<p>It may be easy to forget that Globus is not a Cloud Storage provider
+while using it. As mentioned, when we’re using Globus to transfer data
+among institutional storage locations, we have always-on,
+fire-and-forget capabilities that can feel similar to other tools like
+DropBox. However, this is only possible because UMich (and other
+research institutions) provide this always-on capability. Essentially,
+our academic IT provides the constant connection between the Globus
+software and our institutional storage like Data Den, Turbo, etc. If we
+want to transfer data to/from non-institutional storage, though, we
+don’t have this luxury.</p>
+<p>Globus Connect Personal is an application that you download and
+install on the computer that holds (or has access to) the data that you
+want to transfer. For instance, if you have sequencing data stored on
+the hard-drive of an old laptop (not recommended, but it happens), you
+would install Globus Connect Personal on that laptop and it could
+provide the connection between the laptop’s hard drive and other
+Globus-connected storage like the Data Den and Turbo locations we’ve
+used above. After installing and configuring this, you could then see
+(and share, etc.) data from the laptop using the Globus Web App to
+perform transfers just as we have in the exercises above.</p>
+<p>You can find documentation about installing and configuring Globus
+Connect Personal at <a
+href="https://docs.globus.org/globus-connect-personal/">this page on
+Globus’s documentation website</a>.</p>
+<blockquote>
+<p>Note: The computer that’s running Globus Connect Personal must remain
+on and connected to the network for the entire duration of the transfer.
+Remember that in this case, the Globus Connect Personal software that’s
+running on that computer is what provides the connection to all other
+Globus-connected storage.</p>
+</blockquote>
+</details>
+<p><br> <br></p>
+</div>
+</div>
+<div id="review-main-points" class="section level2">
+<h2>Review Main Points</h2>
+<p>When considering any data transfer, you must understand:</p>
+<ul>
+<li>Where the data currently resides</li>
+<li>Where the data will be transferred to</li>
+<li>Who is responsible for performing the transfer</li>
+</ul>
+<p>Unless this is arranged previously for an ongoing relationship,
+<em>someone</em> will <em>always</em> need to grant permissions to
+enable a transfer between two parties.</p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module_raw_data_management.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="wrap_up.html">Next lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW5kZXBlbmRlbnQgRXhlcmNpc2UgLSBTQkFUQ0gsIENvbmRhLCBGaWx0ZXJpbmcgb3VyIEJBTXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBGaWx0ZXJpbmcgQWxsIFNhbXBsZXMKCjxicj4KCioqMTUgTWludXRlcyoqCgo8YnI+CgpXZSBqdXN0IGxlYXJuZWQgaG93IHRvIGFjdGl2YXRlIGFuIGV4aXN0aW5nIGNvbmRhIGVudmlyb25tZW50IGFuZCB1c2UgaXQgdG8gcHJvdmlkZSBzb2Z0d2FyZSB0aGF0IHdlIHdhbnQgLSBgc2FtdG9vbHNgIC0gYW5kIHVzZSBzYW10b29scyB0byBmaWx0ZXIgb3VyIEJBTSBmaWxlcy4gV2UgYWxzbyByZWNlbnRseSBsZWFybmVkIGhvdyB0byBjcmVhdGUgU0JBVENIIHNjcmlwdCBmaWxlcyBhbmQgc3VibWl0IHRoZW0gdXNpbmcgYHNiYXRjaGAuCgpMZXQncyBjb21iaW5lIHRoZXNlIGlkZWFzIGFuZCBmaWx0ZXIgdGhlIHJlc3Qgb2Ygb3VyIEJBTSBmaWxlcy4gCgpJZiB5b3UgaGF2ZSBleHRyYSB0aW1lLCB0aGVyZSdzIGEgYm9udXMgZXhlcmNpc2Ugb2YgaW5kZXhpbmcgeW91ciBCQU1zIGFzIHdlbGwKCjxicj4KCiMjIyBJbnN0cnVjdGlvbnM6Cgo8YnI+CgotIFdvcmsgaW5kZXBlbmRlbnRseSBpbiB0aGUgbWFpbiByb29tLCBwb3N0aW5nIGFueSBxdWVzdGlvbnMgdGhhdCBhcmlzZSB0byBzbGFjay4KLSBSZWNvbW1lbmRhdGlvbnMgZm9yIHdyaXRpbmcgeW91ciBvd24gY29kZToKICAtIFJlYWQgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogIC0gVGVzdCBvdXQgaWRlYXMgLSBpdCdzIG9rYXkgdG8gbWFrZSBtaXN0YWtlcyBhbmQgZ2VuZXJhdGUgZXJyb3JzCiAgLSBVc2UgYSBzZWFyY2ggZW5naW5lIHRvIGxvb2sgdXAgZXJyb3JzIG9yIHJlY29tbWVuZGVkIHNvbHV0aW9ucyB1c2luZyBrZXl3b3JkcwotIFdlJ2xsIHJldmlldyBwb3NzaWJsZSBzb2x1dGlvbnMgYWZ0ZXIgdGltZSBpcyB1cCBhcyBhIGdyb3VwLgoKPGJyPgoKLSBSZXZpZXcgb3VyIHNhbXRvb2xzIGNvbW1hbmQgdGhhdCB3ZSB1c2VkIGVhcmxpZXIuIENvbWJpbmUgdGhpcyB3aXRoIHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCB1c2luZyBjb25kYSBlbnZpcm9ubWVudHMgYW5kIGNyZWF0aW5nIFNCQVRDSCBmaWxlcy4KLSBDcmVhdGUgYW4gU0JBVENIIGZpbGUgdGhhdCBhY3RpdmF0ZXMgb3VyIGBzYW10b29sc19kZWVwdG9vbHNgIGNvbmRhIGVudmlyb25tZW50LiBXaXRoIHRoZSBjb25kYSBlbnZpcm9ubWVudCBhY3RpdmUsIHVzZSBgc2FtdG9vbHNgIHRvIGZpbHRlciBzYW1wbGVfQS4KLSBTdWJtaXQgdGhlIFNCQVRDSCBmaWxlLCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgb25jZSBpdCdzIGNvbXBsZXRlIHRoYXQgd2UgaGF2ZSBjcmVhdGVkIHRoZSBmaWx0ZXJlZCBzYW1wbGVfQSBCQU0gZmlsZS4KLSBPbmNlIHdlIGFyZSBoYXBweSB3aXRoIHRoZSByZXN1bHRzLCBjcmVhdGUgYWRkaXRpb25hbCBTQkFUQ0ggZmlsZXMgZm9yIG91ciBvdGhlciBzYW1wbGVzLCBhbmQgc3VibWl0IHRoZW0gYXMgd2VsbC4KCjxicj4KCj5Cb251czogSWYgeW91IGhhdmUgZXh0cmEgdGltZSwgZXh0ZW5kIHRoaXMgZXhlcmNpc2UgYW5kIHVzZSBgc2FtdG9vbHMgaW5kZXhgIHRvIGluZGV4IHRoZSBmaWx0ZXJlZCBCQU0gZmlsZSBmb3Igc2FtcGxlX0EuCgo8YnI+Cg==</div>
 
 
 
@@ -471,11 +705,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("exercise-2.md");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

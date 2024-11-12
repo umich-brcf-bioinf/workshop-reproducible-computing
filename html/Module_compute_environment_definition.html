@@ -12,7 +12,7 @@
 <meta name="author" content="UM Bioinformatics Core" />
 
 
-<title>Independent Exercise - SBATCH, Conda, Filtering our BAMs</title>
+<title>Terminology - Compute Environment</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/navigation-1.1/codefolding.js"></script>
-<script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link rel="shortcut icon" href="favicon-16x16.png" />
@@ -73,11 +71,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-#rmd-source-code {
-  display: none;
-}
-</style>
 
 
 
@@ -238,9 +231,6 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
-<style type="text/css">
-.code-folding-btn { margin-bottom: 4px; }
-</style>
 
 
 
@@ -361,17 +351,9 @@ $(document).ready(function () {
 
 <div id="header">
 
-<div class="btn-group pull-right float-right">
-<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
-<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
-</ul>
-</div>
 
 
-
-<h1 class="title toc-ignore">Independent Exercise - SBATCH, Conda,
-Filtering our BAMs</h1>
+<h1 class="title toc-ignore">Terminology - Compute Environment</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
 
 </div>
@@ -385,59 +367,57 @@ pre {
   font-size: 12pt
 }
 </style>
-<p><br></p>
-<div id="filtering-all-samples" class="section level2">
-<h2>Filtering All Samples</h2>
-<p><br></p>
-<p><strong>15 Minutes</strong></p>
-<p><br></p>
-<p>We just learned how to activate an existing conda environment and use
-it to provide software that we want - <code>samtools</code> - and use
-samtools to filter our BAM files. We also recently learned how to create
-SBATCH script files and submit them using <code>sbatch</code>.</p>
-<p>Let’s combine these ideas and filter the rest of our BAM files.</p>
-<p>If you have extra time, there’s a bonus exercise of indexing your
-BAMs as well</p>
-<p><br></p>
-<div id="instructions" class="section level3">
-<h3>Instructions:</h3>
-<p><br></p>
+<p>In this module, we will:</p>
 <ul>
-<li>Work independently in the main room, posting any questions that
-arise to slack.</li>
-<li>Recommendations for writing your own code:
-<ul>
-<li>Read function documentation</li>
-<li>Test out ideas - it’s okay to make mistakes and generate errors</li>
-<li>Use a search engine to look up errors or recommended solutions using
-keywords</li>
-</ul></li>
-<li>We’ll review possible solutions after time is up as a group.</li>
+<li>discuss the idea of the “compute environment” and some related
+terms</li>
 </ul>
 <p><br></p>
-<ul>
-<li>Review our samtools command that we used earlier. Combine this with
-what we’ve learned about using conda environments and creating SBATCH
-files.</li>
-<li>Create an SBATCH file that activates our
-<code>samtools_deeptools</code> conda environment. With the conda
-environment active, use <code>samtools</code> to filter sample_A.</li>
-<li>Submit the SBATCH file, view the output, and verify once it’s
-complete that we have created the filtered sample_A BAM file.</li>
-<li>Once we are happy with the results, create additional SBATCH files
-for our other samples, and submit them as well.</li>
-</ul>
+<div id="components-of-the-compute-environment" class="section level2">
+<h2>Components of the Compute Environment</h2>
+<p><img src="images/ModuleTCE_compute_env_building_blocks.png" /></p>
+<p><br> <br> <br></p>
+<p><img src="images/ModuleTCE_kitchen.png" /></p>
 <p><br></p>
-<blockquote>
-<p>Bonus: If you have extra time, extend this exercise and use
-<code>samtools index</code> to index the filtered BAM file for
-sample_A.</p>
-</blockquote>
+<div id="related-terminology-and-concepts" class="section level3">
+<h3>Related Terminology and Concepts</h3>
+<p><strong>Virtual Environment:</strong><br />
+An isolated space within a compute environment where certain components
+- e.g. software and configuration details - can be used independently
+without interference from system-wide components or other projects<br />
+Commonly used in software development and data analysis to avoid
+conflicts between different projects<br />
+Kitchen metaphor: like a separate clean workspace within your kitchen
+for specific tasks - e.g. clean area for chopping vegetables<br />
+<strong>Environment Variable:</strong><br />
+Information that is used by a computer’s operating system that can
+influence the way that processes behave<br />
+Commonly used to store information like file paths, usernames, system
+settings, etc.<br />
+Kitchen metaphor: like a note on the refrigerator that states where
+different spices are located</p>
 <p><br></p>
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a href="Module_great_lakes_cluster.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module_software_management_conda.html">Next
+lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiSW5kZXBlbmRlbnQgRXhlcmNpc2UgLSBTQkFUQ0gsIENvbmRhLCBGaWx0ZXJpbmcgb3VyIEJBTXMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+Cgo8YnI+CgojIyBGaWx0ZXJpbmcgQWxsIFNhbXBsZXMKCjxicj4KCioqMTUgTWludXRlcyoqCgo8YnI+CgpXZSBqdXN0IGxlYXJuZWQgaG93IHRvIGFjdGl2YXRlIGFuIGV4aXN0aW5nIGNvbmRhIGVudmlyb25tZW50IGFuZCB1c2UgaXQgdG8gcHJvdmlkZSBzb2Z0d2FyZSB0aGF0IHdlIHdhbnQgLSBgc2FtdG9vbHNgIC0gYW5kIHVzZSBzYW10b29scyB0byBmaWx0ZXIgb3VyIEJBTSBmaWxlcy4gV2UgYWxzbyByZWNlbnRseSBsZWFybmVkIGhvdyB0byBjcmVhdGUgU0JBVENIIHNjcmlwdCBmaWxlcyBhbmQgc3VibWl0IHRoZW0gdXNpbmcgYHNiYXRjaGAuCgpMZXQncyBjb21iaW5lIHRoZXNlIGlkZWFzIGFuZCBmaWx0ZXIgdGhlIHJlc3Qgb2Ygb3VyIEJBTSBmaWxlcy4gCgpJZiB5b3UgaGF2ZSBleHRyYSB0aW1lLCB0aGVyZSdzIGEgYm9udXMgZXhlcmNpc2Ugb2YgaW5kZXhpbmcgeW91ciBCQU1zIGFzIHdlbGwKCjxicj4KCiMjIyBJbnN0cnVjdGlvbnM6Cgo8YnI+CgotIFdvcmsgaW5kZXBlbmRlbnRseSBpbiB0aGUgbWFpbiByb29tLCBwb3N0aW5nIGFueSBxdWVzdGlvbnMgdGhhdCBhcmlzZSB0byBzbGFjay4KLSBSZWNvbW1lbmRhdGlvbnMgZm9yIHdyaXRpbmcgeW91ciBvd24gY29kZToKICAtIFJlYWQgZnVuY3Rpb24gZG9jdW1lbnRhdGlvbgogIC0gVGVzdCBvdXQgaWRlYXMgLSBpdCdzIG9rYXkgdG8gbWFrZSBtaXN0YWtlcyBhbmQgZ2VuZXJhdGUgZXJyb3JzCiAgLSBVc2UgYSBzZWFyY2ggZW5naW5lIHRvIGxvb2sgdXAgZXJyb3JzIG9yIHJlY29tbWVuZGVkIHNvbHV0aW9ucyB1c2luZyBrZXl3b3JkcwotIFdlJ2xsIHJldmlldyBwb3NzaWJsZSBzb2x1dGlvbnMgYWZ0ZXIgdGltZSBpcyB1cCBhcyBhIGdyb3VwLgoKPGJyPgoKLSBSZXZpZXcgb3VyIHNhbXRvb2xzIGNvbW1hbmQgdGhhdCB3ZSB1c2VkIGVhcmxpZXIuIENvbWJpbmUgdGhpcyB3aXRoIHdoYXQgd2UndmUgbGVhcm5lZCBhYm91dCB1c2luZyBjb25kYSBlbnZpcm9ubWVudHMgYW5kIGNyZWF0aW5nIFNCQVRDSCBmaWxlcy4KLSBDcmVhdGUgYW4gU0JBVENIIGZpbGUgdGhhdCBhY3RpdmF0ZXMgb3VyIGBzYW10b29sc19kZWVwdG9vbHNgIGNvbmRhIGVudmlyb25tZW50LiBXaXRoIHRoZSBjb25kYSBlbnZpcm9ubWVudCBhY3RpdmUsIHVzZSBgc2FtdG9vbHNgIHRvIGZpbHRlciBzYW1wbGVfQS4KLSBTdWJtaXQgdGhlIFNCQVRDSCBmaWxlLCB2aWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgb25jZSBpdCdzIGNvbXBsZXRlIHRoYXQgd2UgaGF2ZSBjcmVhdGVkIHRoZSBmaWx0ZXJlZCBzYW1wbGVfQSBCQU0gZmlsZS4KLSBPbmNlIHdlIGFyZSBoYXBweSB3aXRoIHRoZSByZXN1bHRzLCBjcmVhdGUgYWRkaXRpb25hbCBTQkFUQ0ggZmlsZXMgZm9yIG91ciBvdGhlciBzYW1wbGVzLCBhbmQgc3VibWl0IHRoZW0gYXMgd2VsbC4KCjxicj4KCj5Cb251czogSWYgeW91IGhhdmUgZXh0cmEgdGltZSwgZXh0ZW5kIHRoaXMgZXhlcmNpc2UgYW5kIHVzZSBgc2FtdG9vbHMgaW5kZXhgIHRvIGluZGV4IHRoZSBmaWx0ZXJlZCBCQU0gZmlsZSBmb3Igc2FtcGxlX0EuCgo8YnI+Cg==</div>
 
 
 
@@ -471,11 +451,6 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
-<script>
-$(document).ready(function () {
-  window.initializeSourceEmbed("exercise-2.md");
-});
-</script>
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

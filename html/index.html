@@ -14,7 +14,7 @@
 
 <title>Reproducible Computing Workshop</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
@@ -258,64 +258,88 @@ $(document).ready(function () {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="Module00_Introduction.html">Intro</a>
+  <a href="intro.html">Intro</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Working with Data
+    Day 1
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="Module01_storage_best_practices_UMRCP.html">Storage best practices</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module02_transferring_data_globus.html">Transferring data with Globus</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="Module03a_sneak_peek_great_lakes.html">Intro to Great Lakes</a>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Using the GreatLakes HPC
+    Day 2
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module03b_great_lakes_cluster.html">GreatLakes: sbatch and lmod</a>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
     </li>
     <li>
-      <a href="Module04_software_management_conda.html">Software management with Conda</a>
-    </li>
-    <li>
-      <a href="Module05_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
-    </li>
-    <li>
-      <a href="exercise-2.html">Independent Exercise</a>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
     </li>
   </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Workflow automation
+    Day 3
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module06-intro-to-workflow-automation.html">Intro to workflow automation</a>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
     </li>
     <li>
-      <a href="Module07-intro-to-snakemake.html">Intro to Snakemake</a>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="Module99_Wrap_up.html">Wrap up</a>
+  <a href="wrap_up.html">Wrap up</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -368,18 +392,27 @@ target="_blank">Slack workspace</a></h4>
 <tbody>
 <tr class="odd">
 <td align="left">9:00</td>
-<td align="left"><a href="Module00_Introduction.html">Introductions and
-Startup</a></td>
+<td align="left"><a href="intro.html">Introductions and Startup</a></td>
 </tr>
 <tr class="even">
 <td align="left">9:30</td>
-<td align="left"><strong>Working with Data</strong></td>
+<td align="left"><strong>Quick-Start</strong></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">    <a href="Module_overview_and_warmup.html">Overview
+and Warmup</a></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left">    <a href="Module_sneak_peek_great_lakes.html">Sneak
+Peek of Great Lakes</a></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">    <a
-href="Module01_storage_best_practices_UMRCP.html">Storage best practices
-and UMRCP</a></td>
+href="Module_data_priorities_analysis_setup.html">Data Priorities and
+Analysis Setup</a></td>
 </tr>
 <tr class="even">
 <td align="left">11:00</td>
@@ -387,21 +420,36 @@ and UMRCP</a></td>
 </tr>
 <tr class="odd">
 <td align="left">11:15</td>
-<td align="left">    <a
-href="Module02_transferring_data_globus.html">Transferring data with
-Globus</a></td>
+<td align="left"><strong>UMich Resources</strong></td>
 </tr>
 <tr class="even">
 <td align="left"></td>
-<td align="left">    Exercise 1</td>
+<td align="left">    <a
+href="Module_storage_best_practices_UMRCP.html">Raw Data,
+Compute/Storage Options, and UMRCP</a></td>
+</tr>
+<tr class="odd">
+<td align="left"></td>
+<td align="left">    <a href="Module_great_lakes_cluster.html">Great
+Lakes HPC</a></td>
+</tr>
+<tr class="even">
+<td align="left"></td>
+<td align="left"><strong>Software Management</strong></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
 <td align="left">    <a
-href="Module03a_sneak_peek_great_lakes.html">Intro to Great
-Lakes</a></td>
+href="Module_compute_environment_definition.html">Terminology - Compute
+Environment</a></td>
 </tr>
 <tr class="even">
+<td align="left"></td>
+<td align="left">    <a
+href="Module_software_management_conda.html">Software Management and
+Conda</a></td>
+</tr>
+<tr class="odd">
 <td align="left">1:00</td>
 <td align="left">Day 1 concludes</td>
 </tr>
@@ -422,18 +470,19 @@ Lakes</a></td>
 </tr>
 <tr class="even">
 <td align="left">9:20</td>
-<td align="left"><strong>Using the GreatLakes HPC</strong></td>
+<td align="left"><strong>Software Management</strong></td>
 </tr>
 <tr class="odd">
 <td align="left"></td>
-<td align="left">    <a href="Module03b_great_lakes_cluster.html">The
-Great Lakes HPC cluster</a></td>
+<td align="left">    <a
+href="Module_software_management_conda.html">Software management and
+Conda</a></td>
 </tr>
 <tr class="even">
 <td align="left"></td>
 <td align="left">    <a
-href="Module04_software_management_conda.html">Software management and
-Conda</a></td>
+href="Module_containers_docker_singularity.html">Containerization with
+Docker/Singularity</a></td>
 </tr>
 <tr class="odd">
 <td align="left">11:00</td>
@@ -441,15 +490,11 @@ Conda</a></td>
 </tr>
 <tr class="even">
 <td align="left">11:15</td>
-<td align="left">    <a
-href="Module05_containers_docker_singularity.html">Containerization with
-Docker/Singularity</a></td>
+<td align="left"><a
+href="Module_intro_to_workflow_automation.html">Intro to workflow
+automation</a></td>
 </tr>
 <tr class="odd">
-<td align="left"></td>
-<td align="left">    <a href="exercise-2.html">Exercise 2</a></td>
-</tr>
-<tr class="even">
 <td align="left">1:00</td>
 <td align="left">Day 2 concludes</td>
 </tr>
@@ -470,26 +515,27 @@ Docker/Singularity</a></td>
 </tr>
 <tr class="even">
 <td align="left">9:10</td>
-<td align="left"><strong>Workflow automation</strong></td>
+<td align="left"><a href="Module_intro_to_snakemake.html">Intro to
+Snakemake</a></td>
 </tr>
 <tr class="odd">
-<td align="left"></td>
-<td align="left"><a
-href="Module06-intro-to-workflow-automation.html">Intro to workflow
-automation</a></td>
+<td align="left">10:30</td>
+<td align="left"><a href="Module_advanced_snakemake.html">Advanced
+Snakemake</a></td>
 </tr>
 <tr class="even">
 <td align="left">11:00</td>
 <td align="left">Break</td>
 </tr>
 <tr class="odd">
-<td align="left"></td>
-<td align="left"><a href="Module07-intro-to-snakemake.html">Intro to
-Snakemake</a></td>
+<td align="left">11:15</td>
+<td align="left"><a
+href="Module_transferring_data_globus.html">Transferring data with
+Globus</a></td>
 </tr>
 <tr class="even">
 <td align="left">12:45</td>
-<td align="left"><a href="Module99_Wrap_up.html">Wrap-up</a></td>
+<td align="left"><a href="Module_wrap_up.html">Wrap-up</a></td>
 </tr>
 <tr class="odd">
 <td align="left">1:00</td>

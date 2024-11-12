@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Intro to workflow automation</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/repeat-button
+-->
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Reproducible Computing</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 1
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Overview &amp; Quick-Start</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_overview_and_warmup.html">Overview and Warmup</a>
+        </li>
+        <li>
+          <a href="Module_sneak_peek_great_lakes.html">Sneak Peek of Great Lakes</a>
+        </li>
+        <li>
+          <a href="Module_data_priorities_analysis_setup.html">Data Priorities and Analysis Setup</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">UMich Resources</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_storage_best_practices_UMRCP.html">Raw Data, Compute/Storage Options, &amp; UMRCP</a>
+        </li>
+        <li>
+          <a href="Module_great_lakes_cluster.html">Great Lakes HPC</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Software Management</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="Module_compute_environment_definition.html">Terminology - Compute Environment</a>
+        </li>
+        <li>
+          <a href="Module_software_management_conda.html">Software Management and Conda</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_containers_docker_singularity.html">Containerization with Docker/Singularity</a>
+    </li>
+    <li>
+      <a href="Module_intro_to_workflow_automation.html">Intro to workflow automation</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Day 3
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module_intro_to_snakemake.html">Intro to Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_advanced_snakemake.html">Advanced Snakemake</a>
+    </li>
+    <li>
+      <a href="Module_transferring_data_globus.html">Transferring data with Globus</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Intro to workflow automation</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+table.fig, th.fig, td.fig {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 15px;
+}
+</style>
+<p>By the end of this module, we will:</p>
+<ul>
+<li>Understand what workflow automation is and how it helps
+reproducibility.</li>
+<li>Review several different ways to execute repetitive tasks on Great
+Lakes.</li>
+<li>Introduce the idea of job/task geometries to visualize advantages
+and limitations of various approaches.</li>
+</ul>
+<div id="workflow-automation-helps-reproducibility"
+class="section level2">
+<h2>Workflow automation helps reproducibility</h2>
+<p>Data-intensive research entails transforming raw data into more
+meaningful/valuable results. Often, this involves a series of step-wise
+transformation tasks. To make this research reproducible by someone
+else, all the transformations must either be documented so that a human
+can reproduce them, or automated so a computer can. A reproducible
+solution has a blend of documentation and automation.</p>
+<p>Data-intensive research often involves repeating transformation tasks
+many times. Also over time, transformations evolve to be more complex,
+more computationally demanding, or take longer. A
+<strong>workflow</strong> describes the key transformation tasks and
+their relationships to the inputs and outputs.</p>
+<p><strong>Workflow automation</strong> describes the tools and
+techniques to systematically assemble these tasks into an executable,
+repeatable, robust solution. Building an automated workflow may appear
+to be harder than documenting it so that it can be run manually, but
+there are many benefits to automation:</p>
+<ul>
+<li>Automation facilitates repetition.</li>
+<li>Automation can simplify manual documentation.</li>
+<li>Automation simplifies validation of your workflow.</li>
+<li>Automation streamlines sharing.</li>
+<li>Automation scales to larger inputs.</li>
+</ul>
+</div>
+<div id="consider-a-simple-workflow" class="section level2">
+<h2>Consider a simple workflow</h2>
+<p>There are many ways to build an automated workflow. In this module we
+will consider several ways of executing <a
+href="https://en.wikipedia.org/wiki/Embarrassingly_parallel"
+target="_blank">pleasingly parallel</a> tasks on Great Lakes:</p>
+<ul>
+<li>A serial task loop</li>
+<li>Parallelizing tasks using driver scripts and sbatch files.</li>
+<li>The SLURM Launcher</li>
+</ul>
+<p>All these approaches execute the same workflow in different ways.
+This workflow produces word pangrams. A <strong>word pangram</strong> is
+like an anagram that allows repeating letters, e.g. the sequence of
+letters ACEHMNT can be rearranged to create the pangrams ATTACHMENT,
+CATCHMENT, ENCHANTMENT, and ENHANCEMENT.</p>
+<p>For this example, the workflow is a single program that accepts a
+text file containing list of letter sequences separated by lines; for
+each letter sequence it produces a file containing one or more
+pangrams.</p>
+<p><img src="images/intro_to_workflow_automation/pangram_workflow.png" width="60%" height="60%"/></p>
+<p><br/></p>
+<hr />
+</div>
+<div id="pangram-a-serial-task-loop" class="section level2">
+<h2>Pangram: A serial task loop</h2>
+<pre class="r"><code># Orient on project pangram
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd workflows/project_pangrams
+ls -1</code></pre>
+<blockquote>
+<pre><code>pangram_launcher
+pangram_parallel_sbatch
+pangram_serial_loop
+README.md</code></pre>
+</blockquote>
+<pre class="r"><code>cd pangram_serial_loop
+ls -1</code></pre>
+<blockquote>
+<pre><code>find_pangrams.sbat
+find_pangrams.sh
+letters.txt
+pangram.sh
+README.md</code></pre>
+</blockquote>
+<p>Let’s consider a few of these files in turn, starting with the
+README.</p>
+<table class="fig">
+<tr>
+<th class="fig">
+README.md
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+# pangram_serial_loop
+
+- Produces pangrams for inputs in letters.txt. 
+  Makes one file for each line in letters.
+- cgates 6/1/2024
+- Usage: 
+  ./find_pangrams.sh #to run locally
+  or
+  sbatch find_pangrams.sbat # to submit to worker node
+
+Files:
+- find_pangrams.sbat: SLURM batch file; calls find_pangrams.sh
+- find_pangrams.sh: Loops throught input and calls pangram.sh
+- letters.txt: list of letter sequences seperated by newlines.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+</pre>
+</td>
+</tr>
+</table>
+<p><br/> <br/></p>
+<p>The pangram.sh script is the workhorse of this workflow. You are
+welcome to look at the implementation, but for our purposes we can treat
+it as a black box. We’ll run it once to see it in action.</p>
+<pre class="r"><code>./pangram.sh lovely</code></pre>
+<blockquote>
+<pre><code>lovely
+lovey
+volley</code></pre>
+</blockquote>
+<p>Consider the input to the workflow:</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+letters.txt
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre><code>Ndefglu
+Hacilno
+Tdghnou
+Nailmpt
+Pbegikn
+Yacilrt
+Achnopy
+Uginoqt
+Eachkmn
+Alhyidn</code></pre>
+</td>
+</tr>
+</table>
+<p><br/> <br/></p>
+<p>And finally, the script we will launch to execute the workflow:</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+find_pangrams.sh
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre><code>#/bin/bash
+set -eu
+
+for letters in $(cat letters.txt); do
+    echo pangrams for: $letters &gt;&gt; /dev/stderr
+    ./pangram.sh $letters &gt; results.${letters}.txt
+done
+echo done &gt;&gt; /dev/stderr</code></pre>
+</td>
+</tr>
+</table>
+<p><br/> <br/></p>
+<p>Having reviewed the inputs and scripts, we can launch the workflow
+like as shown below. (This project is called “serial loop” because in
+this workflow we are looping over the inputs and processing one at a
+time.)</p>
+<pre class="r"><code>./find_pangrams.sh</code></pre>
+<blockquote>
+<pre><code>pangrams for: Ndefglu
+pangrams for: Hacilno
+pangrams for: Tdghnou
+pangrams for: Nailmpt
+pangrams for: Pbegikn
+pangrams for: Yacilrt
+pangrams for: Achnopy
+pangrams for: Uginoqt
+pangrams for: Eachkmn
+pangrams for: Alhyidn</code></pre>
+</blockquote>
+<p>We see the results files have been added:</p>
+<pre class="r"><code>ls</code></pre>
+<blockquote>
+<pre><code>find_pangrams.sbat  results.Achnopy.txt  results.Ndefglu.txt
+find_pangrams.sh    results.Alhyidn.txt  results.Pbegikn.txt
+letters.txt         results.Eachkmn.txt  results.Tdghnou.txt
+pangram.sh          results.Hacilno.txt  results.Uginoqt.txt
+README.md           results.Nailmpt.txt  results.Yacilrt.txt</code></pre>
+</blockquote>
+<pre class="r"><code>cat results.Achnopy.txt</code></pre>
+<blockquote>
+<pre><code>cacophony</code></pre>
+</blockquote>
+<p><em>Question: Which letter combination generated the most
+pangrams?</em></p>
+<p>Let’s run it again but instead of using the login-node, we’ll submit
+this to a worker node using the provided sbat script:</p>
+<pre class="r"><code># first clear out the old results
+rm results.*
+sbatch find_pangrams.sbat </code></pre>
+<blockquote>
+<pre><code>Submitted batch job 1234567</code></pre>
+</blockquote>
+<p>Use <code>squeue -u $USER</code> to see when the job is finished and
+then review the outputs. We now see the results files and also the slurm
+log file:</p>
+<blockquote>
+<pre><code>find_pangrams.sbat   results.Alhyidn.txt  results.Tdghnou.txt
+find_pangrams.sh     results.Eachkmn.txt  results.Uginoqt.txt
+letters.txt          results.Hacilno.txt  results.Yacilrt.txt
+pangram.sh           results.Nailmpt.txt  slurm-1234567.out
+README.md            results.Ndefglu.txt
+results.Achnopy.txt  results.Pbegikn.txt</code></pre>
+</blockquote>
+<p>This approach is correct, clear, and reproducible; however it’s not
+ideal. Consider how the tasks are contained within a job:</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+Job/task geometry of the serial loop approach
+</th>
+</tr>
+<tr>
+<td class="fig">
+<img
+src="images/intro_to_workflow_automation/geometry_serial_loop.png" />
+</td>
+</tr>
+<tr>
+<td class="fig">
+<p>Each sbatch request is a job script; a job script may be composed of
+multiple tasks. Key attributes of a <strong>job script</strong> are</p>
+<ul>
+<li>what sub-tasks will I run?</li>
+<li>how many resources do I need?</li>
+<li>how long will I need to run?</li>
+</ul>
+<p>You can represent these graphically by making boxes for each job and
+their tasks (height = resource request and length = time). In the case
+above, there are many similar tasks contained in a single job. This
+diagram is a rough representation of the <strong>job/task
+geometry</strong>. This is a useful way of visualizing and comparing
+approaches; also, the job geometry is critically useful information to
+the scheduler which is trying to pack everyone’s jobs into the available
+clusters as neatly/efficiently as possible.</p>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Considering that each of these pangram tasks are completely
+independent of each other (i.e. pleasingly parallel). We might be able
+to make better use of our ~16000 CPUs by parallelizing the workflow. The
+approaches below show two different ways to accomplish this.</p>
+<p><br/></p>
+<hr />
+</div>
+<div id="pangram-parallel-sbatch" class="section level2">
+<h2>Pangram: Parallel SBATCH</h2>
+<pre class="r"><code># Orient on project
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_pangrams/pangram_parallel_sbatch
+ls -1</code></pre>
+<blockquote>
+<pre><code>letters.txt
+make_sbat_scripts.sh
+pangram.sh
+README.md
+run_sbat_scripts.sh</code></pre>
+</blockquote>
+<table class="fig">
+<tr>
+<th class="fig">
+README.md
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+# pangram_parallel_sbatch
+
+- Produces pangrams for letters.txt. Makes one file per line in letters.
+- cgates 6/1/2024
+- Usage: 
+  `./make_sbat_scripts.sh`
+  `./run_sbat_scripts.sh`
+
+Files:
+- letters.txt: list of letter sequences seperated by newlines.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+- make_sbat_scripts.sh : Build sbat scripts based on letters.txt; 
+  for each row in letters.txt adds a new sbat file.
+- run_sbat_scripts.sh : Submit all sbat scripts for cluster execution 
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Executing make_sbat_scripts creates a new directory and adding a
+collection of sbat files.</p>
+<pre class="r"><code>./make_sbat_scripts.sh 
+ls sbat_scripts</code></pre>
+<blockquote>
+<pre><code>...
+Achnopy.sbat  Nailmpt.sbat  Uginoqt.sbat
+Alhyidn.sbat  Ndefglu.sbat  Yacilrt.sbat
+Eachkmn.sbat  Pbegikn.sbat
+Hacilno.sbat  Tdghnou.sbat</code></pre>
+</blockquote>
+<p>Consider a single sbat file.</p>
+<table class="fig">
+<tr>
+<th class="fig">
+sbat_scripts/Achnopy.sbat
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+#!/bin/bash
+
+#SBATCH --job-name=pangram_Achnopy
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+./pangram.sh Achnopy > results.Achnopy.txt
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Briefly consider the script to see how these sbat files was
+constructed. Note the SLURM preamble directives are integrated into the
+new files using a <a href="https://phoenixnap.com/kb/bash-heredoc"
+target="_blank">HereDoc</a>.</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+make_sbat_scripts.sh
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+#!/bin/bash
+set -eu
+
+mkdir -p sbat_scripts
+
+for letters in $(cat letters.txt); do
+    echo sbat for: $letters >> /dev/stderr
+    cat << HERE_DOC > sbat_scripts/$letters.sbat
+#!/bin/bash
+
+#SBATCH --job-name=pangram_${letters}
+#SBATCH --cpus-per-task=1
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=400m
+#SBATCH --time=00:05:00
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+./pangram.sh $letters > results.${letters}.txt
+HERE_DOC
+done
+echo done >> /dev/stderr
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>We can submit jobs one at a time using sbatch. OR we could build a
+for loop to automate submission; conveniently
+<code>run_sbat_scripts.sh</code> has done this for us.</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+run_sbat_scripts.sh
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+for sbat in $(ls sbat_scripts/*.sbat); do 
+  sbatch $sbat
+done
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Before we execute <code>run_sbat_scripts.sh</code>, you might
+consider opening a separate window to monitor the SLURM job queue. In
+this second window, you can execute <code>watch squeue -u $USER</code>
+to see how the jobs are being scheduled. Hit ctrl-C to exit watch. (More
+info on <a href="https://linux.die.net/man/1/watch">watch</a>.)</p>
+<pre class="r"><code>./run_sbat_scripts.sh </code></pre>
+<blockquote>
+<pre><code>Submitted batch job 9289496
+Submitted batch job 9289497
+Submitted batch job 9289498
+Submitted batch job 9289499
+Submitted batch job 9289500
+Submitted batch job 9289501
+Submitted batch job 9289502
+Submitted batch job 9289503
+Submitted batch job 9289504
+Submitted batch job 9289505</code></pre>
+</blockquote>
+<p>And in a few short seconds, you see the results and SLURM log files.
+This approach is correct, more complex than the serial loop, and
+reproducible. And because the tasks are working in parallel, it’s
+<strong>much</strong> faster. Contrast this job/task geometry with the
+serial loop approach from above:</p>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+Job/task geometries: serial loop vs parallel sbatch
+</th>
+</tr>
+<tr>
+<td class="fig">
+<img src="images/intro_to_workflow_automation/geometry_serial_loop_small.png"/>
+</td>
+</tr>
+<tr>
+<td class="fig">
+<img src="images/intro_to_workflow_automation/geometry_parallel.png" height="40%" width="40%"/>
+</td>
+</tr>
+</table>
+<p>This is great. But there’s two to three minor drawbacks to this
+approach:</p>
+<ul>
+<li>Between the the sbat files, the result files, and the slum log
+files, it’s created quite a lot more files. They are smallish files, but
+it’s more output to keep track of.</li>
+<li>When the scheduler is under a heavy load, for very quick jobs
+(&lt;=60 seconds) it can take longer to schedule a job than it takes to
+run the job. In these circumstances the serial approach might be faster.
+(If we scaled up from 10 jobs to 1000 jobs in parallel, we might see
+this kind of slowdown.)</li>
+<li>Each ARC account has an upper limit on the number of jobs that can
+be submitted and the number actively running. If your account exceeds
+this limit the jobs will start to queue up, awaiting a turn at
+scheduling and execution. That’s not a big problem, except for the fact
+that you share the account with other users. If you saturate your queue,
+others will have to wait until your job finishes before starting
+theirs.</li>
+</ul>
+<p>To address these concerns, the Texas Advanced Computing Center built
+a SLURM tool called <a
+href="https://arc.umich.edu/greatlakes/software/launcher/"
+target="_blank">launcher</a> detailed below.</p>
+<p><br/></p>
+<hr />
+</div>
+<div id="pangram-launcher" class="section level2">
+<h2>Pangram: Launcher</h2>
+<pre class="r"><code># Orient on project
+cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_pangrams/pangram_launcher
+ls -1</code></pre>
+<blockquote>
+<pre><code>launcher.sbat
+letters.txt
+make_launcher_tasks.sh
+pangram.sh
+README.md</code></pre>
+</blockquote>
+<table class="fig">
+<tr>
+<th class="fig">
+README.md
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+# pangram_launcher
+
+- Produces pangrams for letters.txt. Makes one file per line in letters.
+- cgates 6/1/2024
+- Usage: 
+  `./make_launcher_tasks.sh`
+  `sbatch launcher.sbat`
+
+Files:
+- launcher.sbat: sbatch file to start the launcher.
+- letters.txt: list of letter sequences seperated by newlines.
+- make_launcher_tasks.sh: builds a single file for all tasks to be executed 
+  by the launcher.
+- pangram.sh: accepts a single letter sequence and prints all pangrams.
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Run <code>make_launcher_tasks.sh</code> and note it creates one new
+file <code>launcher_tasks.txt</code>.</p>
+<pre class="r"><code>./make_launcher_tasks.sh </code></pre>
+<table class="fig">
+<tr>
+<th class="fig">
+launcher_tasks.txt
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+./pangram.sh Ndefglu > results.Ndefglu.txt
+./pangram.sh Hacilno > results.Hacilno.txt
+./pangram.sh Tdghnou > results.Tdghnou.txt
+./pangram.sh Nailmpt > results.Nailmpt.txt
+./pangram.sh Pbegikn > results.Pbegikn.txt
+./pangram.sh Yacilrt > results.Yacilrt.txt
+./pangram.sh Achnopy > results.Achnopy.txt
+./pangram.sh Uginoqt > results.Uginoqt.txt
+./pangram.sh Eachkmn > results.Eachkmn.txt
+./pangram.sh Alhyidn > results.Alhyidn.txt
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>This might remind you of the serial loop approach, but there’s a
+twist and to see it you need to consider the <code>launcher.sbat</code>
+file:</p>
+<table class="fig">
+<tr>
+<th class="fig">
+launcher.sbat
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+#!/bin/bash
+#SBATCH --account=bioinf_wkshp_class
+#SBATCH --partition=standard
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=5
+#SBATCH --cpus-per-task=1
+#SBATCH --time=0:30:00
+
+module load launcher
+export LAUNCHER_JOB_FILE=launcher_tasks.txt
+paramrun
+</pre>
+</td>
+</tr>
+<tr>
+<td class="fig">
+<p>Some details:</p>
+<ul>
+<li>The file starts with a basic SLURM preamble. Note that it’s asking
+for 1 node, and 5 CPUs (5 tasks/node * 1 cpu/task) for 30 minutes.</li>
+<li>The last three lines establish that this is a launcher job and the
+tasks to execute live in launcher_tasks.txt.</li>
+</ul>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>Given this setup, sbatch will allocate a node with 5 CPUs for 30
+minutes. Then the launcher will start looping through the launcher_tasks
+and as each one completes it will send another one through until all
+tasks are complete.</p>
+<p>Consider running <code>watch squeue -u $USER</code> in another window
+before you run the sbatch command:</p>
+<pre class="r"><code>sbatch launcher.sbat</code></pre>
+<blockquote>
+<pre><code>Submitted batch job 9290535</code></pre>
+</blockquote>
+<p>Note that all the tasks are running but they are running “inside”” of
+the one job. The job should finish in a few seconds. It will produce the
+familliar <code>results.*</code> files and also a single SLURM log file
+which is a bit more interesting than the previous log files.</p>
+<table class="fig">
+<tr>
+<th class="fig">
+slurm-9290535.out
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre class="pre-scrollable">
+WARNING (06/09/24 15:38:39): LAUNCHER_WORKDIR variable not set. Using current directory.
+windowsP is false
+NOTE (06/09/24 15:38:40): Started dynamic task service on port 9471
+Launcher: Setup complete.
+
+------------- SUMMARY ---------------
+   Number of hosts:    1
+   Working directory:  /nfs/turbo/umms-bioinf-wkshp/workshop/home/cgates/project_pangrams/pangram_launcher
+   Processes per host: 5
+   Total processes:    5
+   Total jobs:         10
+   Scheduling method:  dynamic
+
+-------------------------------------
+Launcher: Starting parallel tasks...
+using /tmp/launcher.9290535.hostlist.GYzdOWsB to get hosts
+starting job on gl3079
+Warning: Permanently added the ED25519 host key for IP address '10.164.8.129' 
+ to the list of known hosts.
+Launcher: Task 0 running job 1 on gl3079.arc-ts.umich.edu (./pangram.sh Ndefglu > results.Ndefglu.txt)
+Launcher: Job 1 completed in 1 seconds.
+Launcher: Task 0 running job 2 on gl3079.arc-ts.umich.edu (./pangram.sh Hacilno > results.Hacilno.txt)
+Launcher: Task 2 running job 3 on gl3079.arc-ts.umich.edu (./pangram.sh Tdghnou > results.Tdghnou.txt)
+Launcher: Job 3 completed in 1 seconds.
+...
+Launcher: Task 0 done. Exiting.
+Launcher: Done. Job exited without errors
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p>The launcher solution is correct, clear, and efficient. It is a very
+nice option if you have <em>many</em> independent tasks that each run
+quickly (&lt;=60 seconds) and each tasks has a modest compute request
+(e.g. each task needs a single CPU).</p>
+<p><br/></p>
+<hr />
+</div>
+<div id="geometries-and-dependencies" class="section level2">
+<h2>Geometries and dependencies</h2>
+<table class="fig" width="100%">
+<tr>
+<th class="fig">
+Job/task geometries compared
+</th>
+</tr>
+<tr>
+<td class="fig">
+<img src="images/intro_to_workflow_automation/geometry_serial_loop_small.png"/>
+</td>
+</tr>
+<tr>
+<td class="fig">
+<img src="images/intro_to_workflow_automation/geometry_parallel.png" height="40%" width="40%"/>
+</td>
+</tr>
+<tr>
+<td class="fig">
+<img src="images/intro_to_workflow_automation/geometry_launcher.png" height="40%" width="40%"/>
+</td>
+</tr>
+</table>
+<p>The three job geometries diagrammed above hint that we quietly made a
+a few simplifying assumptions along the way:</p>
+<ul>
+<li>We assumed that all the tasks were independent (and thus pleasingly
+parallel).</li>
+<li>We assumed that all the tasks in a workflow were the same
+transformation applied many different inputs.</li>
+</ul>
+Commonly workflows contain several different steps which where the input
+of one step often depends on the output of the previous.
+<div style="text-align: center;">
+<p><img src="images/intro_to_workflow_automation/geometry_of_multistep_job.png" height="20%" width="20%"/></p>
+</div>
+<p>Also steps in a workflow often have variable resrouce needs and run
+times:</p>
+<div style="text-align: center;">
+<p><img src="images/intro_to_workflow_automation/heterogeneity_of_multistep_job.png" height="30%" width="30%"/></p>
+</div>
+Moreover, workflows are not always linear; the logical flow of steps may
+join the outputs of two steps as an input to a third:
+<div style="text-align: center;">
+<p><img src="images/intro_to_workflow_automation/nonlinear_workflow.png" height="50%" width="50%"/></p>
+</div>
+<p>The techniques we reviewed above are execllent for smaller, simpler
+workflows, a more complex, more resource intensive workflow will require
+either a much more nuanced set of scripts or a more sophisticated
+approach altogether. SLURM supports these more complex scenarios
+natively with something called job arrays (see job arrays in <a
+href="#links-and-references">links</a> below). In the next module, we
+introduce the <strong>Snakemake</strong> workflow automation framework
+to address these more complicated scenarios.</p>
+<p><br/></p>
+<hr />
+</div>
+<div id="pro-tips" class="section level2">
+<h2>Pro tips</h2>
+<p>Automating workflows is a learning process. Here’s a few ideas to
+consider along the way:</p>
+<ol style="list-style-type: decimal">
+<li><p><strong>Do not try to automate something that you cannot do by
+hand.</strong></p></li>
+<li><p><strong>Make it right. Make it clear. Make it efficient. (In that
+order.)</strong></p></li>
+<li><p><strong>Build a README for each workflow.</strong> Consider
+including:</p>
+<ul>
+<li>Your name/email</li>
+<li>The date</li>
+<li>How to install the workflow</li>
+<li>How to run the workflow</li>
+<li>Any necessary context/constraints that would help your future
+collaborator reproduce your results.</li>
+</ul></li>
+<li><p><strong>Automate the workflow with the data you have.</strong>
+Don’t generalize a workflow too soon. You might see that a workflow
+could be parameterized/extended to apply to new types of data. Feel that
+excitement, note the opportunity in the README, and trust that you will
+make that change when you need to.</p></li>
+<li><p><strong>Instead of developing the whole workflow end to end,
+consider an iterative and incremental approach.</strong> <br/></p></li>
+</ol>
+<div style="text-align: center;">
+<p><img src="images/intro_to_workflow_automation/iterative_development.png" height="80%" width="80%"/></p>
+</div>
+<p>Break workflow development into steps:</p>
+<ol style="list-style-type: decimal">
+<li>do part of the workflow for one sample and verify correctness as you
+add steps. (For a large dataset consider subsetting/downsampling your
+inputs so you can iterate quicker.)</li>
+<li>run a single sample end to end</li>
+<li>scale to a few samples and check those outputs; tune resource
+allocations</li>
+<li>run the whole batch</li>
+</ol>
+<hr />
+</div>
+<div id="exercise-project-railfence" class="section level2">
+<h2>Exercise: Project Railfence</h2>
+<p>This project is focused around a transformation that can encode or
+decode a specific kind of encryption called a <a
+href="https://en.wikipedia.org/wiki/Rail_fence_cipher"
+target="_blank">rail fence cipher</a>. The details of this encryption
+are interesting and I encourage you to check out the link, but for the
+purposes of this exercise it’s ok to treat it as magic/black-box
+transformation.</p>
+<p>Review the project directory here:</p>
+<pre class="sh"><code>cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
+cd project_railfence
+ls -1</code></pre>
+<blockquote>
+<pre><code>codes.txt
+railfence_decode.py
+railfence_encode.py
+README.md</code></pre>
+</blockquote>
+<p>The <code>railfence_decode.py</code> script accepts two arguments
+separated by a comma:</p>
+<ul>
+<li>a number (a positive integer)</li>
+<li>a quoted string (the cipher text)</li>
+</ul>
+<p>It returns the decoded clear text. You can run the
+railfence_decode.py script like so:</p>
+<pre class="sh"><code># need to load python once in the session
+module load python
+
+./railfence_decode.py 3,&quot;wrivdetceaedsoee-lea ne  crf o!&quot;</code></pre>
+<blockquote>
+<pre><code>we are discovered-flee at once!</code></pre>
+</blockquote>
+There is a list of encrypted codes in the <code>codes.txt</code> file:
+<table class="fig">
+<tr>
+<th class="fig">
+codes.txt
+</th>
+</tr>
+<tr>
+<td class="fig">
+<pre>
+2,"onttyt uoaesmtigta o antd yhn"d o r oatmt oehn htyucno ob ad
+3,"e hM craifi.nar.mk trgt aei la.Mk tefcet I htodr)aii.kte e in(t e"
+4,"aefie aamth klwth ayhvuoetwro htdto et ow au"
+5,"rrnmpce eaadeeap"odatt  rn rhniniieictlocs vnaa
+3,"t DwieaRAM"r EE
+3,"lsie"m!
+</pre>
+</td>
+</tr>
+</table>
+<p><br/></p>
+<p><strong>Your task:</strong></p>
+<ul>
+<li>Consider the three automation approaches outlined in the lessons
+above: serial loop, parallel batch, and launcher.</li>
+<li>Choose one approach, and, using the patterns above as a template,
+create script(s) that will decrypt the codes in
+<code>code.txt</code>.</li>
+<li>If you complete the exercise with a one approach, repeat the
+exercise with a different approach.</li>
+</ul>
+<hr />
+</div>
+<div id="key-ideas" class="section level2">
+<h2>Key ideas</h2>
+<ul>
+<li>Achieving reproducible research requires a blend of documentation
+and automation.</li>
+<li>Be kind to your future self; they will thank you for the README you
+left them.</li>
+<li>Automation helps reproducibility:
+<ul>
+<li>Automation shrinks your README.</li>
+<li>Automation simplifies validation of your workflow.</li>
+<li>Automation enables repetition.</li>
+<li>Automation streamlines sharing.</li>
+<li>Automation scales to larger inputs</li>
+</ul></li>
+<li>Job/task geometries help visualize how different approaches are
+executed. (It also hints at the n-dimensional game of Tetris the
+job-scheduler is playing to pack everyones jobs as neatly as
+possible.</li>
+<li>The <strong>SLURM launcher</strong> allows you to gather many
+parallel tasks into a main job, in effect creating a transient
+sub-cluster within the main HPC.</li>
+<li>For a more complex transformation, ascript can be either simple or
+resource efficient - choose one. Consider more robust solutions (e.g.
+Snakemake) as necessary.</li>
+</ul>
+<hr />
+</div>
+<div id="links-and-references" class="section level2">
+<h2>Links and references</h2>
+<ul>
+<li><p>UM ITS docs on <a
+href="https://documentation.its.umich.edu/arc-software/launcher"
+target="_blank">launcher</a></p></li>
+<li><p>UM ARC docs on <a
+href="https://docs.support.arc.umich.edu/slurm/array/"
+target="_blank">job arrays</a></p></li>
+<li><p>SLURM docs on <a href="https://slurm.schedmd.com/job_array.html"
+target="_blank">job arrays</a></p></li>
+<li><p>UM ARC <a
+href="https://www.mivideo.it.umich.edu/media/t/1_z4df84ti/181860561"
+target="_blank">miVideo</a> on advanced SLURM techniques (including
+launcher, job arrays, and more)</p></li>
+<li><p>For more examples of pangrams in action, checkout:</p>
+<ul>
+<li><a href="https://www.nytimes.com/puzzles/spelling-bee"
+target="_blank">The New York Times Spelling Bee Puzzle</a></li>
+<li><a href="https://www.sbsolver.com/archive" target="_blank">Spelling
+Bee puzzle solver</a></li>
+</ul></li>
+</ul>
+<p><br/> <br/></p>
+<hr />
+<table style="width:100%;">
+<colgroup>
+<col width="28%" />
+<col width="42%" />
+<col width="28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><a
+href="Module_containers_docker_singularity.html">Previous
+lesson</a></th>
+<th align="center"><a href="#top">Top of this lesson</a></th>
+<th align="right"><a href="Module_intro_to_snakemake.html">Next
+lesson</a></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
