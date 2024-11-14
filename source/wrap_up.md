@@ -74,14 +74,23 @@ your own datasets. In particular:
 - It is not sized for compute intensive operations or large storage.
 - It is not secured for sensitive data of any kind.
 
-#### Continued learning and support
+## Continued learning and support
 
-Making research reproducible is a learning process. Resources to consider:
+Making research reproducible is a learning process.
 
-- <a class="external"  href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces "office hours"</a> and UM CoderSpaces Slack workspace. _(See "Useful Resources" section in above page for instructions on how to join and access the CoderSpaces Slack workspace.)_
-- Upcoming <a class="external" href="https://arc.umich.edu/events/" target="_blank">UM Advanced Research Computing workshops</a>.
-- Videos on <a class="external" href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting started with Great Lakes</a>.
-- For more intro lessons and workshops in Bash / Git / R / Python : <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.
+### UM resources
+
+- [UM CoderSpaces](https://datascience.isr.umich.edu/events/coderspaces/){target="_blank"} office hours and Slack workspace.
+- Great Lakes [user guide](https://documentation.its.umich.edu/arc-hpc/greatlakes/user-guide){target="_blank"}
+- Great Lakes [cheatsheet](https://docs.google.com/document/d/1wsr3yzkkojUMBCCneCz-l413xBzU-SZFAqcFrAAjttk/edit?tab=t.0#heading=h.kquo6lavnl0f){target="_blank"}
+- Upcoming [UM Advanced Research Computing workshops](https://ttc.iss.lsa.umich.edu/ttc/sessions/tag/arc/){target="_blank"}.
+- Videos on [getting started with Great Lakes](https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/){target="_blank"}
+  
+
+### External resources
+
+- Lessons and workshops in Bash / Git / R / Python : [Software Carpentry](https://software-carpentry.org/lessons/){target="_blank"} 
+  and the [UM Software Carpentry Group](https://umcarpentries.org/){target="_blank"}.
 - [Advanced Reproducibility in Cancer Informatics](https://jhudatascience.org/Adv_Reproducibility_in_Cancer_Informatics/index.html){target="_blank"} from The Johns Hopkins Data Science Lab
 - Alston et al. 2020. A Beginner's Guide to Conducting Reproducible Research. Bull Ecol Soc Am 102(2):e01801. https://doi.org/10.1002/bes2.1801
 - Essawy et al.A taxonomy for reproducible and replicable research in environmental modelling, Environmental Modelling & Software, Volume 134, 2020, https://doi.org/10.1016/j.envsoft.2020.104753

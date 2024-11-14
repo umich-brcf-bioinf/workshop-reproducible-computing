@@ -587,7 +587,12 @@ scroll-buffer. Hit `q` to quit scoll mode and return to the current prompt.
 
 ### Exercise 1A:
 
-cd to the project publications
+
+Go to the publications project:
+```sh
+export WORKSHOP_HOME="/nfs/turbo/umms-bioinf-wkshp/workshop/home/${USER}"
+cd $WORKSHOP_HOME/workflows/project_publications
+```
 
 Given this DAG can you fill in the missing parts of the Snakefile below and 
 regenerate a similar DAG figure?

@@ -298,7 +298,7 @@ different ways to accomplish this.
 ```r
 # Orient on project
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
-cd project_pangrams/pangram_parallel_sbatch
+cd workflows/project_pangrams/pangram_parallel_sbatch
 ls -1
 ```
 
@@ -467,7 +467,7 @@ detailed below.
 ```r
 # Orient on project
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
-cd project_pangrams/pangram_launcher
+cd workflows/project_pangrams/pangram_launcher
 ls -1
 ```
 
@@ -701,7 +701,7 @@ magic/black-box transformation.
 Review the project directory here:
 ```sh
 cd /nfs/turbo/umms-bioinf-wkshp/workshop/home/$USER
-cd project_railfence
+cd workflows/project_railfence
 ls -1
 ```
 
