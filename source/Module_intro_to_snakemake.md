@@ -182,7 +182,7 @@ head inputs/little_women_part_1.txt *.txt | less
 
 Switch to the alcott_snakemake dir; note there are inputs and a Snakefile
 ```sh
-cd $WORKSHOP_HOME/workflows/workflows/project_alcott/alcott_snakemake
+cd $WORKSHOP_HOME/workflows/project_alcott/alcott_snakemake
 tree
 ```
 > ```
