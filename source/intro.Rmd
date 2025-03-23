@@ -28,6 +28,10 @@ pre {
 }
 </style>
 
+```{r, include = FALSE}
+source("../bin/set_values.R")
+```
+
 # Workshop goals and topics
 
  - This workshop is targeted toward researchers who would like to be able to
@@ -81,8 +85,7 @@ pre {
   email us at bioinformatics-workshops@umich.edu.
 
 - To report a CoC incident/concern, please email Chris Gates (Bioinformatics Core, Managing
-  Director) at cgates@umich.edu or contact the University of Michigan Office of Institutional
-  Equity at institutional.equity@umich.edu.
+  Director) at cgates@umich.edu or contact the `r intro_coc_contact` at `r intro_coc_contact_email`.
 <br/>
 <br/>
 
@@ -143,7 +146,7 @@ breakout room.
 
 ![Posting messages to Slack](images/intro/slack.png)
 
-  - Slack messages will be posted to the **2024-06-reproducible-computing** channel.  
+  - Slack messages will be posted to the **`r intro_slack_channel`** channel.  
     Click on the channel in the left pane (1) to select this channel.
   - You can type in the **message field** (2); click **send** (3) to
     post your message to everyone.
