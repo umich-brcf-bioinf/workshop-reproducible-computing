@@ -63,5 +63,5 @@ body, td {
 |  10:30 | [Advanced Snakemake](Module_advanced_snakemake.html) |
 | 11:00 | Break |
 | 11:15 | [Transferring data with Globus](Module_transferring_data_globus.html) |
-| 12:45 | [Wrap-up](Module_wrap_up.html) |
+| 12:45 | [Wrap-up](wrap_up.html) |
 |  1:00 | Day 3 concludes |

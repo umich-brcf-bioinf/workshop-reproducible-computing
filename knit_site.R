@@ -8,7 +8,7 @@ render('source/workshop_setup/setup_instructions.md', output_dir='html/workshop_
 # that impact the navbar (e.g. file name changes) you should reknit all of them.
 
 render_site('source/index.md')
-render_site('source/intro.md')
+render_site('source/intro.Rmd')
 
 render_site('source/exercise-2.md')
 

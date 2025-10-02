@@ -86,6 +86,9 @@ be happy to lend a hand to get things working.
 
 ### **2. Slack**
 
+Please note that this is a standalone Slack workspace and not connected to UM 
+or any other Slack accounts.
+
    2.1. In the Slack email invitation from the hosts, click the link to join the Slack workspace.
 
    2.2. Follow the Slack instructions to login or create an account. You may
